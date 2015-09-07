@@ -2,70 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f32aa2c5-d6be-45f3-aa9b-118a9b981801" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/Footsteps.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/OpenAL32.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/OpenAL64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/Thumbs.db" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/alien.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/alien2.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/alien3.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/appletlogo.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/appletprogress.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/ball.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/ball_sm.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/center.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/ding.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/gotyou.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/hit.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/jinput-dx8.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/jinput-dx8_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/jinput-raw.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/jinput-raw_64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/left.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/linux/libjinput-linux.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/linux/libjinput-linux64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/macosx/libjinput-osx.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/macosx/liblwjgl.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/linux/liblwjgl.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/solaris/liblwjgl.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/linux/liblwjgl64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/solaris/liblwjgl64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/linux/libopenal.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/solaris/libopenal.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/linux/libopenal64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/solaris/libopenal64.so" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/loose.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/lwjgl.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/windows/lwjgl64.dll" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/lwjgl_16x16.xpm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/lwjgl_32x32.xpm" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/logo/lwjgl_logo-with_jacket.ai" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/native/macosx/openal.dylib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/pressanykey.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/right.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/ship.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/shot.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/shot.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/start.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/win.wav" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/spaceinvaders/youwin.gif" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/CREDITS" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/renderEngine/DisplayManager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/LICENSE" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/renderEngine/Loader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/README" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/renderEngine/RawModel.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/3rdparty/jinput_license.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/3rdparty/jogl_license.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/lwjgl_hidden_switches.text" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/logo/lwjgl_logo-with_jacket.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/3rdparty/lzma_license.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/doc/3rdparty/openal_license.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lwjgl-2.9.3/res/resources.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/renderEngine/Loader.java" afterPath="$PROJECT_DIR$/src/renderEngine/Loader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" afterPath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/renderEngine/Renderer.java" afterPath="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
     </list>
     <ignored path="3D-game-engine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -88,21 +27,44 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Loader.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/renderEngine/Loader.java">
+      <file leaf-file-name="Renderer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="README" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lwjgl-2.9.3/doc/README">
+      <file leaf-file-name="RawModel.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderEngine/RawModel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Loader.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderEngine/Loader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+              <folding>
+                <element signature="e#1552#1553#0" expanded="true" />
+                <element signature="e#1593#1594#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DisplayManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderEngine/DisplayManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -111,8 +73,8 @@
       <file leaf-file-name="MainGameLoop.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/engineTester/MainGameLoop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.72527474">
-              <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.85714287">
+              <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -135,6 +97,7 @@
       <list>
         <option value="$PROJECT_DIR$/src/Loader.java" />
         <option value="$PROJECT_DIR$/src/renderEngine/Loader.java" />
+        <option value="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
         <option value="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" />
       </list>
     </option>
@@ -558,12 +521,12 @@
       <created>1441625287600</created>
       <option name="number" value="Default" />
       <updated>1441625287600</updated>
-      <workItem from="1441625289152" duration="169000" />
+      <workItem from="1441625289152" duration="1543000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="169000" />
+    <option name="totallyTimeSpent" value="1543000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="720" y="23" width="720" height="812" extended-state="6" />
@@ -573,7 +536,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -609,26 +572,53 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/renderEngine/Loader.java">
+    <entry file="file://$PROJECT_DIR$/lwjgl-2.9.3/doc/README">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.13186814">
+          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lwjgl-2.9.3/doc/README">
+    <entry file="file://$PROJECT_DIR$/src/renderEngine/DisplayManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="4" column="25" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderEngine/Loader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="49" selection-start-line="23" selection-start-column="49" selection-end-line="23" selection-end-column="49" />
+          <folding>
+            <element signature="e#1552#1553#0" expanded="true" />
+            <element signature="e#1593#1594#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderEngine/RawModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/engineTester/MainGameLoop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.72527474">
-          <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.85714287">
+          <caret line="30" column="59" selection-start-line="30" selection-start-column="59" selection-end-line="30" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
