@@ -1,6 +1,8 @@
 package shaders;
 
+import entities.Camera;
 import org.lwjgl.util.vector.Matrix4f;
+import toolbox.Maths;
 
 public class StaticShader extends ShaderProgram {
 
@@ -9,6 +11,7 @@ public class StaticShader extends ShaderProgram {
 
     private int locationTransformationMatrix;
     private int locationProjectionMatrix;
+    private int locationViewMatrix;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -18,6 +21,7 @@ public class StaticShader extends ShaderProgram {
     protected void getAllUniformLocations() {
         locationTransformationMatrix = super.getUniformLocation("transformationMatrix");
         locationProjectionMatrix = super.getUniformLocation("projectionMatrix");
+        locationViewMatrix = super.getUniformLocation("viewMatrix");
     }
 
     @Override
@@ -28,6 +32,11 @@ public class StaticShader extends ShaderProgram {
 
     public void loadTransformationMatrix(Matrix4f matrix) {
         super.loadMatrix(locationTransformationMatrix, matrix);
+    }
+
+    public void loadViewMatrix(Camera camera) {
+        Matrix4f viewMatrix = Maths.createViewMatrix(camera);
+        super.loadMatrix(locationViewMatrix, viewMatrix);
     }
 
     public void loadProjectionMatrix(Matrix4f projection) {
