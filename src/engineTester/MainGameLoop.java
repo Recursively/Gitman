@@ -12,6 +12,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
+import terrains.Terrain;
 import textures.ModelTexture;
 
 import java.util.ArrayList;
@@ -24,14 +25,16 @@ public class MainGameLoop {
         DisplayManager.createDisplay();
 
         Loader loader = new Loader();
-//        StaticShader shader = new StaticShader();
-//        Renderer renderer = new Renderer(shader);
 
-        RawModel model = OBJLoader.loadObjModel("cube_01", loader);
-        TexturedModel stallModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("test2")));
+        RawModel model = OBJLoader.loadObjModel("stall", loader);
+        TexturedModel stallModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
         ModelTexture texture = stallModel.getTexture();
+
+        // TODO This is broken
         texture.setShineDamper(10);
         texture.setReflectivity(1);
+
+        Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("lana")));
 
         Light light = new Light(new Vector3f(3000, 2000, 3000), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
@@ -39,12 +42,12 @@ public class MainGameLoop {
         List<Entity> allStalls = new ArrayList<>();
         Random random = new Random();
 
-        for (int i = 0; i < 200; i++) {
-            float x = random.nextFloat() * 100 - 50;
-            float y = random.nextFloat() * 100 - 50;
-            float z = random.nextFloat() * -300;
-            allStalls.add(new Entity(stallModel, new Vector3f(x, y, z), random.nextFloat() * 180f,
-                    random.nextFloat() * 180f, 0f, 1f));
+        for (int i = 0; i < 1000; i++) {
+            float x = random.nextFloat() * 1000 - 50;
+            float y = 0;
+            float z = random.nextFloat() * -1000 - 50;
+            allStalls.add(new Entity(stallModel, new Vector3f(x, y, z), 0,
+                    0, 0f, 1f));
         }
 
         //TODO
@@ -54,21 +57,16 @@ public class MainGameLoop {
         MasterRenderer renderer = new MasterRenderer();
         while (!Display.isCloseRequested()) {
             camera.move();
-//            renderer.prepare();
-//            shader.start();
-//            shader.loadLight(light);
-//            shader.loadViewMatrix(camera);
+            renderer.processTerrain(terrain);
+
             for (Entity stall : allStalls) {
-//                renderer.render(dragon, shader);
                 renderer.processEntity(stall);
             }
             renderer.render(light, camera);
-//            shader.stop();
             DisplayManager.updateDisplay();
         }
 
         renderer.cleanUp();
-//        shader.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
     }
