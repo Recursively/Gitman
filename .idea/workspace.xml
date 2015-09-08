@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f32aa2c5-d6be-45f3-aa9b-118a9b981801" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3D-game-engine.iml" afterPath="$PROJECT_DIR$/3D-game-engine.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/renderEngine/Loader.java" afterPath="$PROJECT_DIR$/src/renderEngine/Loader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" afterPath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/renderEngine/Renderer.java" afterPath="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/ShaderProgram.java" afterPath="$PROJECT_DIR$/src/shaders/ShaderProgram.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/StaticShader.java" afterPath="$PROJECT_DIR$/src/shaders/StaticShader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/fragmentShader.glsl" afterPath="$PROJECT_DIR$/src/shaders/fragmentShader.glsl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/vertexShader.glsl" afterPath="$PROJECT_DIR$/src/shaders/vertexShader.glsl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -32,21 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Renderer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Renderer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53846157">
-              <caret line="22" column="81" selection-start-line="22" selection-start-column="81" selection-end-line="22" selection-end-column="81" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RawModel.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/models/RawModel.java">
-          <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+              <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
               <folding />
             </state>
           </provider>
@@ -57,6 +43,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="28" column="52" selection-start-line="28" selection-start-column="52" selection-end-line="28" selection-end-column="52" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DisplayManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/renderEngine/DisplayManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -107,26 +103,32 @@
         <entry file="file://$PROJECT_DIR$/src/shaders/ShaderProgram.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="10" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
+              <caret line="82" column="5" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#812#813#0" expanded="true" />
-                <element signature="e#856#857#0" expanded="true" />
-                <element signature="e#882#883#0" expanded="true" />
-                <element signature="e#918#919#0" expanded="true" />
+                <element signature="e#1153#1154#0" expanded="true" />
+                <element signature="e#1225#1226#0" expanded="true" />
+                <element signature="e#1252#1253#0" expanded="true" />
+                <element signature="e#1296#1297#0" expanded="true" />
+                <element signature="e#1322#1323#0" expanded="true" />
+                <element signature="e#1358#1359#0" expanded="true" />
+                <element signature="e#1911#1912#0" expanded="true" />
+                <element signature="e#1960#1961#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StaticShader.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="StaticShader.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/shaders/StaticShader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.82236844">
+              <caret line="27" column="63" selection-start-line="27" selection-start-column="63" selection-end-line="27" selection-end-column="63" />
               <folding>
-                <element signature="e#258#259#0" expanded="true" />
-                <element signature="e#307#308#0" expanded="true" />
+                <element signature="e#345#346#0" expanded="true" />
+                <element signature="e#394#395#0" expanded="true" />
+                <element signature="e#763#764#0" expanded="true" />
+                <element signature="e#833#834#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -146,7 +148,7 @@
         <entry file="file://$PROJECT_DIR$/src/shaders/vertexShader.glsl">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="3" column="21" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="21" />
+              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -177,15 +179,15 @@
         <option value="$PROJECT_DIR$/src/shaders/vertexShader.txt" />
         <option value="$PROJECT_DIR$/src/shaders/fragmentShader.txt" />
         <option value="$PROJECT_DIR$/src/engineTester/GLTest.java" />
-        <option value="$PROJECT_DIR$/src/shaders/ShaderProgram.java" />
         <option value="$PROJECT_DIR$/src/textures/ModelTexture.java" />
         <option value="$PROJECT_DIR$/src/models/TexturedModel.java" />
         <option value="$PROJECT_DIR$/src/renderEngine/Loader.java" />
         <option value="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" />
-        <option value="$PROJECT_DIR$/src/shaders/vertexShader.glsl" />
         <option value="$PROJECT_DIR$/src/shaders/fragmentShader.glsl" />
-        <option value="$PROJECT_DIR$/src/shaders/StaticShader.java" />
         <option value="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
+        <option value="$PROJECT_DIR$/src/shaders/ShaderProgram.java" />
+        <option value="$PROJECT_DIR$/src/shaders/vertexShader.glsl" />
+        <option value="$PROJECT_DIR$/src/shaders/StaticShader.java" />
       </list>
     </option>
   </component>
@@ -713,12 +715,12 @@
       <option name="number" value="Default" />
       <updated>1441625287600</updated>
       <workItem from="1441625289152" duration="2441000" />
-      <workItem from="1441628081944" duration="5212000" />
+      <workItem from="1441628081944" duration="7413000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7653000" />
+    <option name="totallyTimeSpent" value="9854000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="720" y="23" width="720" height="812" extended-state="0" />
@@ -728,7 +730,7 @@
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32777777" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32777777" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -743,7 +745,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27433628" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32916668" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -821,33 +823,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderEngine/DisplayManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/models/RawModel.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/shaders/ShaderProgram.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="10" selection-start-line="18" selection-start-column="10" selection-end-line="18" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#812#813#0" expanded="true" />
-            <element signature="e#856#857#0" expanded="true" />
-            <element signature="e#882#883#0" expanded="true" />
-            <element signature="e#918#919#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -894,14 +874,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/shaders/vertexShader.glsl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="3" column="21" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/shaders/fragmentShader.glsl">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -910,22 +882,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/shaders/StaticShader.java">
+    <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <caret line="21" column="31" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/renderEngine/DisplayManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/shaders/ShaderProgram.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="82" column="5" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
           <folding>
-            <element signature="e#258#259#0" expanded="true" />
-            <element signature="e#307#308#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#1153#1154#0" expanded="true" />
+            <element signature="e#1225#1226#0" expanded="true" />
+            <element signature="e#1252#1253#0" expanded="true" />
+            <element signature="e#1296#1297#0" expanded="true" />
+            <element signature="e#1322#1323#0" expanded="true" />
+            <element signature="e#1358#1359#0" expanded="true" />
+            <element signature="e#1911#1912#0" expanded="true" />
+            <element signature="e#1960#1961#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
+    <entry file="file://$PROJECT_DIR$/src/shaders/vertexShader.glsl">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53846157">
-          <caret line="22" column="81" selection-start-line="22" selection-start-column="81" selection-end-line="22" selection-end-column="81" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/shaders/StaticShader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.82236844">
+          <caret line="27" column="63" selection-start-line="27" selection-start-column="63" selection-end-line="27" selection-end-column="63" />
+          <folding>
+            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#394#395#0" expanded="true" />
+            <element signature="e#763#764#0" expanded="true" />
+            <element signature="e#833#834#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
