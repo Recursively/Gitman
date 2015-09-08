@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f32aa2c5-d6be-45f3-aa9b-118a9b981801" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/entities/Camera.java" afterPath="$PROJECT_DIR$/src/entities/Camera.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" afterPath="$PROJECT_DIR$/src/engineTester/MainGameLoop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/textures/ModelTexture.java" afterPath="$PROJECT_DIR$/src/textures/ModelTexture.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/renderEngine/Renderer.java" afterPath="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/StaticShader.java" afterPath="$PROJECT_DIR$/src/shaders/StaticShader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/fragmentShader.glsl" afterPath="$PROJECT_DIR$/src/shaders/fragmentShader.glsl" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/shaders/vertexShader.glsl" afterPath="$PROJECT_DIR$/src/shaders/vertexShader.glsl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="3D-game-engine.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -32,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="46" column="41" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
+              <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,10 +58,30 @@
       <file leaf-file-name="MainGameLoop.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/engineTester/MainGameLoop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.96043956">
-              <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.53186816">
+              <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ModelTexture.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/textures/ModelTexture.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+              <folding>
+                <element signature="e#241#242#0" expanded="true" />
+                <element signature="e#278#279#0" expanded="true" />
+                <element signature="e#315#316#0" expanded="true" />
+                <element signature="e#349#350#0" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#422#423#0" expanded="true" />
+                <element signature="e#521#522#0" expanded="true" />
+                <element signature="e#576#577#0" expanded="true" />
+                <element signature="e#624#625#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,7 +101,7 @@
         <entry file="file://$PROJECT_DIR$/src/shaders/vertexShader.glsl">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="67" selection-start-line="16" selection-start-column="67" selection-end-line="16" selection-end-column="67" />
+              <caret line="23" column="94" selection-start-line="23" selection-start-column="94" selection-end-line="23" selection-end-column="94" />
               <folding />
             </state>
           </provider>
@@ -88,11 +111,11 @@
         <entry file="file://$PROJECT_DIR$/src/shaders/StaticShader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="35" column="41" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
+              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#568#569#0" expanded="true" />
-                <element signature="e#617#618#0" expanded="true" />
+                <element signature="e#643#644#0" expanded="true" />
+                <element signature="e#692#693#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -102,7 +125,7 @@
         <entry file="file://$PROJECT_DIR$/src/shaders/fragmentShader.glsl">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+              <caret line="30" column="53" selection-start-line="30" selection-start-column="53" selection-end-line="30" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -118,29 +141,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Light.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/entities/Light.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
-              <folding>
-                <element signature="e#333#334#0" expanded="true" />
-                <element signature="e#383#384#0" expanded="true" />
-                <element signature="e#423#424#0" expanded="true" />
-                <element signature="e#458#459#0" expanded="true" />
-                <element signature="e#487#488#0" expanded="true" />
-                <element signature="e#533#534#0" expanded="true" />
-                <element signature="e#569#570#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Camera.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/entities/Camera.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+              <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -173,15 +178,15 @@
         <option value="$PROJECT_DIR$/src/shaders/vertexShader.txt" />
         <option value="$PROJECT_DIR$/src/shaders/fragmentShader.txt" />
         <option value="$PROJECT_DIR$/src/engineTester/GLTest.java" />
-        <option value="$PROJECT_DIR$/src/textures/ModelTexture.java" />
         <option value="$PROJECT_DIR$/src/models/TexturedModel.java" />
         <option value="$PROJECT_DIR$/src/shaders/ShaderProgram.java" />
         <option value="$PROJECT_DIR$/src/entities/Entity.java" />
         <option value="$PROJECT_DIR$/src/toolbox/Maths.java" />
-        <option value="$PROJECT_DIR$/src/entities/Camera.java" />
         <option value="$PROJECT_DIR$/src/entities/Light.java" />
         <option value="$PROJECT_DIR$/src/renderEngine/Loader.java" />
         <option value="$PROJECT_DIR$/src/renderEngine/OBJLoader.java" />
+        <option value="$PROJECT_DIR$/src/entities/Camera.java" />
+        <option value="$PROJECT_DIR$/src/textures/ModelTexture.java" />
         <option value="$PROJECT_DIR$/src/shaders/StaticShader.java" />
         <option value="$PROJECT_DIR$/src/renderEngine/Renderer.java" />
         <option value="$PROJECT_DIR$/src/shaders/vertexShader.glsl" />
@@ -754,12 +759,12 @@
       <updated>1441625287600</updated>
       <workItem from="1441625289152" duration="2441000" />
       <workItem from="1441628081944" duration="10101000" />
-      <workItem from="1441680415794" duration="7653000" />
+      <workItem from="1441680415794" duration="9103000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20195000" />
+    <option name="totallyTimeSpent" value="21645000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="246" y="1103" width="1439" height="812" extended-state="0" />
@@ -847,8 +852,8 @@
           <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#617#618#0" expanded="true" />
+            <element signature="e#643#644#0" expanded="true" />
+            <element signature="e#692#693#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -986,19 +991,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/textures/ModelTexture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36263737">
-          <caret line="11" column="30" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
-          <folding>
-            <element signature="e#108#109#0" expanded="true" />
-            <element signature="e#143#144#0" expanded="true" />
-            <element signature="e#169#170#0" expanded="true" />
-            <element signature="e#206#207#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/renderEngine/DisplayManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0989011">
@@ -1048,16 +1040,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/entities/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="5" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/entities/Light.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1100,14 +1082,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/entities/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/textures/ModelTexture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="51" selection-start-line="25" selection-start-column="51" selection-end-line="25" selection-end-column="51" />
+          <folding>
+            <element signature="e#241#242#0" expanded="true" />
+            <element signature="e#278#279#0" expanded="true" />
+            <element signature="e#315#316#0" expanded="true" />
+            <element signature="e#349#350#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#422#423#0" expanded="true" />
+            <element signature="e#521#522#0" expanded="true" />
+            <element signature="e#576#577#0" expanded="true" />
+            <element signature="e#624#625#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/shaders/StaticShader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="41" selection-start-line="35" selection-start-column="41" selection-end-line="35" selection-end-column="41" />
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#568#569#0" expanded="true" />
-            <element signature="e#617#618#0" expanded="true" />
+            <element signature="e#643#644#0" expanded="true" />
+            <element signature="e#692#693#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1115,7 +1125,7 @@
     <entry file="file://$PROJECT_DIR$/src/renderEngine/Renderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="41" selection-start-line="46" selection-start-column="41" selection-end-line="46" selection-end-column="41" />
+          <caret line="41" column="51" selection-start-line="41" selection-start-column="51" selection-end-line="41" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1125,7 +1135,7 @@
     <entry file="file://$PROJECT_DIR$/src/shaders/vertexShader.glsl">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="67" selection-start-line="16" selection-start-column="67" selection-end-line="16" selection-end-column="67" />
+          <caret line="23" column="94" selection-start-line="23" selection-start-column="94" selection-end-line="23" selection-end-column="94" />
           <folding />
         </state>
       </provider>
@@ -1133,15 +1143,15 @@
     <entry file="file://$PROJECT_DIR$/src/shaders/fragmentShader.glsl">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="44" selection-start-line="18" selection-start-column="44" selection-end-line="18" selection-end-column="44" />
+          <caret line="30" column="53" selection-start-line="30" selection-start-column="53" selection-end-line="30" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/engineTester/MainGameLoop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.96043956">
-          <caret line="40" column="42" selection-start-line="40" selection-start-column="42" selection-end-line="40" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.53186816">
+          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
