@@ -27,8 +27,8 @@ public class MainGameLoop {
 //        StaticShader shader = new StaticShader();
 //        Renderer renderer = new Renderer(shader);
 
-        RawModel model = OBJLoader.loadObjModel("stall", loader);
-        TexturedModel stallModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
+        RawModel model = OBJLoader.loadObjModel("cube_01", loader);
+        TexturedModel stallModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("test2")));
         ModelTexture texture = stallModel.getTexture();
         texture.setShineDamper(10);
         texture.setReflectivity(1);
