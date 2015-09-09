@@ -47,6 +47,7 @@ public class OBJLoader {
                             Float.parseFloat(currentLine[3]));
                     normals.add(normal);
                 } else if (line.startsWith("f ")) {
+                    //TODO doesn't parse models that contain multiple materials
                     texturesArray = new float[vertices.size() * 2];
                     normalsArray = new float[vertices.size() * 3];
                     break;

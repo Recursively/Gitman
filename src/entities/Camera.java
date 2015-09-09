@@ -11,31 +11,34 @@ public class Camera {
     private float roll;
     private float yaw;
 
+
+    private float speed = 2.5f;
+
     public Camera() {
     }
 
     public void move(){
         if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            moveFromLook(0,0, -1 * 0.5f );
+            moveFromLook(0,0, -1 * speed );
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            moveFromLook(0, 0, 1 * .5f);
+            moveFromLook(0, 0, 1 * speed);
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-            moveFromLook(1 * .5f, 0, 0);
+            moveFromLook(1 * speed, 0, 0);
 
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-            moveFromLook(-1 * .5f, 0, 0);
+            moveFromLook(-1 * speed, 0, 0);
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-            position.y += 1 * .5f;
+            position.y += 1 * speed;
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_E)){
-            position.y += -1 * .5f;
+            position.y += -1 * speed;
         }
-        if(Mouse.isButtonDown(2)){
-            roll += .02f;
+        if(Keyboard.isKeyDown(Keyboard.KEY_R)){
+            roll += speed;
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_1)){
             position = new Vector3f(5, .5f, 0);
