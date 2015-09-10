@@ -16,6 +16,8 @@ import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
+import textures.TerrainTexture;
+import textures.TerrainTexturePack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,17 @@ public class MainGameLoop {
 
         Random random = new Random();
         Loader loader = new Loader();
-        Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
+
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mudTexture"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowersTexture"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("pathTexture"));
+
+        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+
         Light light = new Light(new Vector3f(-3000, 2000, -3000), new Vector3f(1, 1, 1));
         Camera camera = new Camera();
 
