@@ -33,12 +33,12 @@ public class Camera {
         if(Keyboard.isKeyDown(Keyboard.KEY_A)){
             moveFromLook(-1 * speed, 0, 0);
         }
-//        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-//            position.y += 1 * speed;
-//        }
-//        if(Keyboard.isKeyDown(Keyboard.KEY_E)){
-//            position.y += -1 * speed;
-//        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+            position.y += 3;
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+            position.y += 0.981f;
+        }
         if(Keyboard.isKeyDown(Keyboard.KEY_R)){
             roll += speed;
         }
@@ -76,7 +76,7 @@ public class Camera {
 
     private void checkBounds() {
         if (position.x < 0) position.x = 0;
-        if (position.x > 1000) position.x = 0;
+        if (position.x > 1000) position.x = 1000;
         if (position.y < 10) position.y = 10;
         if (position.z > 0) position.z = 0;
         if (position.z < -1000) position.z = -1000;
