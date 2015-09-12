@@ -169,9 +169,15 @@ public class MainGameLoop {
         exmapleTexture.setShineDamper(10);
         exmapleTexture.setReflectivity(1);
 
+        TexturedModel playerModel = new TexturedModel(OBJLoader.loadObjModel("player", loader),
+                new ModelTexture(loader.loadTexture("white")));
+        ModelTexture playerTexture = playerModel.getTexture();
+        bunnyTexture.setShineDamper(10);
+        bunnyTexture.setReflectivity(1);
+
         ///
 
-        Player player = new Player(bunnyModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
+        Player player = new Player(playerModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
         Camera camera = new Camera(player);
 
         //TODO
