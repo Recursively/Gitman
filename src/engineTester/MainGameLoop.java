@@ -3,6 +3,7 @@ package engineTester;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 import objParser.ModelData;
@@ -171,13 +172,19 @@ public class MainGameLoop {
 
         ///
 
+        Player player = new Player(bunnyModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
+
         //TODO
         Mouse.setGrabbed(true);
 
         MasterRenderer renderer = new MasterRenderer();
         while (!Display.isCloseRequested()) {
             camera.move();
+            camera.update(player.getPosition());
             renderer.processTerrain(terrain);
+
+            player.move();
+            renderer.processEntity(player);
 
             renderer.processEntity(new Entity(dragonModel, new Vector3f(500, 0, -500), 0, 0, 0f, 10f));
             renderer.processEntity(new Entity(bunnyModel, new Vector3f(250, 0, -500), 0, 0, 0f, 10f));

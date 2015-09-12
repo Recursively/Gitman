@@ -1,18 +1,20 @@
 package entities;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
+import java.util.Random;
 
 public class Camera {
 
-    private Vector3f position = new Vector3f(0,10,0);
-    private float pitch;
+    private Vector3f position = new Vector3f(0,50, 50);
+    private float pitch = 40;
     private float roll;
     private float yaw;
 
     private boolean jumping = false;
 
+    private Random random = new Random();
 
     private float speed = 1f;
 
@@ -20,54 +22,61 @@ public class Camera {
     }
 
     public void move(){
-        if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            moveFromLook(0,0, -1 * speed );
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            moveFromLook(0, 0, 1 * speed);
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-            moveFromLook(1 * speed, 0, 0);
 
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-            moveFromLook(-1 * speed, 0, 0);
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-            position.y += 3;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-            position.y += 0.981f;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_R)){
-            roll += speed;
-        }
-        if(Keyboard.isKeyDown(Keyboard.KEY_1)){
-            position = new Vector3f(5, .5f, 0);
-        }
-        /* Prevents the camera from turning over 360 or under -360 */
-        yaw += Mouse.getDX()/2;
-        pitch -= Mouse.getDY()/2;
-        if(yaw > 360 || yaw < -360){
-            yaw = 0;
-        }
+//        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+//            pitch += random.nextInt(5);
+//            roll += random.nextInt(5);
+//            yaw += random.nextInt(5);
+//        }
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            if (position.y == 10) {
-                jumping = true;
-            }
-        }
-
-        if (position.y > 30) {
-            jumping = false;
-        }
-        if (jumping) {
-            position.y += 2;
-        }
-
-        gravityPull();
-
-        checkBounds();
+//        if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+//            moveFromLook(0,0, -1 * speed );
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+//            moveFromLook(0, 0, 1 * speed);
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+//            moveFromLook(1 * speed, 0, 0);
+//
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+//            moveFromLook(-1 * speed, 0, 0);
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+//            position.y += 3;
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+//            position.y += 0.981f;
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_R)){
+//            roll += speed;
+//        }
+//        if(Keyboard.isKeyDown(Keyboard.KEY_1)){
+//            position = new Vector3f(5, .5f, 0);
+//        }
+//        /* Prevents the camera from turning over 360 or under -360 */
+//        yaw += Mouse.getDX()/2;
+//        pitch -= Mouse.getDY()/2;
+//        if(yaw > 360 || yaw < -360){
+//            yaw = 0;
+//        }
+//
+//        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+//            if (position.y == 10) {
+//                jumping = true;
+//            }
+//        }
+//
+//        if (position.y > 30) {
+//            jumping = false;
+//        }
+//        if (jumping) {
+//            position.y += 2;
+//        }
+//
+//        gravityPull();
+//
+//        checkBounds();
     }
 
     private void gravityPull() {
@@ -121,5 +130,9 @@ public class Camera {
 
     public float getYaw() {
         return yaw;
+    }
+
+    public void update(Vector3f position) {
+        this.position = new Vector3f(position.x, position.y + 50, position.z + 50);
     }
 }
