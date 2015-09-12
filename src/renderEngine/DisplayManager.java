@@ -17,30 +17,33 @@ public class DisplayManager {
         ContextAttribs attribs = new ContextAttribs(3,2)
                 .withForwardCompatible(true).withProfileCore(true);
 
-        DisplayMode[] modes = new DisplayMode[0];
+
+        // Full screen code
+
+//        DisplayMode[] modes = new DisplayMode[0];
+//        try {
+//            modes = Display.getAvailableDisplayModes();
+//        } catch (LWJGLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        DisplayMode current = modes[0];
+//
+//        for (int i=0;i<modes.length;i++) {
+//            current = modes[i];
+//            System.out.println(current.getWidth() + "x" + current.getHeight() + "x" +
+//                    current.getBitsPerPixel() + " " + current.getFrequency() + "Hz");
+//        }
+//
+//        WIDTH = current.getWidth();
+//        HEIGHT = current.getHeight();
+
         try {
-            modes = Display.getAvailableDisplayModes();
-        } catch (LWJGLException e) {
-            e.printStackTrace();
-        }
-
-        DisplayMode current = modes[0];
-
-        for (int i=0;i<modes.length;i++) {
-            current = modes[i];
-            System.out.println(current.getWidth() + "x" + current.getHeight() + "x" +
-                    current.getBitsPerPixel() + " " + current.getFrequency() + "Hz");
-        }
-
-        WIDTH = current.getWidth();
-        HEIGHT = current.getHeight();
-
-        try {
-            Display.setDisplayMode(current);
-            Display.setFullscreen(true);
-            Display.create(new PixelFormat(), attribs);
-//            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+//            Display.setDisplayMode(current);
+//            Display.setFullscreen(true);
 //            Display.create(new PixelFormat(), attribs);
+            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+            Display.create(new PixelFormat(), attribs);
             Display.setTitle("Our first display");
 
             Display.setVSyncEnabled(true);
