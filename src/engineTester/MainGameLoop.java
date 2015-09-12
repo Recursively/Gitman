@@ -43,7 +43,6 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
 
         Light light = new Light(new Vector3f(-3000, 2000, -3000), new Vector3f(1, 1, 1));
-        Camera camera = new Camera();
 
         ModelData data = OBJFileLoader.loadOBJ("lowPolyTree");
         RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
@@ -173,6 +172,7 @@ public class MainGameLoop {
         ///
 
         Player player = new Player(bunnyModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
+        Camera camera = new Camera(player);
 
         //TODO
         Mouse.setGrabbed(true);
@@ -180,7 +180,6 @@ public class MainGameLoop {
         MasterRenderer renderer = new MasterRenderer();
         while (!Display.isCloseRequested()) {
             camera.move();
-            camera.update(player.getPosition());
             renderer.processTerrain(terrain);
 
             player.move();

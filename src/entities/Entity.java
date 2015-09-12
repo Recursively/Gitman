@@ -7,7 +7,7 @@ public class Entity {
 
     private TexturedModel model;
     private Vector3f position;
-    private float rotX, rotY, rotZ;
+    private float rotX = 0, rotY = 0, rotZ = 0;
     private float scale;
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
