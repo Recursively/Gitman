@@ -57,8 +57,8 @@ public class MainGameLoop {
 
         for (int i = 0; i < 200; i++) {
             float x = random.nextFloat() * 1000;
-            float y = 0;
             float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
             if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
                 continue;
             }
@@ -81,8 +81,8 @@ public class MainGameLoop {
 
         for (int i = 0; i < 500; i++) {
             float x = random.nextFloat() * 1000;
-            float y = 0;
             float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
             if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
                 continue;
             }
@@ -103,8 +103,8 @@ public class MainGameLoop {
 
         for (int i = 0; i < 25; i++) {
             float x = random.nextFloat() * 1000;
-            float y = 0;
             float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
             if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
                 continue;
             }
@@ -123,8 +123,8 @@ public class MainGameLoop {
 
         for (int i = 0; i < 200; i++) {
             float x = random.nextFloat() * 1000;
-            float y = 0;
             float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
             if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
                 continue;
             }
@@ -143,8 +143,8 @@ public class MainGameLoop {
 
         for (int i = 0; i < 300; i++) {
             float x = random.nextFloat() * 1000;
-            float y = 0;
-            float z = random.nextFloat() * -1000 ;
+            float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
             allFerns.add(new Entity(fernModel, new Vector3f(x, y, z), 0,
                     0, 0f, 1f));
         }
