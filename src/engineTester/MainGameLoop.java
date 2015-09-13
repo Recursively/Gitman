@@ -177,7 +177,7 @@ public class MainGameLoop {
 
         ///
 
-        Player player = new Player(playerModel, new Vector3f(0, 0, 0), 0, 0, 0, 1);
+        Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
         Camera camera = new Camera(player);
 
         //TODO
@@ -188,7 +188,7 @@ public class MainGameLoop {
             camera.move();
             renderer.processTerrain(terrain);
 
-            player.move();
+            player.move(terrain);
             renderer.processEntity(player);
 
             renderer.processEntity(new Entity(dragonModel, new Vector3f(500, 0, -500), 0, 0, 0f, 10f));
