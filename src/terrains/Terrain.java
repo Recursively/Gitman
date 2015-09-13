@@ -1,6 +1,7 @@
 package terrains;
 
 import models.RawModel;
+import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
@@ -74,9 +75,11 @@ public class Terrain {
                 vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
                 vertices[vertexPointer * 3 + 1] = getHeight(j, i, image);
                 vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
-                normals[vertexPointer * 3] = 0;
-                normals[vertexPointer * 3 + 1] = 1;
-                normals[vertexPointer * 3 + 2] = 0;
+                Vector3f normal = calculateNormal(j, i, image);
+                // shade terrain
+                normals[vertexPointer * 3] = normal.x;
+                normals[vertexPointer * 3 + 1] = normal.y;
+                normals[vertexPointer * 3 + 2] = normal.z;
                 textureCoords[vertexPointer * 2] = (float) j / ((float) VERTEX_COUNT - 1);
                 textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) VERTEX_COUNT - 1);
                 vertexPointer++;
@@ -98,6 +101,17 @@ public class Terrain {
             }
         }
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
+    }
+
+    private Vector3f calculateNormal(int x, int z, BufferedImage image) {
+        // non optimal solution, but only occurs once
+        float heightL = getHeight(x - 1, z, image);
+        float heightR = getHeight(x + 1, z, image);
+        float heightD = getHeight(x, z - 1, image);
+        float heightU = getHeight(x, z + 1, image);
+        Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
+        normal.normalise();
+        return normal;
     }
 
     private float getHeight(int x, int z, BufferedImage image) {
