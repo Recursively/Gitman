@@ -18,7 +18,7 @@ public class DisplayManager {
                 .withForwardCompatible(true).withProfileCore(true);
 
 
-        // Full screen code
+//         Full screen code
 
 //        DisplayMode[] modes = new DisplayMode[0];
 //        try {

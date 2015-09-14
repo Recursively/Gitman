@@ -172,8 +172,8 @@ public class MainGameLoop {
         TexturedModel playerModel = new TexturedModel(OBJLoader.loadObjModel("player", loader),
                 new ModelTexture(loader.loadTexture("white")));
         ModelTexture playerTexture = playerModel.getTexture();
-        bunnyTexture.setShineDamper(10);
-        bunnyTexture.setReflectivity(1);
+        playerTexture.setShineDamper(10);
+        playerTexture.setReflectivity(1);
 
         ///
 
@@ -191,9 +191,12 @@ public class MainGameLoop {
             player.move(terrain);
             renderer.processEntity(player);
 
-            renderer.processEntity(new Entity(dragonModel, new Vector3f(500, 0, -500), 0, 0, 0f, 10f));
-            renderer.processEntity(new Entity(bunnyModel, new Vector3f(250, 0, -500), 0, 0, 0f, 10f));
-            renderer.processEntity(new Entity(exampleModel, new Vector3f(0, 0, -500), 0, 0, 0f, 10f));
+            renderer.processEntity(new Entity(dragonModel, new Vector3f(500, terrain.getTerrainHeight(500, -500), -500),
+                    0, 0, 0f, 10f));
+            renderer.processEntity(new Entity(bunnyModel, new Vector3f(250, terrain.getTerrainHeight(250, -500), -500),
+                    0, 0, 0f, 10f));
+            renderer.processEntity(new Entity(exampleModel, new Vector3f(0, terrain.getTerrainHeight(0, -500), -500),
+                    0, 0, 0f, 10f));
 
 
             for (Entity tree : allTrees) {
