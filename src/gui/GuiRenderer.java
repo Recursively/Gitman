@@ -33,6 +33,9 @@ public class GuiRenderer {
         // not sure what this does
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
+        // disable depth testing so that gui elements can overlap
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+
         for (GuiTexture image : guiImages) {
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, image.getTexture());
@@ -40,6 +43,9 @@ public class GuiRenderer {
             shader.loadTransformation(matrix);
             GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
         }
+
+        // re-enable depth testing else bad shits gonna happen
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
 
         // turns off transparent colour removal
         GL11.glDisable(GL11.GL_BLEND);
