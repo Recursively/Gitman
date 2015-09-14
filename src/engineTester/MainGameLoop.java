@@ -50,6 +50,7 @@ public class MainGameLoop {
 
         TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
                 new ModelTexture(loader.loadTexture("lowPolyTree")));
+        lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
         lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
         lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
 
@@ -63,7 +64,7 @@ public class MainGameLoop {
                 continue;
             }
             allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
-                    0, 0f, 1f));
+                    0, 0f, 1f, random.nextInt(4)));
         }
 
         ModelData data2 = OBJFileLoader.loadOBJ("grassModel");
@@ -135,6 +136,7 @@ public class MainGameLoop {
         TexturedModel fernModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader),
                 new ModelTexture(loader.loadTexture("fern")));
         ModelTexture fernTexture = fernModel.getTexture();
+        fernTexture.setNumberOfRows(2);
         fernTexture.setShineDamper(10);
         fernTexture.setReflectivity(1);
         fernTexture.setHasTransparency(true);
@@ -146,7 +148,7 @@ public class MainGameLoop {
             float z = random.nextFloat() * -1000;
             float y = terrain.getTerrainHeight(x, z);
             allFerns.add(new Entity(fernModel, new Vector3f(x, y, z), 0,
-                    0, 0f, 1f));
+                    0, 0f, 1f, random.nextInt(4)));
         }
 
         ///

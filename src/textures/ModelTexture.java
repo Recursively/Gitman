@@ -7,6 +7,8 @@ public class ModelTexture {
     private float shineDamper = 1;
     private float reflectivity = 0;
 
+    private int numberOfRows = 1;
+
     private boolean hasTransparency = false;
     private boolean useFakeLighting = false;
 
@@ -16,6 +18,14 @@ public class ModelTexture {
 
     public int getID() {
         return this.textureID;
+    }
+
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
+
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
     }
 
     public float getShineDamper() {
