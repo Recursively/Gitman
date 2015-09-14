@@ -4,12 +4,15 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import gui.GuiRenderer;
+import gui.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import objParser.ModelData;
 import objParser.OBJFileLoader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -177,6 +180,11 @@ public class MainGameLoop {
         playerTexture.setShineDamper(10);
         playerTexture.setReflectivity(1);
 
+        List<GuiTexture> guiImages = new ArrayList<>();
+        GuiTexture gui = new GuiTexture(loader.loadTexture("panel_brown"), new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f));
+        guiImages.add(gui);
+
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
         ///
 
         Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
@@ -222,9 +230,13 @@ public class MainGameLoop {
             }
 
             renderer.render(light, camera);
+
+            guiRenderer.render(guiImages);
+
             DisplayManager.updateDisplay();
         }
 
+        guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();

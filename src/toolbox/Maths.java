@@ -7,6 +7,15 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Maths {
 
+    // used to scale and position gui images in the game
+    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
+        Matrix4f matrix = new Matrix4f();
+        matrix.setIdentity();
+        Matrix4f.translate(translation, matrix, matrix);
+        Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
+        return matrix;
+    }
+
     // I'm not sure I even understand this fully, but essentially if takes 3 points of the triangle's corners and the
     // vertex points of the xz position on the triangle and linearly interpolates the height of that point.
     public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
