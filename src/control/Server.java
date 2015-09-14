@@ -1,8 +1,8 @@
 package control;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,8 +10,8 @@ public class Server extends Thread {
 
 	private Socket socket;
 
-	private DataInputStream inputStream;
-	private DataOutputStream outputStream;
+	private ObjectInputStream inputStream;
+	private ObjectOutputStream outputStream;
 
 	public Server(Socket socket) {
 		this.socket = socket;
@@ -20,8 +20,8 @@ public class Server extends Thread {
 	public void run() {
 		try {
 
-			inputStream = new DataInputStream(socket.getInputStream());
-			outputStream = new DataOutputStream(socket.getOutputStream());
+			inputStream = new ObjectInputStream(socket.getInputStream());
+			outputStream = new ObjectOutputStream(socket.getOutputStream());
 
 			while (1 == 1) {
 				String read = inputStream.readUTF();

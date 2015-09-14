@@ -3,6 +3,8 @@ package control;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -10,8 +12,8 @@ import java.util.Scanner;
 public class Client extends Thread {
 
 	private final Socket socket;
-	private DataOutputStream output;
-	private DataInputStream input;
+	private ObjectOutputStream output;
+	private ObjectInputStream input;
 
 	public Client(Socket socket) {
 		this.socket = socket;
@@ -20,15 +22,15 @@ public class Client extends Thread {
 	public void run() {
 		try {
 
-			output = new DataOutputStream(socket.getOutputStream());
-			input = new DataInputStream(socket.getInputStream());
+			output = new ObjectOutputStream(socket.getOutputStream());
+			input = new ObjectInputStream(socket.getInputStream());
 
 			Scanner scanner = new Scanner(System.in);
 
 			while (1 == 1) {
 				String text = scanner.next();
 				output.writeUTF(text);
-
+				
 				if (text.equals("EXIT")) {
 					break;
 				}
@@ -46,7 +48,9 @@ public class Client extends Thread {
 		Socket sock = null;
 		try {
 			// host name and
+			System.out.println("DONE");
 			sock = new Socket("localhost", port);
+			System.out.println("Connected");
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
