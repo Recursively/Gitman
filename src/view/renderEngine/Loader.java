@@ -1,6 +1,8 @@
 package view.renderEngine;
 
+import de.matthiasmann.twl.utils.PNGDecoder;
 import model.models.RawModel;
+import model.textures.TextureData;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.Texture;
@@ -8,6 +10,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -29,17 +32,17 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
-    public RawModel loadToVAO(float[] positions) {
+    public RawModel loadToVAO(float[] positions, int dimensions) {
         int vaoID = createVAO();
-        this.storeDataInAttributeList(0, 2, positions);
+        this.storeDataInAttributeList(0, dimensions, positions);
         unbindVAO();
-        return new RawModel(vaoID, positions.length/2);
+        return new RawModel(vaoID, positions.length / dimensions);
     }
 
     public int loadTexture(String fileName) {
         Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/"+fileName +".png"));
+            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/" + fileName + ".png"));
 
             // Mipmapping to lower resolution of distance textures
             GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
@@ -64,7 +67,7 @@ public class Loader {
         for (int vbo : vbos) {
             GL15.glDeleteBuffers(vbo);
         }
-        for (int texture:textures) {
+        for (int texture : textures) {
             GL11.glDeleteTextures(texture);
         }
     }
@@ -110,6 +113,65 @@ public class Loader {
         buffer.put(data);
         buffer.flip();
         return buffer;
+    }
+
+    public int loadCubeMap(String[] textureFiles) {
+        // generates empty texture
+        int textureID = GL11.glGenTextures();
+        // bind that texture
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, textureID);
+
+        for (int i = 0; i < textureFiles.length; i++) {
+            TextureData data = decodeTextureFile("res/skyboxes/" + textureFiles[i] + ".png");
+
+            // gets the GL enum for the cube map faces so that we can easily iterate
+            // this does however mean that the order of the texture files has to be exact
+            // order as follows
+
+            // +X
+            // -X
+            // +Y
+            // -Y
+            // +Z
+            // -Z
+
+            int baseNumber = GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+            GL11.glTexImage2D(baseNumber + i, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA,
+                    GL11.GL_UNSIGNED_BYTE, data.getBuffer());
+        }
+
+        // Smooths the textures of the skybox
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+        textures.add(textureID);
+
+        // helps to prevent tearing of skybox textures
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
+
+        return textureID;
+    }
+
+    private TextureData decodeTextureFile(String fileName) {
+        int width = 0;
+        int height = 0;
+        ByteBuffer buffer = null;
+        try {
+            FileInputStream in = new FileInputStream(fileName);
+            PNGDecoder decoder = new PNGDecoder(in);
+            width = decoder.getWidth();
+            height = decoder.getHeight();
+            buffer = ByteBuffer.allocateDirect(4 * width * height);
+            decoder.decode(buffer, width * 4, PNGDecoder.Format.RGBA);
+            buffer.flip();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Tried to load texture " + fileName + ", didn't work");
+            System.exit(-1);
+        }
+        return new TextureData(buffer, width, height);
     }
 
 }

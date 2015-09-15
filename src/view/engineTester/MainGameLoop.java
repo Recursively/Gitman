@@ -242,7 +242,7 @@ public class MainGameLoop {
         ///
 
         // New player and camera to follow the player
-        Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
+        Player player = new Player(playerModel, new Vector3f(250, 20, -250), 0, 180f, 0, 1);
         Camera camera = new Camera(player);
 
         //TODO do we want the mouse to be captured?
@@ -250,7 +250,7 @@ public class MainGameLoop {
         //Mouse.setGrabbed(true);
 
         // This renders all the goodies
-        MasterRenderer renderer = new MasterRenderer();
+        MasterRenderer renderer = new MasterRenderer(loader);
 
         while (!Display.isCloseRequested()) {
             camera.move();

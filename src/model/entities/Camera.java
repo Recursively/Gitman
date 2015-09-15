@@ -66,7 +66,7 @@ public class Camera {
         float zoomLevel = Mouse.getDWheel() * 0.05f;
         playerZoom -= zoomLevel;
         if (playerZoom < 30) playerZoom = 30;
-        if (playerZoom > 100) playerZoom = 100;
+        if (playerZoom > 300) playerZoom = 300;
     }
 
     private void calculatePitch() {
