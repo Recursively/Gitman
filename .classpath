@@ -9,5 +9,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/reubenpuketapu/Documents/workspace/redmf/lwjgl-2.9.3/native/macosx"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jars/PNGDecoder.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
