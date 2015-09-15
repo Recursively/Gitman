@@ -54,12 +54,30 @@ public class MainGameLoop {
         // Multiple light sources
         // This is a test and makes shit look weird
         //TODO remove this
-        Light light = new Light(new Vector3f(-3000, 2000, -3000), new Vector3f(1, 1, 1));
+        Light light = new Light(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
         List<Light> lights = new ArrayList<>();
         lights.add(light);
-        lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
-//        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
-//        lights.add(new Light(new Vector3f(100, 100, 100), new Vector3f(0, 10, 0)));
+        lights.add(new Light(new Vector3f(0, -20, 0), new Vector3f(15, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(370, -20, -300), new Vector3f(0, 15, 15), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(295, -20, -300), new Vector3f(15, 15, 0), new Vector3f(1, 0.01f, 0.002f)));
+
+
+        ModelData lampData = OBJFileLoader.loadOBJ("models/lamp");
+        RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
+                lampData.getNormals(), lampData.getIndices());
+
+        TexturedModel lampTexturedModel = new TexturedModel(lampModel,
+                new ModelTexture(loader.loadTexture("textures/lamp")));
+        lampTexturedModel.getTexture().setNumberOfRows(2);
+        lampTexturedModel.getTexture().setShineDamper(10);
+        lampTexturedModel.getTexture().setReflectivity(1);
+
+        List<Entity> lamps = new ArrayList<>();
+
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(0, -20, 0), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(370, -20, -300), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(295, -20, -300), 0, 0, 0, 1));
+
 
         // BEGIN UGLY MODEL LOADING
         // TODO should use factory design pattern fro this
@@ -229,6 +247,10 @@ public class MainGameLoop {
             renderer.processEntity(new Entity(bunnyModel, new Vector3f(250, terrain.getTerrainHeight(250, -500), -500),
                     0, 0, 0f, 10f));
 
+
+            for (Entity lamp : lamps) {
+                renderer.processEntity(lamp);
+            }
 
             for (Entity tree : allTrees) {
                 renderer.processEntity(tree);
