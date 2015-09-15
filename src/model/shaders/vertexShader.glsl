@@ -24,7 +24,7 @@ uniform vec2 offset;
 
 uniform float useFakeLighting;
 
-const float density = 0.01;
+const float density = 0.0057;
 const float gradient = 1.5;
 
 void main(void){

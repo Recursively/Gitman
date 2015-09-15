@@ -105,6 +105,25 @@ public class MainGameLoop {
                     0, 0f, 1f, random.nextInt(4)));
         }
 
+        ModelData pineData = OBJFileLoader.loadOBJ("models/pine");
+        RawModel pineModel = loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(), pineData.getNormals(),
+                pineData.getIndices());
+
+        TexturedModel pineTextureModel = new TexturedModel(pineModel,
+                new ModelTexture(loader.loadTexture("textures/pine")));
+        pineTextureModel.getTexture().setShineDamper(10);
+        pineTextureModel.getTexture().setReflectivity(1);
+
+        List<Entity> allPineTrees = new ArrayList<>();
+
+        for (int i = 0; i < 500; i++) {
+            float x = random.nextFloat() * 1000;
+            float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
+            allPineTrees.add(new Entity(pineTextureModel, new Vector3f(x, y, z), 0,
+                    0, 0f, 1f));
+        }
+
         ModelData data2 = OBJFileLoader.loadOBJ("models/grassClumps");
         RawModel grassModel = loader.loadToVAO(data2.getVertices(), data2.getTextureCoords(), data2.getNormals(),
                 data2.getIndices());
@@ -250,6 +269,10 @@ public class MainGameLoop {
 
             for (Entity lamp : lamps) {
                 renderer.processEntity(lamp);
+            }
+
+            for (Entity pine : allPineTrees) {
+                renderer.processEntity(pine);
             }
 
             for (Entity tree : allTrees) {
