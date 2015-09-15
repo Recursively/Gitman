@@ -8,3 +8,6 @@
 .idea
 out
 3D-game-engine.iml
+
+bin/
+redmf.iml
