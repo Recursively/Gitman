@@ -38,18 +38,18 @@ public class MainGameLoop {
 
 
         // Terrain creation
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mudTexture"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowersTexture"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("pathTexture"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/grass"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("textures/mud"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("textures/grassFlowers"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("textures/path"));
 
         // Bundle terrains into pack
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         // Blend map for mixing terrains
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("terrains/blendMap"));
 
         // Create the new terrain object, using pack blendermap and heightmap
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "terrains/heightMap");
 
         // Multiple light sources
         // This is a test and makes shit look weird
@@ -58,18 +58,18 @@ public class MainGameLoop {
         List<Light> lights = new ArrayList<>();
         lights.add(light);
         lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
-        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
-        lights.add(new Light(new Vector3f(100, 100, 100), new Vector3f(0, 10, 0)));
+//        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+//        lights.add(new Light(new Vector3f(100, 100, 100), new Vector3f(0, 10, 0)));
 
         // BEGIN UGLY MODEL LOADING
         // TODO should use factory design pattern fro this
 
-        ModelData data = OBJFileLoader.loadOBJ("lowPolyTree");
+        ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
         RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
                 data.getIndices());
 
         TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("lowPolyTree")));
+                new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
         lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
         lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
         lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
@@ -87,12 +87,12 @@ public class MainGameLoop {
                     0, 0f, 1f, random.nextInt(4)));
         }
 
-        ModelData data2 = OBJFileLoader.loadOBJ("grassModel");
+        ModelData data2 = OBJFileLoader.loadOBJ("models/grassClumps");
         RawModel grassModel = loader.loadToVAO(data2.getVertices(), data2.getTextureCoords(), data2.getNormals(),
                 data2.getIndices());
 
         TexturedModel grassModelTexturedModel = new TexturedModel(grassModel,
-                new ModelTexture(loader.loadTexture("grassTexture")));
+                new ModelTexture(loader.loadTexture("textures/grassClumps")));
         grassModelTexturedModel.getTexture().setShineDamper(10);
         grassModelTexturedModel.getTexture().setReflectivity(1);
         grassModelTexturedModel.getTexture().setHasTransparency(true);
@@ -111,12 +111,12 @@ public class MainGameLoop {
                     0, 0f, 1f));
         }
 
-        ModelData data3 = OBJFileLoader.loadOBJ("stall");
+        ModelData data3 = OBJFileLoader.loadOBJ("models/stall");
         RawModel stallModel = loader.loadToVAO(data3.getVertices(), data3.getTextureCoords(), data3.getNormals(),
                 data3.getIndices());
 
         TexturedModel stallTexturedModel = new TexturedModel(stallModel,
-                new ModelTexture(loader.loadTexture("stallTexture")));
+                new ModelTexture(loader.loadTexture("textures/stall")));
         stallTexturedModel.getTexture().setShineDamper(10);
         stallTexturedModel.getTexture().setReflectivity(1);
 
@@ -133,7 +133,8 @@ public class MainGameLoop {
                     0, 0f, 4f));
         }
 
-        TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader), new ModelTexture(loader.loadTexture("tree")));
+        TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("models/tree", loader),
+                new ModelTexture(loader.loadTexture("textures/tree")));
         ModelTexture treeTexture = treeModel.getTexture();
         // TODO This is broken
         treeTexture.setShineDamper(10);
@@ -153,8 +154,8 @@ public class MainGameLoop {
                     0, 0f, 10f));
         }
 
-        TexturedModel fernModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader),
-                new ModelTexture(loader.loadTexture("fern")));
+        TexturedModel fernModel = new TexturedModel(OBJLoader.loadObjModel("models/fern", loader),
+                new ModelTexture(loader.loadTexture("textures/fern")));
         ModelTexture fernTexture = fernModel.getTexture();
         fernTexture.setNumberOfRows(2);
         fernTexture.setShineDamper(10);
@@ -174,26 +175,20 @@ public class MainGameLoop {
         // create single models
         // TODO again should use factory design pattern here
 
-        TexturedModel dragonModel = new TexturedModel(OBJLoader.loadObjModel("dragon", loader),
-                new ModelTexture(loader.loadTexture("white")));
+        TexturedModel dragonModel = new TexturedModel(OBJLoader.loadObjModel("models/dragon", loader),
+                new ModelTexture(loader.loadTexture("textures/white")));
         ModelTexture dragonTexture = dragonModel.getTexture();
         dragonTexture.setShineDamper(10);
         dragonTexture.setReflectivity(1);
 
-        TexturedModel bunnyModel = new TexturedModel(OBJLoader.loadObjModel("bunny", loader),
-                new ModelTexture(loader.loadTexture("white")));
+        TexturedModel bunnyModel = new TexturedModel(OBJLoader.loadObjModel("models/bunny", loader),
+                new ModelTexture(loader.loadTexture("textures/white")));
         ModelTexture bunnyTexture = bunnyModel.getTexture();
         bunnyTexture.setShineDamper(10);
         bunnyTexture.setReflectivity(1);
 
-        TexturedModel exampleModel = new TexturedModel(OBJLoader.loadObjModel("exampleOBJ", loader),
-                new ModelTexture(loader.loadTexture("white")));
-        ModelTexture exmapleTexture = exampleModel.getTexture();
-        exmapleTexture.setShineDamper(10);
-        exmapleTexture.setReflectivity(1);
-
-        TexturedModel playerModel = new TexturedModel(OBJLoader.loadObjModel("player", loader),
-                new ModelTexture(loader.loadTexture("white")));
+        TexturedModel playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
+                new ModelTexture(loader.loadTexture("textures/white")));
         ModelTexture playerTexture = playerModel.getTexture();
         playerTexture.setShineDamper(10);
         playerTexture.setReflectivity(1);
@@ -202,7 +197,7 @@ public class MainGameLoop {
         // Create gui elements
 
         List<GuiTexture> guiImages = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("panel_brown"), new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f));
+        GuiTexture gui = new GuiTexture(loader.loadTexture("gui/panel_brown"), new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f));
         guiImages.add(gui);
 
         // gui renderer which handles rendering an infinite amount of gui elements
@@ -232,8 +227,6 @@ public class MainGameLoop {
             renderer.processEntity(new Entity(dragonModel, new Vector3f(500, terrain.getTerrainHeight(500, -500), -500),
                     0, 0, 0f, 10f));
             renderer.processEntity(new Entity(bunnyModel, new Vector3f(250, terrain.getTerrainHeight(250, -500), -500),
-                    0, 0, 0f, 10f));
-            renderer.processEntity(new Entity(exampleModel, new Vector3f(0, terrain.getTerrainHeight(0, -500), -500),
                     0, 0, 0f, 10f));
 
 
