@@ -10,7 +10,6 @@ import models.RawModel;
 import models.TexturedModel;
 import objParser.ModelData;
 import objParser.OBJFileLoader;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -46,6 +45,12 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
 
         Light light = new Light(new Vector3f(-3000, 2000, -3000), new Vector3f(1, 1, 1));
+        List<Light> lights = new ArrayList<>();
+        lights.add(light);
+        lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
+        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+        lights.add(new Light(new Vector3f(100, 100, 100), new Vector3f(0, 10, 0)));
+
 
         ModelData data = OBJFileLoader.loadOBJ("lowPolyTree");
         RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
@@ -191,7 +196,7 @@ public class MainGameLoop {
         Camera camera = new Camera(player);
 
         //TODO
-        Mouse.setGrabbed(true);
+        //Mouse.setGrabbed(true);
 
         MasterRenderer renderer = new MasterRenderer();
         while (!Display.isCloseRequested()) {
@@ -229,7 +234,7 @@ public class MainGameLoop {
                 renderer.processEntity(grass);
             }
 
-            renderer.render(light, camera);
+            renderer.render(lights, camera);
 
             guiRenderer.render(guiImages);
 
