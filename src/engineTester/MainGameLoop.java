@@ -34,16 +34,26 @@ public class MainGameLoop {
         Random random = new Random();
         Loader loader = new Loader();
 
+        // THIS CODE IS UGLY PLEASE DON'T JUDGE ME!!
+
+
+        // Terrain creation
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mudTexture"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowersTexture"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("pathTexture"));
 
+        // Bundle terrains into pack
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        // Blend map for mixing terrains
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
+        // Create the new terrain object, using pack blendermap and heightmap
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
 
+        // Multiple light sources
+        // This is a test and makes shit look weird
+        //TODO remove this
         Light light = new Light(new Vector3f(-3000, 2000, -3000), new Vector3f(1, 1, 1));
         List<Light> lights = new ArrayList<>();
         lights.add(light);
@@ -51,6 +61,8 @@ public class MainGameLoop {
         lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
         lights.add(new Light(new Vector3f(100, 100, 100), new Vector3f(0, 10, 0)));
 
+        // BEGIN UGLY MODEL LOADING
+        // TODO should use factory design pattern fro this
 
         ModelData data = OBJFileLoader.loadOBJ("lowPolyTree");
         RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
@@ -159,7 +171,8 @@ public class MainGameLoop {
                     0, 0f, 1f, random.nextInt(4)));
         }
 
-        ///
+        // create single models
+        // TODO again should use factory design pattern here
 
         TexturedModel dragonModel = new TexturedModel(OBJLoader.loadObjModel("dragon", loader),
                 new ModelTexture(loader.loadTexture("white")));
@@ -185,23 +198,33 @@ public class MainGameLoop {
         playerTexture.setShineDamper(10);
         playerTexture.setReflectivity(1);
 
+
+        // Create gui elements
+
         List<GuiTexture> guiImages = new ArrayList<>();
         GuiTexture gui = new GuiTexture(loader.loadTexture("panel_brown"), new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f));
         guiImages.add(gui);
 
+        // gui renderer which handles rendering an infinite amount of gui elements
         GuiRenderer guiRenderer = new GuiRenderer(loader);
         ///
 
+        // New player and camera to follow the player
         Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
         Camera camera = new Camera(player);
 
-        //TODO
+        //TODO do we want the mouse to be captured?
+        // It makes sense to be captured if game is first person, not so much for third person
         //Mouse.setGrabbed(true);
 
+        // This renders all the goodies
         MasterRenderer renderer = new MasterRenderer();
+
         while (!Display.isCloseRequested()) {
             camera.move();
             renderer.processTerrain(terrain);
+
+            // Again ugly and needs work
 
             player.move(terrain);
             renderer.processEntity(player);
