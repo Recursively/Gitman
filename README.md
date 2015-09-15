@@ -13,7 +13,8 @@
 1. Clone repository into your favourite Java IDE
 2. Make sure that the repository contains lib, lwjgl-2.9.3 and res
 3. Make sure that the res folder is a resource (**Should include link to how to do this here**)
-4. This is the hard part:
+4. Make sure that lwjgl.jar, lwjgl_util.jar and slick-util.jar are set as dependencies for the project in your IDE
+5. This is the hard part:
   * OpenGL is operating system specifc, and so you need to change which natives it will try and use
   * To do this you need to edit your games run configuration
   * The configuration is as follows:
