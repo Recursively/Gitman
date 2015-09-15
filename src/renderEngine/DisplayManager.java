@@ -3,7 +3,7 @@ package renderEngine;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
-import org.lwjgl.util.Display;
+import org.lwjgl.opengl.Display;
 
 public class DisplayManager {
 
