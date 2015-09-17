@@ -4,13 +4,12 @@ import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.models.TexturedModel;
-import model.skybox.SkyboxRenderer;
 import model.toolbox.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
-import model.shaders.StaticShader;
-import model.shaders.TerrainShader;
+import model.shaders.entity.EntityShader;
+import model.shaders.terrain.TerrainShader;
 import model.terrains.Terrain;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class MasterRenderer {
 
     private Matrix4f projectionMatrix;
 
-    private StaticShader shader = new StaticShader();
+    private EntityShader shader = new EntityShader();
     private EntityRenderer entityRenderer;
 
     private TerrainRenderer terrainRenderer;

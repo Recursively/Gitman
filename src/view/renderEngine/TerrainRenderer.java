@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import model.shaders.TerrainShader;
+import model.shaders.terrain.TerrainShader;
 import model.terrains.Terrain;
 import model.textures.TerrainTexturePack;
 import model.toolbox.Maths;

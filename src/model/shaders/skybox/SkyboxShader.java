@@ -1,4 +1,4 @@
-package model.skybox;
+package model.shaders.skybox;
 
 import model.entities.Camera;
 import model.shaders.ShaderProgram;
@@ -7,8 +7,8 @@ import model.toolbox.Maths;
 
 public class SkyboxShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/model/skybox/skyboxVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/model/skybox/skyboxFragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/model/shaders/skybox/skyboxVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/model/shaders/skybox/skyboxFragmentShader.glsl";
 
     private int location_projectionMatrix;
     private int location_viewMatrix;

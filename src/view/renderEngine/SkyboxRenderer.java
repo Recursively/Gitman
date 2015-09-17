@@ -1,7 +1,8 @@
-package model.skybox;
+package view.renderEngine;
 
 import model.entities.Camera;
 import model.models.RawModel;
+import model.shaders.skybox.SkyboxShader;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;

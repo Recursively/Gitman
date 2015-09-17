@@ -1,5 +1,6 @@
-package model.objParser;
+package model.toolbox.objParser;
 
+import model.models.ModelData;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
