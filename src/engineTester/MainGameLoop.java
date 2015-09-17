@@ -1,13 +1,13 @@
-package tests.engineTester;
+package engineTester;
+
 
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Player;
+import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
-import model.models.ModelData;
-import model.toolbox.objParser.OBJFileLoader;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.textures.ModelTexture;
@@ -15,6 +15,7 @@ import model.textures.TerrainTexture;
 import model.textures.TerrainTexturePack;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+import model.toolbox.objParser.OBJFileLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -103,25 +104,6 @@ public class MainGameLoop {
             }
             allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
                     0, 0f, 1f, random.nextInt(4)));
-        }
-
-        ModelData pineData = OBJFileLoader.loadOBJ("models/pine");
-        RawModel pineModel = loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(), pineData.getNormals(),
-                pineData.getIndices());
-
-        TexturedModel pineTextureModel = new TexturedModel(pineModel,
-                new ModelTexture(loader.loadTexture("textures/pine")));
-        pineTextureModel.getTexture().setShineDamper(10);
-        pineTextureModel.getTexture().setReflectivity(1);
-
-        List<Entity> allPineTrees = new ArrayList<>();
-
-        for (int i = 0; i < 500; i++) {
-            float x = random.nextFloat() * 1000;
-            float z = random.nextFloat() * -1000;
-            float y = terrain.getTerrainHeight(x, z);
-            allPineTrees.add(new Entity(pineTextureModel, new Vector3f(x, y, z), 0,
-                    0, 0f, 1f));
         }
 
         ModelData data2 = OBJFileLoader.loadOBJ("models/grassClumps");
@@ -242,7 +224,7 @@ public class MainGameLoop {
         ///
 
         // New player and camera to follow the player
-        Player player = new Player(playerModel, new Vector3f(250, 20, -250), 0, 180f, 0, 1);
+        Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
         Camera camera = new Camera(player);
 
         //TODO do we want the mouse to be captured?
@@ -269,10 +251,6 @@ public class MainGameLoop {
 
             for (Entity lamp : lamps) {
                 renderer.processEntity(lamp);
-            }
-
-            for (Entity pine : allPineTrees) {
-                renderer.processEntity(pine);
             }
 
             for (Entity tree : allTrees) {
