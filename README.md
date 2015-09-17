@@ -1,6 +1,8 @@
-# GITMAN
-# An Exceptional Adventure
-## Created By REDMF
+# Gitman
+
+# An EXCEPTIONal Adventure
+
+## Created by REDMF
 
 There is an epic bug that is ruining everything! The goal of the game is to go through the office, find laptops and clone the code on them into into your own repository. Once you have collected all the bits of code, "compile" the code and then "run" it. Hopefully it helps you fix the problem! 
 
