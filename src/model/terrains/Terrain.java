@@ -3,10 +3,10 @@ package model.terrains;
 import model.models.RawModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import view.renderEngine.Loader;
+import model.toolbox.Loader;
 import model.textures.TerrainTexture;
 import model.textures.TerrainTexturePack;
-import toolbox.Maths;
+import model.toolbox.Maths;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
