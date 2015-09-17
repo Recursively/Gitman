@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class Client extends Thread {
 
 	private final Socket socket;
@@ -28,6 +30,7 @@ public class Client extends Thread {
 			while (1 == 1) {
 				String text = scanner.next();
 				output.writeUTF(text);
+				output.writeObject(new String("hello"));
 				
 				if (text.equals("EXIT")) {
 					break;
