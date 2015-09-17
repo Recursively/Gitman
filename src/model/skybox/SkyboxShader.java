@@ -3,7 +3,7 @@ package model.skybox;
 import model.entities.Camera;
 import model.shaders.ShaderProgram;
 import org.lwjgl.util.vector.Matrix4f;
-import toolbox.Maths;
+import model.toolbox.Maths;
 
 public class SkyboxShader extends ShaderProgram {
 

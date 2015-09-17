@@ -1,4 +1,4 @@
-package controller;
+package model.Network;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

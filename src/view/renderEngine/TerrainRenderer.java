@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 import model.shaders.TerrainShader;
 import model.terrains.Terrain;
 import model.textures.TerrainTexturePack;
-import toolbox.Maths;
+import model.toolbox.Maths;
 
 import java.util.List;
 

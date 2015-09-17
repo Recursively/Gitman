@@ -4,7 +4,7 @@ import model.entities.Camera;
 import model.entities.Light;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import toolbox.Maths;
+import model.toolbox.Maths;
 
 import java.util.List;
 

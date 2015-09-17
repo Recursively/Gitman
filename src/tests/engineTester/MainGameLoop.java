@@ -1,26 +1,26 @@
-package view.engineTester;
+package tests.engineTester;
 
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
-import model.entities.Player;
+import model.entities.movableEntity.Player;
 import model.models.RawModel;
 import model.models.TexturedModel;
 import model.objParser.ModelData;
 import model.objParser.OBJFileLoader;
 import model.terrains.Terrain;
+import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.textures.TerrainTexture;
 import model.textures.TerrainTexturePack;
+import model.toolbox.Loader;
+import model.toolbox.OBJLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import view.gui.GuiRenderer;
-import view.gui.GuiTexture;
-import view.renderEngine.DisplayManager;
-import view.renderEngine.Loader;
+import view.DisplayManager;
+import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
-import view.renderEngine.OBJLoader;
 
 import java.util.ArrayList;
 import java.util.List;

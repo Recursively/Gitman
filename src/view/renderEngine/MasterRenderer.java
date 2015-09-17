@@ -5,6 +5,7 @@ import model.entities.Entity;
 import model.entities.Light;
 import model.models.TexturedModel;
 import model.skybox.SkyboxRenderer;
+import model.toolbox.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;

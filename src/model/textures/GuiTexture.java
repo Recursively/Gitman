@@ -1,4 +1,4 @@
-package view.gui;
+package model.textures;
 
 import org.lwjgl.util.vector.Vector2f;
 
