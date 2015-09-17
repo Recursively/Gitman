@@ -1,13 +1,12 @@
 package model.entities.movableEntity;
 
-import model.entities.Entity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 
-public class Player extends Entity {
+public class Player extends MovableEntity {
 
     private static final float RUN_SPEED = 50;
     private static final float TURN_SPEED = 160;
