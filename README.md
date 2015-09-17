@@ -1,6 +1,6 @@
-# REDMF
+# Gitman
 
-## A 3D adventure game
+## An EXCEPTIONal Adventure
 
 (Need a quick intro to the story/plot here)
 
