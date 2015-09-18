@@ -224,11 +224,12 @@ public class MainGameLoop {
         GuiRenderer guiRenderer = new GuiRenderer(loader);
         ///
 
+        Vector3f playerPosition = new Vector3f(50, 0, -50);
+        float initialPlayerY = terrain.getTerrainHeight(playerPosition.getX(), playerPosition.getZ());
+
         // New player and camera to follow the player
-        Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
-        Camera camera = new Camera(player);
-        player.setCamera(camera);
-        player.setCameraSpeed();
+        Camera camera = new Camera(initialPlayerY, 10, playerPosition);
+        Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, camera);
 
 
         //TODO do we want the mouse to be captured?
