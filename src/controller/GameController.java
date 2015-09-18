@@ -49,12 +49,12 @@ public class GameController {
 	private final GuiRenderer guiRenderer;
 
 	// Controller
-	private final NetworkController networkController;
-	private final ClientController clientController;
+	//private final NetworkController networkController;
+	//private final ClientController clientController;
 
 	// Network stuff
-	private final ServerSocket serverSocket;
-	private ArrayList<Player> players;
+	//private final ServerSocket serverSocket;
+	//private ArrayList<Player> players;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
@@ -72,12 +72,12 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise controller
-		serverSocket = new ServerSocket(32768);
+		//serverSocket = new ServerSocket(32768);
 
-		networkController = new NetworkController(this, serverSocket);
-		clientController = new ClientController(players);
+		//networkController = new NetworkController(this, serverSocket);
+		//clientController = new ClientController(players);
 
-		players = new ArrayList<>();
+		//players = new ArrayList<>();
 
 		// start the game
 		doGame();
@@ -104,11 +104,11 @@ public class GameController {
 
 		// Multiple light sources
 		// This is a test and makes shit look weird
-		// TODO remove this
-		Light light = new Light(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
-		List<Light> lights = new ArrayList<>();
-		lights.add(light);
-
+		// TODO remove this      
+		Light light = new Light(new Vector3f(250, 400, -250), new Vector3f(0.4f, 0.4f, 0.4f));
+        List<Light> lights = new ArrayList<>();
+        lights.add(light);
+        
 		ModelData lampData = OBJFileLoader.loadOBJ("models/lamp");
 		RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
 				lampData.getNormals(), lampData.getIndices());
@@ -180,6 +180,7 @@ public class GameController {
 
 		while (!Display.isCloseRequested()) {
 
+
 			renderer.processTerrain(terrain);
 
 			// Again ugly and needs work
@@ -215,13 +216,13 @@ public class GameController {
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
 		Vector3f playerPosition = new Vector3f(50, 0, -50);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 2, null, players.size());
+		//Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 2, null, players.size());
 
-		players.add(player);
+		//players.add(player);
 	}
 
-	public ArrayList<Player> getPlayers() {
-		return players;
-	}
+	//public ArrayList<Player> getPlayers() {
+	//	return players;
+	//}
 
 }
