@@ -28,20 +28,4 @@ public class File extends Item {
 		this.name = name;
 		this.txtFiles = files;
 	}
-
-	@Override
-	public void interact() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void viewOptions() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public void viewContents(){
-		// see what README's are in the file
-	}
 }

@@ -22,17 +22,4 @@ public class SwipeCard extends Item {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public void interact() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void viewOptions() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

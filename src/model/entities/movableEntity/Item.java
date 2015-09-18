@@ -23,7 +23,6 @@ public abstract class Item extends MovableEntity {
 		// TODO Auto-generated constructor stub
 	}
 	
-	//TODO add item methods
 	public void pickUp(){
 		
 	}
@@ -32,10 +31,13 @@ public abstract class Item extends MovableEntity {
 		
 	}
 	
-	// method to display interactions with object
-	public abstract void interact();
-	
-	// method to view what can be done with the object
-	public abstract void viewOptions();
-	
+	public String viewOptions(){
+		return null;
+	}
+	// TODO
+	// pick up in 
+	// drop 
+	// interact 
+	// view options
+	// INVENTORY??? WHERE WILL THIS GO
 }

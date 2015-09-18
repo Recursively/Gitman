@@ -6,7 +6,7 @@
 	<classpathentry kind="lib" path="lwjgl-2.9.3/jar/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="lwjgl-2.9.3/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="redmf/lwjgl-2.9.3/native/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="redmf/lwjgl-2.9.3/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jars/PNGDecoder.jar"/>

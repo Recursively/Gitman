@@ -27,15 +27,4 @@ public class ReadMe extends Item{
 		this.name = name;
 		this.message = msg;
 	}
-
-	@Override
-	public void interact() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void viewOptions() {
-		// add to inventory methods in inventory that takes in an item. 
-	}
 }
