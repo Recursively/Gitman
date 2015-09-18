@@ -1,20 +1,12 @@
 package controller;
 
 import model.GameWorld;
-import model.entities.Light;
-import model.entities.movableEntity.Player;
-import model.factories.GuiFactory;
-import model.factories.LightFactory;
-import model.factories.PlayerFactory;
-import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
-
-import java.util.ArrayList;
 
 /**
  * Controller class to handle the delegations between the Model and View package.
@@ -56,26 +48,11 @@ public class GameController {
         // initialise the game world
         gameWorld = new GameWorld(loader);
 
-        intiGame();
+        gameWorld.initGame();
 
         //start the game
         doGame();
     }
-
-    private void intiGame() {
-        LightFactory lightFactory = new LightFactory();
-        lights = lightFactory.getLights();
-
-        GuiFactory guiFactory = new GuiFactory(loader);
-        guiImages = guiFactory.getGuiImages();
-
-        PlayerFactory playerFactory = new PlayerFactory(gameWorld);
-        player = playerFactory.getPlayer();
-    }
-
-    private ArrayList<Light> lights;
-    private ArrayList<GuiTexture> guiImages;
-    private Player player;
 
     /**
      *
@@ -91,11 +68,11 @@ public class GameController {
 
             // Again ugly and needs work
 
-            player.move(gameWorld.getTerrain());
+            gameWorld.getPlayer().move(gameWorld.getTerrain());
 
-            renderer.render(lights, player.getCamera());
+            renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
-            guiRenderer.render(guiImages);
+            guiRenderer.render(gameWorld.getGuiImages());
             DisplayManager.updateDisplay();
 
         }

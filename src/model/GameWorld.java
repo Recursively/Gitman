@@ -4,9 +4,9 @@ import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Player;
-import model.factories.EntityFactory;
-import model.factories.TerrainFactory;
+import model.factories.*;
 import model.terrains.Terrain;
+import model.textures.GuiTexture;
 import model.toolbox.Loader;
 
 import java.util.ArrayList;
@@ -44,12 +44,42 @@ public class GameWorld {
     private Loader loader;
     private Terrain terrain;
 
+
+    private ArrayList<GuiTexture> guiImages;
+
+
+    private Player player;
+
     public GameWorld(Loader loader) {
+        this.loader = loader;
         TerrainFactory terrainFactory = new TerrainFactory(loader);
         terrain = terrainFactory.makeTerrain();
     }
 
     public Terrain getTerrain() {
         return terrain;
+    }
+
+    public void initGame() {
+        LightFactory lightFactory = new LightFactory();
+        lights = lightFactory.getLights();
+
+        GuiFactory guiFactory = new GuiFactory(loader);
+        guiImages = guiFactory.getGuiImages();
+
+        PlayerFactory playerFactory = new PlayerFactory(this);
+        player = playerFactory.getPlayer();
+    }
+
+    public ArrayList<Light> getLights() {
+        return lights;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public ArrayList<GuiTexture> getGuiImages() {
+        return guiImages;
     }
 }
