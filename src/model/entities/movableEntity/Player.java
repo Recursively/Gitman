@@ -15,9 +15,9 @@ public class Player extends MovableEntity {
 
     private static float terrainHeight = 0;
 
-    private float currentSpeed = 0;
-    private float currentTurnSpeed = 0;
-    private float upwardSpeed = 0;
+    protected float currentSpeed = 0;
+    protected float currentTurnSpeed = 0;
+    protected float upwardSpeed = 0;
 
     public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
