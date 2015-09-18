@@ -18,7 +18,7 @@ public class Player extends Entity {
 	private static float terrainHeight = 0;
 	private Camera camera;
 
-	private final int uid;
+	private int uid;
 
 	private float verticalVelocity = 0;
 
@@ -102,5 +102,9 @@ public class Player extends Entity {
 	 */
 	public int getUid() {
 		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
 	}
 }

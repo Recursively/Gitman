@@ -247,16 +247,14 @@ public class ServerGameLoop {
 
 		ArrayList<Player> players = new ArrayList<>();
 
-		players.add(new Player(playerModel, new Vector3f(50, 100, -50), 0, 180f, 0, 1, null, count++));
-		//TODO create more players
-		
-		
+		// TODO create more players
+
 		ServerSocket ss = new ServerSocket(32768);
 		// accept more connections per player
 		//
-		
-		NetworkController networkController = new NetworkController(ss, players);
-		
+
+		new NetworkController(ss, players).start();
+
 		while (!Display.isCloseRequested()) {
 			renderer.processTerrain(terrain);
 

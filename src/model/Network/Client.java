@@ -31,7 +31,7 @@ public class Client extends Thread {
 
 			while (1 == 1) {
 
-				output.writeInt(1);
+				output.writeInt(0);
 
 				sendLocation(player);
 				for (float i : lastPacket) {
@@ -52,6 +52,11 @@ public class Client extends Thread {
 		lastPacket[2] = player.getPosition().getZ();
 
 	}
+
+	public int receivePlayersLength() throws IOException {
+		return input.readInt();
+	}
+	
 
 	// public static void main(String[] args) {
 	// int port = 32768; // default

@@ -20,6 +20,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+
+import controller.NetworkController;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -33,7 +35,7 @@ import java.util.Random;
 
 public class MainGameLoop {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		DisplayManager.createDisplay();
 
 		Random random = new Random();
@@ -249,7 +251,10 @@ public class MainGameLoop {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		new Client(sock, player).start();
+		Client client = new Client(sock, player);
+		int count = client.receivePlayersLength();
+		player.setUid(count);
+		client.start();
 
 		while (!Display.isCloseRequested()) {
 			renderer.processTerrain(terrain);

@@ -54,4 +54,13 @@ public class Server extends Thread {
 		players.get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
 	}
 
+	public void sendPlayersLength() throws IOException {
+		outputStream.writeInt(players.size());
+	}
+	
+	public void sendGameInfo() throws IOException{
+		outputStream.writeInt(players.size());
+		//outputStream.writeInt(v);
+	}
+
 }
