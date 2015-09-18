@@ -31,7 +31,7 @@ public class Client extends Thread {
 
 			while (1 == 1) {
 
-				output.writeInt(player.getUid());
+				output.writeInt(1);
 
 				sendLocation(player);
 				for (float i : lastPacket) {

@@ -22,6 +22,9 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
+import controller.NetworkController;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -245,12 +248,15 @@ public class ServerGameLoop {
 		ArrayList<Player> players = new ArrayList<>();
 
 		players.add(new Player(playerModel, new Vector3f(50, 100, -50), 0, 180f, 0, 1, null, count++));
-
+		//TODO create more players
+		
+		
 		ServerSocket ss = new ServerSocket(32768);
-
-		Socket socket = ss.accept();
-		new Server(socket, players).start();
-
+		// accept more connections per player
+		//
+		
+		NetworkController networkController = new NetworkController(ss, players);
+		
 		while (!Display.isCloseRequested()) {
 			renderer.processTerrain(terrain);
 

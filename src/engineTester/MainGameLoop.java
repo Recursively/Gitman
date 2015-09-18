@@ -242,7 +242,6 @@ public class MainGameLoop {
 		Socket sock = null;
 		try {
 			// host name and
-			System.out.println("DONE");
 			sock = new Socket("130.195.6.51", port);
 			System.out.println("Connected");
 		} catch (UnknownHostException e) {
