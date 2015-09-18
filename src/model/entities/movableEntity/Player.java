@@ -89,4 +89,8 @@ public class Player extends MovableEntity {
 
         super.setPosition(position);
     }
+
+    public Camera getCamera() {
+        return camera;
+    }
 }
