@@ -1,7 +1,7 @@
 package view.renderEngine;
 
 import model.models.RawModel;
-import model.shaders.GuiShader;
+import model.shaders.gui.GuiShader;
 import model.textures.GuiTexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;

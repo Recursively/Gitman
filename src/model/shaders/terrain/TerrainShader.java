@@ -1,7 +1,8 @@
-package model.shaders;
+package model.shaders.terrain;
 
 import model.entities.Camera;
 import model.entities.Light;
+import model.shaders.ShaderProgram;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import model.toolbox.Maths;
@@ -12,8 +13,8 @@ public class TerrainShader extends ShaderProgram {
 
     private static final int MAX_LIGHT_SOURCES = 4;
 
-    private static final String VERTEX_FILE = "src/model/shaders/terrainVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/model/shaders/terrainFragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/model/shaders/terrain/terrainVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/model/shaders/terrain/terrainFragmentShader.glsl";
 
     private int locationTransformationMatrix;
     private int locationProjectionMatrix;
