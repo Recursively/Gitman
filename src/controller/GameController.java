@@ -87,10 +87,12 @@ public class GameController {
         // Multiple light sources
         // This is a test and makes shit look weird
         //TODO remove this
-        Light light = new Light(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
+        Light light = new Light(new Vector3f(250, 400, -250), new Vector3f(0.4f, 0.4f, 0.4f));
         List<Light> lights = new ArrayList<>();
         lights.add(light);
-
+        lights.add(new Light(new Vector3f(50, 27, -50), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(100, 27, -50), new Vector3f(0, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(150, 27, -50), new Vector3f(3, 0, 20), new Vector3f(1, 0.01f, 0.002f)));
 
         ModelData lampData = OBJFileLoader.loadOBJ("models/lamp");
         RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
@@ -104,33 +106,9 @@ public class GameController {
 
         List<Entity> lamps = new ArrayList<>();
 
-        lamps.add(new Entity(lampTexturedModel, new Vector3f(0, -20, 0), 0, 0, 0, 1));
-        lamps.add(new Entity(lampTexturedModel, new Vector3f(370, -20, -300), 0, 0, 0, 1));
-        lamps.add(new Entity(lampTexturedModel, new Vector3f(295, -20, -300), 0, 0, 0, 1));
-
-        ModelData data3 = OBJFileLoader.loadOBJ("models/stall");
-        RawModel stallModel = loader.loadToVAO(data3.getVertices(), data3.getTextureCoords(), data3.getNormals(),
-                data3.getIndices());
-
-        TexturedModel stallTexturedModel = new TexturedModel(stallModel,
-                new ModelTexture(loader.loadTexture("textures/stall")));
-        stallTexturedModel.getTexture().setShineDamper(10);
-        stallTexturedModel.getTexture().setReflectivity(1);
-
-        List<Entity> allStalls = new ArrayList<>();
-
-        Random random = new Random();
-
-        for (int i = 0; i < 25; i++) {
-            float x = random.nextFloat() * 1000;
-            float z = random.nextFloat() * -1000;
-            float y = terrain.getTerrainHeight(x, z);
-            if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
-                continue;
-            }
-            allStalls.add(new Entity(stallTexturedModel, new Vector3f(x, y, z), 0,
-                    0, 0f, 4f));
-        }
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(50, 20, -50), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(100, 20, -50), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(150, 20, -50), 0, 0, 0, 1));
 
         // Create gui elements
 
@@ -150,6 +128,50 @@ public class GameController {
         Player player = new Player(null, playerPosition, 0, 180f, 0, 1, camera);
 
 
+        long time = System.nanoTime();
+
+        Random random = new Random();
+        ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
+        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                data.getIndices());
+
+        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
+        lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
+        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+
+        List<Entity> allPolyTrees = new ArrayList<>();
+
+        for (int i = 0; i < 1000; i++) {
+            float x = random.nextFloat() * 1000;
+            float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
+            if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
+                continue;
+            }
+            allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
+                    0, 0f, 1f, random.nextInt(4)));
+        }
+
+        System.out.println(System.nanoTime() - time);
+
+//        time = System.nanoTime();
+//
+//        List<Entity> entities = new ArrayList<>();
+//
+//        List<String> models = new ArrayList<>();
+//
+//        models.add("fern");
+//
+//        EntityFactory entityFactory = new EntityFactory(models);
+//
+//        System.out.println(System.nanoTime() - time);
+//
+//        for (int i = 0; i < 100; i++) {
+//            entities.add(entityFactory.createRandomEntity(loader, terrain));
+//        }
+
         //TODO do we want the mouse to be captured?
         // It makes sense to be captured if game is first person, not so much for third person
         Mouse.setGrabbed(true);
@@ -167,6 +189,14 @@ public class GameController {
             for (Entity lamp : lamps) {
                 renderer.processEntity(lamp);
             }
+
+            for (Entity e : allPolyTrees) {
+                renderer.processEntity(e);
+            }
+//
+//            for (Entity e : entities) {
+//                renderer.processEntity(e);
+//            }
 
             renderer.render(lights, camera);
 
