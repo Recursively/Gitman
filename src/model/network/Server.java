@@ -1,8 +1,8 @@
-package model.Network;
+package model.network;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,8 +10,8 @@ public class Server extends Thread {
 
 	private Socket socket;
 
-	private ObjectInputStream inputStream;
-	private ObjectOutputStream outputStream;
+	private DataInputStream inputStream;
+	private DataOutputStream outputStream;
 
 	public Server(Socket socket) {
 		this.socket = socket;
@@ -20,17 +20,16 @@ public class Server extends Thread {
 	public void run() {
 		try {
 
-			inputStream = new ObjectInputStream(socket.getInputStream());
-			outputStream = new ObjectOutputStream(socket.getOutputStream());
+			inputStream = new DataInputStream(socket.getInputStream());
+			outputStream = new DataOutputStream(socket.getOutputStream());
+
+			float[] array = new float[6];
 
 			while (1 == 1) {
-				String read = inputStream.readUTF();
-				System.out.println(socket.getLocalSocketAddress() + ": " + read);
 				
-				outputStream.writeUTF("HELLO");
-
-				if (read.equals("EXIT")) {
-					break;
+				for (int i = 0; i < array.length; i++) {
+					array[i] = inputStream.readFloat();
+					System.out.println("read: " + array[i]);
 				}
 
 			}

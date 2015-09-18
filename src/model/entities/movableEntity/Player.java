@@ -1,64 +1,68 @@
 package model.entities.movableEntity;
 
+import model.entities.Camera;
+import model.entities.Entity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 
 public class Player extends MovableEntity {
 
-    private static final float RUN_SPEED = 50;
-    private static final float TURN_SPEED = 160;
+    private static final float RUN_SPEED = 1;
+    private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 30;
 
     private static float terrainHeight = 0;
+    private Camera camera;
 
-    private float currentSpeed = 0;
-    private float currentTurnSpeed = 0;
-    private float upwardSpeed = 0;
+    private float verticalVelocity = 0;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera) {
         super(model, position, rotX, rotY, rotZ, scale);
+        this.camera = camera;
     }
 
     public void move(Terrain terrain) {
-        checkInputs();
-        super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-        float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
+        updateTerrainHeight(terrain);
+        gravityPull();
+        firstPersonMove();
+        camera.update(super.getPosition());
+    }
 
-        // Basic trig to get the distance that the player increases in the x and z direction
-        float dx = (float) (distance * Math.sin(Math.toRadians(super.getRotY())));
-        float dz = (float) (distance * Math.cos(Math.toRadians(super.getRotY())));
-        super.increasePosition(dx, 0 ,dz);
-        upwardSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(0, upwardSpeed * DisplayManager.getFrameTimeSeconds(), 0);
-        terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
+    private void gravityPull() {
+        verticalVelocity += GRAVITY * DisplayManager.getFrameTimeSeconds();
+        super.increasePosition(0, verticalVelocity * DisplayManager.getFrameTimeSeconds(), 0);
         if (super.getPosition().y < terrainHeight) {
-            upwardSpeed = 0;
+            verticalVelocity = 0;
             super.getPosition().y = terrainHeight;
         }
     }
 
-    private void jump() {
-        this.upwardSpeed = JUMP_POWER;
+    private void updateTerrainHeight(Terrain terrain) {
+        terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
     }
 
-    private void checkInputs() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            this.currentSpeed = RUN_SPEED;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            this.currentSpeed = -RUN_SPEED;
-        } else {
-            this.currentSpeed = 0;
-        }
+    private void jump() {
+        verticalVelocity += JUMP_POWER;
+    }
 
+    private void firstPersonMove() {
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            moveFromLook(0, 0, -1 * RUN_SPEED);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            moveFromLook(0, 0, 1 * RUN_SPEED);
+        }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            this.currentTurnSpeed = -TURN_SPEED;
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            this.currentTurnSpeed = TURN_SPEED;
-        } else {
-            this.currentTurnSpeed = 0;
+            moveFromLook(1 * RUN_SPEED, 0, 0);
+
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            moveFromLook(-1 * RUN_SPEED, 0, 0);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
@@ -66,5 +70,24 @@ public class Player extends MovableEntity {
                 jump();
             }
         }
+
+        /* Prevents the camera from turning over 360 or under -360 */
+        camera.changeYaw(Mouse.getDX() / 2);
+        camera.changePitch(-(Mouse.getDY() / 2));
+        if (camera.getPitch() > 60) {
+            camera.setPitch(60);
+        } else if (camera.getPitch() < -30) {
+            camera.setPitch(-30);
+        }
+    }
+
+    public void moveFromLook(float dx, float dy, float dz) {
+
+        Vector3f position = super.getPosition();
+
+        position.z += dx * (float) Math.cos(Math.toRadians(camera.getYaw() - 90)) + dz * Math.cos(Math.toRadians(camera.getYaw()));
+        position.x -= dx * (float) Math.sin(Math.toRadians(camera.getYaw() - 90)) + dz * Math.sin(Math.toRadians(camera.getYaw()));
+
+        super.setPosition(position);
     }
 }

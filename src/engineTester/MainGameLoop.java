@@ -1,13 +1,12 @@
-package tests.engineTester;
+package engineTester;
 
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Player;
+import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
-import model.objParser.ModelData;
-import model.objParser.OBJFileLoader;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.textures.ModelTexture;
@@ -15,27 +14,27 @@ import model.textures.TerrainTexture;
 import model.textures.TerrainTexturePack;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+import model.toolbox.objParser.OBJFileLoader;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MainGameLoop {
 
-    public static void main(String[] args) {
-        DisplayManager.createDisplay();
+	public static void main(String[] args) {
+		DisplayManager.createDisplay();
 
-        Random random = new Random();
-        Loader loader = new Loader();
+		Random random = new Random();
+		Loader loader = new Loader();
 
-        // THIS CODE IS UGLY PLEASE DON'T JUDGE ME!!
-
+		// THIS CODE IS UGLY PLEASE DON'T JUDGE ME!!
 
         // Terrain creation
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/grass"));
@@ -103,25 +102,6 @@ public class MainGameLoop {
             }
             allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
                     0, 0f, 1f, random.nextInt(4)));
-        }
-
-        ModelData pineData = OBJFileLoader.loadOBJ("models/pine");
-        RawModel pineModel = loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(), pineData.getNormals(),
-                pineData.getIndices());
-
-        TexturedModel pineTextureModel = new TexturedModel(pineModel,
-                new ModelTexture(loader.loadTexture("textures/pine")));
-        pineTextureModel.getTexture().setShineDamper(10);
-        pineTextureModel.getTexture().setReflectivity(1);
-
-        List<Entity> allPineTrees = new ArrayList<>();
-
-        for (int i = 0; i < 500; i++) {
-            float x = random.nextFloat() * 1000;
-            float z = random.nextFloat() * -1000;
-            float y = terrain.getTerrainHeight(x, z);
-            allPineTrees.add(new Entity(pineTextureModel, new Vector3f(x, y, z), 0,
-                    0, 0f, 1f));
         }
 
         ModelData data2 = OBJFileLoader.loadOBJ("models/grassClumps");
@@ -241,25 +221,28 @@ public class MainGameLoop {
         GuiRenderer guiRenderer = new GuiRenderer(loader);
         ///
 
+        Vector3f playerPosition = new Vector3f(50, 0, -50);
+        float initialPlayerY = terrain.getTerrainHeight(playerPosition.getX(), playerPosition.getZ());
+
         // New player and camera to follow the player
-        Player player = new Player(playerModel, new Vector3f(250, 20, -250), 0, 180f, 0, 1);
-        Camera camera = new Camera(player);
+        Camera camera = new Camera(initialPlayerY, 10, playerPosition);
+        Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, camera);
+
 
         //TODO do we want the mouse to be captured?
         // It makes sense to be captured if game is first person, not so much for third person
-        //Mouse.setGrabbed(true);
+        Mouse.setGrabbed(true);
 
         // This renders all the goodies
         MasterRenderer renderer = new MasterRenderer(loader);
 
         while (!Display.isCloseRequested()) {
-            camera.move();
             renderer.processTerrain(terrain);
 
             // Again ugly and needs work
 
             player.move(terrain);
-            renderer.processEntity(player);
+            //renderer.processEntity(player);
 
             renderer.processEntity(new Entity(dragonModel, new Vector3f(500, terrain.getTerrainHeight(500, -500), -500),
                     0, 0, 0f, 10f));
@@ -269,10 +252,6 @@ public class MainGameLoop {
 
             for (Entity lamp : lamps) {
                 renderer.processEntity(lamp);
-            }
-
-            for (Entity pine : allPineTrees) {
-                renderer.processEntity(pine);
             }
 
             for (Entity tree : allTrees) {
@@ -287,24 +266,37 @@ public class MainGameLoop {
                 renderer.processEntity(polyTree);
             }
 
-            for (Entity stall : allStalls) {
-                renderer.processEntity(stall);
-            }
+			for (Entity tree : allTrees) {
+				renderer.processEntity(tree);
+			}
 
-            for (Entity grass : allGrass) {
-                renderer.processEntity(grass);
-            }
+			for (Entity fern : allFerns) {
+				renderer.processEntity(fern);
+			}
 
-            renderer.render(lights, camera);
+			for (Entity polyTree : allPolyTrees) {
+				renderer.processEntity(polyTree);
+			}
 
-            guiRenderer.render(guiImages);
+			for (Entity stall : allStalls) {
+				renderer.processEntity(stall);
+			}
 
-            DisplayManager.updateDisplay();
-        }
+			for (Entity grass : allGrass) {
+				renderer.processEntity(grass);
+			}
 
-        guiRenderer.cleanUp();
-        renderer.cleanUp();
-        loader.cleanUp();
-        DisplayManager.closeDisplay();
-    }
+			renderer.render(lights, camera);
+
+			guiRenderer.render(guiImages);
+
+			DisplayManager.updateDisplay();
+
+		}
+
+		guiRenderer.cleanUp();
+		renderer.cleanUp();
+		loader.cleanUp();
+		DisplayManager.closeDisplay();
+	}
 }

@@ -1,4 +1,4 @@
-package model.objParser;
+package model.toolbox.objParser;
 
 import org.lwjgl.util.vector.Vector3f;
 

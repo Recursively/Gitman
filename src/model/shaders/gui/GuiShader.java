@@ -1,11 +1,12 @@
-package model.shaders;
+package model.shaders.gui;
 
+import model.shaders.ShaderProgram;
 import org.lwjgl.util.vector.Matrix4f;
 
-public class GuiShader extends ShaderProgram{
+public class GuiShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/model/shaders/guiVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/model/shaders/guiFragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/model/shaders/gui//guiVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/model/shaders/gui/guiFragmentShader.glsl";
 
     private int location_transformationMatrix;
 

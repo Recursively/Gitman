@@ -1,4 +1,4 @@
-package model.objParser;
+package model.models;
 
 public class ModelData {
 
