@@ -1,6 +1,5 @@
 package engineTester;
 
-
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
@@ -24,20 +23,22 @@ import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class MainGameLoop {
 
-    public static void main(String[] args) {
-        DisplayManager.createDisplay();
+	public static void main(String[] args) {
+		DisplayManager.createDisplay();
 
-        Random random = new Random();
-        Loader loader = new Loader();
+		Random random = new Random();
+		Loader loader = new Loader();
 
-        // THIS CODE IS UGLY PLEASE DON'T JUDGE ME!!
-
+		// THIS CODE IS UGLY PLEASE DON'T JUDGE ME!!
 
         // Terrain creation
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/grass"));
@@ -269,24 +270,37 @@ public class MainGameLoop {
                 renderer.processEntity(polyTree);
             }
 
-            for (Entity stall : allStalls) {
-                renderer.processEntity(stall);
-            }
+			for (Entity tree : allTrees) {
+				renderer.processEntity(tree);
+			}
 
-            for (Entity grass : allGrass) {
-                renderer.processEntity(grass);
-            }
+			for (Entity fern : allFerns) {
+				renderer.processEntity(fern);
+			}
 
-            renderer.render(lights, camera);
+			for (Entity polyTree : allPolyTrees) {
+				renderer.processEntity(polyTree);
+			}
 
-            guiRenderer.render(guiImages);
+			for (Entity stall : allStalls) {
+				renderer.processEntity(stall);
+			}
 
-            DisplayManager.updateDisplay();
-        }
+			for (Entity grass : allGrass) {
+				renderer.processEntity(grass);
+			}
 
-        guiRenderer.cleanUp();
-        renderer.cleanUp();
-        loader.cleanUp();
-        DisplayManager.closeDisplay();
-    }
+			renderer.render(lights, camera);
+
+			guiRenderer.render(guiImages);
+
+			DisplayManager.updateDisplay();
+
+		}
+
+		guiRenderer.cleanUp();
+		renderer.cleanUp();
+		loader.cleanUp();
+		DisplayManager.closeDisplay();
+	}
 }
