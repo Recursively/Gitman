@@ -5,6 +5,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
 
@@ -12,9 +17,11 @@ public class Server extends Thread {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
+	private ArrayList<Player> players;
 
-	public Server(Socket socket) {
+	public Server(Socket socket, ArrayList<Player> players) {
 		this.socket = socket;
+		this.players = players;
 	}
 
 	public void run() {
@@ -23,14 +30,17 @@ public class Server extends Thread {
 			inputStream = new DataInputStream(socket.getInputStream());
 			outputStream = new DataOutputStream(socket.getOutputStream());
 
-			float[] array = new float[6];
+			float[] array = new float[3];
 
 			while (1 == 1) {
-				
+
+				int uid = inputStream.readInt();
+
 				for (int i = 0; i < array.length; i++) {
 					array[i] = inputStream.readFloat();
-					System.out.println("read: " + array[i]);
 				}
+
+				updatePlayer(uid, array);
 
 			}
 			// server.close();
@@ -40,14 +50,8 @@ public class Server extends Thread {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
-
-		ServerSocket ss = new ServerSocket(32768);
-		while (true) {
-			Socket socket = ss.accept();
-			new Server(socket).start();
-
-		}
+	public void updatePlayer(int playerID, float[] packet) {
+		players.get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
 	}
 
 }

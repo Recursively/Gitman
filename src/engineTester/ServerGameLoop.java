@@ -1,6 +1,6 @@
 package engineTester;
 
-import model.Network.Client;
+import model.Network.Server;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
@@ -16,24 +16,26 @@ import model.textures.TerrainTexturePack;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 import model.toolbox.objParser.OBJFileLoader;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainGameLoop {
+public class ServerGameLoop {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		DisplayManager.createDisplay();
 
 		Random random = new Random();
@@ -219,14 +221,16 @@ public class MainGameLoop {
 		// gui renderer which handles rendering an infinite amount of gui
 		// elements
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
-		///
+		// /
 
 		Vector3f playerPosition = new Vector3f(50, 0, -50);
 		float initialPlayerY = terrain.getTerrainHeight(playerPosition.getX(), playerPosition.getZ());
 
+		int count = 0;
+
 		// New player and camera to follow the player
 		Camera camera = new Camera(initialPlayerY, 10, playerPosition);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, camera, 0);
+		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, camera, count++);
 
 		// TODO do we want the mouse to be captured?
 		// It makes sense to be captured if game is first person, not so much
@@ -236,21 +240,16 @@ public class MainGameLoop {
 		// This renders all the goodies
 		MasterRenderer renderer = new MasterRenderer(loader);
 
-		/* Networking */
+		/* Server stuff */
 
-		int port = 32768; // default
-		Socket sock = null;
-		try {
-			// host name and
-			System.out.println("DONE");
-			sock = new Socket("130.195.6.51", port);
-			System.out.println("Connected");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		new Client(sock, player).start();
+		ArrayList<Player> players = new ArrayList<>();
+
+		players.add(new Player(playerModel, new Vector3f(50, 100, -50), 0, 180f, 0, 1, null, count++));
+
+		ServerSocket ss = new ServerSocket(32768);
+
+		Socket socket = ss.accept();
+		new Server(socket, players).start();
 
 		while (!Display.isCloseRequested()) {
 			renderer.processTerrain(terrain);
@@ -259,6 +258,9 @@ public class MainGameLoop {
 
 			player.move(terrain);
 			// renderer.processEntity(player);
+			for (Player player2 : players) {
+				renderer.processEntity(player2);
+			}
 
 			renderer.processEntity(new Entity(dragonModel, new Vector3f(500, terrain.getTerrainHeight(500, -500), -500),
 					0, 0, 0f, 10f));

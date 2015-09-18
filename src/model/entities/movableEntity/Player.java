@@ -11,83 +11,96 @@ import view.DisplayManager;
 
 public class Player extends Entity {
 
-    private static final float RUN_SPEED = 1;
-    private static final float GRAVITY = -50;
-    private static final float JUMP_POWER = 30;
+	private static final float RUN_SPEED = 1;
+	private static final float GRAVITY = -50;
+	private static final float JUMP_POWER = 30;
 
-    private static float terrainHeight = 0;
-    private Camera camera;
+	private static float terrainHeight = 0;
+	private Camera camera;
 
-    private float verticalVelocity = 0;
+	private final int uid;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera) {
-        super(model, position, rotX, rotY, rotZ, scale);
-        this.camera = camera;
-    }
+	private float verticalVelocity = 0;
 
-    public void move(Terrain terrain) {
-        updateTerrainHeight(terrain);
-        gravityPull();
-        firstPersonMove();
-        camera.update(super.getPosition());
-    }
+	public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
+			Camera camera, int uid) {
+		super(model, position, rotX, rotY, rotZ, scale);
+		this.uid = uid;
+		this.camera = camera;
+	}
 
-    private void gravityPull() {
-        verticalVelocity += GRAVITY * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(0, verticalVelocity * DisplayManager.getFrameTimeSeconds(), 0);
-        if (super.getPosition().y < terrainHeight) {
-            verticalVelocity = 0;
-            super.getPosition().y = terrainHeight;
-        }
-    }
+	public void move(Terrain terrain) {
+		updateTerrainHeight(terrain);
+		gravityPull();
+		firstPersonMove();
+		camera.update(super.getPosition());
+	}
 
-    private void updateTerrainHeight(Terrain terrain) {
-        terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
-    }
+	private void gravityPull() {
+		verticalVelocity += GRAVITY * DisplayManager.getFrameTimeSeconds();
+		super.increasePosition(0, verticalVelocity * DisplayManager.getFrameTimeSeconds(), 0);
+		if (super.getPosition().y < terrainHeight) {
+			verticalVelocity = 0;
+			super.getPosition().y = terrainHeight;
+		}
+	}
 
-    private void jump() {
-        verticalVelocity += JUMP_POWER;
-    }
+	private void updateTerrainHeight(Terrain terrain) {
+		terrainHeight = terrain.getTerrainHeight(super.getPosition().x, super.getPosition().z);
+	}
 
-    private void firstPersonMove() {
+	private void jump() {
+		verticalVelocity += JUMP_POWER;
+	}
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            moveFromLook(0, 0, -1 * RUN_SPEED);
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            moveFromLook(0, 0, 1 * RUN_SPEED);
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            moveFromLook(1 * RUN_SPEED, 0, 0);
+	private void firstPersonMove() {
 
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            moveFromLook(-1 * RUN_SPEED, 0, 0);
-        }
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+			moveFromLook(0, 0, -1 * RUN_SPEED);
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+			moveFromLook(0, 0, 1 * RUN_SPEED);
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+			moveFromLook(1 * RUN_SPEED, 0, 0);
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            if (super.getPosition().y == terrainHeight) {
-                jump();
-            }
-        }
+		}
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+			moveFromLook(-1 * RUN_SPEED, 0, 0);
+		}
 
-        /* Prevents the camera from turning over 360 or under -360 */
-        camera.changeYaw(Mouse.getDX() / 2);
-        camera.changePitch(-(Mouse.getDY() / 2));
-        if (camera.getPitch() > 60) {
-            camera.setPitch(60);
-        } else if (camera.getPitch() < -30) {
-            camera.setPitch(-30);
-        }
-    }
+		if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+			if (super.getPosition().y == terrainHeight) {
+				jump();
+			}
+		}
 
-    public void moveFromLook(float dx, float dy, float dz) {
+		/* Prevents the camera from turning over 360 or under -360 */
+		camera.changeYaw(Mouse.getDX() / 2);
+		camera.changePitch(-(Mouse.getDY() / 2));
+		if (camera.getPitch() > 60) {
+			camera.setPitch(60);
+		} else if (camera.getPitch() < -30) {
+			camera.setPitch(-30);
+		}
+	}
 
-        Vector3f position = super.getPosition();
+	public void moveFromLook(float dx, float dy, float dz) {
 
-        position.z += dx * (float) Math.cos(Math.toRadians(camera.getYaw() - 90)) + dz * Math.cos(Math.toRadians(camera.getYaw()));
-        position.x -= dx * (float) Math.sin(Math.toRadians(camera.getYaw() - 90)) + dz * Math.sin(Math.toRadians(camera.getYaw()));
+		Vector3f position = super.getPosition();
 
-        super.setPosition(position);
-    }
+		position.z += dx * (float) Math.cos(Math.toRadians(camera.getYaw() - 90))
+				+ dz * Math.cos(Math.toRadians(camera.getYaw()));
+		position.x -= dx * (float) Math.sin(Math.toRadians(camera.getYaw() - 90))
+				+ dz * Math.sin(Math.toRadians(camera.getYaw()));
+
+		super.setPosition(position);
+	}
+
+	/**
+	 * @return the uid
+	 */
+	public int getUid() {
+		return uid;
+	}
 }
