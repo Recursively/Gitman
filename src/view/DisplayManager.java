@@ -11,6 +11,8 @@ import org.lwjgl.opengl.*;
  * and fps values are static for the time being
  *
  * //TODO update this if it changes
+ *
+ * @author Marcel van Workum
  */
 public class DisplayManager {
 
