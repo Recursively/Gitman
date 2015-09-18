@@ -17,6 +17,7 @@ public class Server extends Thread {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
+	
 	private ArrayList<Player> players;
 
 	public Server(Socket socket, ArrayList<Player> players) throws IOException {
@@ -27,15 +28,11 @@ public class Server extends Thread {
 
 	public void run() {
 		try {
-
-		
-
 			float[] array = new float[3];
 
 			while (1 == 1) {
 
 				int uid = inputStream.readInt();
-
 				for (int i = 0; i < array.length; i++) {
 					array[i] = inputStream.readFloat();
 				}
@@ -43,14 +40,12 @@ public class Server extends Thread {
 				updatePlayer(uid, array);
 
 			}
-			// server.close();
-			// socket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void initStreams() throws IOException{
+
+	public void initStreams() throws IOException {
 		inputStream = new DataInputStream(socket.getInputStream());
 		outputStream = new DataOutputStream(socket.getOutputStream());
 	}
@@ -59,13 +54,9 @@ public class Server extends Thread {
 		players.get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
 	}
 
-	public void sendPlayersLength() throws IOException {
+	public void sendGameInfo() throws IOException {
 		outputStream.writeInt(players.size());
-	}
-	
-	public void sendGameInfo() throws IOException{
-		outputStream.writeInt(players.size());
-		//outputStream.writeInt(v);
+		// outputStream.writeInt(v);
 	}
 
 }

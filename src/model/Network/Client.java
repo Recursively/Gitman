@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.entities.movableEntity.Player;
@@ -14,12 +15,13 @@ public class Client extends Thread {
 	private final Socket socket;
 	private DataOutputStream output;
 	private DataInputStream input;
-	private Player player;
+
+	private ArrayList<Player> players;
 	private float[] lastPacket;
 
-	public Client(Socket socket, Player player) throws IOException {
+	public Client(Socket socket, ArrayList<Player> players) {
 		this.socket = socket;
-		this.player = player;
+		this.players = players;
 		lastPacket = new float[3];
 		initStreams();
 
@@ -32,7 +34,8 @@ public class Client extends Thread {
 
 				output.writeInt(0);
 
-				sendLocation(player);
+				sendLocation(players.get(0));
+				
 				for (float i : lastPacket) {
 					output.writeFloat(i);
 				}
@@ -44,9 +47,13 @@ public class Client extends Thread {
 		}
 	}
 
-	private void initStreams() throws IOException {
-		output = new DataOutputStream(socket.getOutputStream());
-		input = new DataInputStream(socket.getInputStream());
+	private void initStreams() {
+		try {
+			output = new DataOutputStream(socket.getOutputStream());
+			input = new DataInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void sendLocation(Player player) {
@@ -61,21 +68,5 @@ public class Client extends Thread {
 		return input.readInt();
 	}
 
-	// public static void main(String[] args) {
-	// int port = 32768; // default
-	// Socket sock = null;
-	// try {
-	// // host name and
-	// System.out.println("DONE");
-	// sock = new Socket("130.195.6.51", port);
-	// System.out.println("Connected");
-	// } catch (UnknownHostException e) {
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// new Client(sock).start();
-	//
-	// }
 
 }

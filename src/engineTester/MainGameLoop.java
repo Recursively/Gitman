@@ -240,21 +240,6 @@ public class MainGameLoop {
 
 		/* Networking */
 
-		int port = 32768; // default
-		Socket sock = null;
-		try {
-			// host name and
-			sock = new Socket("130.195.6.51", port);
-			System.out.println("Connected");
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Client client = new Client(sock, player);
-		//int count = client.receivePlayersLength();
-		//player.setUid(count);
-		client.start();
 
 		while (!Display.isCloseRequested()) {
 			renderer.processTerrain(terrain);

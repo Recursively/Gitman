@@ -253,7 +253,7 @@ public class ServerGameLoop {
 		// accept more connections per player
 		//
 
-		new NetworkController(ss, players).start();
+		//new NetworkController(ss, players).start();
 
 		while (!Display.isCloseRequested()) {
 			renderer.processTerrain(terrain);

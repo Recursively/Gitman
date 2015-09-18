@@ -11,50 +11,39 @@ import model.Network.Server;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
 
+/**
+ * Controller class to handle the delegations between the Model and View
+ * package.
+ *
+ * Deals with Network logic
+ *
+ * @author Marcel van Workum
+ */
 public class NetworkController extends Thread {
 
-	private ServerSocket ss;
-	private ArrayList<Player> players;
-	private TexturedModel playerModel;
-	private int count;
+	private GameController gameController;
 
-	public NetworkController(ServerSocket ss, ArrayList<Player> players) {
+	private ServerSocket ss;
+
+	public NetworkController(GameController gameController, ServerSocket ss) {
+		this.gameController = gameController;
 		this.ss = ss;
-		this.players = players;
 	}
 
 	public void run() {
 		while (1 == 1) {
 			Socket socket = null;
+			Server server = null;
+
 			try {
 				socket = ss.accept();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			players.add(new Player(playerModel, new Vector3f(50, 100, -50), 0, 180f, 0, 1, null, count));
+				gameController.addPlayer();
+				server = new Server(socket, gameController.getPlayers());
+				server.start();
 
-			Server server = null;
-			try {
-				server = new Server(socket, players);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			try {
-				server.sendPlayersLength();
-				System.out.println("sent");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			try {
-				server.sendGameInfo();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			server.start();
 
 		}
 	}
