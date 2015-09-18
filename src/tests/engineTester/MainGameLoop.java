@@ -1,4 +1,4 @@
-package engineTester;
+package tests.engineTester;
 
 import model.entities.Camera;
 import model.entities.Entity;
