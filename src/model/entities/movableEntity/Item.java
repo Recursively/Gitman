@@ -22,4 +22,20 @@ public abstract class Item extends MovableEntity {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		// TODO Auto-generated constructor stub
 	}
+	
+	//TODO add item methods
+	public void pickUp(){
+		
+	}
+	
+	public void drop(){
+		
+	}
+	
+	// method to display interactions with object
+	public abstract void interact();
+	
+	// method to view what can be done with the object
+	public abstract void viewOptions();
+	
 }

@@ -10,17 +10,32 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class ReadMe extends Item{
+	private final String name;
+	private final String message;
+	
 
 	public ReadMe(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale) {
+			float rotY, float rotZ, float scale, String name, String msg) {
 		super(model, position, rotX, rotY, rotZ, scale);
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.message = msg;
 	}
 	
 	public ReadMe(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int textureIndex) {
+			float rotZ, float scale, int textureIndex, String name, String msg) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.message = msg;
 	}
 
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void viewOptions() {
+		// add to inventory methods in inventory that takes in an item. 
+	}
 }

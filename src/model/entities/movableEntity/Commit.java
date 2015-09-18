@@ -23,4 +23,20 @@ public class Commit extends Item {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void pickUp() {
+		// update patch progress bar
+	}
+
+	@Override
+	public void viewOptions() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
