@@ -64,21 +64,6 @@ public class TerrainRenderer {
     }
 
     /**
-     * Binds the Terrain to the VAO and binds each individual texture to the VAO Textures
-     *
-     * @param terrain Terrain to bind
-     */
-    private void prepareTerrain(Terrain terrain) {
-        RawModel rawModel = terrain.getModel();
-        GL30.glBindVertexArray(rawModel.getVaoID());
-        GL20.glEnableVertexAttribArray(0);
-        GL20.glEnableVertexAttribArray(1);
-        GL20.glEnableVertexAttribArray(2);
-        bindTextures(terrain);
-        shader.loadShineVariables(1, 0);
-    }
-
-    /**
      * Binds the {@link model.textures.TerrainTexture} of the {@link TerrainTexturePack} to the VAO
      *
      * @param terrain Terrain to render
@@ -105,6 +90,21 @@ public class TerrainRenderer {
         // texture blendMap
         GL13.glActiveTexture(GL13.GL_TEXTURE4);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
+    }
+
+    /**
+     * Binds the Terrain to the VAO and binds each individual texture to the VAO Textures
+     *
+     * @param terrain Terrain to bind
+     */
+    private void prepareTerrain(Terrain terrain) {
+        RawModel rawModel = terrain.getModel();
+        GL30.glBindVertexArray(rawModel.getVaoID());
+        GL20.glEnableVertexAttribArray(0);
+        GL20.glEnableVertexAttribArray(1);
+        GL20.glEnableVertexAttribArray(2);
+        bindTextures(terrain);
+        shader.loadShineVariables(1, 0);
     }
 
     /**
