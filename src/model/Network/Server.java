@@ -19,16 +19,16 @@ public class Server extends Thread {
 	private DataOutputStream outputStream;
 	private ArrayList<Player> players;
 
-	public Server(Socket socket, ArrayList<Player> players) {
+	public Server(Socket socket, ArrayList<Player> players) throws IOException {
 		this.socket = socket;
 		this.players = players;
+		initStreams();
 	}
 
 	public void run() {
 		try {
 
-			inputStream = new DataInputStream(socket.getInputStream());
-			outputStream = new DataOutputStream(socket.getOutputStream());
+		
 
 			float[] array = new float[3];
 
@@ -48,6 +48,11 @@ public class Server extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void initStreams() throws IOException{
+		inputStream = new DataInputStream(socket.getInputStream());
+		outputStream = new DataOutputStream(socket.getOutputStream());
 	}
 
 	public void updatePlayer(int playerID, float[] packet) {

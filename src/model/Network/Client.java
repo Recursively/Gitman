@@ -17,17 +17,16 @@ public class Client extends Thread {
 	private Player player;
 	private float[] lastPacket;
 
-	public Client(Socket socket, Player player) {
+	public Client(Socket socket, Player player) throws IOException {
 		this.socket = socket;
 		this.player = player;
 		lastPacket = new float[3];
+		initStreams();
+
 	}
 
 	public void run() {
 		try {
-
-			output = new DataOutputStream(socket.getOutputStream());
-			input = new DataInputStream(socket.getInputStream());
 
 			while (1 == 1) {
 
@@ -45,6 +44,11 @@ public class Client extends Thread {
 		}
 	}
 
+	private void initStreams() throws IOException {
+		output = new DataOutputStream(socket.getOutputStream());
+		input = new DataInputStream(socket.getInputStream());
+	}
+
 	public void sendLocation(Player player) {
 
 		lastPacket[0] = player.getPosition().getX();
@@ -56,7 +60,6 @@ public class Client extends Thread {
 	public int receivePlayersLength() throws IOException {
 		return input.readInt();
 	}
-	
 
 	// public static void main(String[] args) {
 	// int port = 32768; // default

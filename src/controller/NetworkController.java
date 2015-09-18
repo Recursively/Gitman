@@ -34,9 +34,22 @@ public class NetworkController extends Thread {
 			}
 			players.add(new Player(playerModel, new Vector3f(50, 100, -50), 0, 180f, 0, 1, null, count));
 
-			Server server = new Server(socket, players);
+			Server server = null;
+			try {
+				server = new Server(socket, players);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			try {
 				server.sendPlayersLength();
+				System.out.println("sent");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				server.sendGameInfo();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
