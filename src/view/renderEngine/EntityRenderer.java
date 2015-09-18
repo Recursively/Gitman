@@ -3,7 +3,7 @@ package view.renderEngine;
 import model.entities.Entity;
 import model.models.RawModel;
 import model.models.TexturedModel;
-import model.shaders.StaticShader;
+import model.shaders.entity.EntityShader;
 import model.textures.ModelTexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -17,9 +17,9 @@ import java.util.Map;
 
 public class EntityRenderer {
 
-    private StaticShader shader;
+    private EntityShader shader;
 
-    public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
+    public EntityRenderer(EntityShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);

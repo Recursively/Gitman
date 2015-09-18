@@ -1,7 +1,8 @@
-package model.shaders;
+package model.shaders.entity;
 
 import model.entities.Camera;
 import model.entities.Light;
+import model.shaders.ShaderProgram;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -9,12 +10,12 @@ import model.toolbox.Maths;
 
 import java.util.List;
 
-public class StaticShader extends ShaderProgram {
+public class EntityShader extends ShaderProgram {
 
     private static final int MAX_LIGHT_SOURCES = 4;
 
-    private static final String VERTEX_FILE = "src/model/shaders/vertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/model/shaders/fragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/model/shaders/entity/entityVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/model/shaders/entity/entityFragmentShader.glsl";
 
     private int locationTransformationMatrix;
     private int locationProjectionMatrix;
@@ -30,7 +31,7 @@ public class StaticShader extends ShaderProgram {
     private int locationLightColour[];
     private int locationAttenuation[];
 
-    public StaticShader() {
+    public EntityShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 

@@ -5,11 +5,8 @@ import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Player;
-import model.entities.movableEntity.RandomPlayer;
 import model.models.RawModel;
 import model.models.TexturedModel;
-import model.objParser.ModelData;
-import model.objParser.OBJFileLoader;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.textures.ModelTexture;
@@ -240,7 +237,7 @@ public class MainGameLoop {
 		///
 
 		// New player and camera to follow the player
-		Player player = new Player(playerModel, new Vector3f(250, 20, -250), 0, 180f, 0, 1);
+		Player player = new Player(playerModel, new Vector3f(250, 20, -250), 0, 180f, 0, 1, null);
 		Camera camera = new Camera(player);
 
 		// TODO do we want the mouse to be captured?
@@ -315,10 +312,6 @@ public class MainGameLoop {
 				renderer.processEntity(grass);
 			}
 
-			for (RandomPlayer players : randoms) {
-				players.move(terrain);
-				renderer.processEntity(players);
-			}
 
 			renderer.render(lights, camera);
 
