@@ -271,9 +271,6 @@ public class MainGameLoop {
 		Client client = new Client(sock, player);
 		client.start();
 
-		Client r = new Client(sock, rando);
-		client.start();
-
 		/* Networking */
 
 		while (!Display.isCloseRequested()) {

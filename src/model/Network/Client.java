@@ -22,6 +22,10 @@ public class Client extends Thread {
 		this.player = player;
 		lastPacket = new float[6];
 	}
+	public Client(Socket socket) {
+		this.socket = socket;
+		lastPacket = new float[6];
+	}
 
 	public void run() {
 		try {
@@ -56,22 +60,22 @@ public class Client extends Thread {
 		lastPacket[5] = player.getRotZ();
 
 	}
-	//
-	// public static void main(String[] args) {
-	// int port = 32768; // default
-	// Socket sock = null;
-	// try {
-	// // host name and
-	// System.out.println("DONE");
-	// sock = new Socket("localhost", port);
-	// System.out.println("Connected");
-	// } catch (UnknownHostException e) {
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// new Client(sock).start();
-	//
-	// }
+
+	public static void main(String[] args) {
+		int port = 32768; // default
+		Socket sock = null;
+		try {
+			// host name and
+			System.out.println("DONE");
+			sock = new Socket("130.195.6.51", port);
+			System.out.println("Connected");
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		new Client(sock).start();
+
+	}
 
 }
