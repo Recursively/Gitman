@@ -16,6 +16,7 @@ import model.textures.TerrainTexturePack;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 import model.toolbox.objParser.OBJFileLoader;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -226,22 +227,24 @@ public class MainGameLoop {
         // New player and camera to follow the player
         Player player = new Player(playerModel, new Vector3f(50, 0, -50), 0, 180f, 0, 1);
         Camera camera = new Camera(player);
+        player.setCamera(camera);
+        player.setCameraSpeed();
+
 
         //TODO do we want the mouse to be captured?
         // It makes sense to be captured if game is first person, not so much for third person
-        //Mouse.setGrabbed(true);
+        Mouse.setGrabbed(true);
 
         // This renders all the goodies
         MasterRenderer renderer = new MasterRenderer(loader);
 
         while (!Display.isCloseRequested()) {
-            camera.move();
             renderer.processTerrain(terrain);
 
             // Again ugly and needs work
 
             player.move(terrain);
-            renderer.processEntity(player);
+            //renderer.processEntity(player);
 
             renderer.processEntity(new Entity(dragonModel, new Vector3f(500, terrain.getTerrainHeight(500, -500), -500),
                     0, 0, 0f, 10f));
