@@ -252,8 +252,8 @@ public class MainGameLoop {
 			e.printStackTrace();
 		}
 		Client client = new Client(sock, player);
-		int count = client.receivePlayersLength();
-		player.setUid(count);
+		//int count = client.receivePlayersLength();
+		//player.setUid(count);
 		client.start();
 
 		while (!Display.isCloseRequested()) {
