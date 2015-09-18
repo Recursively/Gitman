@@ -49,12 +49,12 @@ public class GameController {
 	private final GuiRenderer guiRenderer;
 
 	// Controller
-	//private final NetworkController networkController;
-	//private final ClientController clientController;
+	private final NetworkController networkController;
+	private final ClientController clientController;
 
 	// Network stuff
-	//private final ServerSocket serverSocket;
-	//private ArrayList<Player> players;
+	private final ServerSocket serverSocket;
+	private ArrayList<Player> players;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
@@ -72,12 +72,12 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise controller
-		//serverSocket = new ServerSocket(32768);
+		serverSocket = new ServerSocket(32768);
 
-		//networkController = new NetworkController(this, serverSocket);
-		//clientController = new ClientController(players);
+		networkController = new NetworkController(this, serverSocket);
+		clientController = new ClientController(players);
 
-		//players = new ArrayList<>();
+		players = new ArrayList<>();
 
 		// start the game
 		doGame();
@@ -104,11 +104,11 @@ public class GameController {
 
 		// Multiple light sources
 		// This is a test and makes shit look weird
-		// TODO remove this      
+		// TODO remove this
 		Light light = new Light(new Vector3f(250, 400, -250), new Vector3f(0.4f, 0.4f, 0.4f));
-        List<Light> lights = new ArrayList<>();
-        lights.add(light);
-        
+		List<Light> lights = new ArrayList<>();
+		lights.add(light);
+
 		ModelData lampData = OBJFileLoader.loadOBJ("models/lamp");
 		RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
 				lampData.getNormals(), lampData.getIndices());
@@ -118,6 +118,13 @@ public class GameController {
 		lampTexturedModel.getTexture().setNumberOfRows(2);
 		lampTexturedModel.getTexture().setShineDamper(10);
 		lampTexturedModel.getTexture().setReflectivity(1);
+		// Multiple light sources
+		// This is a test and makes shit look weird
+		// TODO remove this
+
+		lights.add(new Light(new Vector3f(50, 27, -50), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(100, 27, -50), new Vector3f(0, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(150, 27, -50), new Vector3f(3, 0, 20), new Vector3f(1, 0.01f, 0.002f)));
 
 		List<Entity> lamps = new ArrayList<>();
 
@@ -125,35 +132,16 @@ public class GameController {
 		lamps.add(new Entity(lampTexturedModel, new Vector3f(370, -20, -300), 0, 0, 0, 1));
 		lamps.add(new Entity(lampTexturedModel, new Vector3f(295, -20, -300), 0, 0, 0, 1));
 
-		ModelData data3 = OBJFileLoader.loadOBJ("models/stall");
-		RawModel stallModel = loader.loadToVAO(data3.getVertices(), data3.getTextureCoords(), data3.getNormals(),
-				data3.getIndices());
-
-		TexturedModel stallTexturedModel = new TexturedModel(stallModel,
-				new ModelTexture(loader.loadTexture("textures/stall")));
-		stallTexturedModel.getTexture().setShineDamper(10);
-		stallTexturedModel.getTexture().setReflectivity(1);
-
-		List<Entity> allStalls = new ArrayList<>();
-
-		Random random = new Random();
-
-		for (int i = 0; i < 25; i++) {
-			float x = random.nextFloat() * 1000;
-			float z = random.nextFloat() * -1000;
-			float y = terrain.getTerrainHeight(x, z);
-			if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
-				continue;
-			}
-			allStalls.add(new Entity(stallTexturedModel, new Vector3f(x, y, z), 0, 0, 0f, 4f));
-		}
-
 		// Create gui elements
 
 		List<GuiTexture> guiImages = new ArrayList<>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("gui/panel_brown"), new Vector2f(-0.75f, 0.75f),
 				new Vector2f(0.25f, 0.25f));
 		guiImages.add(gui);
+
+		lamps.add(new Entity(lampTexturedModel, new Vector3f(50, 20, -50), 0, 0, 0, 1));
+		lamps.add(new Entity(lampTexturedModel, new Vector3f(100, 20, -50), 0, 0, 0, 1));
+		lamps.add(new Entity(lampTexturedModel, new Vector3f(150, 20, -50), 0, 0, 0, 1));
 
 		// gui renderer which handles rendering an infinite amount of gui
 		// elements
@@ -171,17 +159,39 @@ public class GameController {
 		// It makes sense to be captured if game is first person, not so much
 		// for third person
 		Mouse.setGrabbed(true);
-		
+
 		// start the network controller to accept connections
-		//networkController.start();
-		
+		// networkController.start();
+
 		// use this depending if youre client or server
-		//clientController.start();
+		// clientController.start();
 
 		while (!Display.isCloseRequested()) {
 
-
 			renderer.processTerrain(terrain);
+
+			// System.out.println(System.nanoTime() - time);
+
+			// time = System.nanoTime();
+			//
+			// List<Entity> entities = new ArrayList<>();
+			//
+			// List<String> models = new ArrayList<>();
+			//
+			// models.add("fern");
+			//
+			// EntityFactory entityFactory = new EntityFactory(models);
+			//
+			// System.out.println(System.nanoTime() - time);
+			//
+			// for (int i = 0; i < 100; i++) {
+			// entities.add(entityFactory.createRandomEntity(loader, terrain));
+			// }
+
+			// TODO do we want the mouse to be captured?
+			// It makes sense to be captured if game is first person, not so
+			// much for third person
+			Mouse.setGrabbed(true);
 
 			// Again ugly and needs work
 
@@ -199,6 +209,12 @@ public class GameController {
 		}
 
 		cleanUp();
+
+		//
+		// for (Entity e : entities) {
+		// renderer.processEntity(e);
+		// }
+
 	}
 
 	private void cleanUp() {
@@ -216,13 +232,14 @@ public class GameController {
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
 		Vector3f playerPosition = new Vector3f(50, 0, -50);
-		//Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 2, null, players.size());
+		// Player player = new Player(playerModel, playerPosition, 0, 180f, 0,
+		// 2, null, players.size());
 
-		//players.add(player);
+		// players.add(player);
 	}
 
-	//public ArrayList<Player> getPlayers() {
-	//	return players;
-	//}
+	public ArrayList<Player> getPlayers() {
+		return players;
+	}
 
 }

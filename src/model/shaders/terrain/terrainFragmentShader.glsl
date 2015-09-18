@@ -58,6 +58,7 @@ void main(void){
 		totalSpecular = totalSpecular + (dampedFactor *  reflectivity * lightColour[i]) / attenuationFactor;
 	}
 
+	// This should be maxed to 0.2 in the outdoors scene
 	totalDiffuse = max(totalDiffuse, 0.2);
 
 	out_Color = vec4(totalDiffuse, 1.0) * totalColour + vec4(totalSpecular, 1.0);
