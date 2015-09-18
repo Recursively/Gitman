@@ -42,9 +42,14 @@ public class GameWorld {
     private TerrainFactory terrainFactory;
 
     private Loader loader;
+    private Terrain terrain;
 
     public GameWorld(Loader loader) {
-
+        TerrainFactory terrainFactory = new TerrainFactory(loader);
+        terrain = terrainFactory.makeTerrain();
     }
 
+    public Terrain getTerrain() {
+        return terrain;
+    }
 }

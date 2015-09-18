@@ -90,4 +90,8 @@ public class Player extends Entity {
 
         super.setPosition(position);
     }
+
+    public Camera getCamera() {
+        return camera;
+    }
 }

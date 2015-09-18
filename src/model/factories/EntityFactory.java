@@ -65,26 +65,7 @@ public class EntityFactory {
     }
 
     public Entity createRandomEntity(Loader loader, Terrain terrain) {
-
-        ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
-
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
-        lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
-
-        float x = random.nextFloat() * 1000;
-        float z = random.nextFloat() * -1000;
-        float y = terrain.getTerrainHeight(x, z);
-
-        return new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
-                0, 0f, 1f, random.nextInt(4));
-
-
-        //return makeRandomEntity(random.nextInt(objectModels.size()), loader, terrain);
+        return makeRandomEntity(random.nextInt(objectModels.size()), loader, terrain);
     }
 
     private Entity makeRandomEntity(int i, Loader loader, Terrain terrain) {
@@ -139,6 +120,33 @@ public class EntityFactory {
 
         return new TexturedModel(model,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + name)));
+    }
+
+    public ArrayList<Entity> generateRandomMap(Loader loader, Terrain terrain) {
+        ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
+        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                data.getIndices());
+
+        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
+        lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
+        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+
+        ArrayList<Entity> allPolyTrees = new ArrayList<>();
+
+        for (int i = 0; i < 200; i++) {
+            float x = random.nextFloat() * 1000;
+            float z = random.nextFloat() * -1000;
+            float y = terrain.getTerrainHeight(x, z);
+            if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
+                continue;
+            }
+            allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
+                    0, 0f, 1f, random.nextInt(4)));
+        }
+
+        return allPolyTrees;
     }
 
 
