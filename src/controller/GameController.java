@@ -87,10 +87,12 @@ public class GameController {
         // Multiple light sources
         // This is a test and makes shit look weird
         //TODO remove this
-        Light light = new Light(new Vector3f(0, 1000, -7000), new Vector3f(0.4f, 0.4f, 0.4f));
+        Light light = new Light(new Vector3f(250, 400, -250), new Vector3f(0.4f, 0.4f, 0.4f));
         List<Light> lights = new ArrayList<>();
         lights.add(light);
-
+        lights.add(new Light(new Vector3f(50, 27, -50), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(100, 27, -50), new Vector3f(0, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(150, 27, -50), new Vector3f(3, 0, 20), new Vector3f(1, 0.01f, 0.002f)));
 
         ModelData lampData = OBJFileLoader.loadOBJ("models/lamp");
         RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
@@ -104,9 +106,9 @@ public class GameController {
 
         List<Entity> lamps = new ArrayList<>();
 
-        lamps.add(new Entity(lampTexturedModel, new Vector3f(0, -20, 0), 0, 0, 0, 1));
-        lamps.add(new Entity(lampTexturedModel, new Vector3f(370, -20, -300), 0, 0, 0, 1));
-        lamps.add(new Entity(lampTexturedModel, new Vector3f(295, -20, -300), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(50, 20, -50), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(100, 20, -50), 0, 0, 0, 1));
+        lamps.add(new Entity(lampTexturedModel, new Vector3f(150, 20, -50), 0, 0, 0, 1));
 
         ModelData data3 = OBJFileLoader.loadOBJ("models/stall");
         RawModel stallModel = loader.loadToVAO(data3.getVertices(), data3.getTextureCoords(), data3.getNormals(),
