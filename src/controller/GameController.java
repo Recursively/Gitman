@@ -173,7 +173,7 @@ public class GameController {
 		Mouse.setGrabbed(true);
 		
 		// start the network controller to accept connections
-		networkController.start();
+		//networkController.start();
 		
 		// use this depending if youre client or server
 		//clientController.start();
