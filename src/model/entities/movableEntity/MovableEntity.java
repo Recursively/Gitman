@@ -11,6 +11,7 @@ import model.models.TexturedModel;
  *
  */
 public abstract class MovableEntity extends Entity {
+	 protected static final float GRAVITY = -50;
 
 	public MovableEntity(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale) {
