@@ -62,7 +62,8 @@ public class GameController {
 
         while (!Display.isCloseRequested()) {
 
-            // process the terrain
+            // process the terrains
+
             renderer.processTerrain(gameWorld.getTerrain());
 
             // PROCESS PLAYER
