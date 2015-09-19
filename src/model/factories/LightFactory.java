@@ -18,21 +18,25 @@ public class LightFactory {
     private static final Vector3f INITIAL_SUN_POSITION = new Vector3f(500, 500, -500);
     private static final Vector3f INITIAL_SUN_COLOUR = new Vector3f(0.4f, 0.4f, 0.4f);
 
+    // This can be override, but this gives a nice gradual fadeout
     private static final Vector3f DEFAULT_ATTENUATION_FACTOR = new Vector3f(1, 0.01f, 0.002f);
 
+    // should the sun be included in the lights?
+    private ArrayList<Light> lights;
     private Light sun;
 
-
-    private ArrayList<Light> lights;
-
+    /**
+     * Constructs the light factory and initialises the data structure to hold the collection of lights
+     */
     public LightFactory() {
         lights = new ArrayList<>();
     }
 
-    public ArrayList<Light> getLights() {
-        return lights;
-    }
-
+    /**
+     * Creates a new Sun... Wait, I thought we were computer scientists, not astrophysicists...
+     *
+     * @return Ra : God of the Sun and Radiance
+     */
     public Light createSun() {
         sun = new Light(INITIAL_SUN_POSITION, INITIAL_SUN_COLOUR);
         return sun;
