@@ -18,6 +18,8 @@ import java.util.List;
  */
 public final class OBJLoader {
 
+    //TODO THIS IS THE OLD ONE. We should probably delete this..
+
     private static List<Vector3f> vertices;
     private static List<Vector2f> textures;
     private static List<Integer> indices;
