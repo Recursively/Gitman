@@ -49,14 +49,15 @@ public class GameController {
 	private final GuiRenderer guiRenderer;
 
 	// Controller
-	private final NetworkController networkController;
-	private final ClientController clientController;
+	private NetworkController networkController;
+	private ClientController clientController;
 
 	// Network stuff
-	private final ServerSocket serverSocket;
 	private ArrayList<Player> players;
 
-	private Player player;
+	private Player currentPlayer;
+
+	private TexturedModel playerModel;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
@@ -74,10 +75,6 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise controller
-		serverSocket = new ServerSocket(32768);
-
-		networkController = new NetworkController(this, serverSocket);
-		clientController = new ClientController(this);
 
 		players = new ArrayList<>();
 
@@ -87,8 +84,16 @@ public class GameController {
 
 	/**
 	 * Ga
+	 * 
+	 * @throws IOException
 	 */
-	private void doGame() {
+	private void doGame() throws IOException {
+
+		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
+				new ModelTexture(loader.loadTexture("textures/white")));
+		ModelTexture playerTexture = playerModel.getTexture();
+		playerTexture.setShineDamper(10);
+		playerTexture.setReflectivity(1);
 
 		// Terrain creation
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/grass"));
@@ -155,18 +160,26 @@ public class GameController {
 
 		// New player and camera to follow the player
 		Camera camera = new Camera(initialPlayerY, 10, playerPosition);
-		player = new Player(null, playerPosition, 0, 180f, 0, 1, camera, 0);
+		currentPlayer = new Player(null, playerPosition, 0, 180f, 0, 1, camera, 0);
 
 		// TODO do we want the mouse to be captured?
 		// It makes sense to be captured if game is first person, not so much
 		// for third person
 		Mouse.setGrabbed(true);
 
-		// start the network controller to accept connections
-		networkController.start();
+		// NETWORK STUFF
+		// ===================================================================
+		//
+		networkController = null;
+		clientController = new ClientController(this);
+		clientController.start();
 
-		// use this depending if youre client or server
-		// clientController.start();
+//		networkController = new NetworkController(this);
+//		clientController = null;
+//		networkController.start();
+//		System.out.println("SERVER");
+
+		// ==================================================================
 
 		while (!Display.isCloseRequested()) {
 
@@ -197,10 +210,16 @@ public class GameController {
 
 			// Again ugly and needs work
 
-			player.move(terrain);
+			currentPlayer.move(terrain);
 
 			for (Entity lamp : lamps) {
 				renderer.processEntity(lamp);
+			}
+
+			for (Entity player : players) {
+				if (!player.equals(currentPlayer)) {
+					renderer.processEntity(player);
+				}
 			}
 
 			renderer.render(lights, camera);
@@ -224,33 +243,22 @@ public class GameController {
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
-		networkController.end();
 	}
 
 	public void addPlayerServer() {
 
-		TexturedModel playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
-				new ModelTexture(loader.loadTexture("textures/white")));
-		ModelTexture playerTexture = playerModel.getTexture();
-		playerTexture.setShineDamper(10);
-		playerTexture.setReflectivity(1);
 		Vector3f playerPosition = new Vector3f(50, 0, -50);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 2, null, players.size());
-
+		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, players.size());
+		System.out.println("Server ID: " + players.size());
 		players.add(player);
 	}
 
 	public void addPlayerClient(int playerID, float[] packet) {
-		TexturedModel playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
-				new ModelTexture(loader.loadTexture("textures/white")));
-		ModelTexture playerTexture = playerModel.getTexture();
-		playerTexture.setShineDamper(10);
-		playerTexture.setReflectivity(1);
+
 		Vector3f playerPosition = new Vector3f(packet[0], packet[1], packet[2]);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 2, null, playerID);
-
+		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, playerID);
+		System.out.println("Client ID: " + playerID);
 		players.add(player);
-
 	}
 
 	public ArrayList<Player> getPlayers() {
@@ -258,7 +266,7 @@ public class GameController {
 	}
 
 	public Player getPlayer() {
-		return player;
+		return currentPlayer;
 	}
 
 }

@@ -29,26 +29,33 @@ public class Server extends Thread {
 
 	public void run() {
 		try {
+
 			float[] array = new float[3];
 
 			while (1 == 1) {
 
 				// receive the player number
 				int uid = inputStream.readInt();
+				// System.out.println("Read:" + uid);
 				for (int i = 0; i < array.length; i++) {
 					// receive the players coordinates
 					array[i] = inputStream.readFloat();
+					// System.out.println("Read:" + array[i]);
 				}
 				// update that players coordinates accordingly
 				updatePlayer(uid, array);
 
 				// send the number of players
 				sendGameInfo();
-				
+
 				// send all the other players information
 				for (Player player : gameController.getPlayers()) {
-					sendPlayerPosition(player);
+					if (player.getUid() != gameController.getPlayer().getUid()) {
+						sendPlayerPosition(player);
+					}
 				}
+
+				sendPlayerPosition(gameController.getPlayer());
 
 			}
 		} catch (IOException e) {
@@ -66,6 +73,10 @@ public class Server extends Thread {
 		outputStream.writeFloat(player.getPosition().x);
 		outputStream.writeFloat(player.getPosition().y);
 		outputStream.writeFloat(player.getPosition().z);
+
+		// System.out.println("Wrote: " + player.getUid() + " " +
+		// player.getPosition().x + " " + player.getPosition().y
+		// + " " + player.getPosition().z);
 	}
 
 	public void updatePlayer(int playerID, float[] packet) {
@@ -74,6 +85,7 @@ public class Server extends Thread {
 
 	public void sendGameInfo() throws IOException {
 		outputStream.writeInt(gameController.getPlayers().size());
+		// System.out.println("Sent: " + gameController.getPlayers().size());
 	}
 
 }

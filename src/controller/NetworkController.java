@@ -23,14 +23,14 @@ public class NetworkController extends Thread {
 
 	private GameController gameController;
 
-	private ServerSocket ss;
+	private ServerSocket serverSocket;
 	private Server server;
 
 	private boolean running;
 
-	public NetworkController(GameController gameController, ServerSocket ss) {
+	public NetworkController(GameController gameController) throws IOException {
 		this.gameController = gameController;
-		this.ss = ss;
+		this.serverSocket = new ServerSocket(32768);
 		this.running = true;
 	}
 
@@ -39,7 +39,8 @@ public class NetworkController extends Thread {
 			Socket socket = null;
 
 			try {
-				socket = ss.accept();
+				//System.out.println("Accepting...");
+				socket = serverSocket.accept();
 				server = new Server(socket, gameController);
 				server.sendGameInfo();
 				gameController.addPlayerServer();
