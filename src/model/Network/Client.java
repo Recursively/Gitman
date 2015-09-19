@@ -57,7 +57,7 @@ public class Client extends Thread {
 
 	}
 	//
-	// public static void main(String[] args) {
+	// public static void Main(String[] args) {
 	// int port = 32768; // default
 	// Socket sock = null;
 	// try {
