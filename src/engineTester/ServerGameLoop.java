@@ -232,7 +232,7 @@ public class ServerGameLoop {
 		int count = 0;
 
 		// New player and camera to follow the player
-		Camera camera = new Camera(initialPlayerY, 10, playerPosition);
+		Camera camera = new Camera(initialPlayerY, playerPosition);
 		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, camera, count++);
 
 		// TODO do we want the mouse to be captured?

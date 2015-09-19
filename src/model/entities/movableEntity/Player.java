@@ -107,4 +107,8 @@ public class Player extends Entity {
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
+    public Camera getCamera() {
+        return camera;
+    }
+
 }

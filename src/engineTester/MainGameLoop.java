@@ -227,7 +227,7 @@ public class MainGameLoop {
 		float initialPlayerY = terrain.getTerrainHeight(playerPosition.getX(), playerPosition.getZ());
 
 		// New player and camera to follow the player
-		Camera camera = new Camera(initialPlayerY, 10, playerPosition);
+		Camera camera = new Camera(initialPlayerY, playerPosition);
 		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, camera, 0);
 
 		// TODO do we want the mouse to be captured?
