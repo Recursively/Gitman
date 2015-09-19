@@ -3,13 +3,8 @@ package controller;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-
-import org.lwjgl.util.vector.Vector3f;
 
 import model.Network.Server;
-import model.entities.movableEntity.Player;
-import model.models.TexturedModel;
 
 /**
  * Controller class to handle the delegations between the Model and View
@@ -40,10 +35,13 @@ public class NetworkController extends Thread {
 
 			try {
 				//System.out.println("Accepting...");
+				
+				
 				socket = serverSocket.accept();
 				server = new Server(socket, gameController);
 				server.sendGameInfo();
 				gameController.addPlayerServer();
+				System.out.println("GAME SIZE NOW: " + gameController.getPlayers().size());
 				server.start();
 
 			} catch (IOException e) {

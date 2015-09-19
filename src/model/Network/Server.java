@@ -34,6 +34,8 @@ public class Server extends Thread {
 
 			while (1 == 1) {
 
+				sleep(50);
+
 				// receive the player number
 				int uid = inputStream.readInt();
 				// System.out.println("Read:" + uid);
@@ -50,15 +52,14 @@ public class Server extends Thread {
 
 				// send all the other players information
 				for (Player player : gameController.getPlayers()) {
-					if (player.getUid() != gameController.getPlayer().getUid()) {
-						sendPlayerPosition(player);
-					}
+					sendPlayerPosition(player);
 				}
-
-				sendPlayerPosition(gameController.getPlayer());
 
 			}
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -86,6 +87,11 @@ public class Server extends Thread {
 	public void sendGameInfo() throws IOException {
 		outputStream.writeInt(gameController.getPlayers().size());
 		// System.out.println("Sent: " + gameController.getPlayers().size());
+	}
+
+	public void sendSize(int count) throws IOException {
+		outputStream.writeInt(count);
+
 	}
 
 }

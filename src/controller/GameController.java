@@ -170,13 +170,14 @@ public class GameController {
 		// NETWORK STUFF
 		// ===================================================================
 		//
-		networkController = null;
-		clientController = new ClientController(this);
-		clientController.start();
+		 networkController = null;
+		 clientController = new ClientController(this);
+		 clientController.start();
 
 //		networkController = new NetworkController(this);
 //		clientController = null;
 //		networkController.start();
+//		players.add(currentPlayer);
 //		System.out.println("SERVER");
 
 		// ==================================================================
@@ -216,8 +217,8 @@ public class GameController {
 				renderer.processEntity(lamp);
 			}
 
-			for (Entity player : players) {
-				if (!player.equals(currentPlayer)) {
+			for (Player player : players) {
+				if (player.getUid() != currentPlayer.getUid()) {
 					renderer.processEntity(player);
 				}
 			}
@@ -230,11 +231,6 @@ public class GameController {
 		}
 
 		cleanUp();
-
-		//
-		// for (Entity e : entities) {
-		// renderer.processEntity(e);
-		// }
 
 	}
 
@@ -249,7 +245,6 @@ public class GameController {
 
 		Vector3f playerPosition = new Vector3f(50, 0, -50);
 		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, players.size());
-		System.out.println("Server ID: " + players.size());
 		players.add(player);
 	}
 
@@ -257,7 +252,6 @@ public class GameController {
 
 		Vector3f playerPosition = new Vector3f(packet[0], packet[1], packet[2]);
 		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, playerID);
-		System.out.println("Client ID: " + playerID);
 		players.add(player);
 	}
 
