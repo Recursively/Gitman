@@ -1,6 +1,5 @@
 package model;
 
-import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Player;
@@ -8,6 +7,8 @@ import model.factories.*;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
 
@@ -18,18 +19,29 @@ import java.util.ArrayList;
  */
 public class GameWorld {
 
+    // Object creation factories
+    private EntityFactory entityFactory;
+    private TerrainFactory terrainFactory;
+    private LightFactory lightFactory;
+    private GuiFactory guiFactory;
+    private PlayerFactory playerFactory;
+
+    // Collection of guiImages to render to the screen
+    private ArrayList<GuiTexture> guiImages;
+
     // collection of entities in the game
     private ArrayList<Entity> staticEntities;
     private ArrayList<Entity> movableEntities;
 
-    // Collection of players stored separately
-    private ArrayList<Player> players;
+    // Terrain the world is on
+    // TODO this will need to become a list once we have multiple terrains
+    private Terrain terrain;
 
-    // Camera bound to a player
-    private Camera playerCamera;
+    // The actual player
+    private Player player;
 
-    // Collection of terrains
-    private ArrayList<Terrain> terrains;
+    // Collection of multiply players stored separately
+    private ArrayList<Player> otherPlayers;
 
     // Constant sun light-source
     private Light sun;
@@ -37,49 +49,114 @@ public class GameWorld {
     // Collection of attenuating light-sources
     private ArrayList<Light> lights;
 
-    // Object creation factories
-    private EntityFactory entityFactory;
-    private TerrainFactory terrainFactory;
-
+    // object file loader
     private Loader loader;
-    private Terrain terrain;
 
-
-    private ArrayList<GuiTexture> guiImages;
-
-
-    private Player player;
-
+    /**
+     *
+     * @param loader
+     */
     public GameWorld(Loader loader) {
         this.loader = loader;
-        TerrainFactory terrainFactory = new TerrainFactory(loader);
-        terrain = terrainFactory.makeTerrain();
-    }
-
-    public Terrain getTerrain() {
-        return terrain;
     }
 
     public void initGame() {
-        LightFactory lightFactory = new LightFactory();
-        lights = lightFactory.getLights();
+        // init structures and factories
+        initFactories();
+        initDataStructures();
 
-        GuiFactory guiFactory = new GuiFactory(loader);
-        guiImages = guiFactory.getGuiImages();
+        // Adds lighting to game world
+        setupLighting();
 
-        PlayerFactory playerFactory = new PlayerFactory(this);
-        player = playerFactory.getPlayer();
+        // creates the gui to be displayed on the display
+        initGui();
+
+        // initialises the terrain //TODO this will need to support multi terrain at some point.
+        initTerrain();
+
+        // finally create the player.
+        player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50));
     }
 
+    /**
+     * Adds the light sources to the game worlds list of lights to be rendered
+     */
+    private void setupLighting() {
+        sun = lightFactory.createSun();
+        lights.add(sun);
+
+        // TODO also would want to add all attenuating light sources here
+    }
+
+    /**
+     * initialises the Gui to be rendered to the display
+     */
+    private void initGui() {
+        guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+    }
+
+    /**
+     * Initialises all the terrains of the gameworld
+     */
+    private void initTerrain() {
+        terrain = terrainFactory.makeTerrain();
+    }
+
+    /**
+     * initialises the data structures which hold all of the world data
+     */
+    private void initDataStructures() {
+        guiImages = new ArrayList<>();
+        staticEntities = new ArrayList<>();
+        movableEntities = new ArrayList<>();
+        otherPlayers = new ArrayList<>();
+        lights = new ArrayList<>();
+    }
+
+    /**
+     * initialises the factories
+     */
+    private void initFactories() {
+        entityFactory = new EntityFactory();
+        playerFactory = new PlayerFactory(this);
+        lightFactory = new LightFactory();
+        terrainFactory = new TerrainFactory(loader);
+        guiFactory = new GuiFactory(loader);
+    }
+
+    /**
+     * Gets lights.
+     *
+     * @return the lights
+     */
     public ArrayList<Light> getLights() {
         return lights;
     }
 
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * Gets gui images.
+     *
+     * @return the gui images
+     */
     public ArrayList<GuiTexture> getGuiImages() {
         return guiImages;
+    }
+
+    /**
+     * Gets terrain.
+     *
+     * @return the terrain
+     */
+    public Terrain getTerrain() {
+        return terrain;
     }
 }

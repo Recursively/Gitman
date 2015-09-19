@@ -4,24 +4,35 @@ import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.util.vector.Vector2f;
 
-import java.util.ArrayList;
-
 /**
- * Created by Marcel on 19/09/15.
+ * Factory Game for creating Gui Components
+ *
+ * @author Marcel van Workum
  */
 public class GuiFactory {
 
-    private ArrayList<GuiTexture> guiImages;
+    private static final String GUI_PATH = "gui/";
+    private final Loader loader;
 
+    /**
+     * Create the Gui factory passing in the object loader
+     *
+     * @param loader Object loader
+     */
     public GuiFactory(Loader loader) {
-        // Create gui elements
-
-        guiImages = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("gui/panel_brown"), new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f));
-        guiImages.add(gui);
+        this.loader = loader;
     }
 
-    public ArrayList<GuiTexture> getGuiImages() {
-        return guiImages;
+    /**
+     * Creates a {@link GuiTexture} with the specified texture, position and scale.
+     *
+     * @param textureName Texture
+     * @param position Position on the display x(0-1) y(0-1)
+     * @param scale scale of the texture on display x(0-1) y(0-1)
+     *
+     * @return The GuiTexture created
+     */
+    public GuiTexture makeGuiTexture(String textureName, Vector2f position, Vector2f scale) {
+        return new GuiTexture(loader.loadTexture(GUI_PATH + textureName), position, scale);
     }
 }

@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//TODO BROKEN
+
 public class EntityFactory {
 
     // Paths to the object and textures files

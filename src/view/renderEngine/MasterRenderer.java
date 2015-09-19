@@ -129,7 +129,7 @@ public class MasterRenderer {
     }
 
     /**
-     * Addes an entity to the batch of entities to be rendered this frame
+     * Adds an entity to the batch of entities to be rendered this frame
      *
      * @param entity Entity to add
      */
