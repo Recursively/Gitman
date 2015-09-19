@@ -24,21 +24,25 @@ public class NetworkController extends Thread {
 	private GameController gameController;
 
 	private ServerSocket ss;
+	private Server server;
+
+	private boolean running;
 
 	public NetworkController(GameController gameController, ServerSocket ss) {
 		this.gameController = gameController;
 		this.ss = ss;
+		this.running = true;
 	}
 
 	public void run() {
-		while (1 == 1) {
+		while (running) {
 			Socket socket = null;
-			Server server = null;
 
 			try {
 				socket = ss.accept();
-				gameController.addPlayer();
-				server = new Server(socket, gameController.getPlayers());
+				server = new Server(socket, gameController);
+				server.sendGameInfo();
+				gameController.addPlayerServer();
 				server.start();
 
 			} catch (IOException e) {
@@ -47,4 +51,9 @@ public class NetworkController extends Thread {
 
 		}
 	}
+
+	public void end() {
+		running = false;
+	}
+
 }

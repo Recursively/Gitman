@@ -8,6 +8,9 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.lwjgl.util.vector.Vector3f;
+
+import controller.GameController;
 import model.entities.movableEntity.Player;
 
 public class Client extends Thread {
@@ -16,13 +19,10 @@ public class Client extends Thread {
 	private DataOutputStream output;
 	private DataInputStream input;
 
-	private ArrayList<Player> players;
-	private float[] lastPacket;
+	private GameController gameController;
 
-	public Client(Socket socket, ArrayList<Player> players) {
+	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
-		this.players = players;
-		lastPacket = new float[3];
 		initStreams();
 
 	}
@@ -31,15 +31,26 @@ public class Client extends Thread {
 		try {
 
 			while (1 == 1) {
+				// send which player this is
+				output.writeInt(gameController.getPlayer().getUid());
+				// send the players location
+				sendLocation(gameController.getPlayer());
 
-				output.writeInt(0);
+				// receieve how many other players there are
+				int length = requestPlayersLength();
 
-				sendLocation(players.get(0));
-				
-				for (float i : lastPacket) {
-					output.writeFloat(i);
+				// receive the other players
+				for (int i = 0; i < length; i++) {
+					float[] packet = new float[3];
+					// read the player number
+					int playerID = input.readInt();
+					for (int f = 0; f < packet.length; f++) {
+						// read the coordinates
+						packet[f] = input.readFloat();
+					}
+					// finally update the player
+					updatePlayer(playerID, packet);
 				}
-
 			}
 
 		} catch (IOException e) {
@@ -56,17 +67,30 @@ public class Client extends Thread {
 		}
 	}
 
-	public void sendLocation(Player player) {
+	public void updatePlayer(int playerID, float[] packet) {
+		// if this player exists then update it
+		if (gameController.getPlayers().get(playerID) != null) {
+			gameController.getPlayers().get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+		} 
+		// if the player doesn't exits create it
+		else {
+			gameController.addPlayerClient(playerID, packet);
+		}
+	}
 
-		lastPacket[0] = player.getPosition().getX();
-		lastPacket[1] = player.getPosition().getY();
-		lastPacket[2] = player.getPosition().getZ();
+	public void sendLocation(Player player) {
+		try {
+			output.writeFloat(player.getPosition().getX());
+			output.writeFloat(player.getPosition().getY());
+			output.writeFloat(player.getPosition().getZ());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
-	public int receivePlayersLength() throws IOException {
+	public int requestPlayersLength() throws IOException {
 		return input.readInt();
 	}
-
 
 }
