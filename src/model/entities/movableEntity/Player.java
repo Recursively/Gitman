@@ -9,10 +9,9 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 
-public class Player extends Entity {
+public class Player extends MovableEntity {
 
     private static final float RUN_SPEED = 1;
-    private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 30;
 
     private static float terrainHeight = 0;
