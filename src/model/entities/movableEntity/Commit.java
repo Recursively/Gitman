@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -10,6 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Commit extends Item {
+	private static final int COMMIT_SCORE = 10;
 
 	public Commit(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale) {
