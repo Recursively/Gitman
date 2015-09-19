@@ -19,6 +19,7 @@ public class GameController {
 
     // Model
     private final Loader loader;
+    private final GameWorld gameWorld;
 
     // View
     private final MasterRenderer renderer;
@@ -26,8 +27,6 @@ public class GameController {
 
     //Controller
     private final NetworkController networkController;
-
-    private final GameWorld gameWorld;
 
     /**
      * Delegates the creation of the MVC and then starts the game
@@ -47,39 +46,51 @@ public class GameController {
 
         // initialise the game world
         gameWorld = new GameWorld(loader);
-
         gameWorld.initGame();
+
+        // hook the mouse
+        Mouse.setGrabbed(true);
 
         //start the game
         doGame();
     }
 
     /**
-     *
+     * Main game loop where all the goodness will happen
      */
     private void doGame() {
 
-        Mouse.setGrabbed(true);
-
         while (!Display.isCloseRequested()) {
 
+            // process the terrains
 
             renderer.processTerrain(gameWorld.getTerrain());
 
-            // Again ugly and needs work
+            // PROCESS PLAYER
 
+            // PROCESS ENTITIES
+
+
+            // update the players position in the world
             gameWorld.getPlayer().move(gameWorld.getTerrain());
 
+            // Render the player's view
             renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
+            // render the gui
             guiRenderer.render(gameWorld.getGuiImages());
-            DisplayManager.updateDisplay();
 
+            // update the Display window
+            DisplayManager.updateDisplay();
         }
 
+        // Finally clean up resources
         cleanUp();
     }
 
+    /**
+     * Cleans up the game when it is closed
+     */
     private void cleanUp() {
         guiRenderer.cleanUp();
         renderer.cleanUp();
