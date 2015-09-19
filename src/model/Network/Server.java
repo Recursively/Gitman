@@ -10,18 +10,19 @@ import java.util.ArrayList;
 import org.lwjgl.util.vector.Vector3f;
 
 import controller.GameController;
+import controller.NetworkController;
 import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
 
 	private Socket socket;
 
-	private GameController gameController;
+	private NetworkController gameController;
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
-	public Server(Socket socket, GameController gameController) throws IOException {
+	public Server(Socket socket, NetworkController gameController) throws IOException {
 		this.socket = socket;
 		this.gameController = gameController;
 		initStreams();

@@ -174,12 +174,6 @@ public class GameController {
 		 clientController = new ClientController(this);
 		 clientController.start();
 
-//		networkController = new NetworkController(this);
-//		clientController = null;
-//		networkController.start();
-//		players.add(currentPlayer);
-//		System.out.println("SERVER");
-
 		// ==================================================================
 
 		while (!Display.isCloseRequested()) {
