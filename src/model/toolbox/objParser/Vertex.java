@@ -2,6 +2,7 @@ package model.toolbox.objParser;
 
 import org.lwjgl.util.vector.Vector3f;
 
+//TODO comment
 public class Vertex {
 
     private static final int NO_INDEX = -1;

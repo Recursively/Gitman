@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO comment
 public class OBJFileLoader {
 
     private static final String RES_LOC = "res/";
