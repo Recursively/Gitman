@@ -88,6 +88,10 @@ public class GameWorld {
     private void setupLighting() {
         sun = lightFactory.createSun();
         lights.add(sun);
+        lightFactory.createTestAttenuatingLights();
+        for (Light l : lightFactory.getLights()) {
+            lights.add(l);
+        }
     }
 
     /**
