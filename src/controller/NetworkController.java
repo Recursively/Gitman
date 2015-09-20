@@ -49,7 +49,7 @@ public class NetworkController {
 	 * 
 	 * @throws IOException
 	 */
-	public NetworkController() throws IOException {
+	public NetworkController() {
 
 		// initialise model
 		loader = new Loader();

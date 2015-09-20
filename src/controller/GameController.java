@@ -57,7 +57,7 @@ public class GameController {
 	 * 
 	 * @throws IOException
 	 */
-	public GameController() throws IOException {
+	public GameController(){
 
 		// initialise model
 		loader = new Loader();

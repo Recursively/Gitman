@@ -45,7 +45,7 @@ public class Main {
         $s.s$$$$S..............   ................    $$....s$s......
          `""'           `     ```"""""""""""""""         `""   ``
      */
-public static void main(String[] args) throws IOException {
+public static void main(String[] args){
         new GameController();
     }
 

@@ -23,10 +23,16 @@ public class ServerController extends Thread {
 
 	private boolean running;
 
-	public ServerController(NetworkController gameController) throws IOException {
+	public ServerController(NetworkController gameController) {
 		this.gameController = gameController;
-		this.serverSocket = new ServerSocket(32768);
 		this.running = true;
+
+		try {
+			this.serverSocket = new ServerSocket(32768);
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void run() {
