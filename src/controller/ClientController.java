@@ -3,10 +3,8 @@ package controller;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
-import model.Network.Client;
-import model.entities.movableEntity.Player;
+import model.network.Client;
 
 public class ClientController extends Thread {
 

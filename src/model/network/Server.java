@@ -1,4 +1,4 @@
-package model.Network;
+package model.network;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
