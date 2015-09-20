@@ -1,8 +1,10 @@
 package controller;
 
 import model.GameWorld;
+import model.entities.Camera;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
+import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 import model.toolbox.objParser.OBJFileLoader;
@@ -48,8 +50,6 @@ public class GameController {
 	// Network stuff
 	private ArrayList<Player> players;
 
-	private Player currentPlayer;
-
 	private TexturedModel playerModel;
 
 	/**
@@ -76,8 +76,15 @@ public class GameController {
 		Mouse.setGrabbed(true);
 
 		// setup client
-		//clientController = new ClientController(this);
-		//clientController.start();
+		clientController = new ClientController(this);
+		clientController.start();
+		
+		
+		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
+				new ModelTexture(loader.loadTexture("textures/white")));
+		ModelTexture playerTexture = playerModel.getTexture();
+		playerTexture.setShineDamper(10);
+		playerTexture.setReflectivity(1);
 
 		// start the game
 		doGame();
@@ -95,11 +102,11 @@ public class GameController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
-			// for (Player player : players) {
-			// if (player.getUid() != currentPlayer.getUid()) {
-			// renderer.processEntity(player);
-			// }
-			// }
+			for (Player player : players) {
+				if (player.getUid() != gameWorld.getPlayer().getUid()) {
+					renderer.processEntity(player);
+				}
+			}
 
 			// PROCESS ENTITIES
 
@@ -130,17 +137,13 @@ public class GameController {
 		DisplayManager.closeDisplay();
 	}
 
-	public void addPlayerServer() {
-
-		Vector3f playerPosition = new Vector3f(50, 0, -50);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, players.size());
-		players.add(player);
-	}
-
 	public void addPlayerClient(int playerID, float[] packet) {
 
-		Vector3f playerPosition = new Vector3f(packet[0], packet[1], packet[2]);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, playerID);
+		Vector3f position = new Vector3f(50, 100, -50);
+		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
+		position.y = initialPlayerY;
+		Player player = new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position),
+				playerID);
 		players.add(player);
 	}
 
@@ -149,7 +152,7 @@ public class GameController {
 	}
 
 	public Player getPlayer() {
-		return currentPlayer;
+		return gameWorld.getPlayer();
 	}
 
 }

@@ -1,8 +1,10 @@
 package controller;
 
 import model.GameWorld;
+import model.entities.Camera;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
+import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 import model.toolbox.objParser.OBJFileLoader;
@@ -48,8 +50,6 @@ public class NetworkController {
 	// Network stuff
 	private ArrayList<Player> players;
 
-	private Player currentPlayer;
-
 	private TexturedModel playerModel;
 
 	/**
@@ -76,11 +76,16 @@ public class NetworkController {
 		Mouse.setGrabbed(true);
 
 		// setup server
-		// serverController = new ServerController(this);
-		// clientController = null;
-		// serverController.start();
-		// players.add(currentPlayer);
-		// System.out.println("SERVER");
+		serverController = new ServerController(this);
+		serverController.start();
+		players.add(gameWorld.getPlayer());
+		System.out.println("SERVER");
+
+		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
+				new ModelTexture(loader.loadTexture("textures/white")));
+		ModelTexture playerTexture = playerModel.getTexture();
+		playerTexture.setShineDamper(10);
+		playerTexture.setReflectivity(1);
 
 		// start the game
 		doGame();
@@ -99,11 +104,11 @@ public class NetworkController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
-			//for (Player player : players) {
-			//	if (player.getUid() != currentPlayer.getUid()) {
-			//		renderer.processEntity(player);
-			//	}
-			//}
+			for (Player player : players) {
+				if (player.getUid() != gameWorld.getPlayer().getUid()) {
+					renderer.processEntity(player);
+				}
+			}
 
 			// PROCESS ENTITIES
 
@@ -136,15 +141,13 @@ public class NetworkController {
 
 	public void addPlayerServer() {
 
-		Vector3f playerPosition = new Vector3f(50, 0, -50);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, players.size());
-		players.add(player);
-	}
+		Vector3f position = new Vector3f(50, 100, -50);
 
-	public void addPlayerClient(int playerID, float[] packet) {
+		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
+		position.y = initialPlayerY;
 
-		Vector3f playerPosition = new Vector3f(packet[0], packet[1], packet[2]);
-		Player player = new Player(playerModel, playerPosition, 0, 180f, 0, 1, null, playerID);
+		Player player = new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position),
+				players.size());
 		players.add(player);
 	}
 
@@ -153,7 +156,7 @@ public class NetworkController {
 	}
 
 	public Player getPlayer() {
-		return currentPlayer;
+		return gameWorld.getPlayer();
 	}
 
 }
