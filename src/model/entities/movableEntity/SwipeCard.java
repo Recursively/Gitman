@@ -22,5 +22,4 @@ public class SwipeCard extends Item {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		// TODO Auto-generated constructor stub
 	}
-
 }
