@@ -16,6 +16,8 @@ import java.io.IOException;
 /**
  * A Terrain is an area of a location. A terrain depends on a blend map and height map to know how to style the
  * terrain. The terrain is made up of a texture pack
+ *
+ * @author Marcel van workum
  */
 public class Terrain {
 
