@@ -31,6 +31,9 @@ public class TitleScreen {
 
     }
 
+    /**
+     * Cycles thorugh the title screens making the _ blink
+     */
     private void blinkTitle() {
 
         long timer = System.currentTimeMillis();
@@ -59,7 +62,7 @@ public class TitleScreen {
     }
 
     /**
-     * @return an Array of images to render
+     * @return an Array of title screens to render
      */
     private GuiTexture[] initTitleScreens() {
         GuiTexture[] images = new GuiTexture[2];
