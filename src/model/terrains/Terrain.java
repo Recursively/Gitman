@@ -30,7 +30,6 @@ public class Terrain {
     private RawModel model;
     private TerrainTexturePack texturePack;
     private TerrainTexture blendMap;
-    private int count;
     private float[] vertices;
     private float[] normals;
     private float[] textureCoords;
@@ -174,7 +173,7 @@ public class Terrain {
      * @param vertexCount number of vertices in the terrain
      */
     private void initStructures(int vertexCount) {
-        count = vertexCount * vertexCount;
+        int count = vertexCount * vertexCount;
         vertices = new float[count * 3];
         normals = new float[count * 3];
         textureCoords = new float[count * 2];
