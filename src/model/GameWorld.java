@@ -57,48 +57,123 @@ public class GameWorld {
 	// object file loader
 	private Loader loader;
 
-	public GameWorld(Loader loader) {
-		this.loader = loader;
-
-		guiImages = new ArrayList<>();
-	}
-
-	public void initGame() {
-		// initialise all the factories
-		initFactories();
-
-		lights = lightFactory.getLights();
-		guiImages
-				.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
-		terrain = terrainFactory.makeTerrain();
-		player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50));
-	}
-
-	private void initFactories() {
-		entityFactory = new EntityFactory();
-		playerFactory = new PlayerFactory(this, loader);
-		lightFactory = new LightFactory();
-		terrainFactory = new TerrainFactory(loader);
-		guiFactory = new GuiFactory(loader);
-	}
-
-	public ArrayList<Light> getLights() {
-		return lights;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public ArrayList<GuiTexture> getGuiImages() {
-		return guiImages;
-	}
-
-	public Terrain getTerrain() {
-		return terrain;
-	}
 
 	public PlayerFactory getPlayerFactory() {
 		return playerFactory;
 	}
+    /**
+     * Creates the game world and passes in the loader
+     *
+     * @param loader loader
+     */
+    public GameWorld(Loader loader) {
+        this.loader = loader;
+    }
+
+    /**
+     * Initialises the game by setting up the lighting, factories and terrain
+     */
+    public void initGame() {
+        // initialise factories and data structures
+        initFactories();
+        initDataStructures();
+
+        // Adds lighting to game world
+        setupLighting();
+
+        // creates the gui to be displayed on the display
+        initGui();
+
+        // initialises the terrain //TODO this will need to support multi terrain at some point.
+        initTerrain();
+
+        // finally create the player.
+        player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50));
+    }
+
+    /**
+     * Adds the light sources to the game worlds list of lights to be rendered
+     */
+    private void setupLighting() {
+        sun = lightFactory.createSun();
+        lights.add(sun);
+
+        //TODO remove
+        lightFactory.createTestAttenuatingLights();
+        for (Light l : lightFactory.getLights()) {
+            lights.add(l);
+        }
+    }
+
+    /**
+     * initialises the Gui to be rendered to the display
+     */
+    private void initGui() {
+        guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+    }
+
+    /**
+     * Initialises all the terrains of the gameworld
+     */
+    private void initTerrain() {
+        terrain = terrainFactory.makeTerrain();
+    }
+
+    /**
+     * initialises the data structures which hold all of the world data
+     */
+    private void initDataStructures() {
+        guiImages = new ArrayList<>();
+        staticEntities = new ArrayList<>();
+        movableEntities = new ArrayList<>();
+        otherPlayers = new ArrayList<>();
+        lights = new ArrayList<>();
+    }
+
+    /**
+     * initialises the factories
+     */
+    private void initFactories() {
+        entityFactory = new EntityFactory();
+        playerFactory = new PlayerFactory(this, loader);
+        lightFactory = new LightFactory();
+        terrainFactory = new TerrainFactory(loader);
+        guiFactory = new GuiFactory(loader);
+    }
+
+    /**
+     * Gets lights.
+     *
+     * @return the lights
+     */
+    public ArrayList<Light> getLights() {
+        return lights;
+    }
+
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
+    public Player getPlayer() {
+        return player;
+    }
+
+    /**
+     * Gets gui images.
+     *
+     * @return the gui images
+     */
+    public ArrayList<GuiTexture> getGuiImages() {
+        return guiImages;
+    }
+
+    /**
+     * Gets terrain.
+     *
+     * @return the terrain
+     */
+    public Terrain getTerrain() {
+        return terrain;
+    }
 }

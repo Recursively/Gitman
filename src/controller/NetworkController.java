@@ -7,30 +7,22 @@ import model.models.TexturedModel;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
-import model.toolbox.objParser.OBJFileLoader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.omg.CORBA.PRIVATE_MEMBER;
 
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /**
  * Controller class to handle the delegations between the Model and View
  * package.
  *
- * Deals with Game logic
+ * Deals with network logic
  *
  * @author Marcel van Workum
  */

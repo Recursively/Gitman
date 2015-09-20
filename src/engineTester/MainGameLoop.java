@@ -1,6 +1,5 @@
 package engineTester;
 
-import model.Network.Client;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
@@ -21,14 +20,11 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import controller.NetworkController;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

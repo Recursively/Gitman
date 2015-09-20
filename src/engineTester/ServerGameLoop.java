@@ -1,6 +1,5 @@
 package engineTester;
 
-import model.Network.Server;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
@@ -22,16 +21,12 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
-import controller.NetworkController;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
