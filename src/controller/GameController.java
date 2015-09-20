@@ -46,22 +46,18 @@ public class GameController {
 
 	// Controller
 	private ClientController clientController;
-
-	// Network stuff
-	private ArrayList<Player> players;
-
-	private TexturedModel playerModel;
+	
+	private final TexturedModel playerModel;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
 	 * 
 	 * @throws IOException
 	 */
-	public GameController(){
+	public GameController() {
 
 		// initialise model
 		loader = new Loader();
-		players = new ArrayList<>();
 
 		// initialise view
 		DisplayManager.createDisplay();
@@ -78,7 +74,6 @@ public class GameController {
 		// setup client
 		clientController = new ClientController(this);
 		clientController.start();
-		
 		
 		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
 				new ModelTexture(loader.loadTexture("textures/white")));
@@ -102,7 +97,7 @@ public class GameController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
-			for (Player player : players) {
+			for (Player player : gameWorld.getOtherPlayers()) {
 				if (player.getUid() != gameWorld.getPlayer().getUid()) {
 					renderer.processEntity(player);
 				}
@@ -139,16 +134,11 @@ public class GameController {
 
 	public void addPlayerClient(int playerID, float[] packet) {
 
-		Vector3f position = new Vector3f(50, 100, -50);
-		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
-		position.y = initialPlayerY;
-		Player player = new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position),
-				playerID);
-		players.add(player);
+		gameWorld.addNewPlayer(new Vector3f(packet[0], packet[1], packet[2]), playerID, playerModel);
 	}
 
 	public ArrayList<Player> getPlayers() {
-		return players;
+		return gameWorld.getOtherPlayers();
 	}
 
 	public Player getPlayer() {

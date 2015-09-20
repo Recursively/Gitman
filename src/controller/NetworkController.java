@@ -40,7 +40,6 @@ public class NetworkController {
 	private ServerController serverController;
 
 	// Network stuff
-	private ArrayList<Player> players;
 
 	private TexturedModel playerModel;
 
@@ -53,7 +52,6 @@ public class NetworkController {
 
 		// initialise model
 		loader = new Loader();
-		players = new ArrayList<>();
 
 		// initialise view
 		DisplayManager.createDisplay();
@@ -70,7 +68,7 @@ public class NetworkController {
 		// setup server
 		serverController = new ServerController(this);
 		serverController.start();
-		players.add(gameWorld.getPlayer());
+		gameWorld.getOtherPlayers().add(gameWorld.getPlayer());
 		System.out.println("SERVER");
 
 		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
@@ -96,7 +94,7 @@ public class NetworkController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
-			for (Player player : players) {
+			for (Player player : gameWorld.getOtherPlayers()) {
 				if (player.getUid() != gameWorld.getPlayer().getUid()) {
 					renderer.processEntity(player);
 				}
@@ -133,18 +131,11 @@ public class NetworkController {
 
 	public void addPlayerServer() {
 
-		Vector3f position = new Vector3f(50, 100, -50);
-
-		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
-		position.y = initialPlayerY;
-
-		Player player = new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position),
-				players.size());
-		players.add(player);
+		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), gameWorld.getOtherPlayers().size(), playerModel);
 	}
 
 	public ArrayList<Player> getPlayers() {
-		return players;
+		return gameWorld.getOtherPlayers();
 	}
 
 	public Player getPlayer() {
