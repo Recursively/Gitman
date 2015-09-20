@@ -19,57 +19,63 @@ import java.util.List;
 
 public class TitleScreen {
 
-    private final GuiRenderer guiRenderer;
-    private final Loader loader;
-
+    /**
+     * Instantiates a new Title screen.
+     */
     public TitleScreen() {
-
         DisplayManager.createDisplay();
-        loader = new Loader();
-        guiRenderer = new GuiRenderer(loader);
         blinkTitle();
-
     }
 
     /**
-     * Cycles thorugh the title screens making the _ blink
+     * Cycles through the title screens making the _ blink
      */
     private void blinkTitle() {
 
+        Loader loader = new Loader();
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
+
         long timer = System.currentTimeMillis();
         int index = 0;
-        GuiTexture[] images = initTitleScreens();
+
+        GuiTexture[] images = initTitleScreens(loader);
 
         while (true) {
 
+            // ticks time every half second
             long currentTime = System.currentTimeMillis();
             if (currentTime - timer > 500) {
                 index++;
                 timer += 500;
             }
-            List<GuiTexture> guiList = new ArrayList<GuiTexture>();
+
+            // converts to list and renders
+            List<GuiTexture> guiList = new ArrayList<>();
             guiList.add(images[index % 2]);
             guiRenderer.render(guiList);
             DisplayManager.updateDisplay();
 
+            // user begins game
             if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
                 DisplayManager.closeDisplay();
                 break;
             }
         }
 
+        // create the game now
         new GameController();
     }
 
     /**
-     * @return an Array of title screens to render
+     * @return an Array of title screen images to render
      */
-    private GuiTexture[] initTitleScreens() {
+    private GuiTexture[] initTitleScreens(Loader loader) {
         GuiTexture[] images = new GuiTexture[2];
-        images[0] = new GuiTexture(loader.loadTexture("screenimages" + File.separator + "GitmanTitle1"),
+        String PATH = "titleScreen";
+        images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "GitmanTitle1"),
                 new Vector2f(0, 0), new Vector2f(1, 1));
 
-        images[1] = new GuiTexture(loader.loadTexture("screenimages" + File.separator + "GitmanTitle2"),
+        images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "GitmanTitle2"),
                 new Vector2f(0, 0), new Vector2f(1, 1));
         return images;
     }
