@@ -19,7 +19,8 @@ import java.util.ArrayList;
 /**
  * Delegate class used to represent all the current components of the game world.
  *
- * @author Marcel van Workum, Divya
+ * @author Marcel van Workum
+ * @author Divya Patel
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
