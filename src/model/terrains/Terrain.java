@@ -183,7 +183,7 @@ public class Terrain {
     /**
      * Loads the terrain Indices to the terrain data
      *
-     * @param vertexCount
+     * @param vertexCount number of vertices in the terrain
      */
     private void loadTerrainIndices(int vertexCount) {
         int pointer = 0;
