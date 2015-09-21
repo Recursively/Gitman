@@ -24,6 +24,7 @@ public class TitleScreen {
      */
     public TitleScreen() {
         DisplayManager.createDisplay();
+        Keyboard.enableRepeatEvents(false);
         blinkTitle();
     }
 
