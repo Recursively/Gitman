@@ -2,39 +2,86 @@ package model.entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
+/**
+ * There are two different types of light sources in the world. Those that understand the pointlessness of
+ * these java doc comments, and those that don't.
+ *
+ * But seriously, there is two types of light. A sun which is a constant source of light and an attenuated light
+ * source, which fades over a distance.
+ *
+ * @author Marcel van Workum
+ */
 public class Light {
 
     private Vector3f position;
     private Vector3f colour;
     private Vector3f attenuation = new Vector3f(1, 0, 0);
 
+    /**
+     * Instantiates a new sun
+     *
+     * @param position position of the sun
+     * @param colour colour of the sun
+     */
     public Light(Vector3f position, Vector3f colour) {
         this.position = position;
         this.colour = colour;
     }
 
+    /**
+     * Instantiates a new attenuated light source
+     *
+     * @param position position of light source
+     * @param colour colour of light source
+     * @param attenuation attenuation factor
+     */
     public Light(Vector3f position, Vector3f colour, Vector3f attenuation) {
         this.position = position;
         this.colour = colour;
         this.attenuation = attenuation;
     }
 
+    /**
+     * Gets attenuation.
+     *
+     * @return the attenuation
+     */
     public Vector3f getAttenuation() {
         return attenuation;
     }
 
+    /**
+     * Gets position.
+     *
+     * @return the position
+     */
     public Vector3f getPosition() {
         return position;
     }
 
+    /**
+     * Sets position.
+     *
+     * @param position the position
+     */
     public void setPosition(Vector3f position) {
         this.position = position;
     }
 
+    /**
+     * Gets colour.
+     *
+     * @return the colour
+     */
     public Vector3f getColour() {
         return colour;
     }
 
+    /**
+     * Sets colour.
+     *
+     * @param colour the colour
+     */
     public void setColour(Vector3f colour) {
         this.colour = colour;
     }
