@@ -34,9 +34,7 @@ public class Client extends Thread {
 		try {
 			System.out.println("Client ID: " + gameController.getPlayer().getUid());
 			while (1 == 1) {
-				
-				sleep(50);
-								
+												
 				// send which player this is
 				output.writeInt(gameController.getPlayer().getUid());
 				// System.out.println("Wrote :" +
@@ -66,9 +64,8 @@ public class Client extends Thread {
 			}
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			System.out.println("YOU HAVE BEEN DISCONNECTED");
+			System.exit(1);
 			e.printStackTrace();
 		} 
 	}
@@ -91,7 +88,7 @@ public class Client extends Thread {
 		// if the player doesn't exits create it
 		else {
 			System.out.println("*******************************");
-			gameController.addPlayerClient(playerID, packet);
+			gameController.addPlayer(playerID, packet);
 		}
 	}
 
@@ -110,8 +107,16 @@ public class Client extends Thread {
 
 	}
 
-	public int requestPlayersLength() throws IOException {
-		int length = input.readInt();
+	public int requestPlayersLength() {
+		int length = 0;
+		try {
+			length = input.readInt();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("YOU HAVE BEEN DISCONNECTED");
+			System.exit(1);
+			e.printStackTrace();
+		}
 		// System.out.println("Read: " + length);
 		return length;
 	}

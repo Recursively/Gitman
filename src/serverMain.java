@@ -1,10 +1,10 @@
-import controller.NetworkController;
+import controller.GameController;
 
 
 public class serverMain {
 
     public static void main(String[] args) {
-        new NetworkController();
+        new GameController(true);
     }
 
 }

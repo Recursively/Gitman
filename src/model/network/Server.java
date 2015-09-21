@@ -3,26 +3,23 @@ package model.network;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
 import controller.GameController;
-import controller.NetworkController;
 import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
 
 	private Socket socket;
 
-	private NetworkController gameController;
+	private GameController gameController;
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
-	public Server(Socket socket, NetworkController gameController) throws IOException {
+	public Server(Socket socket, GameController gameController) throws IOException {
 		this.socket = socket;
 		this.gameController = gameController;
 		initStreams();
@@ -34,8 +31,6 @@ public class Server extends Thread {
 			float[] array = new float[3];
 
 			while (1 == 1) {
-
-				sleep(50);
 
 				// receive the player number
 				int uid = inputStream.readInt();
@@ -58,9 +53,6 @@ public class Server extends Thread {
 
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

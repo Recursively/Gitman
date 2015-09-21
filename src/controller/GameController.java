@@ -46,7 +46,9 @@ public class GameController {
 
 	// Controller
 	private ClientController clientController;
-	
+	private ServerController serverController;
+	private final boolean isHost;
+
 	private final TexturedModel playerModel;
 
 	/**
@@ -54,7 +56,7 @@ public class GameController {
 	 * 
 	 * @throws IOException
 	 */
-	public GameController() {
+	public GameController(boolean isHost) {
 
 		// initialise model
 		loader = new Loader();
@@ -72,9 +74,15 @@ public class GameController {
 		Mouse.setGrabbed(true);
 
 		// setup client
-		clientController = new ClientController(this);
-		clientController.start();
-		
+		this.isHost = isHost;
+		if (isHost) {
+			serverController = new ServerController(this);
+			serverController.start();
+		} else {
+			clientController = new ClientController(this);
+			clientController.start();
+		}
+
 		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
 				new ModelTexture(loader.loadTexture("textures/white")));
 		ModelTexture playerTexture = playerModel.getTexture();
@@ -132,9 +140,12 @@ public class GameController {
 		DisplayManager.closeDisplay();
 	}
 
-	public void addPlayerClient(int playerID, float[] packet) {
-
+	public void addPlayer(int playerID, float[] packet) {
 		gameWorld.addNewPlayer(new Vector3f(packet[0], packet[1], packet[2]), playerID, playerModel);
+	}
+	
+	public void addPlayer() {
+		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), gameWorld.getOtherPlayers().size(), playerModel);
 	}
 
 	public ArrayList<Player> getPlayers() {

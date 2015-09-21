@@ -16,14 +16,14 @@ import model.network.Server;
  */
 public class ServerController extends Thread {
 
-	private NetworkController gameController;
+	private GameController gameController;
 
 	private ServerSocket serverSocket;
 	private Server server;
 
 	private boolean running;
 
-	public ServerController(NetworkController gameController) {
+	public ServerController(GameController gameController) {
 		this.gameController = gameController;
 		this.running = true;
 
@@ -45,7 +45,7 @@ public class ServerController extends Thread {
 				socket = serverSocket.accept();
 				server = new Server(socket, gameController);
 				server.sendGameInfo();
-				gameController.addPlayerServer();
+				gameController.addPlayer();
 				System.out.println("GAME SIZE NOW: " + gameController.getPlayers().size());
 				server.start();
 
