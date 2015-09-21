@@ -65,6 +65,8 @@ public class TitleScreen {
 
         // create the game now
         new GameController();
+        //change to make new window 
+        //TODO
     }
 
     /**
