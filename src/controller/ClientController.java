@@ -23,8 +23,8 @@ public class ClientController extends Thread {
 		int port = 32768; // default
 
 		try {
-			socket = new Socket("130.195.6.188", port);
-			// System.out.println("Connected");
+			socket = new Socket("localhost", port);
+			System.out.println("Connected");
 
 			client = new Client(socket, gameController);
 			int uid = client.requestPlayersLength();
