@@ -4,9 +4,11 @@ import model.entities.Camera;
 import model.entities.Entity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.DisplayManager;
 
 public class Player extends MovableEntity {
@@ -18,6 +20,9 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
+    
+    // store game interactions
+    private Item holding;
 
     public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera) {
         super(model, position, rotX, rotY, rotZ, scale);
@@ -92,5 +97,24 @@ public class Player extends MovableEntity {
 
     public Camera getCamera() {
         return camera;
+    }
+    
+    public boolean pickUpItem(Item i){
+    	// only allowed to pick up item if not holding something else already
+    	if(this.holding == null){
+    		this.holding = i;
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public void dropItem(){
+    	// can only drop item if holding something
+    	if(this.holding != null){
+    		Vector3f itemNewPos = getPosition();
+    		// TODO does item need to be dropped in front of player???
+    		this.holding.setPosition(itemNewPos);
+    		this.holding = null;
+    	}
     }
 }
