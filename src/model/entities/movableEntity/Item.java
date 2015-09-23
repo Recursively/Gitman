@@ -11,8 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public abstract class Item extends MovableEntity {
-	private static final int ITEM_SCORE = 5;
-
+	
 	public Item(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale) {
 		super(model, position, rotX, rotY, rotZ, scale);
@@ -23,28 +22,20 @@ public abstract class Item extends MovableEntity {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 	}
 	
-	// TODO changing view when model is picked up,
-	// and registering that the item is the one currently being held
-	public void pickUp(GameWorld game){
-		
-		 // update game state
-		//game.pickUpItem(this);
-		//game.updateScore(ITEM_SCORE);
-	}
+	/**
+	 * @return score of item
+	 */
+	public abstract int getScore();
 	
-	// TODO 
-	public void drop(GameWorld game){
-		
-		 // update game state
-		//game.dropItem();   
-	}
+	/**
+	 * Interact with the item. Updates game state and score
+	 * accordingly. 
+	 */
+	public abstract void interact();
 	
-	
-	public String viewOptions(){
-		return null;
-	}
-	
-	public void interact(){
-		
-	}
+	/**
+	 * @return String information about the item and what 
+	 * interacting with it will do
+	 */
+	public abstract String viewInfo(); 
 }
