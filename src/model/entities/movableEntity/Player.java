@@ -99,6 +99,9 @@ public class Player extends MovableEntity {
         return camera;
     }
     
+    
+    // TODO game score updates?
+    
     public boolean pickUpItem(Item i){
     	// only allowed to pick up item if not holding something else already
     	if(this.holding == null){

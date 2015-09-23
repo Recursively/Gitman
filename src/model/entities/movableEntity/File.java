@@ -12,6 +12,8 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class File extends Item {
+	private static final int FILE_SCORE = 20;
+	
 	private final String name;
 	private ArrayList<ReadMe> txtFiles;
 
@@ -27,5 +29,22 @@ public class File extends Item {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		this.name = name;
 		this.txtFiles = files;
+	}
+
+	@Override
+	public int getScore() {
+		return FILE_SCORE;
+	}
+
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String viewInfo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

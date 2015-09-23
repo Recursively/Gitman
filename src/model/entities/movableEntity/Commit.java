@@ -24,4 +24,21 @@ public class Commit extends Item {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public int getScore() {
+		return COMMIT_SCORE;
+	}
+
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String viewInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

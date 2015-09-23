@@ -10,6 +10,8 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class ReadMe extends Item{
+	private static final int README_SCORE = 10;
+	
 	private final String name;
 	private final String message;
 	
@@ -26,5 +28,22 @@ public class ReadMe extends Item{
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		this.name = name;
 		this.message = msg;
+	}
+
+	@Override
+	public int getScore() {
+		return README_SCORE;
+	}
+
+	@Override
+	public void interact() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String viewInfo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
