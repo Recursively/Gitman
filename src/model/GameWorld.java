@@ -25,6 +25,7 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10;   // starting progress value for patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
+	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
 	
     // Object creation factories
@@ -51,7 +52,7 @@ public class GameWorld {
     // Camera bound to a player
     private Camera playerCamera;
 
-    // Collection of multiply players stored separately
+    // Collection of other players stored separately
     private ArrayList<Player> otherPlayers;
 
     // Constant sun light-source
@@ -67,7 +68,6 @@ public class GameWorld {
     private Inventory inventory;
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
-    private Item pickedUp;
     private int score;               // overall score
 
     public GameWorld(Loader loader) {
@@ -114,6 +114,11 @@ public class GameWorld {
         return terrain;
     }
     
+    /**
+     * Decreases patch progress bar steadily by 10% of current
+     * progress
+     *  
+     */
     public void decreasePatch(){
     	if(this.patchProgress >= MAX_PROGRESS){
     		return;  // do nothing if reached 100%
@@ -127,15 +132,26 @@ public class GameWorld {
     	}
     }
 
-	public void incrementPatch(int commitScore){
+   /**
+    * Updates patch progress by "commitScore" ( a score that 
+    * takes into account how many commits are expected to be collected
+    * by each player depending on the number of players trying to 
+    * 'fix' the bug)
+    */
+	public void incrementPatch(){
+		int commitScore = MAX_PROGRESS / ((otherPlayers.size() + 1) * AVG_COMMIT_COLLECT);
+		
     	this.patchProgress = this.patchProgress + commitScore;
-    	
     	// 100% reached, game won
     	if(this.patchProgress >= MAX_PROGRESS){
     		winGame();
     	}
     }
 
+	/**
+	 * As player collects code into inventory, code progress 
+	 * level increases
+	 */
 	public void updateCodeProgress(){
     	this.codeProgress = this.codeProgress + CODE_VALUE;
     	
@@ -146,26 +162,18 @@ public class GameWorld {
     }
     
     /**
-     * Updates game score (players get points
-     * for interacting with items)
-     * @param n
+     * Updates game score (players get points for interacting with items)
+     * @param score is score of item in game
      */
-    public void updateScore(int n){
-    	this.score = this.score + n;
-    }
-    
-    public void pickUpItem(Item i){
-    	this.pickedUp = i;
-    }
-    
-    public void dropItem(){
-    	this.pickedUp = null;
+    public void updateScore(int score){
+    	this.score = this.score + score;
     }
 
-    // TODO method called when player should be given
-    // options to compile and run program
+    //TODO methods to fill in about absolute game states
+    
 	private void compileProgram() {
-		
+		// TODO method called when player should be given
+	    // options to compile and run program
 	}
 	
 	private void loseGame() {
