@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Divya
  *
  */
-public abstract class Item extends MovableEntity {
+public abstract class Item extends MovableEntity {  
 	
 	public Item(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale) {
@@ -22,6 +22,9 @@ public abstract class Item extends MovableEntity {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 	}
 	
+	
+	public abstract Item pickUp();
+	
 	/**
 	 * @return score of item
 	 */
@@ -31,7 +34,7 @@ public abstract class Item extends MovableEntity {
 	 * Interact with the item. Updates game state and score
 	 * accordingly. 
 	 */
-	public abstract void interact();
+	public abstract void interact(GameWorld game);
 	
 	/**
 	 * @return String information about the item and what 
