@@ -2,7 +2,6 @@ package controller;
 
 import model.GameWorld;
 import model.toolbox.Loader;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
@@ -49,7 +48,7 @@ public class GameController {
         gameWorld.initGame();
 
         // hook the mouse
-        Mouse.setGrabbed(true);
+        //Mouse.setGrabbed(true);
 
         //start the game
         doGame();
