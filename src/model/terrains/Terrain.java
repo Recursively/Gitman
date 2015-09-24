@@ -16,6 +16,8 @@ import java.io.IOException;
 /**
  * A Terrain is an area of a location. A terrain depends on a blend map and height map to know how to style the
  * terrain. The terrain is made up of a texture pack
+ *
+ * @author Marcel van workum
  */
 public class Terrain {
 
@@ -183,7 +185,7 @@ public class Terrain {
     /**
      * Loads the terrain Indices to the terrain data
      *
-     * @param vertexCount
+     * @param vertexCount number of vertices in the terrain
      */
     private void loadTerrainIndices(int vertexCount) {
         int pointer = 0;

@@ -24,6 +24,8 @@ import java.util.List;
  */
 public class Loader {
 
+    //TODO this should be static
+
     private List<Integer> vaos = new ArrayList<>();
     private List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();

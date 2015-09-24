@@ -14,8 +14,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -155,5 +153,4 @@ public class GameController {
 	public Player getPlayer() {
 		return gameWorld.getPlayer();
 	}
-
 }

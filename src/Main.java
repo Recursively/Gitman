@@ -1,4 +1,4 @@
-import controller.GameController;
+import view.TitleScreen;
 
 // MAIN METHOD
 public class Main {
@@ -42,8 +42,9 @@ public class Main {
         $s.s$$$$S..............   ................    $$....s$s......
          `""'           `     ```"""""""""""""""         `""   ``
      */
-public static void main(String[] args){
-        new GameController(false);
+
+    public static void main(String[] args) {
+        new TitleScreen();
     }
 
 }
