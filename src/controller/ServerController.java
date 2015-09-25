@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import model.entities.movableEntity.Player;
 import model.network.Server;
 
 /**
@@ -29,13 +30,15 @@ public class ServerController extends Thread {
 
 		try {
 			this.serverSocket = new ServerSocket(32768);
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void run() {
+
+		// gameController.addHostPlayer();
+
 		while (running) {
 			Socket socket = null;
 
@@ -44,9 +47,7 @@ public class ServerController extends Thread {
 
 				socket = serverSocket.accept();
 				server = new Server(socket, gameController);
-				server.sendGameInfo();
-				gameController.addPlayer();
-				System.out.println("GAME SIZE NOW: " + gameController.getPlayers().size());
+				server.sendInfoToNewPlayer();
 				server.start();
 
 			} catch (IOException e) {

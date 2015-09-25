@@ -29,7 +29,7 @@ public class ClientController extends Thread {
 			client = new Client(socket, gameController);
 			int uid = client.requestPlayersLength();
 			System.out.println("THIS PLAYER UID: " + uid);
-			gameController.getPlayer().setUid(uid);
+			gameController.addClientPlayer(uid);
 			client.start();
 
 		} catch (UnknownHostException e) {

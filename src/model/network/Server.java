@@ -41,10 +41,13 @@ public class Server extends Thread {
 					// System.out.println("Read:" + array[i]);
 				}
 				// update that players coordinates accordingly
-				updatePlayer(uid, array);
+				if (uid != gameController.getPlayer().getUid()) {
+					System.out.println("READ UID: " + uid);
+					updatePlayer(uid, array);
+				}
 
 				// send the number of players
-				sendGameInfo();
+				sendGameSize();
 
 				// send all the other players information
 				for (Player player : gameController.getPlayers()) {
@@ -74,17 +77,27 @@ public class Server extends Thread {
 	}
 
 	public void updatePlayer(int playerID, float[] packet) {
-		gameController.getPlayers().get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+		if (playerID < gameController.getPlayers().size()) {
+			gameController.getPlayers().get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+		} else {
+			gameController.addPlayer(playerID, packet);
+		}
 	}
 
-	public void sendGameInfo() throws IOException {
+	public void sendInfoToNewPlayer() {
+		try {
+			// send to the player what the new UID will be
+			outputStream.writeInt(gameController.getPlayers().size());
+			// now add that new player to the servers final arraylist
+			gameController.addClientPlayer(gameController.getPlayers().size());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void sendGameSize() throws IOException {
 		outputStream.writeInt(gameController.getPlayers().size());
-		// System.out.println("Sent: " + gameController.getPlayers().size());
-	}
-
-	public void sendSize(int count) throws IOException {
-		outputStream.writeInt(count);
-
 	}
 
 }

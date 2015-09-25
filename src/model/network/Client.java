@@ -34,7 +34,7 @@ public class Client extends Thread {
 		try {
 			System.out.println("Client ID: " + gameController.getPlayer().getUid());
 			while (1 == 1) {
-												
+
 				// send which player this is
 				output.writeInt(gameController.getPlayer().getUid());
 				// System.out.println("Wrote :" +
@@ -57,8 +57,12 @@ public class Client extends Thread {
 						packet[f] = input.readFloat();
 						// System.out.println("Read: " + packet[f]);
 					}
-					// finally update the player
-					updatePlayer(playerID, packet);
+					// finally update the player if it isnt the own player
+					if (playerID != gameController.getPlayer().getUid()) {
+						System.out
+								.println("RECEIVED: " + playerID + " THIS ID: " + gameController.getPlayer().getUid());
+						updatePlayer(playerID, packet);
+					}
 				}
 
 			}
@@ -67,7 +71,7 @@ public class Client extends Thread {
 			System.out.println("YOU HAVE BEEN DISCONNECTED");
 			System.exit(1);
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	private void initStreams() {
@@ -81,9 +85,10 @@ public class Client extends Thread {
 
 	public void updatePlayer(int playerID, float[] packet) {
 		// if this player exists then update it
-
-		if (!gameController.getPlayers().isEmpty() && gameController.getPlayers().size() > playerID) {
-			gameController.getPlayers().get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+		Player player = gameController.getPlayerWithID(playerID);
+		if (!gameController.getPlayers().isEmpty() && player != null) {
+			System.out.println("UPDATING PLAYER: " + playerID);
+			player.setPosition(new Vector3f(packet[0], packet[1], packet[2]));
 		}
 		// if the player doesn't exits create it
 		else {

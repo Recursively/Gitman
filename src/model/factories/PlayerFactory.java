@@ -48,8 +48,6 @@ public class PlayerFactory {
 		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
 		position.y = initialPlayerY;
 
-		
-
 		// New player and camera to follow the player
 		return new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position), 0);
 	}

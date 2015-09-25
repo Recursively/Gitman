@@ -47,8 +47,6 @@ public class GameController {
 	private ServerController serverController;
 	private final boolean isHost;
 
-	private final TexturedModel playerModel;
-
 	/**
 	 * Delegates the creation of the MVC and then starts the game
 	 * 
@@ -66,14 +64,12 @@ public class GameController {
 
 		// initialise the game world
 		gameWorld = new GameWorld(loader);
-		gameWorld.initGame();
-
-		// hook the mouse
-		Mouse.setGrabbed(true);
+		gameWorld.initGame(isHost);
 
 		// setup client
 		this.isHost = isHost;
 		if (isHost) {
+			addHostPlayer();
 			serverController = new ServerController(this);
 			serverController.start();
 		} else {
@@ -81,11 +77,15 @@ public class GameController {
 			clientController.start();
 		}
 
-		playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
-				new ModelTexture(loader.loadTexture("textures/white")));
-		ModelTexture playerTexture = playerModel.getTexture();
-		playerTexture.setShineDamper(10);
-		playerTexture.setReflectivity(1);
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// hook the mouse
+		Mouse.setGrabbed(true);
 
 		// start the game
 		doGame();
@@ -103,7 +103,7 @@ public class GameController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
-			for (Player player : gameWorld.getOtherPlayers()) {
+			for (Player player : gameWorld.getAllPlayers()) {
 				if (player.getUid() != gameWorld.getPlayer().getUid()) {
 					renderer.processEntity(player);
 				}
@@ -138,16 +138,41 @@ public class GameController {
 		DisplayManager.closeDisplay();
 	}
 
-	public void addPlayer(int playerID, float[] packet) {
-		gameWorld.addNewPlayer(new Vector3f(packet[0], packet[1], packet[2]), playerID, playerModel);
+	public boolean isHost() {
+		return isHost;
 	}
-	
+
+	public void addHostPlayer() {
+		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), 0);
+		System.out.println("ADDED PLAYER WITH ID: " + 0);
+	}
+
+	public void addClientPlayer(int uid) {
+		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
+		System.out.println("ADDED PLAYER WITH ID: " + uid);
+	}
+
+	public void addPlayer(int playerID, float[] packet) {
+		gameWorld.addNewPlayer(new Vector3f(packet[0], packet[1], packet[2]), playerID);
+		System.out.println("ADDED PLAYER WITH ID: " + playerID);
+	}
+
 	public void addPlayer() {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), gameWorld.getOtherPlayers().size(), playerModel);
+		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), gameWorld.getAllPlayers().size());
+		System.out.println("ADDED PLAYER WITH ID: " + gameWorld.getAllPlayers().size());
 	}
 
 	public ArrayList<Player> getPlayers() {
-		return gameWorld.getOtherPlayers();
+		return gameWorld.getAllPlayers();
+	}
+
+	public Player getPlayerWithID(int uid) {
+		for (Player player : gameWorld.getAllPlayers()) {
+			if (player.getUid() == uid) {
+				return player;
+			}
+		}
+		return null;
 	}
 
 	public Player getPlayer() {
