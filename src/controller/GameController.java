@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -78,7 +79,7 @@ public class GameController {
 		}
 
 		try {
-			Thread.sleep(50);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +104,7 @@ public class GameController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
-			for (Player player : gameWorld.getAllPlayers()) {
+			for (Player player : gameWorld.getAllPlayers().values()) {
 				if (player.getUid() != gameWorld.getPlayer().getUid()) {
 					renderer.processEntity(player);
 				}
@@ -162,17 +163,12 @@ public class GameController {
 		System.out.println("ADDED PLAYER WITH ID: " + gameWorld.getAllPlayers().size());
 	}
 
-	public ArrayList<Player> getPlayers() {
+	public Map<Integer, Player> getPlayers() {
 		return gameWorld.getAllPlayers();
 	}
 
 	public Player getPlayerWithID(int uid) {
-		for (Player player : gameWorld.getAllPlayers()) {
-			if (player.getUid() == uid) {
-				return player;
-			}
-		}
-		return null;
+		return gameWorld.getAllPlayers().get(uid);
 	}
 
 	public Player getPlayer() {

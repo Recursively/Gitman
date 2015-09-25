@@ -1,6 +1,8 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -55,7 +57,7 @@ public class GameWorld {
 	private Player player;
 
 	// Collection of multiply players stored separately
-	private ArrayList<Player> allPlayers;
+	private Map<Integer, Player> allPlayers;
 
 	// Constant sun light-source
 	private Light sun;
@@ -106,10 +108,11 @@ public class GameWorld {
 		initPlayerModel();
 
 		// finally create the player.
-		//player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50), playerModel);
-		//if (isHost) {
-		//	allPlayers.add(player);
-		//}
+		// player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50),
+		// playerModel);
+		// if (isHost) {
+		// allPlayers.add(player);
+		// }
 	}
 
 	/**
@@ -152,7 +155,7 @@ public class GameWorld {
 		guiImages = new ArrayList<>();
 		staticEntities = new ArrayList<>();
 		movableEntities = new ArrayList<>();
-		allPlayers = new ArrayList<>();
+		allPlayers = new HashMap<>();
 		lights = new ArrayList<>();
 	}
 
@@ -277,13 +280,13 @@ public class GameWorld {
 
 	public void addNewPlayer(Vector3f position, int uid) {
 		player = playerFactory.makeNewPlayer(playerModel, position, uid);
-		allPlayers.add(player);
+		allPlayers.put(uid, player);
 	}
 
 	/**
 	 * @return the otherPlayers
 	 */
-	public ArrayList<Player> getAllPlayers() {
+	public Map<Integer, Player> getAllPlayers() {
 		return allPlayers;
 	}
 
@@ -291,7 +294,7 @@ public class GameWorld {
 	 * @param otherPlayers
 	 *            the otherPlayers to set
 	 */
-	public void setAllPlayers(ArrayList<Player> otherPlayers) {
+	public void setAllPlayers(Map<Integer, Player> otherPlayers) {
 		this.allPlayers = otherPlayers;
 	}
 }

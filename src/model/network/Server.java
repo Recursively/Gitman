@@ -50,7 +50,7 @@ public class Server extends Thread {
 				sendGameSize();
 
 				// send all the other players information
-				for (Player player : gameController.getPlayers()) {
+				for (Player player : gameController.getPlayers().values()) {
 					sendPlayerPosition(player);
 				}
 
@@ -90,7 +90,7 @@ public class Server extends Thread {
 			outputStream.writeInt(gameController.getPlayers().size());
 			// now add that new player to the servers final arraylist
 			gameController.addClientPlayer(gameController.getPlayers().size());
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
