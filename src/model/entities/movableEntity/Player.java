@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.models.TexturedModel;
@@ -21,12 +22,13 @@ public class Player extends MovableEntity {
 
     private float verticalVelocity = 0;
     
-    // store game interactions
+    private GameWorld gameWorld;
     private Item holding;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera) {
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera, GameWorld game) {
         super(model, position, rotX, rotY, rotZ, scale);
         this.camera = camera;
+        this.gameWorld = game;
     }
 
     public void move(Terrain terrain) {
@@ -74,6 +76,15 @@ public class Player extends MovableEntity {
                 jump();
             }
         }
+        
+        // pick up/interact with items using E
+        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+            pickUpOrInteract();
+        }
+        // drop items using R
+        if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+            dropItem();
+        }
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);
@@ -85,7 +96,7 @@ public class Player extends MovableEntity {
         }
     }
 
-    public void moveFromLook(float dx, float dy, float dz) {
+	public void moveFromLook(float dx, float dy, float dz) {
 
         Vector3f position = super.getPosition();
 
@@ -99,19 +110,33 @@ public class Player extends MovableEntity {
         return camera;
     }
     
-    
-    // TODO game score updates?
-    
-    public boolean pickUpItem(Item i){
-    	// only allowed to pick up item if not holding something else already
+    private void pickUpOrInteract() {
+    	// if player is not holding anything, they can pick up the item
     	if(this.holding == null){
-    		this.holding = i;
-    		return true;
+    		pickUpItem();
     	}
-    	return false;
+    	else {
+    		// otherwise, E means interact
+    		interactWithItem();
+    	}
+	}
+
+	private void pickUpItem(){
+    	Item item = gameWorld.findItem(this.getPosition()); 
+    	// moving an entity to laptop takes info and creates new laptop item. destroys entity. same but backword shappens with delete
+    	if(item != null){
+    		this.holding = item.pickUp(this.gameWorld); 
+    	}
     }
+	
+	/**
+	 * Interact with currently held item
+	 */
+	private void interactWithItem() {
+		//TODO
+	}
     
-    public void dropItem(){
+    private void dropItem(){
     	// can only drop item if holding something
     	if(this.holding != null){
     		Vector3f itemNewPos = getPosition();
