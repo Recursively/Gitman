@@ -12,26 +12,23 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Divya
  *
  */
-public class File extends LaptopItem {
-	private static final int FILE_SCORE = 20;
+public class FlashDrive extends LaptopItem {
+	private static final int FLASH_DRIVE_SCORE = 20;
 	
-	private ArrayList<ReadMe> txtFiles;
 
-	public File(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, String name, ArrayList<ReadMe> files, int size) {
+	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
+			float rotZ, float scale, String name, int size) {
 		super(model, position, rotX, rotY, rotZ, scale, name, size);
-		this.txtFiles = files;
 	}
 	
-	public File(TexturedModel model, Vector3f position, float rotX, float rotY,
+	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, String name, ArrayList<ReadMe> files, int size) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, name, size);
-		this.txtFiles = files;
 	}
 
 	@Override
 	public int getScore() {
-		return FILE_SCORE;
+		return FLASH_DRIVE_SCORE;
 	}
 
 	@Override
@@ -42,6 +39,12 @@ public class File extends LaptopItem {
 
 	@Override
 	public String viewInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//@Override
+	public Item pickUp() {
 		// TODO Auto-generated method stub
 		return null;
 	}
