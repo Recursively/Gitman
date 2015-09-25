@@ -11,11 +11,13 @@ public class ClientController extends Thread {
 	private GameController gameController;
 	private Socket socket;
 	private Client client;
+	private String ipAddres;
 
-	public ClientController(GameController controller) {
+	public ClientController(GameController controller, String ipAddress) {
 		this.socket = null;
 		this.client = null;
 		this.gameController = controller;
+		this.ipAddres = ipAddress;
 	}
 
 	public void run() {
@@ -23,13 +25,11 @@ public class ClientController extends Thread {
 		int port = 32768; // default
 
 		try {
-			socket = new Socket("localhost", port);
-			System.out.println("Connected");
-
+			socket = new Socket(ipAddres, port);
 			client = new Client(socket, gameController);
-			int uid = client.requestPlayersLength();
-			System.out.println("THIS PLAYER UID: " + uid);
-			gameController.addClientPlayer(uid);
+			int uid = client.readPlayerID();
+			client.setUid(uid);
+			createPlayer(uid);
 			client.start();
 
 		} catch (UnknownHostException e) {
@@ -38,6 +38,10 @@ public class ClientController extends Thread {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void createPlayer(int uid) {
+		gameController.createPlayer(uid, true);
 	}
 
 }

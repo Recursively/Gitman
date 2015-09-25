@@ -19,85 +19,105 @@ public class Server extends Thread {
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
-	public Server(Socket socket, GameController gameController) throws IOException {
+	private int uid;
+
+	public Server(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
 		initStreams();
 	}
 
 	public void run() {
-		try {
 
-			float[] array = new float[3];
+		while (1 == 1) {
+			// receive information
+			uid = readPlayerID();
+			checkExistingPlayer();
+			updatePlayerPosition(uid);
 
-			while (1 == 1) {
-
-				// receive the player number
-				int uid = inputStream.readInt();
-				// System.out.println("Read:" + uid);
-				for (int i = 0; i < array.length; i++) {
-					// receive the players coordinates
-					array[i] = inputStream.readFloat();
-					// System.out.println("Read:" + array[i]);
-				}
-				// update that players coordinates accordingly
-				if (uid != gameController.getPlayer().getUid()) {
-					System.out.println("READ UID: " + uid);
-					updatePlayer(uid, array);
-				}
-
-				// send the number of players
-				sendGameSize();
-
-				// send all the other players information
-				for (Player player : gameController.getPlayers().values()) {
-					sendPlayerPosition(player);
-				}
-
+			// send information
+			sendNumberOfPlayers();
+			for (Player player : gameController.getPlayers().values()) {
+				sendPlayerPosition(player);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+
 		}
+
 	}
 
-	public void initStreams() throws IOException {
-		inputStream = new DataInputStream(socket.getInputStream());
-		outputStream = new DataOutputStream(socket.getOutputStream());
-	}
-
-	private void sendPlayerPosition(Player player) throws IOException {
-		outputStream.writeInt(player.getUid());
-		outputStream.writeFloat(player.getPosition().x);
-		outputStream.writeFloat(player.getPosition().y);
-		outputStream.writeFloat(player.getPosition().z);
-
-		// System.out.println("Wrote: " + player.getUid() + " " +
-		// player.getPosition().x + " " + player.getPosition().y
-		// + " " + player.getPosition().z);
-	}
-
-	public void updatePlayer(int playerID, float[] packet) {
-		if (playerID < gameController.getPlayers().size()) {
-			gameController.getPlayers().get(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
-		} else {
-			gameController.addPlayer(playerID, packet);
-		}
-	}
-
-	public void sendInfoToNewPlayer() {
+	public void initStreams() {
 		try {
-			// send to the player what the new UID will be
-			outputStream.writeInt(gameController.getPlayers().size());
-			// now add that new player to the servers final arraylist
-			gameController.addClientPlayer(gameController.getPlayers().size());
-
+			inputStream = new DataInputStream(socket.getInputStream());
+			outputStream = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
-	public void sendGameSize() throws IOException {
-		outputStream.writeInt(gameController.getPlayers().size());
+	public void sendPlayerID(int id) {
+		try {
+			outputStream.writeInt(id);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	private void sendPlayerPosition(Player player) {
+		try {
+			outputStream.writeInt(player.getUid());
+			outputStream.writeFloat(player.getPosition().x);
+			outputStream.writeFloat(player.getPosition().y);
+			outputStream.writeFloat(player.getPosition().z);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	private void sendNumberOfPlayers() {
+		try {
+			outputStream.writeInt(gameController.gameSize());
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	public int readPlayerID() {
+		try {
+			return inputStream.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+			return -1;
+		}
+	}
+
+	private void checkExistingPlayer() {
+		if (!gameController.getPlayers().containsKey(uid)) {
+			System.out.println("CREATED NEW PLAYER ID: " + uid);
+			gameController.createPlayer(uid);
+		}
+	}
+
+	private void updatePlayerPosition(int uid) {
+		try {
+			float x = inputStream.readFloat();
+			float y = inputStream.readFloat();
+			float z = inputStream.readFloat();
+			gameController.getPlayerWithID(uid).setPosition(new Vector3f(x, y, z));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+
 	}
 
 }

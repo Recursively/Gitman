@@ -63,7 +63,7 @@ public class TitleScreen {
         }
 
         // create the game now
-        new GameController(false);
+        new GameController(false, "localhost");
     }
 
     /**

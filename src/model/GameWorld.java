@@ -106,13 +106,6 @@ public class GameWorld {
 
 		// initialises the players models
 		initPlayerModel();
-
-		// finally create the player.
-		// player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50),
-		// playerModel);
-		// if (isHost) {
-		// allPlayers.add(player);
-		// }
 	}
 
 	/**
@@ -275,12 +268,24 @@ public class GameWorld {
 
 	private void winGame() {
 		// TODO Auto-generated method stub
+	}
 
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
-		player = playerFactory.makeNewPlayer(playerModel, position, uid);
+		Player player = playerFactory.makeNewPlayer(position, playerModel, uid);
 		allPlayers.put(uid, player);
+		
+		System.out.println("ADDED NEW PLAYER, ID: " + uid);
+	}
+
+	public void addPlayer(Vector3f position, int uid) {
+		player = playerFactory.makeNewPlayer(position, playerModel, uid);
+		allPlayers.put(uid, player);
+
+		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 
 	/**
@@ -290,11 +295,4 @@ public class GameWorld {
 		return allPlayers;
 	}
 
-	/**
-	 * @param otherPlayers
-	 *            the otherPlayers to set
-	 */
-	public void setAllPlayers(Map<Integer, Player> otherPlayers) {
-		this.allPlayers = otherPlayers;
-	}
 }

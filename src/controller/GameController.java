@@ -46,14 +46,16 @@ public class GameController {
 	// Controller
 	private ClientController clientController;
 	private ServerController serverController;
+
 	private final boolean isHost;
+	private int playerCount;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
 	 * 
 	 * @throws IOException
 	 */
-	public GameController(boolean isHost) {
+	public GameController(boolean isHost, String ipAddress) {
 
 		// initialise model
 		loader = new Loader();
@@ -70,11 +72,10 @@ public class GameController {
 		// setup client
 		this.isHost = isHost;
 		if (isHost) {
-			addHostPlayer();
 			serverController = new ServerController(this);
 			serverController.start();
 		} else {
-			clientController = new ClientController(this);
+			clientController = new ClientController(this, ipAddress);
 			clientController.start();
 		}
 
@@ -104,6 +105,7 @@ public class GameController {
 			renderer.processTerrain(gameWorld.getTerrain());
 
 			// PROCESS PLAYER
+
 			for (Player player : gameWorld.getAllPlayers().values()) {
 				if (player.getUid() != gameWorld.getPlayer().getUid()) {
 					renderer.processEntity(player);
@@ -143,24 +145,14 @@ public class GameController {
 		return isHost;
 	}
 
-	public void addHostPlayer() {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), 0);
-		System.out.println("ADDED PLAYER WITH ID: " + 0);
-	}
-
-	public void addClientPlayer(int uid) {
+	public void createPlayer(int uid) {
 		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
-		System.out.println("ADDED PLAYER WITH ID: " + uid);
+		playerCount++;
 	}
 
-	public void addPlayer(int playerID, float[] packet) {
-		gameWorld.addNewPlayer(new Vector3f(packet[0], packet[1], packet[2]), playerID);
-		System.out.println("ADDED PLAYER WITH ID: " + playerID);
-	}
-
-	public void addPlayer() {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), gameWorld.getAllPlayers().size());
-		System.out.println("ADDED PLAYER WITH ID: " + gameWorld.getAllPlayers().size());
+	public void createPlayer(int uid, boolean b) {
+		gameWorld.addPlayer(new Vector3f(50, 100, -50), uid);
+		playerCount++;
 	}
 
 	public Map<Integer, Player> getPlayers() {
@@ -174,4 +166,9 @@ public class GameController {
 	public Player getPlayer() {
 		return gameWorld.getPlayer();
 	}
+
+	public int gameSize() {
+		return playerCount;
+	}
+
 }

@@ -43,18 +43,15 @@ public class PlayerFactory {
 	 *
 	 * @return Player with Camera
 	 */
-	public Player makeNewMainPlayer(Vector3f position, TexturedModel playerModel) {
+	public Player makeNewPlayer(Vector3f position, TexturedModel playerModel, int uid) {
 		// where on the ground should the player be
 		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
 		position.y = initialPlayerY;
 
+		System.out.println("CREATED PLAYER WITH ID: " + uid);
+
 		// New player and camera to follow the player
-		return new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position), 0);
+		return new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position), uid);
 	}
 
-	public Player makeNewPlayer(TexturedModel playerModel, Vector3f position, int uid) {
-		Player player = makeNewMainPlayer(position, playerModel);
-		player.setUid(uid);
-		return player;
-	}
 }

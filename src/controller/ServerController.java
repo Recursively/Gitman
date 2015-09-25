@@ -22,12 +22,8 @@ public class ServerController extends Thread {
 	private ServerSocket serverSocket;
 	private Server server;
 
-	private boolean running;
-
 	public ServerController(GameController gameController) {
 		this.gameController = gameController;
-		this.running = true;
-
 		try {
 			this.serverSocket = new ServerSocket(32768);
 		} catch (IOException e) {
@@ -37,17 +33,17 @@ public class ServerController extends Thread {
 
 	public void run() {
 
-		// gameController.addHostPlayer();
+		createHostPlayer();
 
-		while (running) {
+		while (1 == 1) {
 			Socket socket = null;
 
 			try {
-				// System.out.println("Accepting...");
-
 				socket = serverSocket.accept();
 				server = new Server(socket, gameController);
-				server.sendInfoToNewPlayer();
+				int uid = createOtherPlayer();
+				server.sendPlayerID(uid);
+				server.setUid(uid);
 				server.start();
 
 			} catch (IOException e) {
@@ -57,8 +53,14 @@ public class ServerController extends Thread {
 		}
 	}
 
-	public void end() {
-		running = false;
+	private void createHostPlayer() {
+		gameController.createPlayer(0, true);
+	}
+
+	private int createOtherPlayer() {
+		int uid = gameController.gameSize();
+		gameController.createPlayer(uid);
+		return uid;
 	}
 
 }

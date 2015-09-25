@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.crypto.spec.PSource;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
@@ -18,10 +20,11 @@ import model.entities.movableEntity.Player;
 public class Client extends Thread {
 
 	private final Socket socket;
-	private DataOutputStream output;
-	private DataInputStream input;
+	private DataOutputStream outputStream;
+	private DataInputStream inputStream;
 
 	private GameController gameController;
+	private int uid;
 
 	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
@@ -31,99 +34,106 @@ public class Client extends Thread {
 	}
 
 	public void run() {
-		try {
-			System.out.println("Client ID: " + gameController.getPlayer().getUid());
-			while (1 == 1) {
 
-				// send which player this is
-				output.writeInt(gameController.getPlayer().getUid());
-				// System.out.println("Wrote :" +
-				// gameController.getPlayer().getUid());
-				// send the players location
-				sendLocation(gameController.getPlayer());
+		while (1 == 1) {
+			// send information
+			sendPlayerID();
+			sendPlayerLocation(gameController.getPlayer());
 
-				// receieve how many other players there are
-				int length = requestPlayersLength();
+			// receive information
+			int size = readNumberOfPlayers();
 
-				// System.out.println("Read players: " + length);
-				// receive the other players
-				for (int i = 0; i < length; i++) {
-					float[] packet = new float[3];
-					// read the player number
-					int playerID = input.readInt();
-					// System.out.println("Read: " + playerID);
-					for (int f = 0; f < packet.length; f++) {
-						// read the coordinates
-						packet[f] = input.readFloat();
-						// System.out.println("Read: " + packet[f]);
-					}
-					// finally update the player if it isnt the own player
-					if (playerID != gameController.getPlayer().getUid()) {
-						System.out
-								.println("RECEIVED: " + playerID + " THIS ID: " + gameController.getPlayer().getUid());
-						updatePlayer(playerID, packet);
-					}
+			for (int i = 0; i < size; i++) {
+				int playerID = readPlayerID();
+				float[] position = readPlayerPosition();
+				// if the player id received is a different player, update it's
+				// position accordingly
+				if (playerID != gameController.getPlayer().getUid()) {
+					updatePlayer(playerID, position);
 				}
-
 			}
 
-		} catch (IOException e) {
-			System.out.println("YOU HAVE BEEN DISCONNECTED");
-			System.exit(1);
-			e.printStackTrace();
 		}
+
+	}
+
+	private int readNumberOfPlayers() {
+		try {
+			return inputStream.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+			return 0;
+		}
+	}
+
+	private void sendPlayerID() {
+
+		try {
+			outputStream.writeInt(this.uid);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
+	private float[] readPlayerPosition() {
+		float[] position = new float[3];
+		try {
+			position[0] = inputStream.readFloat();
+			position[1] = inputStream.readFloat();
+			position[2] = inputStream.readFloat();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		return position;
 	}
 
 	private void initStreams() {
 		try {
-			output = new DataOutputStream(socket.getOutputStream());
-			input = new DataInputStream(socket.getInputStream());
+			outputStream = new DataOutputStream(socket.getOutputStream());
+			inputStream = new DataInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 	}
 
 	public void updatePlayer(int playerID, float[] packet) {
-		// if this player exists then update it
-		Player player = gameController.getPlayerWithID(playerID);
-		if (!gameController.getPlayers().isEmpty() && player != null) {
-			System.out.println("UPDATING PLAYER: " + playerID);
-			player.setPosition(new Vector3f(packet[0], packet[1], packet[2]));
-		}
-		// if the player doesn't exits create it
-		else {
-			System.out.println("*******************************");
-			gameController.addPlayer(playerID, packet);
+		if (gameController.getPlayers().containsKey(playerID)) {
+			gameController.getPlayerWithID(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+		} else {
+			gameController.createPlayer(playerID);
 		}
 	}
 
-	public void sendLocation(Player player) {
+	public void sendPlayerLocation(Player player) {
 		try {
-			output.writeFloat(player.getPosition().getX());
-			output.writeFloat(player.getPosition().getY());
-			output.writeFloat(player.getPosition().getZ());
+			outputStream.writeFloat(player.getPosition().getX());
+			outputStream.writeFloat(player.getPosition().getY());
+			outputStream.writeFloat(player.getPosition().getZ());
 
-			// System.out.println(
-			// "Sent: " + player.getPosition().x + " " + player.getPosition().y
-			// + " " + player.getPosition().z);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-	}
-
-	public int requestPlayersLength() {
-		int length = 0;
-		try {
-			length = input.readInt();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("YOU HAVE BEEN DISCONNECTED");
 			System.exit(1);
-			e.printStackTrace();
 		}
-		// System.out.println("Read: " + length);
-		return length;
+
+	}
+
+	public int readPlayerID() {
+		try {
+			return inputStream.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+			return -1;
+		}
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
 	}
 
 }
