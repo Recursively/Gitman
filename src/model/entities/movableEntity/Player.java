@@ -85,6 +85,8 @@ public class Player extends MovableEntity {
         if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
             dropItem();
         }
+        
+        // TODO have 'C' or something to interact/copy code from npc?
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);
@@ -117,24 +119,19 @@ public class Player extends MovableEntity {
     	}
     	else {
     		// otherwise, E means interact
-    		interactWithItem();
+    		this.holding.interact(this.gameWorld);
     	}
 	}
 
 	private void pickUpItem(){
-    	Item item = gameWorld.findItem(this.getPosition()); 
-    	// moving an entity to laptop takes info and creates new laptop item. destroys entity. same but backword shappens with delete
+		// find item that is directly in front of player
+    	Item item = gameWorld.findItem(this.getPosition());  //TODO complete method in game world
     	if(item != null){
+    		// picking up items affect game differently depending on item
+    		// so allow the item to deal with changing game state accordingly
     		this.holding = item.pickUp(this.gameWorld); 
     	}
     }
-	
-	/**
-	 * Interact with currently held item
-	 */
-	private void interactWithItem() {
-		//TODO
-	}
     
     private void dropItem(){
     	// can only drop item if holding something

@@ -2,6 +2,7 @@ package model.guiComponents;
 
 import java.util.ArrayList;
 
+import model.entities.Entity;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
 
@@ -34,17 +35,28 @@ public class Inventory {
 		}
 	}
 	
-	public void deleteItem(LaptopItem item){
+	public Entity deleteItem(LaptopItem item){
 		this.storageUsed = this.storageUsed - item.getSize();
 		inLaptop.remove(item);
+		//TODO
+		return null; //FIXME
 	}
 	
+
 	public ArrayList<LaptopItem> getInventory(){
 		return inLaptop;
 	}
 	
 	public int getStorageUsed(){
 		return this.storageUsed;
+	}
+	
+	/**
+	 * Increases storage used by 'size' amount. 
+	 * @param size
+	 */
+	public void increaseStorageUsed(int size){
+		this.storageUsed = this.storageUsed + size;
 	}
 
 }
