@@ -2,7 +2,9 @@ package model;
 
 import model.entities.Entity;
 import model.entities.Light;
+import model.entities.movableEntity.Item;
 import model.entities.movableEntity.Player;
+import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
 import model.guiComponents.Inventory;
 import model.terrains.Terrain;
@@ -13,6 +15,8 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Delegate class used to represent all the current components of the game world.
@@ -65,6 +69,7 @@ public class GameWorld {
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
     private int score;               // overall score
+    private Set<SwipeCard> cards;
 
     /**
      * Creates the game world and passes in the loader
@@ -94,6 +99,11 @@ public class GameWorld {
 
         // finally create the player.
         player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50));
+        
+        // game state
+        inventory = new Inventory();
+        this.patchProgress = START_PATCH;
+        this.cards = new HashSet<SwipeCard>();
     }
 
     /**
@@ -122,10 +132,6 @@ public class GameWorld {
      */
     private void initTerrain() {
         terrain = terrainFactory.makeTerrain();
-        
-        // game state
-        inventory = new Inventory();
-        this.patchProgress = START_PATCH;
     }
 
     /**
@@ -246,6 +252,7 @@ public class GameWorld {
 	private void compileProgram() {
 		// TODO method called when player should be given
 	    // options to compile and run program
+		// should start PatchTime thread here with delay added in thread before decrease patch  method is called
 	}
 	
 	private void loseGame() {
@@ -257,4 +264,13 @@ public class GameWorld {
 		// TODO Auto-generated method stub
 
 	}
+
+	public Item findItem(Vector3f position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	//TODO add methods to add to swipe card list, and remove from swipe card list
+	// unlock door method will go through swipe cards and check if the right swipe is avaliable
+	// if it is, then uses it
 }
