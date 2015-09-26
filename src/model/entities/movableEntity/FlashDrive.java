@@ -1,7 +1,5 @@
 package model.entities.movableEntity;
 
-import java.util.ArrayList;
-
 import model.GameWorld;
 import model.models.TexturedModel;
 
@@ -14,16 +12,23 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class FlashDrive extends LaptopItem {
 	private static final int FLASH_DRIVE_SCORE = 20;
+	//TODO field to store image?
 	
 
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, String name, int size) {
-		super(model, position, rotX, rotY, rotZ, scale, name, size);
+			float rotZ, float scale, int id, String name, int size) {
+		super(model, position, rotX, rotY, rotZ, scale, id, name, size);
 	}
 	
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int textureIndex, String name, ArrayList<ReadMe> files, int size) {
-		super(model, position, rotX, rotY, rotZ, scale, textureIndex, name, size);
+			float rotZ, float scale, int textureIndex, int id, String name, int size) {
+		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name, size);
+	}
+	
+	@Override
+	public Item pickUp(GameWorld game) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -39,12 +44,6 @@ public class FlashDrive extends LaptopItem {
 
 	@Override
 	public String viewInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	//@Override
-	public Item pickUp() {
 		// TODO Auto-generated method stub
 		return null;
 	}

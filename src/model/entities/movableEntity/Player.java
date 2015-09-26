@@ -87,6 +87,7 @@ public class Player extends MovableEntity {
         }
         
         // TODO have 'C' or something to interact/copy code from npc?
+        // TODO have 'U' or something for unlock door method
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);

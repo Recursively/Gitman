@@ -1,27 +1,38 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * 
+ * Represents s
  * @author Divya
  *
  */
 public class SwipeCard extends Item {
 	private static final int SWIPE_CARD_SCORE = 15;
+	
+	private final int cardID;
 
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale) {
-		super(model, position, rotX, rotY, rotZ, scale);
+			float rotY, float rotZ, float scale, int id, int cardNum) {
+		super(model, position, rotX, rotY, rotZ, scale, id);
+		this.cardID = cardNum;
 		// TODO Auto-generated constructor stub
 	}
 	
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int textureIndex) {
-		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
+			float rotZ, float scale, int textureIndex, int id, int cardNum) {
+		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		// TODO Auto-generated constructor stub
+		this.cardID = cardNum;
+	}
+	
+	@Override
+	public Item pickUp(GameWorld game) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -30,7 +41,7 @@ public class SwipeCard extends Item {
 	}
 
 	@Override
-	public void interact() {
+	public void interact(GameWorld game) {
 		// TODO Auto-generated method stub
 		
 	}
