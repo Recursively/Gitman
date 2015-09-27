@@ -9,11 +9,11 @@ import model.guiComponents.Inventory;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
-
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Delegate class used to represent all the current components of the game world.
@@ -95,6 +95,8 @@ public class GameWorld {
 
         // finally create the player.
         player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50));
+
+        staticEntities = entityFactory.generateRandomMap(loader, terrain);
     }
 
     /**
@@ -250,4 +252,8 @@ public class GameWorld {
 		// TODO Auto-generated method stub
 
 	}
+
+    public List<Entity> staticEntities() {
+        return staticEntities;
+    }
 }

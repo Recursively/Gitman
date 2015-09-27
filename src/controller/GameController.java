@@ -1,7 +1,9 @@
 package controller;
 
 import model.GameWorld;
+import model.entities.Entity;
 import model.toolbox.Loader;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
@@ -48,7 +50,7 @@ public class GameController {
         gameWorld.initGame();
 
         // hook the mouse
-        //Mouse.setGrabbed(true);
+        Mouse.setGrabbed(true);
 
         //start the game
         doGame();
@@ -68,6 +70,9 @@ public class GameController {
             // PROCESS PLAYER
 
             // PROCESS ENTITIES
+            for (Entity e : gameWorld.staticEntities()) {
+                renderer.processEntity(e);
+            }
 
 
             // update the players position in the world
