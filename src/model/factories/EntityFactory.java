@@ -14,8 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//TODO BROKEN
-
+/**
+ * Entity factory which abstracts the creation of an entity. It loads the entity map for a given terrain or
+ * randomly generates entities for testing.
+ *
+ * @author Marcel van Workum
+ */
 public class EntityFactory {
 
     // Paths to the object and textures files
@@ -25,18 +29,13 @@ public class EntityFactory {
     // Collection of object models in the game
     private ArrayList<String> objectModels;
 
+    // parameters
     private float reflectivity = 1f;
     private float shineDamper = 10f;
     private float scale = 1f;
-
-    private float x = -1f;
-    private float y = -1f;
-
-    private Vector3f rotation = new Vector3f(0, 0, 0);
-
-
     private float maxTerrainOffset = 200f;
 
+    private Vector3f rotation = new Vector3f(0, 0, 0);
     private Random random = new Random();
 
     /**
@@ -66,9 +65,18 @@ public class EntityFactory {
         objectModels.add(objectModel);
     }
 
+    /**
+     * Create random entity entity.
+     *
+     * @param loader  the loader
+     * @param terrain the terrain
+     * @return the entity
+     */
     public Entity createRandomEntity(Loader loader, Terrain terrain) {
         return makeRandomEntity(random.nextInt(objectModels.size()), loader, terrain);
     }
+
+    // HELPER METHODS
 
     private Entity makeRandomEntity(int i, Loader loader, Terrain terrain) {
         return makeFernEntity(loader, terrain, objectModels.get(i));
@@ -124,6 +132,10 @@ public class EntityFactory {
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + name)));
     }
 
+
+    // TESTING METHOD
+    // TODO REMOVE #generateRandomMap
+
     public ArrayList<Entity> generateRandomMap(Loader loader, Terrain terrain) {
         ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
         RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
@@ -137,22 +149,14 @@ public class EntityFactory {
 
         ArrayList<Entity> allPolyTrees = new ArrayList<>();
 
-        for (int i = 0; i < 200; i++) {
-            float x = random.nextFloat() * 1000;
-            float z = random.nextFloat() * -1000;
+        for (int i = 0; i < 50; i++) {
+            float x = random.nextFloat() * 256;
+            float z = random.nextFloat() * -256;
             float y = terrain.getTerrainHeight(x, z);
-            if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
-                continue;
-            }
             allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
                     0, 0f, 1f, random.nextInt(4)));
         }
 
         return allPolyTrees;
     }
-
-
-    // TODO Random scale or rotation?
-
-
 }

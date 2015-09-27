@@ -8,6 +8,8 @@ import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 import model.toolbox.objParser.OBJFileLoader;
+import model.entities.Entity;
+import model.toolbox.Loader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
@@ -112,7 +114,10 @@ public class GameController {
 				}
 			}
 
-			// PROCESS ENTITIES
+			// PROCESS ENTITIES// PROCESS ENTITIES
+            for (Entity e : gameWorld.getStaticEntities()) {
+                renderer.processEntity(e);
+            }
 
 			// update the players position in the world
 			gameWorld.getPlayer().move(gameWorld.getTerrain());

@@ -6,6 +6,9 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * Represents a "Commit" item in the game. This, when picked
+ * up by players add to the patch progress, and aids in defeating
+ * the 'bug' in the game. 
  * 
  * @author Divya
  *
@@ -14,14 +17,33 @@ public class Commit extends Item {
 	private static final int COMMIT_SCORE = 10;
 
 	public Commit(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale) {
-		super(model, position, rotX, rotY, rotZ, scale);
-		// TODO Auto-generated constructor stub
+			float rotY, float rotZ, float scale, int id) {
+		super(model, position, rotX, rotY, rotZ, scale, id);
 	}
 	
 	public Commit(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int textureIndex) {
-		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
-		// TODO Auto-generated constructor stub
+			float rotZ, float scale, int textureIndex, int id) {
+		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
+	}
+
+	@Override
+	public Item pickUp(GameWorld game) {
+		game.updateScore(COMMIT_SCORE);
+		// commits disappear when picked up (added to the patch progress)
+		game.removeMovableEntity(this); 
+		game.incrementPatch();
+		// add new commit in random position in game
+		game.addCommit();
+		return null;
+	}
+	
+	@Override
+	public int getScore() {
+		return COMMIT_SCORE;
+	}
+
+	@Override
+	public String viewInfo() {
+		return "Commits add to the patch progress";
 	}
 }
