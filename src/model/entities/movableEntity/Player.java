@@ -125,8 +125,10 @@ public class Player extends MovableEntity {
     		pickUpItem();
     	}
     	else {
-    		// otherwise, E means interact
-    		this.holding.interact(this.gameWorld);
+    		// interact ('true' interaction means player no longer holds item at end of it)
+    		if(this.holding.interact(this.gameWorld)){
+    			this.holding = null;   
+    		}
     	}
 	}
 

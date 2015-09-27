@@ -37,10 +37,11 @@ public abstract class Item extends MovableEntity {
 	/**
 	 * Interact with the item. Updates game state and score
 	 * accordingly. 
+	 * @return true if player is no longer holding item
 	 */
-	public void interact(GameWorld game){
+	public boolean interact(GameWorld game){
 		// default is do nothing as not all items can be interacted with
-		return;
+		return true;
 	}
 	
 	/**

@@ -37,10 +37,12 @@ public abstract class LaptopItem extends Item {
 	}
 
 	@Override
-	public void interact(GameWorld game) {
+	public boolean interact(GameWorld game) {
 		if(game.addToInventory(this)){
 			game.updateScore(this.getScore());
+			return true;
 		}
+		return false;
 	}
 	
 	public int getSize(){
