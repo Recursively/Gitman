@@ -299,4 +299,8 @@ public class GameWorld {
 		}
 		return false;
 	}
+
+	public void addCard(SwipeCard swipeCard) {
+		this.cards.add(swipeCard);		
+	}
 }

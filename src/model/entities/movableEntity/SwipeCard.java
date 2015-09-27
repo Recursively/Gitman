@@ -6,7 +6,10 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * Represents swipe card in the game
+ * Represents swipe card in the game and handles the game logic that is
+ * related to the player interacting with the swipe card (to pick it up
+ * or use it to unlock doors)
+ * 
  * @author Divya
  *
  */
@@ -29,7 +32,11 @@ public class SwipeCard extends Item {
 	
 	@Override
 	public Item pickUp(GameWorld game) {
-		return this;
+		game.updateScore(SWIPE_CARD_SCORE);
+		// swipe cards are stored separately when picked up 
+		game.removeMovableEntity(this); 
+		game.addCard(this);
+		return null;
 	}
 
 	@Override
@@ -38,18 +45,14 @@ public class SwipeCard extends Item {
 	}
 
 	@Override
-	public void interact(GameWorld game) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public String viewInfo() {
 		return "Swipe Cards help you unlock doors";
 	}
 	
 	/**
-	 * Check if
+	 * Check if this swipe card can unlock the door the player
+	 * wants to unlock
+	 * 
 	 * @param id number of door to match
 	 * @return true if the given id number matches the card's id number
 	 */
