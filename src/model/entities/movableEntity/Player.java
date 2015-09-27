@@ -113,6 +113,10 @@ public class Player extends MovableEntity {
         return camera;
     }
     
+    /**
+     * Determine whether player is picking up an item
+     * or trying to interact with it
+     */
     private void pickUpOrInteract() {
     	// if player is not holding anything, they can pick up the item
     	if(this.holding == null){
@@ -124,9 +128,13 @@ public class Player extends MovableEntity {
     	}
 	}
 
+    /**
+     * Find item that player is trying to pick up 
+     * and and allow item to be picked up by player
+     */
 	private void pickUpItem(){
 		// find item that is directly in front of player
-    	Item item = gameWorld.findItem(this.getPosition());  //TODO complete method in game world
+    	Item item = gameWorld.findItem(this.getPosition()); 
     	if(item != null){
     		// picking up items affect game differently depending on item
     		// so allow the item to deal with changing game state accordingly
@@ -134,6 +142,9 @@ public class Player extends MovableEntity {
     	}
     }
     
+	/**
+	 * Drop the item the player is currently holding
+	 */
     private void dropItem(){
     	// can only drop item if holding something
     	if(this.holding != null){
