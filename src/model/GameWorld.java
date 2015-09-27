@@ -3,6 +3,7 @@ package model;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Item;
+import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
@@ -269,8 +270,33 @@ public class GameWorld {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public void removeMovableEntity(Entity entity) {
+		movableEntities.remove(entity);
+	}
+
+	public void addCommit() {
+		// TODO creates and adds a new commit to the array list of movable entities
+		
+	}
+
+	public boolean addToInventory(LaptopItem item) {
+		if(this.inventory.addItem(item)){
+			this.removeMovableEntity(item);
+			return true;
+		}
+		// TODO display message that inventory is too full and player must delete an item first
+		return false;
+	}
 	
-	//TODO add methods to add to swipe card list, and remove from swipe card list
-	// unlock door method will go through swipe cards and check if the right swipe is avaliable
-	// if it is, then uses it
+	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
+		//TODO does set poisitiion need to be slightly in front of player?
+		Entity entity = this.inventory.deleteItem(item);
+		if(entity != null){
+			entity.setPosition(playerPosition);
+			this.movableEntities.add(entity);
+			return true;
+		}
+		return false;
+	}
 }

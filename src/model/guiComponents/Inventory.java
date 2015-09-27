@@ -36,10 +36,12 @@ public class Inventory {
 	}
 	
 	public Entity deleteItem(LaptopItem item){
-		this.storageUsed = this.storageUsed - item.getSize();
-		inLaptop.remove(item);
-		//TODO
-		return null; //FIXME
+		if(inLaptop.contains(item)){
+			this.storageUsed = this.storageUsed - item.getSize();
+			inLaptop.remove(item);
+			return item;
+		}
+		return null; 
 	}
 	
 

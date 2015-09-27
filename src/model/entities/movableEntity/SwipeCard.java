@@ -31,8 +31,7 @@ public class SwipeCard extends Item {
 	
 	@Override
 	public Item pickUp(GameWorld game) {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
@@ -48,7 +47,15 @@ public class SwipeCard extends Item {
 
 	@Override
 	public String viewInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Swipe Cards help you unlock doors";
+	}
+	
+	/**
+	 * Check if
+	 * @param id number of door to match
+	 * @return true if the given id number matches the card's id number
+	 */
+	public boolean matchID(int id){
+		return this.cardID == id;
 	}
 }

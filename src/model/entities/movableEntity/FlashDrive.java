@@ -12,6 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class FlashDrive extends LaptopItem {
 	private static final int FLASH_DRIVE_SCORE = 20;
+	
 	//TODO field to store image?
 	
 
@@ -27,24 +28,23 @@ public class FlashDrive extends LaptopItem {
 	
 	@Override
 	public Item pickUp(GameWorld game) {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
+	@Override
+	public void interact(GameWorld game) {
+		if(game.addToInventory(this)){
+			game.updateScore(FLASH_DRIVE_SCORE);
+		}
+	}
+	
 	@Override
 	public int getScore() {
 		return FLASH_DRIVE_SCORE;
 	}
 
 	@Override
-	public void interact(GameWorld game) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public String viewInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Flash Drives store special items. Interact with them and see what happens.";
 	}
 }

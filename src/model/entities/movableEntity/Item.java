@@ -6,6 +6,8 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * Represents the items and stores the logic of how the players
+ * can pick up/interact with the items in the game
  * 
  * @author Divya
  *
@@ -26,20 +28,25 @@ public abstract class Item extends MovableEntity {
 	}
 	
 	/**
+	 * Pick up an item. Updates game state and score
+	 * accordingly. 
 	 * @return the item if it can be picked up, otherwise null
 	 */
 	public abstract Item pickUp(GameWorld game);
 	
 	/**
-	 * @return score of item
-	 */
-	public abstract int getScore();
-	
-	/**
 	 * Interact with the item. Updates game state and score
 	 * accordingly. 
 	 */
-	public abstract void interact(GameWorld game);
+	public void interact(GameWorld game){
+		// default is do nothing as not all items can be interacted with
+		return;
+	}
+	
+	/**
+	 * @return score of item
+	 */
+	public abstract int getScore();
 	
 	/**
 	 * @return String information about the item and what 
