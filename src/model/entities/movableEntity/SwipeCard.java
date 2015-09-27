@@ -6,7 +6,7 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * Represents s
+ * Represents swipe card in the game
  * @author Divya
  *
  */
@@ -19,13 +19,11 @@ public class SwipeCard extends Item {
 			float rotY, float rotZ, float scale, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.cardID = cardNum;
-		// TODO Auto-generated constructor stub
 	}
 	
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
-		// TODO Auto-generated constructor stub
 		this.cardID = cardNum;
 	}
 	

@@ -6,6 +6,8 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * Represents a flash drive item in the game. Stores the specific attributes of 
+ * the item that make the item different from other laptop items. 
  * 
  * @author Divya
  *
@@ -15,7 +17,6 @@ public class FlashDrive extends LaptopItem {
 	
 	//TODO field to store image?
 	
-
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id, String name, int size) {
 		super(model, position, rotX, rotY, rotZ, scale, id, name, size);
@@ -24,18 +25,6 @@ public class FlashDrive extends LaptopItem {
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, String name, int size) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name, size);
-	}
-	
-	@Override
-	public Item pickUp(GameWorld game) {
-		return this;
-	}
-
-	@Override
-	public void interact(GameWorld game) {
-		if(game.addToInventory(this)){
-			game.updateScore(FLASH_DRIVE_SCORE);
-		}
 	}
 	
 	@Override

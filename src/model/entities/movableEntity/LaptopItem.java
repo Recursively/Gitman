@@ -6,7 +6,10 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * 
+ * Represents an item in the game that can be "cloned" (stored) in a laptop
+ * (the player's inventory). This class stores all the logic that deals with 
+ * what happens when the players interact with laptop items.
+ *  
  * @author Divya
  *
  */
@@ -26,6 +29,18 @@ public abstract class LaptopItem extends Item {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.name = name;
 		this.size = size;
+	}
+	
+	@Override
+	public Item pickUp(GameWorld game) {
+		return this;
+	}
+
+	@Override
+	public void interact(GameWorld game) {
+		if(game.addToInventory(this)){
+			game.updateScore(this.getScore());
+		}
 	}
 	
 	public int getSize(){

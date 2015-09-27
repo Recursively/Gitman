@@ -6,6 +6,10 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
+ * Represents a README file in the game ( a txt document that can
+ * be found laying around the office). This class stores the specific 
+ * attributes of the item that make the item different from other 
+ * laptop items. 
  * 
  * @author Divya
  *
@@ -26,12 +30,6 @@ public class ReadMe extends LaptopItem{
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name, size);
 		this.message = msg;
 	}
-
-	@Override
-	public Item pickUp(GameWorld game) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public int getScore() {
@@ -39,14 +37,7 @@ public class ReadMe extends LaptopItem{
 	}
 
 	@Override
-	public void interact(GameWorld game) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public String viewInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return "README documents can contain useful hints about the game...";
 	}
 }
