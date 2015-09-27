@@ -70,7 +70,7 @@ public class GameController {
             // PROCESS PLAYER
 
             // PROCESS ENTITIES
-            for (Entity e : gameWorld.staticEntities()) {
+            for (Entity e : gameWorld.getStaticEntities()) {
                 renderer.processEntity(e);
             }
 

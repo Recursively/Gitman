@@ -24,6 +24,7 @@ public class TitleScreen {
      */
     public TitleScreen() {
         DisplayManager.createDisplay();
+        Keyboard.enableRepeatEvents(false);
         blinkTitle();
     }
 
@@ -64,6 +65,8 @@ public class TitleScreen {
 
         // create the game now
         new GameController();
+        //change to make new window 
+        //TODO
     }
 
     /**
