@@ -1,12 +1,15 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.DisplayManager;
 
 public class Player extends MovableEntity {
@@ -18,10 +21,14 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
+    
+    private GameWorld gameWorld;
+    private Item holding;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera) {
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera, GameWorld game) {
         super(model, position, rotX, rotY, rotZ, scale);
         this.camera = camera;
+        this.gameWorld = game;
     }
 
     public void move(Terrain terrain) {
@@ -69,6 +76,18 @@ public class Player extends MovableEntity {
                 jump();
             }
         }
+        
+        // pick up/interact with items using E
+        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
+            pickUpOrInteract();
+        }
+        // drop items using R
+        if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+            dropItem();
+        }
+        
+        // TODO have 'C' or something to interact/copy code from npc?
+        // TODO have 'U' or something for unlock door method
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);
@@ -80,7 +99,7 @@ public class Player extends MovableEntity {
         }
     }
 
-    public void moveFromLook(float dx, float dy, float dz) {
+	public void moveFromLook(float dx, float dy, float dz) {
 
         Vector3f position = super.getPosition();
 
@@ -92,5 +111,47 @@ public class Player extends MovableEntity {
 
     public Camera getCamera() {
         return camera;
+    }
+    
+    /**
+     * Determine whether player is picking up an item
+     * or trying to interact with it
+     */
+    private void pickUpOrInteract() {
+    	// if player is not holding anything, they can pick up the item
+    	if(this.holding == null){
+    		pickUpItem();
+    	}
+    	else {
+    		// otherwise, E means interact
+    		this.holding.interact(this.gameWorld);
+    	}
+	}
+
+    /**
+     * Find item that player is trying to pick up 
+     * and and allow item to be picked up by player
+     */
+	private void pickUpItem(){
+		// find item that is directly in front of player
+    	Item item = gameWorld.findItem(this.getPosition()); 
+    	if(item != null){
+    		// picking up items affect game differently depending on item
+    		// so allow the item to deal with changing game state accordingly
+    		this.holding = item.pickUp(this.gameWorld); 
+    	}
+    }
+    
+	/**
+	 * Drop the item the player is currently holding
+	 */
+    private void dropItem(){
+    	// can only drop item if holding something
+    	if(this.holding != null){
+    		Vector3f itemNewPos = getPosition();
+    		// TODO does item need to be dropped in front of player???
+    		this.holding.setPosition(itemNewPos);
+    		this.holding = null;
+    	}
     }
 }

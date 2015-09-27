@@ -40,6 +40,6 @@ public class PlayerFactory {
         position.y = initialPlayerY;
 
         // New player and camera to follow the player
-        return new Player(null, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position));
+        return new Player(null, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position), gameWorld);
     }
 }
