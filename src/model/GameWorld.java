@@ -23,7 +23,7 @@ import java.util.Set;
  * Delegate class used to represent all the current components of the game world.
  *
  * @author Marcel van Workum
- * @author Divya Patel
+ * @author Divya
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
@@ -31,6 +31,7 @@ public class GameWorld {
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
+	private static final int ITEM_DISTANCE = 30; //TODO furtherest distance a player can be from an item and still be allowed to interact with it
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -194,6 +195,85 @@ public class GameWorld {
     }
     
     /**
+     * Find the item that is within ITEM_DISTANCE 
+     * of the given position
+     * 
+     * @param position of player
+     * @return closest item to given position, within certain radius
+     */
+    public Item findItem(Vector3f position) {
+		Item item = null;
+		Vector3f itemPos = null;
+		for(Entity e: this.movableEntities){
+			// only check entity if it is an item (i.e. ignore players)
+			if(e instanceof Item){
+				if(Entity.isCloserThan(e.getPosition(), itemPos, position, ITEM_DISTANCE)){ 
+					item = (Item) e;
+					itemPos = e.getPosition();
+				}
+			}
+		}
+		return item;
+	}
+
+    /**
+     * Remove a movable entity from the game
+     * 
+     * @param entity to remove
+     */
+	public void removeMovableEntity(Entity entity) {
+		movableEntities.remove(entity);
+	}
+
+	
+	public void addCommit() {
+		// TODO creates and adds a new commit to the array list of movable entities
+		
+	}
+
+	/**
+	 * Add the given item to the inventory
+	 * 
+	 * @param item to add
+	 * @return true if add is successful
+	 */
+	public boolean addToInventory(LaptopItem item) {
+		if(this.inventory.addItem(item)){
+			this.removeMovableEntity(item);
+			return true;
+		}
+		// TODO display message that inventory is too full and player must delete an item first
+		return false;
+	}
+	
+	/**
+	 * Remove the given item from the inventory, and
+	 * drop the item at the player position
+	 * 
+	 * @param item to remove
+	 * @param playerPosition position to drop item at
+	 * @return true if remove was successful
+	 */
+	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
+		//TODO does set position need to be slightly in front of player?
+		Entity entity = this.inventory.deleteItem(item);
+		if(entity != null){
+			entity.setPosition(playerPosition);
+			this.movableEntities.add(entity);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Add card to list of swipe cards
+	 * @param swipeCard
+	 */
+	public void addCard(SwipeCard swipeCard) {
+		this.cards.add(swipeCard);		
+	}
+    
+    /**
      * Decreases patch progress bar steadily by 10% of current
      * progress
      *  
@@ -247,8 +327,6 @@ public class GameWorld {
     public void updateScore(int score){
     	this.score = this.score + score;
     }
-
-    //TODO methods to fill in about absolute game states
     
 	private void compileProgram() {
 		// TODO method called when player should be given
@@ -264,43 +342,5 @@ public class GameWorld {
 	private void winGame() {
 		// TODO Auto-generated method stub
 
-	}
-
-	public Item findItem(Vector3f position) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void removeMovableEntity(Entity entity) {
-		movableEntities.remove(entity);
-	}
-
-	public void addCommit() {
-		// TODO creates and adds a new commit to the array list of movable entities
-		
-	}
-
-	public boolean addToInventory(LaptopItem item) {
-		if(this.inventory.addItem(item)){
-			this.removeMovableEntity(item);
-			return true;
-		}
-		// TODO display message that inventory is too full and player must delete an item first
-		return false;
-	}
-	
-	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
-		//TODO does set poisitiion need to be slightly in front of player?
-		Entity entity = this.inventory.deleteItem(item);
-		if(entity != null){
-			entity.setPosition(playerPosition);
-			this.movableEntities.add(entity);
-			return true;
-		}
-		return false;
-	}
-
-	public void addCard(SwipeCard swipeCard) {
-		this.cards.add(swipeCard);		
 	}
 }
