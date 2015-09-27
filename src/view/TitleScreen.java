@@ -20,12 +20,14 @@ import java.util.List;
 public class TitleScreen {
 	
 	private String hostname;
+	private boolean isHost;
 
 	/**
 	 * Instantiates a new Title screen.
 	 */
-	public TitleScreen(String hostname) {
+	public TitleScreen(boolean isHost, String hostname) {
 		this.hostname = hostname;
+		this.isHost = isHost;
 		DisplayManager.createDisplay();
 		Keyboard.enableRepeatEvents(false);
 		blinkTitle();
@@ -67,7 +69,7 @@ public class TitleScreen {
 		}
 
 		// create the game now
-		new GameController(false, hostname);
+		new GameController(isHost, hostname);
 		// change to make new window
 		// TODO
 	}
