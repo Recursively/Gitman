@@ -2,7 +2,6 @@ package model.entities.movableEntity;
 
 import model.GameWorld;
 import model.entities.Camera;
-import model.entities.Entity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
 
@@ -77,17 +76,20 @@ public class Player extends MovableEntity {
             }
         }
         
-        // pick up/interact with items using E
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            pickUpOrInteract();
+        // ensures single reaction to a key press event when dealing with items
+        while(Keyboard.next()){
+        	// carry out methods when key is pressed (not released)
+        	if(Keyboard.getEventKeyState()){
+        		if(Keyboard.getEventKey() == Keyboard.KEY_E){
+        			pickUpOrInteract();
+        		}
+        		if(Keyboard.getEventKey() == Keyboard.KEY_R){
+        			dropItem();
+        		}
+        		// TODO have 'C' or something to interact/copy code from npc?
+                // TODO have 'U' or something for unlock door method
+        	}
         }
-        // drop items using R
-        if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
-            dropItem();
-        }
-        
-        // TODO have 'C' or something to interact/copy code from npc?
-        // TODO have 'U' or something for unlock door method
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);

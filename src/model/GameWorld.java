@@ -2,9 +2,12 @@ package model;
 
 import model.entities.Entity;
 import model.entities.Light;
+import model.entities.movableEntity.Commit;
+import model.entities.movableEntity.FlashDrive;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.Player;
+import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
 import model.guiComponents.Inventory;
