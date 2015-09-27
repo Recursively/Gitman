@@ -72,7 +72,7 @@ public class GameController {
 
             // update the players position in the world
             gameWorld.getPlayer().move(gameWorld.getTerrain());
-
+            
             // Render the player's view
             renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 

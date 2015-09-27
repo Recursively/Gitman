@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
  * which gives the model a shape and texture.
  *
  * @author Marcel van Workum
+ * @author Divya
  */
 public class Entity {
 
@@ -186,4 +187,40 @@ public class Entity {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
+	/**
+	 * Determine which position (new or old) is closer to the
+	 * origin position
+	 * 
+	 * @param newPos
+	 * @param oldPos
+	 * @param origin
+	 * @return true if the new position is closer to the origin
+	 * than the oldPos
+	 */
+	public static boolean isCloserThan(Vector3f newPos, Vector3f oldPos,
+			Vector3f origin, int radius) {
+		if(Entity.isWithinBounds(newPos, origin, radius)){
+			if(oldPos == null){
+				return true;
+			}
+			//TODO check what is closer
+		}
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	 /**
+     * Determine if the point is within the given radius bounds from 
+     * the origin position
+     * 
+     * @param point
+     * @param origin
+     * @param radius
+     * @return true if point is within the bounds, false otherwise
+     */
+	public static boolean isWithinBounds(Vector3f point, Vector3f origin, int radius) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
