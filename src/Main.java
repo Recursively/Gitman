@@ -44,7 +44,7 @@ public class Main {
      */
 
     public static void main(String[] args) {
-        new TitleScreen();
+        new TitleScreen("130.195.6.168");
     }
 
 }

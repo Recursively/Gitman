@@ -18,11 +18,14 @@ import java.util.List;
  */
 
 public class TitleScreen {
+	
+	private String hostname;
 
 	/**
 	 * Instantiates a new Title screen.
 	 */
-	public TitleScreen() {
+	public TitleScreen(String hostname) {
+		this.hostname = hostname;
 		DisplayManager.createDisplay();
 		Keyboard.enableRepeatEvents(false);
 		blinkTitle();
@@ -64,7 +67,7 @@ public class TitleScreen {
 		}
 
 		// create the game now
-		new GameController(false, "localhost");
+		new GameController(false, hostname);
 		// change to make new window
 		// TODO
 	}
