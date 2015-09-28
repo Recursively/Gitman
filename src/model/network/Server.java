@@ -70,7 +70,6 @@ public class Server extends Thread {
 			outputStream.writeInt(id);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 	
@@ -83,7 +82,6 @@ public class Server extends Thread {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 		
 	}
@@ -96,7 +94,6 @@ public class Server extends Thread {
 			outputStream.writeFloat(entity.getPosition().z);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 
 	}
@@ -109,7 +106,6 @@ public class Server extends Thread {
 			outputStream.writeFloat(player.getPosition().z);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
@@ -118,7 +114,6 @@ public class Server extends Thread {
 			outputStream.writeInt(gameController.gameSize());
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
@@ -127,7 +122,6 @@ public class Server extends Thread {
 			return inputStream.readInt();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 			return -1;
 		}
 	}
@@ -148,7 +142,6 @@ public class Server extends Thread {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 

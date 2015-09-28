@@ -62,7 +62,6 @@ public class Client extends Thread {
 			return inputStream.readInt();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 			return 0;
 		}
 	}
@@ -73,7 +72,6 @@ public class Client extends Thread {
 			outputStream.writeInt(this.uid);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
@@ -85,7 +83,6 @@ public class Client extends Thread {
 			position[2] = inputStream.readFloat();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 
 		return position;
@@ -97,7 +94,6 @@ public class Client extends Thread {
 			inputStream = new DataInputStream(socket.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 	}
 
@@ -117,7 +113,6 @@ public class Client extends Thread {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 		}
 
 	}
@@ -127,7 +122,6 @@ public class Client extends Thread {
 			return inputStream.readInt();
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
 			return -1;
 		}
 	}
