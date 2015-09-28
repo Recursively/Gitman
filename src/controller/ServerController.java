@@ -34,6 +34,7 @@ public class ServerController extends Thread {
 	public void run() {
 
 		createHostPlayer();
+		GameController.READY = true;
 
 		while (1 == 1) {
 			Socket socket = null;

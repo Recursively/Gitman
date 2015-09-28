@@ -23,15 +23,18 @@ public class Server extends Thread {
 
 	private int uid;
 
+	private boolean isRunning;
+
 	public Server(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
+		this.isRunning = true;
 		initStreams();
 	}
 
 	public void run() {
 
-		while (1 == 1) {
+		while (isRunning) {
 			// receive player information
 			uid = readPlayerID();
 			checkExistingPlayer();
@@ -44,11 +47,11 @@ public class Server extends Thread {
 			}
 
 			// TODO receive items information
-			//updateEntityPosition();
+			// updateEntityPosition();
 
 			// TODO send items information
 			for (Entity entity : gameController.getGameWorld().getMoveableEntities()) {
-				//sendEntityPosition(entity);
+				// sendEntityPosition(entity);
 			}
 
 		}
@@ -61,7 +64,8 @@ public class Server extends Thread {
 			outputStream = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(1);
+			isRunning = false;
+			gameController.removePlayer(uid);
 		}
 	}
 
@@ -72,28 +76,32 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void updateEntityPosition() {
 		try {
 			float x = inputStream.readFloat();
 			float y = inputStream.readFloat();
 			float z = inputStream.readFloat();
-			//TODO UPDATE THE POSITION WITH CORRESPONDING COORDINATES
+			// TODO UPDATE THE POSITION WITH CORRESPONDING COORDINATES
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			isRunning = false;
+			gameController.removePlayer(uid);
 		}
-		
+
 	}
 
 	private void sendEntityPosition(Entity entity) {
 		try {
-			//FIXME outputStream.writeInt(entity.getUid());
+			// FIXME outputStream.writeInt(entity.getUid());
 			outputStream.writeFloat(entity.getPosition().x);
 			outputStream.writeFloat(entity.getPosition().y);
 			outputStream.writeFloat(entity.getPosition().z);
 		} catch (IOException e) {
 			e.printStackTrace();
+			isRunning = false;
+			gameController.removePlayer(uid);
 		}
 
 	}
@@ -106,6 +114,8 @@ public class Server extends Thread {
 			outputStream.writeFloat(player.getPosition().z);
 		} catch (IOException e) {
 			e.printStackTrace();
+			isRunning = false;
+			gameController.removePlayer(uid);
 		}
 	}
 
@@ -114,6 +124,8 @@ public class Server extends Thread {
 			outputStream.writeInt(gameController.gameSize());
 		} catch (IOException e) {
 			e.printStackTrace();
+			isRunning = false;
+			gameController.removePlayer(uid);
 		}
 	}
 
@@ -122,12 +134,14 @@ public class Server extends Thread {
 			return inputStream.readInt();
 		} catch (IOException e) {
 			e.printStackTrace();
+			isRunning = false;
+			gameController.removePlayer(uid);
 			return -1;
 		}
 	}
 
 	private void checkExistingPlayer() {
-		if (!gameController.getPlayers().containsKey(uid)) {
+		if (!gameController.getPlayers().containsKey(uid) && uid != -1) {
 			System.out.println("CREATED NEW PLAYER ID: " + uid);
 			gameController.createPlayer(uid);
 		}
@@ -142,6 +156,9 @@ public class Server extends Thread {
 
 		} catch (IOException e) {
 			e.printStackTrace();
+			isRunning = false;
+			gameController.removePlayer(uid);
+
 		}
 	}
 

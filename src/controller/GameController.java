@@ -25,6 +25,8 @@ import java.util.Map;
  */
 public class GameController {
 
+	public static boolean READY;
+
 	// Model
 	private final Loader loader;
 	private final GameWorld gameWorld;
@@ -69,15 +71,18 @@ public class GameController {
 			clientController.start();
 		}
 
+		// hook the mouse
+		Mouse.setGrabbed(true);
+
 		try {
-			Thread.sleep(500);
+			while (!READY) {
+				Thread.sleep(50);
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
 
-		// hook the mouse
-		Mouse.setGrabbed(true);
+		}
 
 		// start the game
 		doGame();
@@ -103,9 +108,9 @@ public class GameController {
 			}
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
-            for (Entity e : gameWorld.getStaticEntities()) {
-                renderer.processEntity(e);
-            }
+			for (Entity e : gameWorld.getStaticEntities()) {
+				renderer.processEntity(e);
+			}
 
 			// update the players position in the world
 			gameWorld.getPlayer().move(gameWorld.getTerrain());
@@ -160,11 +165,15 @@ public class GameController {
 		return gameWorld.getPlayer();
 	}
 
+	public void removePlayer(int uid) {
+		gameWorld.getAllPlayers().remove(uid);
+	}
+
 	public int gameSize() {
 		return playerCount;
 	}
-	
-	public GameWorld getGameWorld(){
+
+	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
 
