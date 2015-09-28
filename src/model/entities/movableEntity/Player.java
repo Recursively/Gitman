@@ -9,6 +9,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import model.entities.Camera;
+import model.models.TexturedModel;
+import model.terrains.Terrain;
 import view.DisplayManager;
 
 public class Player extends MovableEntity {
@@ -18,14 +21,18 @@ public class Player extends MovableEntity {
 
     private static float terrainHeight = 0;
     private Camera camera;
+    
+    private int uid;
 
     private float verticalVelocity = 0;
     
     private GameWorld gameWorld;
     private Item holding;
+    
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera, GameWorld game, int uid) {
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera, GameWorld game) {
         super(model, position, rotX, rotY, rotZ, scale);
+        this.uid = uid;
         this.camera = camera;
         this.gameWorld = game;
     }
@@ -114,6 +121,17 @@ public class Player extends MovableEntity {
     public Camera getCamera() {
         return camera;
     }
+    
+	/**
+	 * @return the uid
+	 */
+	public int getUid() {
+		return uid;
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
     
     /**
      * Determine whether player is picking up an item

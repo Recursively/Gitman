@@ -5,73 +5,129 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.crypto.spec.PSource;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
+import controller.GameController;
 import model.entities.movableEntity.Player;
 
 public class Client extends Thread {
 
 	private final Socket socket;
-	private DataOutputStream output;
-	private DataInputStream input;
-	private Player player;
-	private float[] lastPacket;
+	private DataOutputStream outputStream;
+	private DataInputStream inputStream;
 
-	public Client(Socket socket, Player player) {
+	private GameController gameController;
+	private int uid;
+
+	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
-		this.player = player;
-		lastPacket = new float[6];
+		this.gameController = gameController;
+		initStreams();
+
 	}
 
 	public void run() {
-		try {
 
-			output = new DataOutputStream(socket.getOutputStream());
-			input = new DataInputStream(socket.getInputStream());
+		while (1 == 1) {
+			// send information
+			sendPlayerID();
+			sendPlayerLocation(gameController.getPlayer());
 
-			while (1 == 1) {
-				sendLocation(player);
-				for (float i : lastPacket) {
-					output.writeFloat(i);
+			// receive information
+			int size = readNumberOfPlayers();
+
+			for (int i = 0; i < size; i++) {
+				int playerID = readPlayerID();
+				float[] position = readPlayerPosition();
+				// if the player id received is a different player, update it's
+				// position accordingly
+				if (playerID != gameController.getPlayer().getUid()) {
+					updatePlayer(playerID, position);
 				}
-				sleep(100);
-
 			}
 
+		}
+
+	}
+
+	private int readNumberOfPlayers() {
+		try {
+			return inputStream.readInt();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			return 0;
+		}
+	}
+
+	private void sendPlayerID() {
+
+		try {
+			outputStream.writeInt(this.uid);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void sendLocation(Player player) {
+	private float[] readPlayerPosition() {
+		float[] position = new float[3];
+		try {
+			position[0] = inputStream.readFloat();
+			position[1] = inputStream.readFloat();
+			position[2] = inputStream.readFloat();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		lastPacket[0] = player.getPosition().getX();
-		lastPacket[1] = player.getPosition().getY();
-		lastPacket[2] = player.getPosition().getZ();
-		lastPacket[3] = player.getRotX();
-		lastPacket[4] = player.getRotY();
-		lastPacket[5] = player.getRotZ();
+		return position;
+	}
+
+	private void initStreams() {
+		try {
+			outputStream = new DataOutputStream(socket.getOutputStream());
+			inputStream = new DataInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updatePlayer(int playerID, float[] packet) {
+		if (gameController.getPlayers().containsKey(playerID)) {
+			gameController.getPlayerWithID(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+		} else {
+			gameController.createPlayer(playerID);
+		}
+	}
+
+	public void sendPlayerLocation(Player player) {
+		try {
+			outputStream.writeFloat(player.getPosition().getX());
+			outputStream.writeFloat(player.getPosition().getY());
+			outputStream.writeFloat(player.getPosition().getZ());
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
-	//
-	// public static void Main(String[] args) {
-	// int port = 32768; // default
-	// Socket sock = null;
-	// try {
-	// // host name and
-	// System.out.println("DONE");
-	// sock = new Socket("localhost", port);
-	// System.out.println("Connected");
-	// } catch (UnknownHostException e) {
-	// e.printStackTrace();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// new Client(sock).start();
-	//
-	// }
+
+	public int readPlayerID() {
+		try {
+			return inputStream.readInt();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
 
 }
