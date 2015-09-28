@@ -8,6 +8,8 @@ import java.net.Socket;
 import org.lwjgl.util.vector.Vector3f;
 
 import controller.GameController;
+import model.entities.Entity;
+import model.entities.movableEntity.Item;
 import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
@@ -30,15 +32,23 @@ public class Server extends Thread {
 	public void run() {
 
 		while (1 == 1) {
-			// receive information
+			// receive player information
 			uid = readPlayerID();
 			checkExistingPlayer();
 			updatePlayerPosition(uid);
 
-			// send information
+			// send player information
 			sendNumberOfPlayers();
 			for (Player player : gameController.getPlayers().values()) {
 				sendPlayerPosition(player);
+			}
+
+			// TODO receive items information
+			//updateEntityPosition();
+
+			// TODO send items information
+			for (Entity entity : gameController.getGameWorld().getMoveableEntities()) {
+				//sendEntityPosition(entity);
 			}
 
 		}
@@ -62,6 +72,33 @@ public class Server extends Thread {
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+	
+	private void updateEntityPosition() {
+		try {
+			float x = inputStream.readFloat();
+			float y = inputStream.readFloat();
+			float z = inputStream.readFloat();
+			//TODO UPDATE THE POSITION WITH CORRESPONDING COORDINATES
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+	}
+
+	private void sendEntityPosition(Entity entity) {
+		try {
+			//FIXME outputStream.writeInt(entity.getUid());
+			outputStream.writeFloat(entity.getPosition().x);
+			outputStream.writeFloat(entity.getPosition().y);
+			outputStream.writeFloat(entity.getPosition().z);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
 	}
 
 	private void sendPlayerPosition(Player player) {

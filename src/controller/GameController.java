@@ -163,5 +163,9 @@ public class GameController {
 	public int gameSize() {
 		return playerCount;
 	}
+	
+	public GameWorld getGameWorld(){
+		return gameWorld;
+	}
 
 }

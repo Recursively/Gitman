@@ -394,5 +394,9 @@ public class GameWorld {
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
 	}
+
+	public ArrayList<Entity> getMoveableEntities() {
+		return movableEntities;
+	}
 	
 }
