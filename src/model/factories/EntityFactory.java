@@ -238,7 +238,7 @@ public class EntityFactory {
         float z = 50 - 256;
         float y = terrain.getTerrainHeight(x, z) + 10;
 
-        StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(), data);
+        StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
 //        Entity e = new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt());
 

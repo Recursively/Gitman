@@ -27,7 +27,10 @@ public class Player extends MovableEntity {
     
     private GameWorld gameWorld;
     private Item holding;
-    
+
+    // bad?
+    private Vector3f oldPosition;
+
     public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera, GameWorld game, int uid) {
 
         super(model, position, rotX, rotY, rotZ, scale);
@@ -46,24 +49,39 @@ public class Player extends MovableEntity {
     public void move(Terrain terrain, ArrayList<Entity> statics) {
         updateTerrainHeight(terrain);
         gravityPull();
-        firstPersonMove(statics);
-        camera.update(super.getPosition());
+        if(firstPersonMove(statics)) {
+            System.out.println("Collided: not updating camera -> " + oldPosition.getX() + " : " + oldPosition.getZ());
+            camera.update(oldPosition);
+        } else {
+            camera.update(super.getPosition());
+        }
     }
 
     //TODO this is ugly and needs love
-    private void firstPersonMove(ArrayList<Entity> statics) {
+    private boolean firstPersonMove(ArrayList<Entity> statics) {
+
+        boolean collision = false;
+
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            moveFromLook(0, 0, -1 * RUN_SPEED, statics);
+            if(moveFromLook(0, 0, -1 * RUN_SPEED, statics)) {
+                collision = true;
+            }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            moveFromLook(0, 0, 1 * RUN_SPEED, statics);
+            if (moveFromLook(0, 0, 1 * RUN_SPEED, statics)) {
+                collision = true;
+            }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            moveFromLook(1 * RUN_SPEED, 0, 0, statics);
+            if (moveFromLook(1 * RUN_SPEED, 0, 0, statics)) {
+                collision = true;
+            }
 
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            moveFromLook(-1 * RUN_SPEED, 0, 0, statics);
+            if (moveFromLook(-1 * RUN_SPEED, 0, 0, statics)) {
+                collision = true;
+            }
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
@@ -95,26 +113,39 @@ public class Player extends MovableEntity {
         } else if (camera.getPitch() < -30) {
             camera.setPitch(-30);
         }
+
+        return collision;
     }
 
-    private void moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
+    private boolean moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
         Vector3f position = super.getPosition();
 
-        position.z += dx * (float) Math.cos(Math.toRadians(camera.getYaw() - 90)) + dz * Math.cos(Math.toRadians(camera.getYaw()));
-        position.x -= dx * (float) Math.sin(Math.toRadians(camera.getYaw() - 90)) + dz * Math.sin(Math.toRadians(camera.getYaw()));
+        oldPosition = super.getPosition();
+
+        float z = position.getZ();
+        float x = position.getX();
+
+        z += dx * (float) Math.cos(Math.toRadians(camera.getYaw() - 90)) + dz * Math.cos(Math.toRadians(camera.getYaw()));
+        x -= dx * (float) Math.sin(Math.toRadians(camera.getYaw() - 90)) + dz * Math.sin(Math.toRadians(camera.getYaw()));
+
+        Vector3f move = new Vector3f(x, position.y, z);
 
         boolean collision = false;
 
         for (Entity e : statics) {
             StaticEntity staticEntity = (StaticEntity) e;
-            if (staticEntity.checkCollision(position)) {
+            if (staticEntity.checkCollision(move)) {
                 collision = true;
             }
         }
 
         if (!collision) {
-            super.setPosition(position);
+            super.setPosition(move);
             System.out.println("updating position");
+            return false;
+        } else {
+            super.setPosition(oldPosition);
+            return true;
         }
     }
 
