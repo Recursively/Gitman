@@ -17,6 +17,9 @@ public class Entity {
     private float rotX = 0, rotY = 0, rotZ = 0;
     private float scale;
 
+    // TODO remove as debug
+    private boolean collidable = true;
+
     // used for atlassing
     private int textureIndex = 0;
 
@@ -59,6 +62,9 @@ public class Entity {
         this.rotZ = rotZ;
         this.scale = scale;
         this.textureIndex = textureIndex;
+    }
+
+    public Entity() {
     }
 
     /**
@@ -226,4 +232,6 @@ public class Entity {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 }

@@ -1,6 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
+import model.entities.staticEntity.StaticEntity;
+import model.entities.staticEntity.SwipeCard;
 import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
@@ -14,7 +16,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Entity factory which abstracts the creation of an entity. It loads the entity map for a given terrain or
@@ -46,6 +50,7 @@ public class EntityFactory {
      */
     public EntityFactory(Loader loader, Terrain terrain) {
         parseEntityMap(loader, terrain);
+        //getTestEntity(loader, terrain);
     }
 
     /**
@@ -206,13 +211,36 @@ public class EntityFactory {
 
                     float x = i;
                     float z = j - 256;
-                    float y = terrain.getTerrainHeight(x, z);
+                    float y = terrain.getTerrainHeight(x, z) - 2;
 
-                    Entity e = new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4));
+                    StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
                     testEntities.add(e);
                 }
             }
+        }
+        System.out.println(testEntities.size());
+    }
+
+    public void getTestEntity(Loader loader, Terrain terrain) {
+        for (int i = 0; i < 100; i++) {
+            ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
+            RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                    data.getIndices());
+
+            TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                    new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
+            lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
+            lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+            lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+
+            float x = random.nextInt(256);
+            float z = random.nextInt(256) - 256;
+            float y = terrain.getTerrainHeight(x, z) + 10;
+
+            StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
+
+            testEntities.add(e);
         }
     }
 

@@ -396,4 +396,8 @@ public class GameWorld {
 	public ArrayList<Entity> getMoveableEntities() {
 		return movableEntities;
 	}
+
+	public ArrayList<Entity> getTestEntity() {
+		return entityFactory.getTestEntities();
+	}
 }
