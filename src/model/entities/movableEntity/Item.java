@@ -13,36 +13,22 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public abstract class Item extends MovableEntity {  
-	private int itemID;   // TODO ID for networking component? FIXME does it need to be final
 	
 	public Item(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id) {
-		super(model, position, rotX, rotY, rotZ, scale);
-		this.itemID = id;
+		super(model, position, rotX, rotY, rotZ, scale, id);
 	}
 	
 	public Item(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id) {
-		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
-		this.itemID = id;
+		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 	}
-	
-	/**
-	 * Pick up an item. Updates game state and score
-	 * accordingly. 
-	 * @return the item if it can be picked up, otherwise null
-	 */
-	public abstract Item pickUp(GameWorld game);
 	
 	/**
 	 * Interact with the item. Updates game state and score
 	 * accordingly. 
-	 * @return true if player is no longer holding item
 	 */
-	public boolean interact(GameWorld game){
-		// default is do nothing as not all items can be interacted with
-		return true;
-	}
+	public abstract void interact(GameWorld game);
 	
 	/**
 	 * @return score of item
@@ -54,11 +40,4 @@ public abstract class Item extends MovableEntity {
 	 * interacting with it will do
 	 */
 	public abstract String viewInfo(); 
-	
-	/**
-	 * @return ID number of the item
-	 */
-	public int getID(){
-		return this.itemID;
-	}
 }

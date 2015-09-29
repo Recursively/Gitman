@@ -6,6 +6,7 @@ import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.FlashDrive;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
@@ -48,14 +49,14 @@ public class GameWorld {
 
     // collection of entities in the game
     private ArrayList<Entity> staticEntities;
-    private ArrayList<Entity> movableEntities;
+    private ArrayList<Entity> movableEntities;   //TODO save
 
     // Terrain the world is on
     // TODO this will need to become a list once we have multiple terrains
     private Terrain terrain;
 
     // The actual player
-    private Player player;
+    private Player player;    //TODO save
 
     // Collection of other players stored separately
     private ArrayList<Player> otherPlayers;
@@ -69,7 +70,7 @@ public class GameWorld {
     // object file loader
     private Loader loader;
     
-    // game state elements
+    // game state elements  //TODO save
     private Inventory inventory;
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
@@ -224,7 +225,7 @@ public class GameWorld {
      * 
      * @param entity to remove
      */
-	public void removeMovableEntity(Entity entity) {
+	public void removeMovableEntity(MovableEntity entity) {
 		movableEntities.remove(entity);
 	}
 
@@ -303,7 +304,7 @@ public class GameWorld {
 	public void incrementPatch(){
 		int commitScore = MAX_PROGRESS / ((otherPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 		
-    	this.patchProgress = this.patchProgress + commitScore;
+    	this.patchProgress+=commitScore;
     	// 100% reached, game won
     	if(this.patchProgress >= MAX_PROGRESS){
     		winGame();
@@ -315,7 +316,7 @@ public class GameWorld {
 	 * level increases
 	 */
 	public void updateCodeProgress(){
-    	this.codeProgress = this.codeProgress + CODE_VALUE;
+    	this.codeProgress+=CODE_VALUE;
     	
     	// player has cloned all bits of code
     	if(this.codeProgress >= MAX_PROGRESS){
@@ -328,7 +329,7 @@ public class GameWorld {
      * @param score is score of item in game
      */
     public void updateScore(int score){
-    	this.score = this.score + score;
+    	this.score+=score;
     }
     
 	private void compileProgram() {
@@ -345,5 +346,10 @@ public class GameWorld {
 	private void winGame() {
 		// TODO Auto-generated method stub
 
+	}
+
+	//FIXME
+	public int getScore() {
+		return score;
 	}
 }

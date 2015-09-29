@@ -38,8 +38,9 @@ public class PlayerFactory {
         // where on the ground should the player be
         float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
         position.y = initialPlayerY;
-
+        
+        //TODO added 0 before camera...as UID just to compile... FIXME 
         // New player and camera to follow the player
-        return new Player(null, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position), gameWorld);
+        return new Player(null, position, 0, 180f, 0, 1, 0, new Camera(initialPlayerY, position), gameWorld);
     }
 }

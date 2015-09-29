@@ -22,10 +22,9 @@ public class Player extends MovableEntity {
     private float verticalVelocity = 0;
     
     private GameWorld gameWorld;
-    private Item holding;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Camera camera, GameWorld game) {
-        super(model, position, rotX, rotY, rotZ, scale);
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int id, Camera camera, GameWorld game) {
+        super(model, position, rotX, rotY, rotZ, scale, id);
         this.camera = camera;
         this.gameWorld = game;
     }
@@ -76,15 +75,19 @@ public class Player extends MovableEntity {
             }
         }
         
+        
+        // TODO Merge pickup/interact....
+        
         // ensures single reaction to a key press event when dealing with items
         while(Keyboard.next()){
         	// carry out methods when key is pressed (not released)
         	if(Keyboard.getEventKeyState()){
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			pickUpOrInteract();
+        			interactWithItem();
         		}
         		if(Keyboard.getEventKey() == Keyboard.KEY_R){
-        			dropItem();
+        			//TODO should drop be in the gui controller as delete?
+        			//dropItem();
         		}
         		// TODO have 'C' or something to interact/copy code from npc?
                 // TODO have 'U' or something for unlock door method
@@ -115,47 +118,18 @@ public class Player extends MovableEntity {
         return camera;
     }
     
+    // TODO pickup just deals with 
+    
     /**
-     * Determine whether player is picking up an item
-     * or trying to interact with it
+     * Find item that player is trying to interact with 
+     * and then carry out interaction
      */
-    private void pickUpOrInteract() {
-    	// if player is not holding anything, they can pick up the item
-    	if(this.holding == null){
-    		pickUpItem();
-    	}
-    	else {
-    		// interact ('true' interaction means player no longer holds item at end of it)
-    		if(this.holding.interact(this.gameWorld)){
-    			this.holding = null;   
-    		}
-    	}
-	}
-
-    /**
-     * Find item that player is trying to pick up 
-     * and and allow item to be picked up by player
-     */
-	private void pickUpItem(){
-		// find item that is directly in front of player
+    private void interactWithItem() {
     	Item item = gameWorld.findItem(this.getPosition()); 
     	if(item != null){
     		// picking up items affect game differently depending on item
     		// so allow the item to deal with changing game state accordingly
-    		this.holding = item.pickUp(this.gameWorld); 
+    		item.interact(this.gameWorld); 
     	}
-    }
-    
-	/**
-	 * Drop the item the player is currently holding
-	 */
-    private void dropItem(){
-    	// can only drop item if holding something
-    	if(this.holding != null){
-    		Vector3f itemNewPos = getPosition();
-    		// TODO does item need to be dropped in front of player???
-    		this.holding.setPosition(itemNewPos);
-    		this.holding = null;
-    	}
-    }
+	}
 }

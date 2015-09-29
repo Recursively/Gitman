@@ -204,7 +204,10 @@ public class Entity {
 			if(oldPos == null){
 				return true;
 			}
-			//TODO check what is closer
+			// TODO check what is closer
+			// player.getcamera yaw...
+			// x and z
+			// ask ellie to make graphics...
 		}
 		// TODO Auto-generated method stub
 		return false;

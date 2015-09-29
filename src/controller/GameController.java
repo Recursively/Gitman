@@ -78,6 +78,8 @@ public class GameController {
 
             // render the gui
             guiRenderer.render(gameWorld.getGuiImages());
+            
+            // TODO update game logic
 
             // update the Display window
             DisplayManager.updateDisplay();
