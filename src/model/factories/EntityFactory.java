@@ -10,40 +10,42 @@ import model.toolbox.Loader;
 import model.toolbox.objParser.OBJFileLoader;
 import org.lwjgl.util.vector.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
-//TODO BROKEN
-
+/**
+ * Entity factory which abstracts the creation of an entity. It loads the entity map for a given terrain or
+ * randomly generates entities for testing.
+ *
+ * @author Marcel van Workum
+ */
 public class EntityFactory {
 
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
     private static final String TEXTURES_PATH = "textures/";
+    private static final String ENTITY_MAP = "terrains/entityMap";
 
     // Collection of object models in the game
     private ArrayList<String> objectModels;
 
+    // parameters
     private float reflectivity = 1f;
     private float shineDamper = 10f;
     private float scale = 1f;
-
-    private float x = -1f;
-    private float y = -1f;
-
-    private Vector3f rotation = new Vector3f(0, 0, 0);
-
-
     private float maxTerrainOffset = 200f;
 
+    private Vector3f rotation = new Vector3f(0, 0, 0);
     private Random random = new Random();
 
     /**
      * Construct a new Entity factor with no models preloaded
      */
-    public EntityFactory() {
-
+    public EntityFactory(Loader loader, Terrain terrain) {
+        parseEntityMap(loader, terrain);
     }
 
     /**
@@ -66,9 +68,18 @@ public class EntityFactory {
         objectModels.add(objectModel);
     }
 
+    /**
+     * Create random entity entity.
+     *
+     * @param loader  the loader
+     * @param terrain the terrain
+     * @return the entity
+     */
     public Entity createRandomEntity(Loader loader, Terrain terrain) {
         return makeRandomEntity(random.nextInt(objectModels.size()), loader, terrain);
     }
+
+    // HELPER METHODS
 
     private Entity makeRandomEntity(int i, Loader loader, Terrain terrain) {
         return makeFernEntity(loader, terrain, objectModels.get(i));
@@ -124,6 +135,10 @@ public class EntityFactory {
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + name)));
     }
 
+
+    // TESTING METHOD
+    // TODO REMOVE #generateRandomMap
+
     public ArrayList<Entity> generateRandomMap(Loader loader, Terrain terrain) {
         ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
         RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
@@ -137,13 +152,10 @@ public class EntityFactory {
 
         ArrayList<Entity> allPolyTrees = new ArrayList<>();
 
-        for (int i = 0; i < 200; i++) {
-            float x = random.nextFloat() * 1000;
-            float z = random.nextFloat() * -1000;
+        for (int i = 0; i < 50; i++) {
+            float x = random.nextFloat() * 256;
+            float z = random.nextFloat() * -256;
             float y = terrain.getTerrainHeight(x, z);
-            if ((x > 400 && x < 600) && (z > -600 && z < -400)) {
-                continue;
-            }
             allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
                     0, 0f, 1f, random.nextInt(4)));
         }
@@ -152,7 +164,59 @@ public class EntityFactory {
     }
 
 
-    // TODO Random scale or rotation?
+    // ENTITY MAP DEBUGGING
+
+    private ArrayList<Entity> testEntities = new ArrayList<>();
+
+    /**
+     * Attempts to parse the height map
+     *
+     * @param entityMap Height map
+     * @return Buffered image
+     */
+    private BufferedImage getBufferedImage(String entityMap) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(new File("res/" + entityMap + ".png"));
+        } catch (IOException e) {
+            System.err.println("Failed to load entity map");
+            e.printStackTrace();
+        }
+        return image;
+    }
+
+    private void parseEntityMap(Loader loader, Terrain terrain) {
+        BufferedImage image = getBufferedImage(ENTITY_MAP);
+
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
+                int color = image.getRGB(i, j);
+                if (color == -65536) {
+
+                    ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
+                    RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                            data.getIndices());
+
+                    TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                            new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
+                    lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
+                    lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+                    lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
 
 
+                    float x = i;
+                    float z = j - 256;
+                    float y = terrain.getTerrainHeight(x, z);
+
+                    Entity e = new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4));
+
+                    testEntities.add(e);
+                }
+            }
+        }
+    }
+
+    public ArrayList<Entity> getTestEntities() {
+        return testEntities;
+    }
 }

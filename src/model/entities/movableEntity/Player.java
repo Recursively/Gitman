@@ -9,6 +9,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
+import model.entities.Camera;
+import model.models.TexturedModel;
+import model.terrains.Terrain;
 import view.DisplayManager;
 
 public class Player extends MovableEntity {
@@ -18,6 +21,8 @@ public class Player extends MovableEntity {
 
     private static float terrainHeight = 0;
     private Camera camera;
+    
+    private int uid;
 
     private float verticalVelocity = 0;
     
@@ -117,8 +122,6 @@ public class Player extends MovableEntity {
     public Camera getCamera() {
         return camera;
     }
-    
-    // TODO pickup just deals with 
     
     /**
      * Find item that player is trying to interact with 

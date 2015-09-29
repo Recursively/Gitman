@@ -2,26 +2,23 @@ package model;
 
 import model.entities.Entity;
 import model.entities.Light;
-import model.entities.movableEntity.Commit;
-import model.entities.movableEntity.FlashDrive;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
-import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
 import model.guiComponents.Inventory;
+import model.models.TexturedModel;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
+import model.textures.ModelTexture;
 import model.toolbox.Loader;
-
+import model.toolbox.OBJLoader;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Delegate class used to represent all the current components of the game world.
@@ -59,7 +56,7 @@ public class GameWorld {
     private Player player;    //TODO save
 
     // Collection of other players stored separately
-    private ArrayList<Player> otherPlayers;
+	private Map<Integer, Player> allPlayers;
 
     // Constant sun light-source
     private Light sun;
@@ -69,13 +66,14 @@ public class GameWorld {
 
     // object file loader
     private Loader loader;
-    
+ 
     // game state elements  //TODO save
     private Inventory inventory;
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
     private int score;               // overall score
     private Set<SwipeCard> cards;
+	private TexturedModel playerModel;
 
     /**
      * Creates the game world and passes in the loader
@@ -88,23 +86,27 @@ public class GameWorld {
 
     /**
      * Initialises the game by setting up the lighting, factories and terrain
+     * @param isHost 
      */
-    public void initGame() {
+    public void initGame(boolean isHost) {
         // initialise factories and data structures
         initFactories();
         initDataStructures();
 
-        // Adds lighting to game world
-        setupLighting();
+		// Adds lighting to game world
+		setupLighting();
 
         // creates the gui to be displayed on the display
         initGui();
 
-        // initialises the terrain //TODO this will need to support multi terrain at some point.
-        initTerrain();
+		// initialises the terrain //TODO this will need to support multi terrain at some point.
+		initTerrain();
 
-        // finally create the player.
-        player = playerFactory.makeNewMainPlayer(new Vector3f(50, 100, -50));
+		entityFactory = new EntityFactory(loader, terrain);
+
+        initPlayerModel();
+
+        staticEntities = entityFactory.getTestEntities();
         
         // game state
         inventory = new Inventory();
@@ -147,16 +149,16 @@ public class GameWorld {
         guiImages = new ArrayList<>();
         staticEntities = new ArrayList<>();
         movableEntities = new ArrayList<>();
-        otherPlayers = new ArrayList<>();
+        allPlayers = new HashMap<Integer, Player>();
         lights = new ArrayList<>();
+        
     }
 
     /**
      * initialises the factories
      */
     private void initFactories() {
-        entityFactory = new EntityFactory();
-        playerFactory = new PlayerFactory(this);
+        playerFactory = new PlayerFactory(this, loader);
         lightFactory = new LightFactory();
         terrainFactory = new TerrainFactory(loader);
         guiFactory = new GuiFactory(loader);
@@ -302,7 +304,7 @@ public class GameWorld {
     * 'fix' the bug)
     */
 	public void incrementPatch(){
-		int commitScore = MAX_PROGRESS / ((otherPlayers.size() + 1) * AVG_COMMIT_COLLECT);
+		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 		
     	this.patchProgress+=commitScore;
     	// 100% reached, game won
@@ -351,5 +353,47 @@ public class GameWorld {
 	//FIXME
 	public int getScore() {
 		return score;
+	}
+
+    public ArrayList<Entity> getStaticEntities() {
+        return staticEntities;
+    }
+    
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public void addNewPlayer(Vector3f position, int uid) {
+		Player player = playerFactory.makeNewPlayer(position, playerModel, uid);
+		allPlayers.put(uid, player);
+		
+		System.out.println("ADDED NEW PLAYER, ID: " + uid);
+	}
+
+	public void addPlayer(Vector3f position, int uid) {
+		player = playerFactory.makeNewPlayer(position, playerModel, uid);
+		allPlayers.put(uid, player);
+
+		System.out.println("ADDED THIS PLAYER, ID: " + uid);
+	}
+
+	/**
+	 * @return the otherPlayers
+	 */
+	public Map<Integer, Player> getAllPlayers() {
+		return allPlayers;
+	}
+	
+	private void initPlayerModel() {
+		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
+				new ModelTexture(loader.loadTexture("textures/white")));
+		ModelTexture playerTexture = playerModel.getTexture();
+		playerTexture.setShineDamper(10);
+		playerTexture.setReflectivity(1);
+	}
+
+	public ArrayList<Entity> getMoveableEntities() {
+		return movableEntities;
 	}
 }

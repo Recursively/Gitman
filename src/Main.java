@@ -2,7 +2,6 @@ import view.TitleScreen;
 
 // MAIN METHOD
 public class Main {
-
     /* CALL THIS TO BEGIN THE FUN
 
                         .s$$$Ss.
@@ -43,8 +42,10 @@ public class Main {
         $s.s$$$$S..............   ................    $$....s$s......
          `""'           `     ```"""""""""""""""         `""   ``
      */
+	// ARGS ARE BOOLEAN: IS HOST OF THE GAME, STRING: IPADDRESS TO CONNECT TO
     public static void main(String[] args) {
-        new TitleScreen();
+        new TitleScreen(false, "localhost");
     }
 
 }
+
