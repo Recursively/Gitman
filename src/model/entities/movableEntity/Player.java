@@ -2,21 +2,20 @@ package model.entities.movableEntity;
 
 import model.GameWorld;
 import model.entities.Camera;
+import model.entities.Entity;
+import model.entities.staticEntity.StaticEntity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
-import model.entities.Camera;
-import model.models.TexturedModel;
-import model.terrains.Terrain;
 import view.DisplayManager;
+
+import java.util.ArrayList;
 
 public class Player extends MovableEntity {
 
-    private static final float RUN_SPEED = 1;
+    private static final float RUN_SPEED = 1f;
     private static final float JUMP_POWER = 30;
 
     private static float terrainHeight = 0;
@@ -42,6 +41,81 @@ public class Player extends MovableEntity {
         gravityPull();
         firstPersonMove();
         camera.update(super.getPosition());
+    }
+
+    public void move(Terrain terrain, ArrayList<Entity> statics) {
+        updateTerrainHeight(terrain);
+        gravityPull();
+        firstPersonMove(statics);
+        camera.update(super.getPosition());
+    }
+
+    //TODO this is ugly and needs love
+    private void firstPersonMove(ArrayList<Entity> statics) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+            moveFromLook(0, 0, -1 * RUN_SPEED, statics);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            moveFromLook(0, 0, 1 * RUN_SPEED, statics);
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            moveFromLook(1 * RUN_SPEED, 0, 0, statics);
+
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            moveFromLook(-1 * RUN_SPEED, 0, 0, statics);
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            if (super.getPosition().y == terrainHeight) {
+                jump();
+            }
+        }
+
+        // ensures single reaction to a key press event when dealing with items
+        while(Keyboard.next()){
+            // carry out methods when key is pressed (not released)
+            if(Keyboard.getEventKeyState()){
+                if(Keyboard.getEventKey() == Keyboard.KEY_E){
+                    pickUpOrInteract();
+                }
+                if(Keyboard.getEventKey() == Keyboard.KEY_R){
+                    dropItem();
+                }
+                // TODO have 'C' or something to interact/copy code from npc?
+                // TODO have 'U' or something for unlock door method
+            }
+        }
+
+        /* Prevents the camera from turning over 360 or under -360 */
+        camera.changeYaw(Mouse.getDX() / 2);
+        camera.changePitch(-(Mouse.getDY() / 2));
+        if (camera.getPitch() > 60) {
+            camera.setPitch(60);
+        } else if (camera.getPitch() < -30) {
+            camera.setPitch(-30);
+        }
+    }
+
+    private void moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
+        Vector3f position = super.getPosition();
+
+        position.z += dx * (float) Math.cos(Math.toRadians(camera.getYaw() - 90)) + dz * Math.cos(Math.toRadians(camera.getYaw()));
+        position.x -= dx * (float) Math.sin(Math.toRadians(camera.getYaw() - 90)) + dz * Math.sin(Math.toRadians(camera.getYaw()));
+
+        boolean collision = false;
+
+        for (Entity e : statics) {
+            StaticEntity staticEntity = (StaticEntity) e;
+            if (staticEntity.checkCollision(position)) {
+                collision = true;
+            }
+        }
+
+        if (!collision) {
+            super.setPosition(position);
+            System.out.println("updating position");
+        }
     }
 
     private void gravityPull() {

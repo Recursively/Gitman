@@ -1,18 +1,18 @@
 package controller;
 
 import model.GameWorld;
+import model.entities.Entity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-import model.entities.Entity;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -107,13 +107,17 @@ public class GameController {
 				}
 			}
 
+			// TODO Should only get static entities
+			ArrayList<Entity> statics = gameWorld.getTestEntity();
+
 			// PROCESS ENTITIES// PROCESS ENTITIES
-			for (Entity e : gameWorld.getStaticEntities()) {
+			for (Entity e : statics) {
 				renderer.processEntity(e);
 			}
 
 			// update the players position in the world
-			gameWorld.getPlayer().move(gameWorld.getTerrain());
+			//gameWorld.getPlayer().move(gameWorld.getTerrain());
+			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
