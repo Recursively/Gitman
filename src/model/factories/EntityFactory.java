@@ -49,8 +49,8 @@ public class EntityFactory {
      * Construct a new Entity factor with no models preloaded
      */
     public EntityFactory(Loader loader, Terrain terrain) {
-        //parseEntityMap(loader, terrain);
-        getTestEntity(loader, terrain);
+        parseEntityMap(loader, terrain);
+        //getTestEntity(loader, terrain);
     }
 
     /**
@@ -198,12 +198,12 @@ public class EntityFactory {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
 
-                    ModelData data = OBJFileLoader.loadOBJ("models/table_with_drawer");
+                    ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
                     RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
                             data.getIndices());
 
                     TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                            new ModelTexture(loader.loadTexture("textures/table_with_drawer")));
+                            new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
                     lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
                     lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
                     lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
@@ -211,38 +211,37 @@ public class EntityFactory {
 
                     float x = i;
                     float z = j - 256;
-                    float y = terrain.getTerrainHeight(x, z) + 10;
+                    float y = terrain.getTerrainHeight(x, z) - 2;
 
-                    Entity e = new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4));
+                    StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
                     testEntities.add(e);
                 }
             }
         }
+        System.out.println(testEntities.size());
     }
 
     public void getTestEntity(Loader loader, Terrain terrain) {
+        for (int i = 0; i < 100; i++) {
+            ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
+            RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                    data.getIndices());
 
-        ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
+            TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                    new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
+            lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
+            lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+            lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
 
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
-        lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+            float x = random.nextInt(256);
+            float z = random.nextInt(256) - 256;
+            float y = terrain.getTerrainHeight(x, z) + 10;
 
+            StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
-        float x = 50;
-        float z = 50 - 256;
-        float y = terrain.getTerrainHeight(x, z) + 10;
-
-        StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
-
-//        Entity e = new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt());
-
-        testEntities.add(e);
+            testEntities.add(e);
+        }
     }
 
     public ArrayList<Entity> getTestEntities() {
