@@ -212,7 +212,7 @@ public class EntityFactory {
                     float z = j - 256;
                     float y = terrain.getTerrainHeight(x, z) - 2;
 
-                    StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, 0, data);
+                    StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
 
                     testEntities.add(e);
                 }
