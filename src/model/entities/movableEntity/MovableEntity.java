@@ -35,4 +35,5 @@ public abstract class MovableEntity extends Entity {
 	}
 	
 	// TODO add NPC (which include bugs and characters)...
+	// TODO add door as item (it's invisible)
 }

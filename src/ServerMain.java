@@ -1,6 +1,6 @@
 import view.TitleScreen;
 
-public class serverMain {
+public class ServerMain {
 
 	// ARGS ARE BOOLEAN: IS HOST OF THE GAME, STRING: IPADDRESS TO CONNECT TO
 	public static void main(String[] args) {
