@@ -1,5 +1,7 @@
 package model.models;
 
+import model.entities.staticEntity.BoundingBox;
+
 /**
  * Data class containing all the information about a wavefront obj model
  *
@@ -29,6 +31,8 @@ public class ModelData {
         this.normals = normals;
         this.indices = indices;
         this.furthestPoint = furthestPoint;
+
+        parseBounds();
     }
 
     /**
@@ -76,4 +80,57 @@ public class ModelData {
         return furthestPoint;
     }
 
+    // BOUNDS INFO
+    private float minX = Float.MAX_VALUE;
+    private float minY = Float.MAX_VALUE;
+    private float minZ = Float.MAX_VALUE;
+
+    private float maxX = Float.MIN_VALUE;
+    private float maxY = Float.MIN_VALUE;
+    private float maxZ = Float.MIN_VALUE;
+
+    private void parseBounds() {
+        for (int i = 0; i < vertices.length; i++) {
+            if (i % 3 == 0) {
+                // x
+                float vert = vertices[i];
+
+                if (vert < minX) {
+                    minX = vert;
+                }
+
+                if (vert > maxX) {
+                    maxX = vert;
+                }
+
+            } else if (i % 3 == 1) {
+                // y
+                float vert = vertices[i];
+
+                if (vert < minY) {
+                    minY = vert;
+                }
+
+                if (vert > maxY) {
+                    maxY = vert;
+                }
+
+            } else {
+                // z
+                float vert = vertices[i];
+
+                if (vert < minZ) {
+                    minZ = vert;
+                }
+
+                if (vert > maxZ) {
+                    maxZ = vert;
+                }
+            }
+        }
+    }
+
+    public BoundingBox getBoundingBox() {
+        return new BoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
+    }
 }

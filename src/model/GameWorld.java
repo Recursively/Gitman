@@ -2,12 +2,9 @@ package model;
 
 import model.entities.Entity;
 import model.entities.Light;
-import model.entities.movableEntity.Commit;
-import model.entities.movableEntity.FlashDrive;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.Player;
-import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
 import model.guiComponents.Inventory;
@@ -17,15 +14,10 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
-
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Delegate class used to represent all the current components of the game world.
@@ -101,18 +93,20 @@ public class GameWorld {
         initFactories();
         initDataStructures();
 
-        // Adds lighting to game world
-        setupLighting();
+		// Adds lighting to game world
+		setupLighting();
 
         // creates the gui to be displayed on the display
         initGui();
 
-        // initialises the terrain //TODO this will need to support multi terrain at some point.
-        initTerrain();
-        
+		// initialises the terrain //TODO this will need to support multi terrain at some point.
+		initTerrain();
+
+		entityFactory = new EntityFactory(loader, terrain);
+
         initPlayerModel();
 
-        staticEntities = entityFactory.generateRandomMap(loader, terrain);
+        staticEntities = entityFactory.getTestEntities();
         
         // game state
         inventory = new Inventory();
@@ -164,7 +158,6 @@ public class GameWorld {
      * initialises the factories
      */
     private void initFactories() {
-        entityFactory = new EntityFactory();
         playerFactory = new PlayerFactory(this, loader);
         lightFactory = new LightFactory();
         terrainFactory = new TerrainFactory(loader);
@@ -397,6 +390,10 @@ public class GameWorld {
 
 	public ArrayList<Entity> getMoveableEntities() {
 		return movableEntities;
+	}
+
+	public ArrayList<Entity> getTestEntity() {
+		return entityFactory.getTestEntities();
 	}
 	
 }
