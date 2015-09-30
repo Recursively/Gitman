@@ -4,13 +4,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.text.BreakIterator;
 
 import org.lwjgl.util.vector.Vector3f;
 
 import controller.GameController;
 import model.entities.Entity;
-import model.entities.movableEntity.Item;
 import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
@@ -61,9 +59,7 @@ public class Server extends Thread {
 
 	}
 
-	
-
-	public void initStreams()  {
+	public void initStreams() {
 		try {
 			inputStream = new DataInputStream(socket.getInputStream());
 			outputStream = new DataOutputStream(socket.getOutputStream());
@@ -95,7 +91,11 @@ public class Server extends Thread {
 	private void sendPlayerPosition(Player player) throws IOException {
 		outputStream.writeInt(player.getUID());
 		outputStream.writeFloat(player.getPosition().x);
-		outputStream.writeFloat(player.getPosition().y + 10);
+		if (player.getUID() == gameController.getPlayer().getUID()) {
+			outputStream.writeFloat(player.getPosition().y + 10);
+		} else {
+			outputStream.writeFloat(player.getPosition().y);
+		}
 		outputStream.writeFloat(player.getPosition().z);
 	}
 
@@ -118,7 +118,7 @@ public class Server extends Thread {
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
-		gameController.getPlayerWithID(uid).setPosition(new Vector3f(x, y+10, z));
+		gameController.getPlayerWithID(uid).setPosition(new Vector3f(x, y, z));
 	}
 
 	public void terminate() {

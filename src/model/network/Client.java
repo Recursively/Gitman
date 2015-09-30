@@ -113,7 +113,7 @@ public class Client extends Thread {
 
 	public void sendPlayerLocation(Player player) throws IOException {
 		outputStream.writeFloat(player.getPosition().getX());
-		outputStream.writeFloat(player.getPosition().getY());
+		outputStream.writeFloat(player.getPosition().getY()+10);
 		outputStream.writeFloat(player.getPosition().getZ());
 
 	}

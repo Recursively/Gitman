@@ -114,7 +114,7 @@ public class GameController {
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
 			for (Entity e : statics) {
-				renderer.processEntity(e);
+				//renderer.processEntity(e);
 			}
 
 			// update the players position in the world
