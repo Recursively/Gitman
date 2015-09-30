@@ -14,14 +14,16 @@ import org.xml.sax.SAXException;
 
 public class Load {
 
-	private String role1 = null;
-	private String role2 = null;
-	private String role3 = null;
-	private String role4 = null;
-	private ArrayList<String> rolev;
+	private String player = null;
+	private String inventory = null;
+	private String codeProgress = null;
+	private String patchProgress = null;
+	private String score = null;
+	private String cards = null;
+	private ArrayList<String> states;
 
 	public boolean readXML(String xml) {
-		rolev = new ArrayList<String>();
+		states = new ArrayList<String>();
 		Document dom;
 		// Make an instance of the DocumentBuilderFactory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -34,26 +36,37 @@ public class Load {
 
 			Element doc = dom.getDocumentElement();
 
-			role1 = getTextValue(role1, doc, "role1");
-			if (role1 != null) {
-				if (!role1.isEmpty())
-					rolev.add(role1);
+			player = getTextValue(player, doc, "player");
+			if (player != null) {
+				if (!player.isEmpty())
+					states.add(player);
 			}
-			role2 = getTextValue(role2, doc, "role2");
-			if (role2 != null) {
-				if (!role2.isEmpty())
-					rolev.add(role2);
+			inventory = getTextValue(inventory, doc, "inventory");
+			if (inventory != null) {
+				if (!inventory.isEmpty())
+					states.add(inventory);
 			}
-			role3 = getTextValue(role3, doc, "role3");
-			if (role3 != null) {
-				if (!role3.isEmpty())
-					rolev.add(role3);
+			codeProgress = getTextValue(codeProgress, doc, "codeProgress");
+			if (codeProgress != null) {
+				if (!codeProgress.isEmpty())
+					states.add(codeProgress);
 			}
-			role4 = getTextValue(role4, doc, "role4");
-			if (role4 != null) {
-				if (!role4.isEmpty())
-					rolev.add(role4);
+			patchProgress = getTextValue(patchProgress, doc, "patchProgress");
+			if (patchProgress != null) {
+				if (!patchProgress.isEmpty())
+					states.add(patchProgress);
 			}
+			score = getTextValue(score, doc, "score");
+			if (score != null) {
+				if (!score.isEmpty())
+					states.add(score);
+			}
+			cards = getTextValue(cards, doc, "cards");
+			if (cards != null) {
+				if (!cards.isEmpty())
+					states.add(cards);
+			}
+			
 			return true;
 
 		} catch (ParserConfigurationException pce) {

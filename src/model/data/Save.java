@@ -18,10 +18,12 @@ import org.w3c.dom.Element;
 
 public class Save {
 	
-	private String role1 = null;
-	private String role2 = null;
-	private String role3 = null;
-	private String role4 = null;
+	private String player = null;
+	private String inventory = null;
+	private String codeProgress = null;
+	private String patchProgress = null;
+	private String score = null;
+	private String cards = null;
 
 	public void saveToXML(String xml) {
 		Document dom;
@@ -36,23 +38,31 @@ public class Save {
 			dom = db.newDocument();
 
 			// create the root element
-			Element rootEle = dom.createElement("roles");
+			Element rootEle = dom.createElement("gamestate");
 
 			// create data elements and place them under root
-			e = dom.createElement("role1");
-			e.appendChild(dom.createTextNode(role1));
+			e = dom.createElement("player");
+			e.appendChild(dom.createTextNode(player));
 			rootEle.appendChild(e);
 
-			e = dom.createElement("role2");
-			e.appendChild(dom.createTextNode(role2));
+			e = dom.createElement("inventory");
+			e.appendChild(dom.createTextNode(inventory));
 			rootEle.appendChild(e);
 
-			e = dom.createElement("role3");
-			e.appendChild(dom.createTextNode(role3));
+			e = dom.createElement("codeProgress");
+			e.appendChild(dom.createTextNode(codeProgress));
 			rootEle.appendChild(e);
 
-			e = dom.createElement("role4");
-			e.appendChild(dom.createTextNode(role4));
+			e = dom.createElement("patchProgress");
+			e.appendChild(dom.createTextNode(patchProgress));
+			rootEle.appendChild(e);
+			
+			e = dom.createElement("score");
+			e.appendChild(dom.createTextNode(score));
+			rootEle.appendChild(e);
+			
+			e = dom.createElement("cards");
+			e.appendChild(dom.createTextNode(cards));
 			rootEle.appendChild(e);
 
 			dom.appendChild(rootEle);
