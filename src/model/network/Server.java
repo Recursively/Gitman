@@ -108,7 +108,7 @@ public class Server extends Thread {
 
 	private void sendPlayerPosition(Player player) {
 		try {
-			outputStream.writeInt(player.getUid());
+			outputStream.writeInt(player.getUID());
 			outputStream.writeFloat(player.getPosition().x);
 			outputStream.writeFloat(player.getPosition().y);
 			outputStream.writeFloat(player.getPosition().z);

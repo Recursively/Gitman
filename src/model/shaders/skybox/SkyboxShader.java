@@ -125,5 +125,4 @@ public class SkyboxShader extends ShaderProgram {
     protected void bindAttributes() {
         super.bindAttribute(0, "position");
     }
-
 }

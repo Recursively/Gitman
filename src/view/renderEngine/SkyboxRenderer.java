@@ -167,3 +167,4 @@ public class SkyboxRenderer {
             SIZE, -SIZE,  SIZE
     };
 }
+

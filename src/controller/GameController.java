@@ -1,11 +1,9 @@
 package controller;
 
 import model.GameWorld;
-import model.data.Save;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
@@ -39,13 +37,13 @@ public class GameController {
 	// Controller
 	private ClientController clientController;
 	private ServerController serverController;
+	private ActionController actionController;
 
 	private final boolean isHost;
 	private int playerCount;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
-	 *
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -61,6 +59,9 @@ public class GameController {
 		// initialise the game world
 		gameWorld = new GameWorld(loader);
 		gameWorld.initGame(isHost);
+		
+		// initialise controller for actions
+		actionController = new ActionController(loader, gameWorld);
 
 		// setup client
 		this.isHost = isHost;
@@ -103,7 +104,7 @@ public class GameController {
 			// PROCESS PLAYER
 
 			for (Player player : gameWorld.getAllPlayers().values()) {
-				if (player.getUid() != gameWorld.getPlayer().getUid()) {
+				if (player.getUID() != gameWorld.getPlayer().getUID()) {
 					renderer.processEntity(player);
 				}
 			}
@@ -115,9 +116,13 @@ public class GameController {
 			for (Entity e : statics) {
 				renderer.processEntity(e);
 			}
+			
+			// checks to see if inventory needs to be displayed
+			actionController.processActions();
 
 			// update the players position in the world
-			//gameWorld.getPlayer().move(gameWorld.getTerrain());
+			// gameWorld.getPlayer().move(gameWorld.getTerrain());
+
 			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 
 			// Render the player's view
@@ -125,11 +130,6 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
-
-			// TODO make this single press --> Divya maybe make this be part of the UI keypress controller thing.
-			if (Keyboard.isKeyDown(Keyboard.KEY_F)){
-				Save.saveGame(gameWorld);
-			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
@@ -186,5 +186,4 @@ public class GameController {
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
-
 }
