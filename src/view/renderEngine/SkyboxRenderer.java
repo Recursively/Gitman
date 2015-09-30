@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+import view.DisplayManager;
 
 /**
  * Delegate renderer to handle the rendering of the world's skybox
@@ -36,6 +37,8 @@ public class SkyboxRenderer {
     private int texture;
     private int nightTexture;
     private SkyboxShader shader;
+
+    private float time = 0;
 
     /**
      * Constructor
@@ -86,16 +89,35 @@ public class SkyboxRenderer {
         shader.stop();
     }
 
-    private void bindTextures() {
-        // bind day texture
+    private void bindTextures(){
+        time += DisplayManager.getFrameTimeSeconds() * 1000;
+        time %= 24000;
+        int texture1;
+        int texture2;
+        float blendFactor;
+        if(time >= 0 && time < 5000){
+            texture1 = nightTexture;
+            texture2 = nightTexture;
+            blendFactor = (time - 0)/(5000 - 0);
+        }else if(time >= 5000 && time < 8000){
+            texture1 = nightTexture;
+            texture2 = texture;
+            blendFactor = (time - 5000)/(8000 - 5000);
+        }else if(time >= 8000 && time < 21000){
+            texture1 = texture;
+            texture2 = texture;
+            blendFactor = (time - 8000)/(21000 - 8000);
+        }else{
+            texture1 = texture;
+            texture2 = nightTexture;
+            blendFactor = (time - 21000)/(24000 - 21000);
+        }
+
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture);
-
-        // bind night texture
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture1);
         GL13.glActiveTexture(GL13.GL_TEXTURE1);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, nightTexture);
-
-        shader.loadBlendFactor(0.5f);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
+        shader.loadBlendFactor(blendFactor);
     }
 
     // This is ugly, but essentially it's pointing to all
