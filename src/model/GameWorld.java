@@ -235,7 +235,7 @@ public class GameWorld {
 		for(Entity e: this.movableEntities){
 			// only check entity if it is an item (i.e. ignore players)
 			if(e instanceof Item){
-				if(Entity.isCloserThan(e.getPosition(), itemPos, position, ITEM_DISTANCE)){ 
+				if(Entity.isCloserThan(e.getPosition(), itemPos, player, ITEM_DISTANCE)){ 
 					item = (Item) e;
 					itemPos = e.getPosition();
 				}

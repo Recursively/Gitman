@@ -44,11 +44,6 @@ public class GameController {
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
-<<<<<<< HEAD
-	 * 
-=======
-	 *
->>>>>>> 5d0d1fd2cb799bcc109a1751c46adff8f6afc149
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {

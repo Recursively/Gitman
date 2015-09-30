@@ -1,6 +1,8 @@
 package model.entities;
 
+import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
+
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -200,12 +202,13 @@ public class Entity {
 	 * 
 	 * @param newPos
 	 * @param oldPos
-	 * @param origin
-	 * @return true if the new position is closer to the origin
+	 * @param player that is interacting with the item
+	 * @return true if the new position is closer to the player
 	 * than the oldPos
 	 */
 	public static boolean isCloserThan(Vector3f newPos, Vector3f oldPos,
-			Vector3f origin, int radius) {
+			Player player, int radius) {
+		Vector3f origin = player.getPosition();
 		if(Entity.isWithinBounds(newPos, origin, radius)){
 			if(oldPos == null){
 				return true;
