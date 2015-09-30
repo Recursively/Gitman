@@ -95,7 +95,7 @@ public class Server extends Thread {
 	private void sendPlayerPosition(Player player) throws IOException {
 		outputStream.writeInt(player.getUid());
 		outputStream.writeFloat(player.getPosition().x);
-		outputStream.writeFloat(player.getPosition().y);
+		outputStream.writeFloat(player.getPosition().y + 10);
 		outputStream.writeFloat(player.getPosition().z);
 	}
 
@@ -118,7 +118,7 @@ public class Server extends Thread {
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
-		gameController.getPlayerWithID(uid).setPosition(new Vector3f(x, y, z));
+		gameController.getPlayerWithID(uid).setPosition(new Vector3f(x, y+10, z));
 	}
 
 	public void terminate() {
