@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import model.GameWorld;
+import model.entities.movableEntity.LaptopItem;
 
 public class Save {
 	
@@ -71,7 +72,23 @@ public class Save {
 		Element inventory = doc.createElement("inventory");
 		rootElement.appendChild(inventory);
 		
-		// ArrayList<LaptopItems> inventoryArray = gameWorld.inventory.
+		/* TODO Add getters for inventory
+		
+		ArrayList<LaptopItem> inventoryArray = gameWorld.getInventory();
+		
+		for (LaptopItem item : inventoryArray){
+			Element laptopItem = doc.createElement("laptopItem");
+			inventory.appendChild(laptopItem);
+			
+			Element name = doc.createElement("name");
+			name.appendChild(doc.createTextNode(item.getName()));
+			laptopItem.appendChild(name);
+			
+			Element size = doc.createElement("size");
+			size.appendChild(doc.createTextNode(String.valueOf(item.getSize())));
+			laptopItem.appendChild(size);
+		}
+		*/
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
