@@ -104,7 +104,7 @@ public class GameController {
 			// PROCESS PLAYER
 
 			for (Player player : gameWorld.getAllPlayers().values()) {
-				if (player.getUid() != gameWorld.getPlayer().getUid()) {
+				if (player.getUID() != gameWorld.getPlayer().getUID()) {
 					renderer.processEntity(player);
 				}
 			}

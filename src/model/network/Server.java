@@ -93,7 +93,7 @@ public class Server extends Thread {
 	}
 
 	private void sendPlayerPosition(Player player) throws IOException {
-		outputStream.writeInt(player.getUid());
+		outputStream.writeInt(player.getUID());
 		outputStream.writeFloat(player.getPosition().x);
 		outputStream.writeFloat(player.getPosition().y + 10);
 		outputStream.writeFloat(player.getPosition().z);

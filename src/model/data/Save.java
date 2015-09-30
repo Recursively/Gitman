@@ -64,7 +64,7 @@ public class Save {
 		
 		// uid element
 		Element uid = doc.createElement("uid");
-		uid.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getUid())));
+		uid.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getUID())));
 		player.appendChild(uid);
 		
 		// inventory elements

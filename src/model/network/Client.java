@@ -52,7 +52,7 @@ public class Client extends Thread {
 					// if the player id received is a different player, update
 					// it's
 					// position accordingly
-					if (playerID != gameController.getPlayer().getUid()) {
+					if (playerID != gameController.getPlayer().getUID()) {
 						updatePlayer(playerID, position);
 					}
 				}
@@ -125,5 +125,6 @@ public class Client extends Thread {
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
+
 
 }
