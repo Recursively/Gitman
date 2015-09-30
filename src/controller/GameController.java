@@ -1,9 +1,11 @@
 package controller;
 
 import model.GameWorld;
+import model.data.Save;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
@@ -43,7 +45,7 @@ public class GameController {
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -123,6 +125,11 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
+
+			// TODO make this single press --> Divya maybe make this be part of the UI keypress controller thing.
+			if (Keyboard.isKeyDown(Keyboard.KEY_F)){
+				Save.saveGame(gameWorld);
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
