@@ -222,7 +222,7 @@ public class EntityFactory {
         float z = j - 256;
         float y = terrain.getTerrainHeight(x, z) + 10;
 
-        LightFactory.createRandomEntityLight(x, y + 10, z);
+        LightFactory.createPlayerOrbLight(x, y + 10, z);
 
         StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 2f, 0, data);
 
