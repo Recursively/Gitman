@@ -50,7 +50,6 @@ public class Player extends MovableEntity {
         updateTerrainHeight(terrain);
         gravityPull();
         if(firstPersonMove(statics)) {
-            System.out.println("Collided: not updating camera -> " + oldPosition.getX() + " : " + oldPosition.getZ());
             camera.update(oldPosition);
         } else {
             camera.update(super.getPosition());
@@ -141,7 +140,6 @@ public class Player extends MovableEntity {
 
         if (!collision) {
             super.setPosition(move);
-            System.out.println("updating position");
             return false;
         } else {
             super.setPosition(oldPosition);
