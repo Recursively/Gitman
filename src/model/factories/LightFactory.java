@@ -63,7 +63,7 @@ public class LightFactory {
     }
 
     public static void createPlayerOrbLight(float x, float y, float z) {
-        Vector3f lightColour = new Vector3f(3, 0, 0);
+        Vector3f lightColour = new Vector3f(4, 0, 0);
 
         staticEntityLights.add(new Light(new Vector3f(x, y, z), lightColour, DEFAULT_ATTENUATION_FACTOR));
     }
