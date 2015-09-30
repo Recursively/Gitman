@@ -92,9 +92,6 @@ public class GameWorld {
         initFactories();
         initDataStructures();
 
-		// Adds lighting to game world
-		setupLighting();
-
         // creates the gui to be displayed on the display
         initGui();
 
@@ -102,6 +99,9 @@ public class GameWorld {
 		initTerrain();
 
 		entityFactory = new EntityFactory(loader, terrain);
+
+		// Adds lighting to game world
+		setupLighting();
 
         initPlayerModel();
 
@@ -121,10 +121,11 @@ public class GameWorld {
         lights.add(sun);
 
         //TODO remove
-        lightFactory.createTestAttenuatingLights();
         for (Light l : lightFactory.getLights()) {
-            lights.add(l);
-        }
+			lights.add(l);
+		}
+
+		lights.addAll(LightFactory.getStaticEntityLights());
     }
 
     /**
@@ -170,7 +171,7 @@ public class GameWorld {
      * @return the lights
      */
     public ArrayList<Light> getLights() {
-        return lights;
+		return lights;
     }
 
     /**
