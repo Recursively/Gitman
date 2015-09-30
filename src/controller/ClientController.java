@@ -34,7 +34,8 @@ public class ClientController extends Thread {
 			client.start();
 
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("INCORRECT IP ADDRESS");
+			gameController.networkRunning = false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
