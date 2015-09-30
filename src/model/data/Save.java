@@ -1,96 +1,87 @@
 package model.data;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-
+import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import model.GameWorld;
 
 public class Save {
 	
-	private String player = null;
-	private String inventory = null;
-	private String codeProgress = null;
-	private String patchProgress = null;
-	private String score = null;
-	private String cards = null;
+	private final static String FILE_NAME = "save.xml";
 
-	public void saveToXML(String xml) {
-		Document dom;
-		Element e = null;
+	public static boolean saveGame(GameWorld gameWorld) {
 
-		// instance of a DocumentBuilderFactory
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		try {
-			// use factory to get an instance of document builder
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			// create instance of DOM
-			dom = db.newDocument();
+	  try {
 
-			// create the root element
-			Element rootEle = dom.createElement("gamestate");
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-			// create data elements and place them under root
-			e = dom.createElement("player");
-			e.appendChild(dom.createTextNode(player));
-			rootEle.appendChild(e);
+		// root elements
+		Document doc = docBuilder.newDocument();
+		Element rootElement = doc.createElement("gamestate");
+		doc.appendChild(rootElement);
 
-			e = dom.createElement("inventory");
-			e.appendChild(dom.createTextNode(inventory));
-			rootEle.appendChild(e);
+		// staff elements
+		Element staff = doc.createElement("player");
+		rootElement.appendChild(staff);
 
-			e = dom.createElement("codeProgress");
-			e.appendChild(dom.createTextNode(codeProgress));
-			rootEle.appendChild(e);
+		// set attribute to staff element
+		Attr attr = doc.createAttribute("id");
+		attr.setValue("1");
+		staff.setAttributeNode(attr);
 
-			e = dom.createElement("patchProgress");
-			e.appendChild(dom.createTextNode(patchProgress));
-			rootEle.appendChild(e);
-			
-			e = dom.createElement("score");
-			e.appendChild(dom.createTextNode(score));
-			rootEle.appendChild(e);
-			
-			e = dom.createElement("cards");
-			e.appendChild(dom.createTextNode(cards));
-			rootEle.appendChild(e);
+		// shorten way
+		// staff.setAttribute("id", "1");
 
-			dom.appendChild(rootEle);
+		// firstname elements
+		Element firstname = doc.createElement("firstname");
+		firstname.appendChild(doc.createTextNode("yong"));
+		staff.appendChild(firstname);
 
-			try {
-				Transformer tr = TransformerFactory.newInstance()
-						.newTransformer();
-				tr.setOutputProperty(OutputKeys.INDENT, "yes");
-				tr.setOutputProperty(OutputKeys.METHOD, "xml");
-				tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-				tr.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "roles.dtd");
-				tr.setOutputProperty(
-						"{http://xml.apache.org/xslt}indent-amount", "4");
+		// lastname elements
+		Element lastname = doc.createElement("lastname");
+		lastname.appendChild(doc.createTextNode("mook kim"));
+		staff.appendChild(lastname);
 
-				// send DOM to file
-				tr.transform(new DOMSource(dom), new StreamResult(
-						new FileOutputStream(xml)));
+		// nickname elements
+		Element nickname = doc.createElement("nickname");
+		nickname.appendChild(doc.createTextNode("mkyong"));
+		staff.appendChild(nickname);
 
-			} catch (TransformerException te) {
-				System.out.println(te.getMessage());
-			} catch (IOException ioe) {
-				System.out.println(ioe.getMessage());
-			}
-		} catch (ParserConfigurationException pce) {
-			System.out
-					.println("UsersXML: Error trying to instantiate DocumentBuilder "
-							+ pce);
-		}
+		// salary elements
+		Element salary = doc.createElement("salary");
+		salary.appendChild(doc.createTextNode("100000"));
+		staff.appendChild(salary);
+
+		// write the content into xml file
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(doc);
+		StreamResult result = new StreamResult(new File(System.getProperty("user.dir") + File.separator + "res" + File.separator + "data" + File.separator + FILE_NAME));
+
+		// Output to console for testing
+		// StreamResult result = new StreamResult(System.out);
+
+		transformer.transform(source, result);
+
+		System.out.println("File saved!");
+
+	  } catch (ParserConfigurationException pce) {
+		pce.printStackTrace();
+	  } catch (TransformerException tfe) {
+		tfe.printStackTrace();
+	  }
+	  
+	  return false; // TODO fix this
 	}
-	
 }
