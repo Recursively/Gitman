@@ -1,4 +1,6 @@
+
 package controller;
+
 
 import model.GameWorld;
 import model.entities.Entity;
@@ -13,6 +15,7 @@ import view.renderEngine.MasterRenderer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+
 
 /**
  * Controller class to handle the delegations between the Model and View
@@ -114,7 +117,7 @@ public class GameController {
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
 			for (Entity e : statics) {
-				//renderer.processEntity(e);
+				renderer.processEntity(e);
 			}
 
 			// update the players position in the world
@@ -190,4 +193,5 @@ public class GameController {
 	}
 
 }
+
 

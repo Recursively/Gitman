@@ -35,9 +35,9 @@ public class MasterRenderer {
     private static final float FAR_PLANE = 2000;
 
     // Fog colour values
-    private static final float RED = 0;
-    private static final float GREEN = 0;
-    private static final float BLUE = 0;
+    private static final float RED = 0.5444f;
+    private static final float GREEN = 0.62f;
+    private static final float BLUE = 0.69f;
 
     private Matrix4f projectionMatrix;
 
