@@ -15,7 +15,6 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -93,9 +92,6 @@ public class GameWorld {
         initFactories();
         initDataStructures();
 
-		// Adds lighting to game world
-		setupLighting();
-
         // creates the gui to be displayed on the display
         initGui();
 
@@ -103,6 +99,9 @@ public class GameWorld {
 		initTerrain();
 
 		entityFactory = new EntityFactory(loader, terrain);
+
+		// Adds lighting to game world
+		setupLighting();
 
         initPlayerModel();
 
@@ -122,17 +121,19 @@ public class GameWorld {
         lights.add(sun);
 
         //TODO remove
-        lightFactory.createTestAttenuatingLights();
         for (Light l : lightFactory.getLights()) {
-            lights.add(l);
-        }
+			lights.add(l);
+		}
+
+		lights.addAll(LightFactory.getStaticEntityLights());
     }
 
     /**
      * initialises the Gui to be rendered to the display
      */
     private void initGui() {
-        guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		//TODO should init some gui here maybe?
+        //guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
     }
 
     /**
@@ -149,7 +150,7 @@ public class GameWorld {
         guiImages = new ArrayList<>();
         staticEntities = new ArrayList<>();
         movableEntities = new ArrayList<>();
-        allPlayers = new HashMap<Integer, Player>();
+        allPlayers = new HashMap<>();
         lights = new ArrayList<>();
         
     }
@@ -170,7 +171,7 @@ public class GameWorld {
      * @return the lights
      */
     public ArrayList<Light> getLights() {
-        return lights;
+		return lights;
     }
 
     /**
@@ -199,6 +200,27 @@ public class GameWorld {
     public Terrain getTerrain() {
         return terrain;
     }
+    
+    /**
+	 * @return the inventory
+	 */
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	/**
+     * Find item that player is trying to interact with 
+     * and then carry out interaction
+     */
+    public void interactWithItem() {
+    	if(inventory.isVisible()) return;
+    	
+    	// only allowed to interact with items if inventory is not open
+    	Item item = findItem(player.getPosition()); 
+    	if(item != null){
+    		item.interact(this); 
+    	}
+	}
     
     /**
      * Find the item that is within ITEM_DISTANCE 

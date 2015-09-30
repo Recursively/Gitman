@@ -18,13 +18,16 @@ public class Inventory {
 	private static final int MAX_STORAGE_SIZE = 512;   // laptop has 512MB available for storage
 	
 	private ArrayList<LaptopItem> inLaptop;
-	//private ArrayList<GuiTexture> inventoryTexture //populate in GUI fac
 	private int storageUsed;
-	static public boolean isVisible = false;
+	private boolean isVisible;
+	
+	
+	//private ArrayList<GuiTexture> inventoryTexture //populate in GUI fac
 	
 	public Inventory (){
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
+		this.isVisible = false;
 	}
 	
 	/**
@@ -41,6 +44,13 @@ public class Inventory {
 		return this.storageUsed;
 	}
 	
+	/**
+	 * @return the isVisible
+	 */
+	public boolean isVisible() {
+		return isVisible;
+	}
+
 	/**
 	 * Add item to inventory (only allowed to add if required 
 	 * storage space is still available)
@@ -79,6 +89,27 @@ public class Inventory {
 	 */
 	public void increaseStorageUsed(int size){
 		this.storageUsed = this.storageUsed + size;
+	}
+
+	public void displayInventory() {
+		if(isVisible){
+			closeInventory();
+		}
+		else {
+			openInventory();
+		}
+	}
+	
+	private void openInventory(){
+		System.out.println("Open");
+		isVisible = true;
+		//TODO
+	}
+	
+	private void closeInventory(){
+		System.out.println("Close");
+		isVisible = false;
+		//TODO
 	}
 
 }

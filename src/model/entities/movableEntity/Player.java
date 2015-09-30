@@ -1,6 +1,5 @@
 package model.entities.movableEntity;
 
-import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
@@ -22,16 +21,15 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
-    
-    private GameWorld gameWorld;
+
+    private Terrain currentTerrain;
 
     // bad?
     private Vector3f oldPosition;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int uid, Camera camera, GameWorld game) {
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int uid, Camera camera) {
         super(model, position, rotX, rotY, rotZ, scale, uid);
         this.camera = camera;
-        this.gameWorld = game;
     }
 
     // TODO does this still need to be here?
@@ -45,8 +43,7 @@ public class Player extends MovableEntity {
     public void move(Terrain terrain, ArrayList<Entity> statics) {
         updateTerrainHeight(terrain);
         gravityPull();
-        if(firstPersonMove(statics)) {
-            System.out.println("Collided: not updating camera -> " + oldPosition.getX() + " : " + oldPosition.getZ());
+        if(firstPersonMove(statics, terrain)) {
             camera.update(oldPosition);
         } else {
             camera.update(super.getPosition());
@@ -54,7 +51,7 @@ public class Player extends MovableEntity {
     }
 
     //TODO this is ugly and needs love
-    private boolean firstPersonMove(ArrayList<Entity> statics) {
+    private boolean firstPersonMove(ArrayList<Entity> statics, Terrain terrain) {
 
         boolean collision = false;
 
@@ -86,24 +83,6 @@ public class Player extends MovableEntity {
             }
         }
 
-        // TODO Merge pickup/interact....
-        
-        // ensures single reaction to a key press event when dealing with items
-        while(Keyboard.next()){
-        	// carry out methods when key is pressed (not released)
-        	if(Keyboard.getEventKeyState()){
-        		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			interactWithItem();
-        		}
-        		if(Keyboard.getEventKey() == Keyboard.KEY_R){
-        			//TODO should drop be in the gui controller as delete?
-        			//dropItem();
-        		}
-        		// TODO have 'C' or something to interact/copy code from npc?
-                // TODO have 'U' or something for unlock door method
-        	}
-        }
-
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);
         camera.changePitch(-(Mouse.getDY() / 2));
@@ -113,7 +92,35 @@ public class Player extends MovableEntity {
             camera.setPitch(-30);
         }
 
+        checkBounds(terrain);
+
         return collision;
+    }
+
+    private void checkBounds(Terrain terrain) {
+        Vector3f position = super.getPosition();
+        float terrainSize = Terrain.getSIZE();
+
+        float terrainOriginX = terrain.getGridX();
+        float terrainOriginZ = terrain.getGridZ();
+
+        float terrainBoundX = terrainOriginX + terrainSize;
+        float terrainBoundZ = terrainOriginZ + terrainSize;
+
+        float xPos = position.getX();
+        float zPos = position.getZ();
+
+        if (xPos < terrainOriginX) {
+            position.x = terrainOriginX;
+        } else if (xPos > terrainBoundX) {
+            position.x = terrainBoundX;
+        }
+
+        if (zPos < terrainOriginZ) {
+            position.z = terrainOriginZ;
+        } else if (zPos > terrainBoundZ) {
+            position.z = terrainBoundZ;
+        }
     }
 
     private boolean moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
@@ -140,7 +147,6 @@ public class Player extends MovableEntity {
 
         if (!collision) {
             super.setPosition(move);
-            System.out.println("updating position");
             return false;
         } else {
             super.setPosition(oldPosition);
@@ -187,25 +193,6 @@ public class Player extends MovableEntity {
                 jump();
             }
         }
-        
-        
-        // TODO Merge pickup/interact....
-        
-        // ensures single reaction to a key press event when dealing with items
-        while(Keyboard.next()){
-        	// carry out methods when key is pressed (not released)
-        	if(Keyboard.getEventKeyState()){
-        		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			interactWithItem();
-        		}
-        		if(Keyboard.getEventKey() == Keyboard.KEY_R){
-        			//TODO should drop be in the gui controller as delete?
-        			//dropItem();
-        		}
-        		// TODO have 'C' or something to interact/copy code from npc?
-                // TODO have 'U' or something for unlock door method
-        	}
-        }
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);
@@ -230,18 +217,13 @@ public class Player extends MovableEntity {
     public Camera getCamera() {
         return camera;
     }
-    
-    /**
-     * Find item that player is trying to interact with 
-     * and then carry out interaction
-     */
-    private void interactWithItem() {
-    	Item item = gameWorld.findItem(this.getPosition()); 
-    	if(item != null){
-    		// picking up items affect game differently depending on item
-    		// so allow the item to deal with changing game state accordingly
-    		item.interact(this.gameWorld); 
-    	}
-	}
-}
 
+    //TODO implement terrain specification
+    public Terrain getCurrentTerrain() {
+        return currentTerrain;
+    }
+
+    public void setCurrentTerrain(Terrain currentTerrain) {
+        this.currentTerrain = currentTerrain;
+    }
+}

@@ -1,10 +1,8 @@
-
 package controller;
 
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
-import model.guiComponents.Inventory;
 import model.toolbox.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -39,13 +37,18 @@ public class GameController {
 	// Controller
 	private ClientController clientController;
 	private ServerController serverController;
+	private ActionController actionController;
 
 	private final boolean isHost;
 	private int playerCount;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
+<<<<<<< HEAD
 	 * 
+=======
+	 *
+>>>>>>> 5d0d1fd2cb799bcc109a1751c46adff8f6afc149
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -61,6 +64,9 @@ public class GameController {
 		// initialise the game world
 		gameWorld = new GameWorld(loader);
 		gameWorld.initGame(isHost);
+		
+		// initialise controller for actions
+		actionController = new ActionController(loader, gameWorld);
 
 		// setup client
 		this.isHost = isHost;
@@ -73,7 +79,7 @@ public class GameController {
 		}
 
 		// hook the mouse
-		// Mouse.setGrabbed(true);
+		//Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -115,20 +121,14 @@ public class GameController {
 			for (Entity e : statics) {
 				renderer.processEntity(e);
 			}
+			
+			// checks to see if inventory needs to be displayed
+			actionController.processActions();
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
-			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 
-			// checks to see if inventory needs to be displayed
-			if (Inventory.isVisible) {
-				GuiController.hideInventory();
-			}
-			else{
-				GuiController.displayInventory();
-				
-			}
-			GuiController.isKeyDown = false;
+			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
@@ -164,7 +164,7 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(50, 100, -50), uid);
+		gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
 		playerCount++;
 	}
 
