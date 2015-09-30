@@ -27,8 +27,8 @@ public class Terrain {
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
     private float[][] heights;
-    private float x;
-    private float z;
+    private float gridX;
+    private float gridZ;
     private RawModel model;
     private TerrainTexturePack texturePack;
     private TerrainTexture blendMap;
@@ -40,10 +40,10 @@ public class Terrain {
     /**
      * Constructor
      * <p/>
-     * Creates a new terrain at the given x/z grid
+     * Creates a new terrain at the given gridX/gridZ grid
      *
-     * @param gridX     x position
-     * @param gridZ     z position
+     * @param gridX     gridX position
+     * @param gridZ     gridZ position
      * @param loader    loader
      * @param texture   texture pack to make up the terrain
      * @param blendMap  blend map for mixing textures
@@ -53,24 +53,24 @@ public class Terrain {
                    String heightMap) {
         this.blendMap = blendMap;
         this.texturePack = texture;
-        this.x = gridX * SIZE;
-        this.z = gridZ * SIZE;
+        this.gridX = gridX * SIZE;
+        this.gridZ = gridZ * SIZE;
 
         // finally generate the terrain from the height map
         this.model = generateTerrain(loader, heightMap);
     }
 
     /**
-     * Gets the y height value for a specified x and z co-ordinate
+     * Gets the y height value for a specified gridX and gridZ co-ordinate
      *
-     * @param worldX x coordinate in the world
-     * @param worldZ z coordinate in the wolrd
+     * @param worldX gridX coordinate in the world
+     * @param worldZ gridZ coordinate in the wolrd
      * @return y position
      */
     public float getTerrainHeight(float worldX, float worldZ) {
-        // get the x and z on the terrain, not the world
-        float terrainX = worldX - this.x;
-        float terrainZ = worldZ - this.z;
+        // get the gridX and gridZ on the terrain, not the world
+        float terrainX = worldX - this.gridX;
+        float terrainZ = worldZ - this.gridZ;
 
         // Calculates the grid siz
         float gridSquareSize = SIZE / (float) (heights.length - 1);
@@ -226,8 +226,8 @@ public class Terrain {
     /**
      * Calculates the normal for the Point on the terrain
      *
-     * @param x x of terrain
-     * @param z z of terrain
+     * @param x gridX of terrain
+     * @param z gridZ of terrain
      * @param image heightmap
      * @return Normal vector
      */
@@ -248,8 +248,8 @@ public class Terrain {
     /**
      * Parses the terrain y height for the given pixel of the height map
      *
-     * @param x x position
-     * @param z z position
+     * @param x gridX position
+     * @param z gridZ position
      * @param image height map
      * @return y position
      */
@@ -273,21 +273,21 @@ public class Terrain {
     }
 
     /**
-     * Gets x.
+     * Gets gridX.
      *
-     * @return the x
+     * @return the gridX
      */
-    public float getX() {
-        return x;
+    public float getGridX() {
+        return gridX;
     }
 
     /**
-     * Gets z.
+     * Gets gridZ.
      *
-     * @return the z
+     * @return the gridZ
      */
-    public float getZ() {
-        return z;
+    public float getGridZ() {
+        return gridZ;
     }
 
     /**
@@ -315,6 +315,15 @@ public class Terrain {
      */
     public TerrainTexture getBlendMap() {
         return blendMap;
+    }
+
+    /**
+     * Gets size.
+     *
+     * @return the size
+     */
+    public static float getSIZE() {
+        return SIZE;
     }
 
 }

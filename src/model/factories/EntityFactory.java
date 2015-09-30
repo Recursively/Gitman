@@ -2,7 +2,7 @@ package model.factories;
 
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
-import model.entities.staticEntity.SwipeCard;
+import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
@@ -198,13 +198,12 @@ public class EntityFactory {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
 
-                    ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
+                    ModelData data = OBJFileLoader.loadOBJ("models/pine");
                     RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
                             data.getIndices());
 
                     TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                            new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
-                    lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
+                            new ModelTexture(loader.loadTexture("textures/pine")));
                     lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
                     lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
 
@@ -213,7 +212,7 @@ public class EntityFactory {
                     float z = j - 256;
                     float y = terrain.getTerrainHeight(x, z) - 2;
 
-                    StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
+                    StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
 
                     testEntities.add(e);
                 }
@@ -238,7 +237,7 @@ public class EntityFactory {
             float z = random.nextInt(256) - 256;
             float y = terrain.getTerrainHeight(x, z) + 10;
 
-            StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
+            StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
             testEntities.add(e);
         }
