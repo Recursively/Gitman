@@ -4,6 +4,7 @@ import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
@@ -14,6 +15,8 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+import view.renderEngine.GuiRenderer;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -44,14 +47,14 @@ public class GameWorld {
 
     // collection of entities in the game
     private ArrayList<Entity> staticEntities;
-    private ArrayList<Entity> movableEntities;
+    private ArrayList<Entity> movableEntities;   //TODO save
 
     // Terrain the world is on
     // TODO this will need to become a list once we have multiple terrains
     private Terrain terrain;
 
     // The actual player
-    private Player player;
+    private Player player;    //TODO save
 
     // Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -64,9 +67,8 @@ public class GameWorld {
 
     // object file loader
     private Loader loader;
-    
-    
-    // game state elements
+ 
+    // game state elements  //TODO save
     private Inventory inventory;
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
@@ -108,7 +110,7 @@ public class GameWorld {
         staticEntities = entityFactory.getTestEntities();
         
         // game state
-        inventory = new Inventory();
+        inventory = new Inventory(guiFactory,loader);
         this.patchProgress = START_PATCH;
         this.cards = new HashSet<SwipeCard>();
     }
@@ -202,6 +204,27 @@ public class GameWorld {
     }
     
     /**
+	 * @return the inventory
+	 */
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	/**
+     * Find item that player is trying to interact with 
+     * and then carry out interaction
+     */
+    public void interactWithItem() {
+    	if(inventory.isVisible()) return;
+    	
+    	// only allowed to interact with items if inventory is not open
+    	Item item = findItem(player.getPosition()); 
+    	if(item != null){
+    		item.interact(this); 
+    	}
+	}
+    
+    /**
      * Find the item that is within ITEM_DISTANCE 
      * of the given position
      * 
@@ -214,7 +237,7 @@ public class GameWorld {
 		for(Entity e: this.movableEntities){
 			// only check entity if it is an item (i.e. ignore players)
 			if(e instanceof Item){
-				if(Entity.isCloserThan(e.getPosition(), itemPos, position, ITEM_DISTANCE)){ 
+				if(Entity.isCloserThan(e.getPosition(), itemPos, player, ITEM_DISTANCE)){ 
 					item = (Item) e;
 					itemPos = e.getPosition();
 				}
@@ -228,7 +251,7 @@ public class GameWorld {
      * 
      * @param entity to remove
      */
-	public void removeMovableEntity(Entity entity) {
+	public void removeMovableEntity(MovableEntity entity) {
 		movableEntities.remove(entity);
 	}
 
@@ -307,7 +330,7 @@ public class GameWorld {
 	public void incrementPatch(){
 		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 		
-    	this.patchProgress = this.patchProgress + commitScore;
+    	this.patchProgress+=commitScore;
     	// 100% reached, game won
     	if(this.patchProgress >= MAX_PROGRESS){
     		winGame();
@@ -319,7 +342,7 @@ public class GameWorld {
 	 * level increases
 	 */
 	public void updateCodeProgress(){
-    	this.codeProgress = this.codeProgress + CODE_VALUE;
+    	this.codeProgress+=CODE_VALUE;
     	
     	// player has cloned all bits of code
     	if(this.codeProgress >= MAX_PROGRESS){
@@ -332,7 +355,7 @@ public class GameWorld {
      * @param score is score of item in game
      */
     public void updateScore(int score){
-    	this.score = this.score + score;
+    	this.score+=score;
     }
     
 	private void compileProgram() {
@@ -349,6 +372,11 @@ public class GameWorld {
 	private void winGame() {
 		// TODO Auto-generated method stub
 
+	}
+
+	//FIXME
+	public int getScore() {
+		return score;
 	}
 
     public ArrayList<Entity> getStaticEntities() {
@@ -396,5 +424,4 @@ public class GameWorld {
 	public ArrayList<Entity> getTestEntity() {
 		return entityFactory.getTestEntities();
 	}
-	
 }

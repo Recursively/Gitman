@@ -30,14 +30,10 @@ public abstract class LaptopItem extends Item {
 		this.name = name;
 		this.size = size;
 	}
-	
-	@Override
-	public Item pickUp(GameWorld game) {
-		return this;
-	}
 
 	@Override
 	public void interact(GameWorld game) {
+		// if add to inventory is successful, update score
 		if(game.addToInventory(this)){
 			game.updateScore(this.getScore());
 		}
@@ -46,4 +42,6 @@ public abstract class LaptopItem extends Item {
 	public int getSize(){
 		return this.size;
 	}
+
+
 }
