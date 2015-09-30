@@ -1,6 +1,8 @@
 package model.data;
 
 import java.io.File;
+import java.util.ArrayList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,6 +15,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import model.GameWorld;
 
 public class Save {
@@ -26,42 +29,49 @@ public class Save {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-		// root elements
+		// gamestate elements
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("gamestate");
 		doc.appendChild(rootElement);
 
-		// staff elements
-		Element staff = doc.createElement("player");
-		rootElement.appendChild(staff);
+		// player elements
+		Element player = doc.createElement("player");
+		rootElement.appendChild(player);
 
-		// set attribute to staff element
+		// set attribute to player element
 		Attr attr = doc.createAttribute("id");
 		attr.setValue("1");
-		staff.setAttributeNode(attr);
+		player.setAttributeNode(attr);
 
-		// shorten way
-		// staff.setAttribute("id", "1");
+		// camera elements
+		Element camera = doc.createElement("camera");
+		player.appendChild(camera);
 
-		// firstname elements
-		Element firstname = doc.createElement("firstname");
-		firstname.appendChild(doc.createTextNode("yong"));
-		staff.appendChild(firstname);
+		// pitch element
+		Element pitch = doc.createElement("pitch");
+		pitch.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getPitch())));
+		camera.appendChild(pitch);
 
-		// lastname elements
-		Element lastname = doc.createElement("lastname");
-		lastname.appendChild(doc.createTextNode("mook kim"));
-		staff.appendChild(lastname);
+		// roll element
+		Element roll = doc.createElement("roll");
+		roll.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getRoll())));
+		camera.appendChild(roll);
 
-		// nickname elements
-		Element nickname = doc.createElement("nickname");
-		nickname.appendChild(doc.createTextNode("mkyong"));
-		staff.appendChild(nickname);
-
-		// salary elements
-		Element salary = doc.createElement("salary");
-		salary.appendChild(doc.createTextNode("100000"));
-		staff.appendChild(salary);
+		// yaw element
+		Element yaw = doc.createElement("yaw");
+		yaw.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getYaw())));
+		camera.appendChild(yaw);
+		
+		// uid element
+		Element uid = doc.createElement("uid");
+		uid.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getUid())));
+		player.appendChild(uid);
+		
+		// inventory elements
+		Element inventory = doc.createElement("inventory");
+		rootElement.appendChild(inventory);
+		
+		// ArrayList<LaptopItems> inventoryArray = gameWorld.inventory.
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

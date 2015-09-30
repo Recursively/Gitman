@@ -1,9 +1,12 @@
 package controller;
 
 import model.GameWorld;
+import model.data.Save;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
 import model.entities.Entity;
+
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -72,7 +75,7 @@ public class GameController {
 		}
 
 		// hook the mouse
-		Mouse.setGrabbed(true);
+		// Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -120,6 +123,11 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
+			
+			// TODO make this single press
+			if (Keyboard.isKeyDown(Keyboard.KEY_S)){
+				Save.saveGame(gameWorld);
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
