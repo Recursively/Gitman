@@ -21,23 +21,22 @@ public class ServerController extends Thread {
 
 	private ServerSocket serverSocket;
 	private Server server;
+	private Socket socket;
+
+	public boolean isRunning;
 
 	public ServerController(GameController gameController) {
 		this.gameController = gameController;
-		try {
-			this.serverSocket = new ServerSocket(32768);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.isRunning = true;
+		initServerSocket();
 	}
 
 	public void run() {
 
 		createHostPlayer();
-		GameController.READY = true;
+		gameController.ready = true;
 
-		while (1 == 1) {
-			Socket socket = null;
+		while (isRunning) {
 
 			try {
 				socket = serverSocket.accept();
@@ -48,10 +47,32 @@ public class ServerController extends Thread {
 				server.start();
 
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("SOCKET IS CLOSED");
 			}
 
 		}
+	}
+
+	private void initServerSocket() {
+		try {
+			this.serverSocket = new ServerSocket(32768);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void terminate() {
+
+		isRunning = false;
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			System.out.println("CLOSED SOCKET");
+		}
+		if (server != null) {
+			server.terminate();
+		}
+
 	}
 
 	private void createHostPlayer() {

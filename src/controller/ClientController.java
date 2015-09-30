@@ -24,14 +24,13 @@ public class ClientController extends Thread {
 
 		int port = 32768; // default
 
-
 		try {
 			socket = new Socket(ipAddres, port);
 			client = new Client(socket, gameController);
 			int uid = client.readPlayerID();
 			client.setUid(uid);
 			createPlayer(uid);
-			GameController.READY = true;
+			gameController.ready = true;
 			client.start();
 
 		} catch (UnknownHostException e) {
@@ -44,6 +43,10 @@ public class ClientController extends Thread {
 
 	private void createPlayer(int uid) {
 		gameController.createPlayer(uid, true);
+	}
+
+	public void terminate() {
+		client.terminate();
 	}
 
 }

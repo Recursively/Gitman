@@ -24,7 +24,8 @@ import java.util.Map;
  */
 public class GameController {
 
-	public static boolean READY;
+	public boolean ready;
+	public boolean networkRunning;
 
 	// Model
 	private final Loader loader;
@@ -40,6 +41,7 @@ public class GameController {
 
 	private final boolean isHost;
 	private int playerCount;
+
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
@@ -69,12 +71,13 @@ public class GameController {
 			clientController = new ClientController(this, ipAddress);
 			clientController.start();
 		}
+		this.networkRunning = true;
 
 		// hook the mouse
 		//Mouse.setGrabbed(true);
 
 		try {
-			while (!READY) {
+			while (!ready) {
 				Thread.sleep(50);
 			}
 		} catch (InterruptedException e) {
@@ -92,7 +95,7 @@ public class GameController {
 	 */
 	private void doGame() {
 
-		while (!Display.isCloseRequested()) {
+		while (!Display.isCloseRequested() && networkRunning) {
 
 			// process the terrains
 
@@ -135,11 +138,17 @@ public class GameController {
 	/**
 	 * Cleans up the game when it is closed
 	 */
-	private void cleanUp() {
+	public void cleanUp() {
 		guiRenderer.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
+		if(isHost){
+			serverController.terminate();
+		}
+		else{
+			clientController.terminate();
+		}
 	}
 
 	public boolean isHost() {
