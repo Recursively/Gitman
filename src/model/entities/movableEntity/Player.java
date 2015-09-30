@@ -28,6 +28,8 @@ public class Player extends MovableEntity {
     private GameWorld gameWorld;
     private Item holding;
 
+    private Terrain currentTerrain;
+
     // bad?
     private Vector3f oldPosition;
 
@@ -304,5 +306,15 @@ public class Player extends MovableEntity {
     		this.holding.setPosition(itemNewPos);
     		this.holding = null;
     	}
+    }
+
+
+    //TODO implement terrain specification
+    public Terrain getCurrentTerrain() {
+        return currentTerrain;
+    }
+
+    public void setCurrentTerrain(Terrain currentTerrain) {
+        this.currentTerrain = currentTerrain;
     }
 }
