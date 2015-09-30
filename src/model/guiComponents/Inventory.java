@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.entities.Entity;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
+import model.textures.GuiTexture;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
@@ -17,6 +18,7 @@ public class Inventory {
 	private static final int MAX_STORAGE_SIZE = 512;   // laptop has 512MB available for storage
 	
 	private ArrayList<LaptopItem> inLaptop;
+	//private ArrayList<GuiTexture> inventoryTexture //populate in GUI fac
 	private int storageUsed;
 	static public boolean isVisible = false;
 	

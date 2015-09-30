@@ -4,6 +4,7 @@ package controller;
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
+import model.guiComponents.Inventory;
 import model.toolbox.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -72,7 +73,7 @@ public class GameController {
 		}
 
 		// hook the mouse
-		//Mouse.setGrabbed(true);
+		// Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -116,17 +117,24 @@ public class GameController {
 			}
 
 			// update the players position in the world
-			//gameWorld.getPlayer().move(gameWorld.getTerrain());
+			// gameWorld.getPlayer().move(gameWorld.getTerrain());
 			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+
+			// checks to see if inventory needs to be displayed
+			if (Inventory.isVisible) {
+				GuiController.hideInventory();
+			}
+			else{
+				GuiController.displayInventory();
+				
+			}
+			GuiController.isKeyDown = false;
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
-			
-			GuiController.displayInventory();
+
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
-			
-			
 
 			// update the Display window
 			DisplayManager.updateDisplay();
