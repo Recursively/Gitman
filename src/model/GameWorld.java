@@ -14,7 +14,6 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -132,7 +131,8 @@ public class GameWorld {
      * initialises the Gui to be rendered to the display
      */
     private void initGui() {
-        guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		//TODO should init some gui here maybe?
+        //guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
     }
 
     /**
@@ -149,7 +149,7 @@ public class GameWorld {
         guiImages = new ArrayList<>();
         staticEntities = new ArrayList<>();
         movableEntities = new ArrayList<>();
-        allPlayers = new HashMap<Integer, Player>();
+        allPlayers = new HashMap<>();
         lights = new ArrayList<>();
         
     }

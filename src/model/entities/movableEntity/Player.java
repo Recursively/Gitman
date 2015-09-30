@@ -49,7 +49,7 @@ public class Player extends MovableEntity {
     public void move(Terrain terrain, ArrayList<Entity> statics) {
         updateTerrainHeight(terrain);
         gravityPull();
-        if(firstPersonMove(statics)) {
+        if(firstPersonMove(statics, terrain)) {
             camera.update(oldPosition);
         } else {
             camera.update(super.getPosition());
@@ -57,7 +57,7 @@ public class Player extends MovableEntity {
     }
 
     //TODO this is ugly and needs love
-    private boolean firstPersonMove(ArrayList<Entity> statics) {
+    private boolean firstPersonMove(ArrayList<Entity> statics, Terrain terrain) {
 
         boolean collision = false;
 
@@ -113,7 +113,35 @@ public class Player extends MovableEntity {
             camera.setPitch(-30);
         }
 
+        checkBounds(terrain);
+
         return collision;
+    }
+
+    private void checkBounds(Terrain terrain) {
+        Vector3f position = super.getPosition();
+        float terrainSize = Terrain.getSIZE();
+
+        float terrainOriginX = terrain.getGridX();
+        float terrainOriginZ = terrain.getGridZ();
+
+        float terrainBoundX = terrainOriginX + terrainSize;
+        float terrainBoundZ = terrainOriginZ + terrainSize;
+
+        float xPos = position.getX();
+        float zPos = position.getZ();
+
+        if (xPos < terrainOriginX) {
+            position.x = terrainOriginX;
+        } else if (xPos > terrainBoundX) {
+            position.x = terrainBoundX;
+        }
+
+        if (zPos < terrainOriginZ) {
+            position.z = terrainOriginZ;
+        } else if (zPos > terrainBoundZ) {
+            position.z = terrainBoundZ;
+        }
     }
 
     private boolean moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
