@@ -42,4 +42,6 @@ public abstract class LaptopItem extends Item {
 	public int getSize(){
 		return this.size;
 	}
+
+
 }
