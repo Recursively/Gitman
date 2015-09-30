@@ -124,6 +124,8 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
+			
+			
 
 			// update the Display window
 			DisplayManager.updateDisplay();
