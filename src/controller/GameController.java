@@ -131,6 +131,13 @@ public class GameController {
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 
+			if (gameWorld.getPlayer().getPosition().getX() == 256 && gameWorld.getPlayer().getPosition().getZ() == 0) {
+				gameWorld.swapTerrains();
+			} else if (gameWorld.getPlayer().getPosition().getX() == 512 && gameWorld.getPlayer().getPosition().getZ() == 768) {
+				gameWorld.swapTerrains();
+				gameWorld.getPlayer().setPosition(new Vector3f(100, 200, -100));
+			}
+
 			// update the Display window
 			DisplayManager.updateDisplay();
 		}
