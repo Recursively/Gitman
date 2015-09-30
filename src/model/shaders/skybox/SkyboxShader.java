@@ -4,6 +4,7 @@ import model.entities.Camera;
 import model.shaders.ShaderProgram;
 import org.lwjgl.util.vector.Matrix4f;
 import model.toolbox.Maths;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Class to handle the open GL bindings for the skybox shader program
@@ -19,6 +20,7 @@ public class SkyboxShader extends ShaderProgram {
     // locations of the uniform variables
     private int location_projectionMatrix;
     private int location_viewMatrix;
+    private int location_fogColour;
 
     /**
      * Instantiates a new Skybox shader.
@@ -61,12 +63,24 @@ public class SkyboxShader extends ShaderProgram {
     }
 
     /**
+     * Load fog colour.
+     *
+     * @param r the r
+     * @param g the g
+     * @param b the b
+     */
+    public void loadFogColour(float r, float g, float b) {
+        super.loadVector(location_fogColour, new Vector3f(r, g, b));
+    }
+
+    /**
      * Gets the locations of all the uniform shader variables
      */
     @Override
     protected void getAllUniformLocations() {
         location_projectionMatrix = super.getUniformLocation("projectionMatrix");
         location_viewMatrix = super.getUniformLocation("viewMatrix");
+        location_fogColour = super.getUniformLocation("fogColour");
     }
 
     /**
