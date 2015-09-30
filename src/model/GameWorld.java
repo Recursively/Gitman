@@ -15,6 +15,7 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -199,6 +200,27 @@ public class GameWorld {
     public Terrain getTerrain() {
         return terrain;
     }
+    
+    /**
+	 * @return the inventory
+	 */
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	/**
+     * Find item that player is trying to interact with 
+     * and then carry out interaction
+     */
+    public void interactWithItem() {
+    	if(inventory.isVisible()) return;
+    	
+    	// only allowed to interact with items if inventory is not open
+    	Item item = findItem(player.getPosition()); 
+    	if(item != null){
+    		item.interact(this); 
+    	}
+	}
     
     /**
      * Find the item that is within ITEM_DISTANCE 

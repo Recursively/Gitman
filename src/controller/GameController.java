@@ -39,6 +39,7 @@ public class GameController {
 	// Controller
 	private ClientController clientController;
 	private ServerController serverController;
+	private ActionController actionController;
 
 	private final boolean isHost;
 	private int playerCount;
@@ -61,6 +62,9 @@ public class GameController {
 		// initialise the game world
 		gameWorld = new GameWorld(loader);
 		gameWorld.initGame(isHost);
+		
+		// initialise controller for actions
+		actionController = new ActionController(loader, gameWorld);
 
 		// setup client
 		this.isHost = isHost;
@@ -115,20 +119,13 @@ public class GameController {
 			for (Entity e : statics) {
 				renderer.processEntity(e);
 			}
+			
+			// checks to see if inventory needs to be displayed
+			actionController.processActions();
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
 			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
-
-			// checks to see if inventory needs to be displayed
-			if (Inventory.isVisible) {
-				GuiController.hideInventory();
-			}
-			else{
-				GuiController.displayInventory();
-				
-			}
-			GuiController.isKeyDown = false;
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());

@@ -1,6 +1,5 @@
 package model.entities.movableEntity;
 
-import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
@@ -22,16 +21,13 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
-    
-    private GameWorld gameWorld;
 
     // bad?
     private Vector3f oldPosition;
 
-    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int uid, Camera camera, GameWorld game) {
+    public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int uid, Camera camera) {
         super(model, position, rotX, rotY, rotZ, scale, uid);
         this.camera = camera;
-        this.gameWorld = game;
     }
 
     // TODO does this still need to be here?
@@ -84,24 +80,6 @@ public class Player extends MovableEntity {
             if (super.getPosition().y == terrainHeight) {
                 jump();
             }
-        }
-
-        // TODO Merge pickup/interact....
-        
-        // ensures single reaction to a key press event when dealing with items
-        while(Keyboard.next()){
-        	// carry out methods when key is pressed (not released)
-        	if(Keyboard.getEventKeyState()){
-        		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			interactWithItem();
-        		}
-        		if(Keyboard.getEventKey() == Keyboard.KEY_R){
-        			//TODO should drop be in the gui controller as delete?
-        			//dropItem();
-        		}
-        		// TODO have 'C' or something to interact/copy code from npc?
-                // TODO have 'U' or something for unlock door method
-        	}
         }
 
         /* Prevents the camera from turning over 360 or under -360 */
@@ -187,25 +165,6 @@ public class Player extends MovableEntity {
                 jump();
             }
         }
-        
-        
-        // TODO Merge pickup/interact....
-        
-        // ensures single reaction to a key press event when dealing with items
-        while(Keyboard.next()){
-        	// carry out methods when key is pressed (not released)
-        	if(Keyboard.getEventKeyState()){
-        		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			interactWithItem();
-        		}
-        		if(Keyboard.getEventKey() == Keyboard.KEY_R){
-        			//TODO should drop be in the gui controller as delete?
-        			//dropItem();
-        		}
-        		// TODO have 'C' or something to interact/copy code from npc?
-                // TODO have 'U' or something for unlock door method
-        	}
-        }
 
         /* Prevents the camera from turning over 360 or under -360 */
         camera.changeYaw(Mouse.getDX() / 2);
@@ -230,18 +189,5 @@ public class Player extends MovableEntity {
     public Camera getCamera() {
         return camera;
     }
-    
-    /**
-     * Find item that player is trying to interact with 
-     * and then carry out interaction
-     */
-    private void interactWithItem() {
-    	Item item = gameWorld.findItem(this.getPosition()); 
-    	if(item != null){
-    		// picking up items affect game differently depending on item
-    		// so allow the item to deal with changing game state accordingly
-    		item.interact(this.gameWorld); 
-    	}
-	}
 }
 
