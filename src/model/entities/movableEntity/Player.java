@@ -22,6 +22,8 @@ public class Player extends MovableEntity {
 
     private float verticalVelocity = 0;
 
+    private Terrain currentTerrain;
+
     // bad?
     private Vector3f oldPosition;
 
@@ -41,8 +43,7 @@ public class Player extends MovableEntity {
     public void move(Terrain terrain, ArrayList<Entity> statics) {
         updateTerrainHeight(terrain);
         gravityPull();
-        if(firstPersonMove(statics)) {
-            System.out.println("Collided: not updating camera -> " + oldPosition.getX() + " : " + oldPosition.getZ());
+        if(firstPersonMove(statics, terrain)) {
             camera.update(oldPosition);
         } else {
             camera.update(super.getPosition());
@@ -50,7 +51,7 @@ public class Player extends MovableEntity {
     }
 
     //TODO this is ugly and needs love
-    private boolean firstPersonMove(ArrayList<Entity> statics) {
+    private boolean firstPersonMove(ArrayList<Entity> statics, Terrain terrain) {
 
         boolean collision = false;
 
@@ -91,7 +92,35 @@ public class Player extends MovableEntity {
             camera.setPitch(-30);
         }
 
+        checkBounds(terrain);
+
         return collision;
+    }
+
+    private void checkBounds(Terrain terrain) {
+        Vector3f position = super.getPosition();
+        float terrainSize = Terrain.getSIZE();
+
+        float terrainOriginX = terrain.getGridX();
+        float terrainOriginZ = terrain.getGridZ();
+
+        float terrainBoundX = terrainOriginX + terrainSize;
+        float terrainBoundZ = terrainOriginZ + terrainSize;
+
+        float xPos = position.getX();
+        float zPos = position.getZ();
+
+        if (xPos < terrainOriginX) {
+            position.x = terrainOriginX;
+        } else if (xPos > terrainBoundX) {
+            position.x = terrainBoundX;
+        }
+
+        if (zPos < terrainOriginZ) {
+            position.z = terrainOriginZ;
+        } else if (zPos > terrainBoundZ) {
+            position.z = terrainBoundZ;
+        }
     }
 
     private boolean moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
@@ -118,7 +147,6 @@ public class Player extends MovableEntity {
 
         if (!collision) {
             super.setPosition(move);
-            System.out.println("updating position");
             return false;
         } else {
             super.setPosition(oldPosition);
@@ -189,5 +217,13 @@ public class Player extends MovableEntity {
     public Camera getCamera() {
         return camera;
     }
-}
 
+    //TODO implement terrain specification
+    public Terrain getCurrentTerrain() {
+        return currentTerrain;
+    }
+
+    public void setCurrentTerrain(Terrain currentTerrain) {
+        this.currentTerrain = currentTerrain;
+    }
+}

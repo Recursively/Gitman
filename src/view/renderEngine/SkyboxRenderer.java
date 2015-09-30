@@ -58,9 +58,10 @@ public class SkyboxRenderer {
      *
      * @param camera Represents the center point of the skybox cube
      */
-    public void render(Camera camera) {
+    public void render(Camera camera, float r, float g, float b) {
         shader.start();
         shader.loadViewMatrix(camera);
+        shader.loadFogColour(r, g, b);
 
         // need to bind VAO of cube
         GL30.glBindVertexArray(cubeModel.getVaoID());

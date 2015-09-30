@@ -1,10 +1,8 @@
-
 package controller;
 
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
-import model.guiComponents.Inventory;
 import model.toolbox.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -46,7 +44,11 @@ public class GameController {
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
+<<<<<<< HEAD
 	 * 
+=======
+	 *
+>>>>>>> 5d0d1fd2cb799bcc109a1751c46adff8f6afc149
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -77,7 +79,7 @@ public class GameController {
 		}
 
 		// hook the mouse
-		// Mouse.setGrabbed(true);
+		//Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -125,6 +127,7 @@ public class GameController {
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
+
 			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 
 			// Render the player's view
@@ -161,7 +164,7 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(50, 100, -50), uid);
+		gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
 		playerCount++;
 	}
 

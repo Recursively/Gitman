@@ -2,7 +2,7 @@ package model.factories;
 
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
-import model.entities.staticEntity.SwipeCard;
+import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
@@ -197,29 +197,78 @@ public class EntityFactory {
             for (int j = 0; j < image.getHeight(); j++) {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
-
-                    ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
-                    RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                            data.getIndices());
-
-                    TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                            new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
-                    lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
-                    lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-                    lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
-
-
-                    float x = i;
-                    float z = j - 256;
-                    float y = terrain.getTerrainHeight(x, z) - 2;
-
-                    StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
-
-                    testEntities.add(e);
+                    makePineTree(loader, terrain, i, j);
+                } else if (color == -11731200) {
+                    makeRandomLamp(loader, terrain, i, j);
+                } else if (color == -10240){
+                    makeRandomOrb(loader, terrain, i, j);
                 }
             }
         }
-        System.out.println(testEntities.size());
+    }
+
+    private void makeRandomOrb(Loader loader, Terrain terrain, int i, int j) {
+        ModelData data = OBJFileLoader.loadOBJ("models/orb");
+        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                data.getIndices());
+
+        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                new ModelTexture(loader.loadTexture("textures/orb")));
+        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+
+
+        float x = i;
+        float z = j - 256;
+        float y = terrain.getTerrainHeight(x, z) + 10;
+
+        LightFactory.createPlayerOrbLight(x, y + 10, z);
+
+        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 2f, 0, data);
+
+        testEntities.add(e);
+    }
+
+    private void makeRandomLamp(Loader loader, Terrain terrain, int i, int j) {
+        ModelData data = OBJFileLoader.loadOBJ("models/lamp");
+        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                data.getIndices());
+
+        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                new ModelTexture(loader.loadTexture("textures/lamp")));
+        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+
+
+        float x = i;
+        float z = j - 256;
+        float y = terrain.getTerrainHeight(x, z);
+
+        LightFactory.createRandomEntityLight(x, y + 3.5f, z);
+
+        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
+
+        testEntities.add(e);
+    }
+
+    private void makePineTree(Loader loader, Terrain terrain, int i, int j) {
+        ModelData data = OBJFileLoader.loadOBJ("models/pine");
+        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
+                data.getIndices());
+
+        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
+                new ModelTexture(loader.loadTexture("textures/pine")));
+        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
+        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+
+
+        float x = i;
+        float z = j - 256;
+        float y = terrain.getTerrainHeight(x, z) - 2;
+
+        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
+
+        testEntities.add(e);
     }
 
     public void getTestEntity(Loader loader, Terrain terrain) {
@@ -238,7 +287,7 @@ public class EntityFactory {
             float z = random.nextInt(256) - 256;
             float y = terrain.getTerrainHeight(x, z) + 10;
 
-            StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
+            StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
             testEntities.add(e);
         }
