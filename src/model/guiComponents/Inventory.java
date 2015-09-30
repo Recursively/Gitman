@@ -1,17 +1,25 @@
 package model.guiComponents;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.lwjgl.util.vector.Vector2f;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
 
 import model.entities.Entity;
 import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
+import model.factories.GuiFactory;
 import model.textures.GuiTexture;
+import view.DisplayManager;
+import view.renderEngine.GuiRenderer;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
  * files and README txt documents).
  * 
- * @author Divya
+ * @author Divya and Ellie
  *
  */
 public class Inventory {
@@ -20,14 +28,18 @@ public class Inventory {
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
+	private ArrayList<GuiTexture> inventoryTexture;
+	private GuiFactory guiFactory;
+	private GuiRenderer guiRenderer;
 	
 	
-	//private ArrayList<GuiTexture> inventoryTexture //populate in GUI fac
-	
-	public Inventory (){
+	public Inventory (GuiFactory guiFactory, model.toolbox.Loader loader){
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
 		this.isVisible = false;
+		this.guiFactory = guiFactory;
+		
+		this.guiRenderer = new GuiRenderer(loader);
 	}
 	
 	/**
@@ -103,7 +115,14 @@ public class Inventory {
 	private void openInventory(){
 		System.out.println("Open");
 		isVisible = true;
-		//TODO
+		
+		List<GuiTexture> guiList = new ArrayList<>();
+		guiList.add(guiFactory.makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(1f,1f)));
+		guiRenderer.render(guiList);
+		DisplayManager.updateDisplay();
+		//		for(LaptopItem item : inLaptop){
+//			guiFactory.makeGuiTexture(item.getFileName(), 0f, 1);
+//		}
 	}
 	
 	private void closeInventory(){

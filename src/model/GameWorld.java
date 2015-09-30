@@ -15,6 +15,8 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+import view.renderEngine.GuiRenderer;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -108,7 +110,7 @@ public class GameWorld {
         staticEntities = entityFactory.getTestEntities();
         
         // game state
-        inventory = new Inventory();
+        inventory = new Inventory(guiFactory,loader);
         this.patchProgress = START_PATCH;
         this.cards = new HashSet<SwipeCard>();
     }
