@@ -18,6 +18,7 @@ public class Inventory {
 	
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
+	static public boolean isVisible = false;
 	
 	public Inventory (){
 		this.inLaptop = new ArrayList<LaptopItem>();

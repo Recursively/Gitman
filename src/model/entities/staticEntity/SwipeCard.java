@@ -22,7 +22,7 @@ public class SwipeCard extends StaticEntity {
         // Ascending if statements to help terminate early
         if (diffX < radiusX) {
             if (diffZ < radiusZ) {
-                System.out.println("Colliding at X: " + diffX + " Y: " + diffY + " Z: " + diffZ);
+                //System.out.println("Colliding at X: " + diffX + " Y: " + diffY + " Z: " + diffZ);
                 return true;
             }
         }

@@ -121,7 +121,8 @@ public class GameController {
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
-
+			
+			GuiController.displayInventory();
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 			
