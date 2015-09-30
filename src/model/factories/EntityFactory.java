@@ -2,7 +2,7 @@ package model.factories;
 
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
-import model.entities.staticEntity.SwipeCard;
+import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
@@ -212,7 +212,7 @@ public class EntityFactory {
                     float z = j - 256;
                     float y = terrain.getTerrainHeight(x, z) - 2;
 
-                    StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, 0, data);
+                    StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, 0, data);
 
                     testEntities.add(e);
                 }
@@ -237,7 +237,7 @@ public class EntityFactory {
             float z = random.nextInt(256) - 256;
             float y = terrain.getTerrainHeight(x, z) + 10;
 
-            StaticEntity e = new SwipeCard(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
+            StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
 
             testEntities.add(e);
         }
