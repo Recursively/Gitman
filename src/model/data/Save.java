@@ -48,20 +48,20 @@ public class Save {
 		Element position = doc.createElement("position");
 		player.appendChild(position);
 		
-		// rotation x element
-		Element rotX = doc.createElement("rotX");
-		rotX.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotX())));
-		position.appendChild(rotX);
+		// position x element
+		Element posX = doc.createElement("posX");
+		posX.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getPosition().getX())));
+		position.appendChild(posX);
 		
-		// rotation x element
-		Element rotY = doc.createElement("rotY");
-		rotY.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotY())));
-		position.appendChild(rotY);
+		// position x element
+		Element posY = doc.createElement("posY");
+		posY.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getPosition().getY())));
+		position.appendChild(posY);
 		
-		// rotation x element
-		Element rotZ = doc.createElement("rotZ");
-		rotZ.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotZ())));
-		position.appendChild(rotZ);
+		// position x element
+		Element posZ = doc.createElement("posZ");
+		posZ.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getPosition().getZ())));
+		position.appendChild(posZ);
 
 		// camera elements
 		Element camera = doc.createElement("camera");

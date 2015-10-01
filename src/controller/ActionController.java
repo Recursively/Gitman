@@ -3,6 +3,7 @@ package controller;
 import org.lwjgl.input.Keyboard;
 
 import model.GameWorld;
+import model.data.Load;
 import model.data.Save;
 import model.toolbox.Loader;
 
@@ -41,6 +42,10 @@ public class ActionController {
     				Save.saveGame(gameWorld);
     			}
     			
+    			if (Keyboard.getEventKey() == Keyboard.KEY_L){
+    				System.out.println("Load");
+    				Load.loadGame();
+    			}
         		// TODO delete items in inventory???
         	}
 		}
