@@ -1,11 +1,10 @@
-
 package controller;
-
 
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
@@ -81,7 +80,7 @@ public class GameController {
         this.networkRunning = true;
 
         // hook the mouse
-        //Mouse.setGrabbed(true);
+        Mouse.setGrabbed(true);
 
         try {
             while (!ready) {
@@ -206,5 +205,3 @@ public class GameController {
     }
 
 }
-
-
