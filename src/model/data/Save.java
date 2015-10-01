@@ -17,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import model.GameWorld;
+import model.entities.movableEntity.LaptopItem;
 
 public class Save {
 	
@@ -42,6 +43,25 @@ public class Save {
 		Attr attr = doc.createAttribute("id");
 		attr.setValue("1");
 		player.setAttributeNode(attr);
+		
+		// position elements
+		Element position = doc.createElement("position");
+		player.appendChild(position);
+		
+		// rotation x element
+		Element rotX = doc.createElement("rotX");
+		rotX.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotX())));
+		position.appendChild(rotX);
+		
+		// rotation x element
+		Element rotY = doc.createElement("rotY");
+		rotY.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotY())));
+		position.appendChild(rotY);
+		
+		// rotation x element
+		Element rotZ = doc.createElement("rotZ");
+		rotZ.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotZ())));
+		position.appendChild(rotZ);
 
 		// camera elements
 		Element camera = doc.createElement("camera");
@@ -71,7 +91,23 @@ public class Save {
 		Element inventory = doc.createElement("inventory");
 		rootElement.appendChild(inventory);
 		
-		// ArrayList<LaptopItems> inventoryArray = gameWorld.inventory.
+		/* TODO Add getters for inventory
+		
+		ArrayList<LaptopItem> inventoryArray = gameWorld.getInventory();
+		
+		for (LaptopItem item : inventoryArray){
+			Element laptopItem = doc.createElement("laptopItem");
+			inventory.appendChild(laptopItem);
+			
+			Element name = doc.createElement("name");
+			name.appendChild(doc.createTextNode(item.getName()));
+			laptopItem.appendChild(name);
+			
+			Element size = doc.createElement("size");
+			size.appendChild(doc.createTextNode(String.valueOf(item.getSize())));
+			laptopItem.appendChild(size);
+		}
+		*/
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
