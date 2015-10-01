@@ -4,7 +4,7 @@ in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 // Maximum number of lights that can affect an entity
 // is set to 4 to keep performance consistent
-in vec3 toLightVector[4];
+in vec3 toLightVector[5];
 in vec3 toCameraVector;
 in float visibility;
 
@@ -17,8 +17,8 @@ uniform sampler2D bTexture;
 uniform sampler2D blendMap;
 
 uniform sampler2D textureSampler;
-uniform vec3 lightColour[4];
-uniform vec3 attenuation[4];
+uniform vec3 lightColour[5];
+uniform vec3 attenuation[5];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColour;
@@ -42,7 +42,7 @@ void main(void){
 	vec3 totalDiffuse = vec3(0.0);
 	vec3 totalSpecular = vec3(0.0);
 
-	for(int i = 0; i < 4; i++) {
+	for(int i = 0; i < 5; i++) {
 		// lighting calculation
 		float distance = length(toLightVector[i]);
 		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
@@ -59,7 +59,7 @@ void main(void){
 	}
 
 	// This should be maxed to 0.2 in the outdoors scene
-	totalDiffuse = max(totalDiffuse, 0.2);
+	totalDiffuse = max(totalDiffuse, 0);
 
 	out_Color = vec4(totalDiffuse, 1.0) * totalColour + vec4(totalSpecular, 1.0);
 	out_Color = mix(vec4(skyColour, 1.0), out_Color, visibility);

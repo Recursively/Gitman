@@ -121,7 +121,7 @@ public class MasterRenderer {
         terrainShader.stop();
 
         // Needs to render the skybox last otherwise you get some funky results
-        skyboxRenderer.render(camera);
+        skyboxRenderer.render(camera, RED, GREEN, BLUE);
 
         // Flush the terrains and entities, ready for the next frame
         terrains.clear();

@@ -1,6 +1,8 @@
 package model.entities;
 
+import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
+
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -8,6 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
  * which gives the model a shape and texture.
  *
  * @author Marcel van Workum
+ * @author Divya
  */
 public class Entity {
 
@@ -15,6 +18,9 @@ public class Entity {
     private Vector3f position;
     private float rotX = 0, rotY = 0, rotZ = 0;
     private float scale;
+
+    // TODO remove as debug
+    private boolean collidable = true;
 
     // used for atlassing
     private int textureIndex = 0;
@@ -58,6 +64,9 @@ public class Entity {
         this.rotZ = rotZ;
         this.scale = scale;
         this.textureIndex = textureIndex;
+    }
+
+    public Entity() {
     }
 
     /**
@@ -186,4 +195,46 @@ public class Entity {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
+	/**
+	 * Determine which position (new or old) is closer to the
+	 * origin position
+	 * 
+	 * @param newPos
+	 * @param oldPos
+	 * @param player that is interacting with the item
+	 * @return true if the new position is closer to the player
+	 * than the oldPos
+	 */
+	public static boolean isCloserThan(Vector3f newPos, Vector3f oldPos,
+			Player player, int radius) {
+		Vector3f origin = player.getPosition();
+		if(Entity.isWithinBounds(newPos, origin, radius)){
+			if(oldPos == null){
+				return true;
+			}
+			// TODO check what is closer
+			// player.getcamera yaw...
+			// x and z
+			// ask ellie to make graphics...
+		}
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	 /**
+     * Determine if the point is within the given radius bounds from 
+     * the origin position
+     * 
+     * @param point
+     * @param origin
+     * @param radius
+     * @return true if point is within the bounds, false otherwise
+     */
+	public static boolean isWithinBounds(Vector3f point, Vector3f origin, int radius) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 }

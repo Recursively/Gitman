@@ -48,9 +48,9 @@ public class TerrainFactory {
      *
      * @return the terrain
      */
-    public Terrain makeTerrain() {
+    public Terrain makeTerrain(int gridX, int gridZ) {
         // Create the new terrain object, using pack blendermap and heightmap
-        return new Terrain(0, -1, loader, texturePack, blendMap, "terrains/heightMap");
+        return new Terrain(gridX, gridZ, loader, texturePack, blendMap, "terrains/heightMap");
     }
 
 }
