@@ -105,7 +105,7 @@ public class GameWorld {
         staticEntities = entityFactory.getTestEntities();
         
         // game state
-        inventory = new Inventory(guiFactory,loader);
+        inventory = new Inventory(guiFactory);
         this.patchProgress = START_PATCH;
         this.cards = new HashSet<SwipeCard>();
     }

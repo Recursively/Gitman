@@ -119,7 +119,9 @@ public class GameController {
 			
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
-
+			
+			
+			
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
 
@@ -129,7 +131,10 @@ public class GameController {
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
 			// render the gui
-			guiRenderer.render(gameWorld.getGuiImages());
+			//guiRenderer.render(gameWorld.getGuiImages());
+			if(gameWorld.getInventory().isVisible()){
+				guiRenderer.render(gameWorld.getInventory().getTextureList());
+			}
 
 			if (gameWorld.getPlayer().getPosition().getX() == 256 && gameWorld.getPlayer().getPosition().getZ() == 0) {
 				gameWorld.swapTerrains();

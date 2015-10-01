@@ -1,19 +1,10 @@
 package model.guiComponents;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.util.vector.Vector2f;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
-
 import model.entities.Entity;
-import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
-import view.DisplayManager;
-import view.renderEngine.GuiRenderer;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
@@ -28,18 +19,17 @@ public class Inventory {
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
-	private ArrayList<GuiTexture> inventoryTexture;
 	private GuiFactory guiFactory;
-	private GuiRenderer guiRenderer;
+	private ArrayList<GuiTexture> textureList;
+
 	
 	
-	public Inventory (GuiFactory guiFactory, model.toolbox.Loader loader){
+	public Inventory (GuiFactory guiFactory){
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
 		this.isVisible = false;
 		this.guiFactory = guiFactory;
-		
-		this.guiRenderer = new GuiRenderer(loader);
+
 	}
 	
 	/**
@@ -56,6 +46,10 @@ public class Inventory {
 		return this.storageUsed;
 	}
 	
+	public ArrayList<GuiTexture> getTextureList() {
+		return textureList;
+	}
+
 	/**
 	 * @return the isVisible
 	 */
@@ -113,13 +107,14 @@ public class Inventory {
 	}
 	
 	private void openInventory(){
+		//TODO debuggin code to remove
 		System.out.println("Open");
 		isVisible = true;
+		textureList = guiFactory.makeInventory(this);
 		
-		List<GuiTexture> guiList = new ArrayList<>();
-		guiList.add(guiFactory.makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(1f,1f)));
-		guiRenderer.render(guiList);
-		DisplayManager.updateDisplay();
+		//List<GuiTexture> guiList = new ArrayList<>();
+		//
+		//DisplayManager.updateDisplay();
 		//		for(LaptopItem item : inLaptop){
 //			guiFactory.makeGuiTexture(item.getFileName(), 0f, 1);
 //		}
