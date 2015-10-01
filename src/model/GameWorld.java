@@ -406,8 +406,8 @@ public class GameWorld {
 	}
 	
 	private void initPlayerModel() {
-		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
-				new ModelTexture(loader.loadTexture("textures/white")));
+		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/orb", loader),
+				new ModelTexture(loader.loadTexture("textures/orb")));
 		ModelTexture playerTexture = playerModel.getTexture();
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);

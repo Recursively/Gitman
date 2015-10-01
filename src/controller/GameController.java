@@ -15,183 +15,193 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+
 /**
  * Controller class to handle the delegations between the Model and View
  * package.
- *
+ * <p/>
  * Deals with Game logic
  *
  * @author Marcel van Workum
  */
 public class GameController {
 
-	public static boolean READY;
+    public boolean ready;
+    public boolean networkRunning;
 
-	// Model
-	private final Loader loader;
-	private final GameWorld gameWorld;
+    // Model
+    private final Loader loader;
+    private final GameWorld gameWorld;
 
-	// View
-	private final MasterRenderer renderer;
-	private final GuiRenderer guiRenderer;
+    // View
+    private final MasterRenderer renderer;
+    private final GuiRenderer guiRenderer;
 
-	// Controller
-	private ClientController clientController;
-	private ServerController serverController;
-	private ActionController actionController;
+    // Controller
+    private ClientController clientController;
+    private ServerController serverController;
+    private ActionController actionController;
 
-	private final boolean isHost;
-	private int playerCount;
+    private final boolean isHost;
+    private int playerCount;
 
-	/**
-	 * Delegates the creation of the MVC and then starts the game
-	 * @throws IOException
-	 */
-	public GameController(boolean isHost, String ipAddress) {
 
-		// initialise model
-		loader = new Loader();
+    /**
+     * Delegates the creation of the MVC and then starts the game
+     *
+     * @throws IOException
+     */
+    public GameController(boolean isHost, String ipAddress) {
 
-		// initialise view
-		DisplayManager.createDisplay();
-		renderer = new MasterRenderer(loader);
-		guiRenderer = new GuiRenderer(loader);
+        // initialise model
+        loader = new Loader();
 
-		// initialise the game world
-		gameWorld = new GameWorld(loader);
-		gameWorld.initGame(isHost);
-		
-		// initialise controller for actions
-		actionController = new ActionController(loader, gameWorld);
+        // initialise view
+        DisplayManager.createDisplay();
+        renderer = new MasterRenderer(loader);
+        guiRenderer = new GuiRenderer(loader);
 
-		// setup client
-		this.isHost = isHost;
-		if (isHost) {
-			serverController = new ServerController(this);
-			serverController.start();
-		} else {
-			clientController = new ClientController(this, ipAddress);
-			clientController.start();
-		}
+        // initialise the game world
+        gameWorld = new GameWorld(loader);
+        gameWorld.initGame(isHost);
 
-		// hook the mouse
-		Mouse.setGrabbed(true);
+        // initialise controller for actions
+        actionController = new ActionController(loader, gameWorld);
 
-		try {
-			while (!READY) {
-				Thread.sleep(50);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+        // setup client
+        this.isHost = isHost;
+        if (isHost) {
+            serverController = new ServerController(this);
+            serverController.start();
+        } else {
+            clientController = new ClientController(this, ipAddress);
+            clientController.start();
+        }
+        this.networkRunning = true;
 
-		}
+        // hook the mouse
+        Mouse.setGrabbed(true);
 
-		// start the game
-		doGame();
-	}
+        try {
+            while (!ready) {
+                Thread.sleep(50);
+            }
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
 
-	/**
-	 * Main game loop where all the goodness will happen
-	 */
-	private void doGame() {
+        }
 
-		while (!Display.isCloseRequested()) {
+        // start the game
+        doGame();
+    }
 
-			// process the terrains
+    /**
+     * Main game loop where all the goodness will happen
+     */
+    private void doGame() {
 
-			renderer.processTerrain(gameWorld.getTerrain());
+        while (!Display.isCloseRequested() && networkRunning) {
 
-			// PROCESS PLAYER
+            // process the terrains
 
-			for (Player player : gameWorld.getAllPlayers().values()) {
-				if (player.getUID() != gameWorld.getPlayer().getUID()) {
-					renderer.processEntity(player);
-				}
-			}
+            renderer.processTerrain(gameWorld.getTerrain());
 
-			// TODO Should only get static entities
-			ArrayList<Entity> statics = gameWorld.getTestEntity();
+            // PROCESS PLAYER
 
-			// PROCESS ENTITIES// PROCESS ENTITIES
-			for (Entity e : statics) {
-				renderer.processEntity(e);
-			}
-			
-			// checks to see if inventory needs to be displayed
-			actionController.processActions();
+            for (Player player : gameWorld.getAllPlayers().values()) {
+                if (player.getUID() != gameWorld.getPlayer().getUID()) {
+                    renderer.processEntity(player);
+                }
+            }
 
-			// update the players position in the world
-			// gameWorld.getPlayer().move(gameWorld.getTerrain());
+            // TODO Should only get static entities
+            ArrayList<Entity> statics = gameWorld.getTestEntity();
 
-			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+            // PROCESS ENTITIES// PROCESS ENTITIES
+            for (Entity e : statics) {
+                renderer.processEntity(e);
+            }
 
-			// Render the player's view
-			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
+            // checks to see if inventory needs to be displayed
+            actionController.processActions();
 
-			// render the gui
-			guiRenderer.render(gameWorld.getGuiImages());
+            // update the players position in the world
+            //gameWorld.getPlayer().move(gameWorld.getTerrain());
+            gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 
-			if (gameWorld.getPlayer().getPosition().getX() == 256 && gameWorld.getPlayer().getPosition().getZ() == 0) {
-				gameWorld.swapTerrains();
-			} else if (gameWorld.getPlayer().getPosition().getX() == 512 && gameWorld.getPlayer().getPosition().getZ() == 768) {
-				gameWorld.swapTerrains();
-				gameWorld.getPlayer().setPosition(new Vector3f(100, 200, -100));
-			}
+            // Render the player's view
+            renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
-			// update the Display window
-			DisplayManager.updateDisplay();
-		}
+            // render the gui
+            guiRenderer.render(gameWorld.getGuiImages());
 
-		// Finally clean up resources
-		cleanUp();
-	}
+            if (gameWorld.getPlayer().getPosition().getX() == 256 && gameWorld.getPlayer().getPosition().getZ() == 0) {
+                gameWorld.swapTerrains();
+            } else if (gameWorld.getPlayer().getPosition().getX() == 512 && gameWorld.getPlayer().getPosition().getZ() == 768) {
+                gameWorld.swapTerrains();
+                gameWorld.getPlayer().setPosition(new Vector3f(100, 200, -100));
+            }
 
-	/**
-	 * Cleans up the game when it is closed
-	 */
-	private void cleanUp() {
-		guiRenderer.cleanUp();
-		renderer.cleanUp();
-		loader.cleanUp();
-		DisplayManager.closeDisplay();
-	}
+            // update the Display window
+            DisplayManager.updateDisplay();
+        }
 
-	public boolean isHost() {
-		return isHost;
-	}
+        // Finally clean up resources
+        cleanUp();
+    }
 
-	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
-		playerCount++;
-	}
+    /**
+     * Cleans up the game when it is closed
+     */
+    public void cleanUp() {
+        guiRenderer.cleanUp();
+        renderer.cleanUp();
+        loader.cleanUp();
+        DisplayManager.closeDisplay();
+        if (isHost) {
+            serverController.terminate();
+        } else {
+            clientController.terminate();
+        }
+    }
 
-	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
-		playerCount++;
-	}
+    public boolean isHost() {
+        return isHost;
+    }
 
-	public Map<Integer, Player> getPlayers() {
-		return gameWorld.getAllPlayers();
-	}
+    public void createPlayer(int uid) {
+        gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
+        playerCount++;
+    }
 
-	public Player getPlayerWithID(int uid) {
-		return gameWorld.getAllPlayers().get(uid);
-	}
+    public void createPlayer(int uid, boolean b) {
+        gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
+        playerCount++;
+    }
 
-	public Player getPlayer() {
-		return gameWorld.getPlayer();
-	}
+    public Map<Integer, Player> getPlayers() {
+        return gameWorld.getAllPlayers();
+    }
 
-	public void removePlayer(int uid) {
-		gameWorld.getAllPlayers().remove(uid);
-	}
+    public Player getPlayerWithID(int uid) {
+        return gameWorld.getAllPlayers().get(uid);
+    }
 
-	public int gameSize() {
-		return playerCount;
-	}
+    public Player getPlayer() {
+        return gameWorld.getPlayer();
+    }
 
-	public GameWorld getGameWorld() {
-		return gameWorld;
-	}
+    public void removePlayer(int uid) {
+        gameWorld.getAllPlayers().remove(uid);
+    }
+
+    public int gameSize() {
+        return playerCount;
+    }
+
+    public GameWorld getGameWorld() {
+        return gameWorld;
+    }
+
 }
