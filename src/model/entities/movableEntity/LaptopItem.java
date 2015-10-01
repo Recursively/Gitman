@@ -3,6 +3,8 @@ package model.entities.movableEntity;
 import model.GameWorld;
 import model.models.TexturedModel;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -41,6 +43,10 @@ public abstract class LaptopItem extends Item {
 	
 	public int getSize(){
 		return this.size;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 

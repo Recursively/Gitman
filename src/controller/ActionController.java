@@ -16,7 +16,7 @@ public class ActionController {
 	private GameWorld gameWorld;
 	
 	public ActionController(Loader loader, GameWorld gameWorld) {
-		this.loader = loader;
+		this.loader = loader;		
 		this.gameWorld = gameWorld;
 	}
 
