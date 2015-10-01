@@ -45,7 +45,7 @@ public class Save {
 		player.setAttributeNode(attr);
 		
 		// position elements
-		Element position = doc.createElement("pitch");
+		Element position = doc.createElement("position");
 		player.appendChild(position);
 		
 		// rotation x element

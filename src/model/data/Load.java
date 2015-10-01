@@ -23,8 +23,9 @@ public class Load {
 	private String uid = null;
 	
 	// player position elements
-	private String score = null;
-	private String cards = null;
+	private String rotX = null;
+	private String rotY = null;
+	private String rotZ = null;
 	
 	private ArrayList<String> states;
 
@@ -62,15 +63,15 @@ public class Load {
 				if (!uid.isEmpty())
 					states.add(uid);
 			}
-			score = getTextValue(score, doc, "score");
-			if (score != null) {
-				if (!score.isEmpty())
-					states.add(score);
+			rotX = getTextValue(rotX, doc, "score");
+			if (rotX != null) {
+				if (!rotX.isEmpty())
+					states.add(rotX);
 			}
-			cards = getTextValue(cards, doc, "cards");
-			if (cards != null) {
-				if (!cards.isEmpty())
-					states.add(cards);
+			rotY = getTextValue(rotY, doc, "cards");
+			if (rotY != null) {
+				if (!rotY.isEmpty())
+					states.add(rotY);
 			}
 			
 			return true;
