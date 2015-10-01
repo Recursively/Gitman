@@ -44,6 +44,7 @@ public class GameController {
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
+	 * 
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -59,7 +60,7 @@ public class GameController {
 		// initialise the game world
 		gameWorld = new GameWorld(loader);
 		gameWorld.initGame(isHost);
-		
+
 		// initialise controller for actions
 		actionController = new ActionController(loader, gameWorld);
 
@@ -74,7 +75,7 @@ public class GameController {
 		}
 
 		// hook the mouse
-		//Mouse.setGrabbed(true);
+		// Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -116,29 +117,29 @@ public class GameController {
 			for (Entity e : statics) {
 				renderer.processEntity(e);
 			}
-			
+
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
-			
-			
-			
+
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
-
-			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+			if (!gameWorld.getInventory().isVisible()) {
+				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+			}
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
 			// render the gui
-			//guiRenderer.render(gameWorld.getGuiImages());
-			if(gameWorld.getInventory().isVisible()){
+			// guiRenderer.render(gameWorld.getGuiImages());
+			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
 
 			if (gameWorld.getPlayer().getPosition().getX() == 256 && gameWorld.getPlayer().getPosition().getZ() == 0) {
 				gameWorld.swapTerrains();
-			} else if (gameWorld.getPlayer().getPosition().getX() == 512 && gameWorld.getPlayer().getPosition().getZ() == 768) {
+			} else if (gameWorld.getPlayer().getPosition().getX() == 512
+					&& gameWorld.getPlayer().getPosition().getZ() == 768) {
 				gameWorld.swapTerrains();
 				gameWorld.getPlayer().setPosition(new Vector3f(100, 200, -100));
 			}

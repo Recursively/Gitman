@@ -51,7 +51,7 @@ public class GuiFactory {
 
 	public ArrayList<GuiTexture> makeInventory(Inventory inventory) {
 		ArrayList<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
-		inventoryImages.add(makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)));
+		inventoryImages.add(makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
 		if (inventory.getInventory() != null) {
 			ArrayList<LaptopItem> inventoryList = inventory.getInventory();
 			for (int i = 0; i < inventoryList.size(); i++) {
