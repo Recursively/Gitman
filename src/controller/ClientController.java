@@ -30,7 +30,7 @@ public class ClientController extends Thread {
 			int uid = client.readPlayerID();
 			client.setUid(uid);
 			createPlayer(uid);
-			gameController.ready = true;
+			gameController.READY = true;
 			client.start();
 
 		} catch (UnknownHostException e) {
