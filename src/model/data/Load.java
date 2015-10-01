@@ -14,12 +14,18 @@ import org.xml.sax.SAXException;
 
 public class Load {
 
-	private String player = null;
-	private String inventory = null;
-	private String codeProgress = null;
-	private String patchProgress = null;
+	// player camera elements
+	private String pitch = null;
+	private String roll = null;
+	private String yaw = null;
+	
+	// player id element
+	private String uid = null;
+	
+	// player position elements
 	private String score = null;
 	private String cards = null;
+	
 	private ArrayList<String> states;
 
 	public boolean readXML(String xml) {
@@ -36,25 +42,25 @@ public class Load {
 
 			Element doc = dom.getDocumentElement();
 
-			player = getTextValue(player, doc, "player");
-			if (player != null) {
-				if (!player.isEmpty())
-					states.add(player);
+			pitch = getTextValue(pitch, doc, "player");
+			if (pitch != null) {
+				if (!pitch.isEmpty())
+					states.add(pitch);
 			}
-			inventory = getTextValue(inventory, doc, "inventory");
-			if (inventory != null) {
-				if (!inventory.isEmpty())
-					states.add(inventory);
+			roll = getTextValue(roll, doc, "inventory");
+			if (roll != null) {
+				if (!roll.isEmpty())
+					states.add(roll);
 			}
-			codeProgress = getTextValue(codeProgress, doc, "codeProgress");
-			if (codeProgress != null) {
-				if (!codeProgress.isEmpty())
-					states.add(codeProgress);
+			yaw = getTextValue(yaw, doc, "codeProgress");
+			if (yaw != null) {
+				if (!yaw.isEmpty())
+					states.add(yaw);
 			}
-			patchProgress = getTextValue(patchProgress, doc, "patchProgress");
-			if (patchProgress != null) {
-				if (!patchProgress.isEmpty())
-					states.add(patchProgress);
+			uid = getTextValue(uid, doc, "patchProgress");
+			if (uid != null) {
+				if (!uid.isEmpty())
+					states.add(uid);
 			}
 			score = getTextValue(score, doc, "score");
 			if (score != null) {

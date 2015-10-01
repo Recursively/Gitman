@@ -43,6 +43,25 @@ public class Save {
 		Attr attr = doc.createAttribute("id");
 		attr.setValue("1");
 		player.setAttributeNode(attr);
+		
+		// position elements
+		Element position = doc.createElement("pitch");
+		player.appendChild(position);
+		
+		// rotation x element
+		Element rotX = doc.createElement("rotX");
+		rotX.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotX())));
+		position.appendChild(rotX);
+		
+		// rotation x element
+		Element rotY = doc.createElement("rotY");
+		rotY.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotY())));
+		position.appendChild(rotY);
+		
+		// rotation x element
+		Element rotZ = doc.createElement("rotZ");
+		rotZ.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getRotZ())));
+		position.appendChild(rotZ);
 
 		// camera elements
 		Element camera = doc.createElement("camera");
