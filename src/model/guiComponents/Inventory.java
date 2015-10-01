@@ -1,6 +1,9 @@
 package model.guiComponents;
 
 import java.util.ArrayList;
+
+import org.lwjgl.input.Mouse;
+
 import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
 import model.factories.GuiFactory;
@@ -110,6 +113,7 @@ public class Inventory {
 		//TODO debuggin code to remove
 		System.out.println("Open");
 		isVisible = true;
+		Mouse.setGrabbed(false);
 		textureList = guiFactory.makeInventory(this);
 		
 		//List<GuiTexture> guiList = new ArrayList<>();
@@ -123,6 +127,7 @@ public class Inventory {
 	private void closeInventory(){
 		System.out.println("Close");
 		isVisible = false;
+		Mouse.setGrabbed(true);
 		//TODO
 	}
 

@@ -77,10 +77,10 @@ public class GameController {
 			clientController.start();
 		}
 
-        this.networkRunning = true;
+		this.networkRunning = true;
 
-        // hook the mouse
-        Mouse.setGrabbed(true);
+		// hook the mouse
+		Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -137,6 +137,7 @@ public class GameController {
 
 			// render the gui
 			// guiRenderer.render(gameWorld.getGuiImages());
+
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
@@ -157,21 +158,21 @@ public class GameController {
 		cleanUp();
 	}
 
-    /**
-     * Cleans up the game when it is closed
-     */
-    public void cleanUp() {
-        guiRenderer.cleanUp();
-        renderer.cleanUp();
-        loader.cleanUp();
-        DisplayManager.closeDisplay();
-        if (isHost) {
-            serverController.terminate();
-        } else {
-            clientController.terminate();
-        }
-    }
-    
+	/**
+	 * Cleans up the game when it is closed
+	 */
+	public void cleanUp() {
+		guiRenderer.cleanUp();
+		renderer.cleanUp();
+		loader.cleanUp();
+		DisplayManager.closeDisplay();
+		if (isHost) {
+			serverController.terminate();
+		} else {
+			clientController.terminate();
+		}
+	}
+
 	public boolean isHost() {
 		return isHost;
 	}
@@ -210,4 +211,3 @@ public class GameController {
 		return gameWorld;
 	}
 }
-
