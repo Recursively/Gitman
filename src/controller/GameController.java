@@ -4,6 +4,8 @@ import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class GameController {
 
 	public static boolean READY;
+	public boolean networkRunning;
 
 	// Model
 	private final Loader loader;
@@ -74,8 +77,10 @@ public class GameController {
 			clientController.start();
 		}
 
-		// hook the mouse
-		// Mouse.setGrabbed(true);
+        this.networkRunning = true;
+
+        // hook the mouse
+        Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -96,7 +101,7 @@ public class GameController {
 	 */
 	private void doGame() {
 
-		while (!Display.isCloseRequested()) {
+		while (!Display.isCloseRequested() && networkRunning) {
 
 			// process the terrains
 
@@ -152,16 +157,21 @@ public class GameController {
 		cleanUp();
 	}
 
-	/**
-	 * Cleans up the game when it is closed
-	 */
-	private void cleanUp() {
-		guiRenderer.cleanUp();
-		renderer.cleanUp();
-		loader.cleanUp();
-		DisplayManager.closeDisplay();
-	}
-
+    /**
+     * Cleans up the game when it is closed
+     */
+    public void cleanUp() {
+        guiRenderer.cleanUp();
+        renderer.cleanUp();
+        loader.cleanUp();
+        DisplayManager.closeDisplay();
+        if (isHost) {
+            serverController.terminate();
+        } else {
+            clientController.terminate();
+        }
+    }
+    
 	public boolean isHost() {
 		return isHost;
 	}
@@ -200,3 +210,4 @@ public class GameController {
 		return gameWorld;
 	}
 }
+
