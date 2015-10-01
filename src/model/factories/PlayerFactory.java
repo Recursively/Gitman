@@ -51,6 +51,6 @@ public class PlayerFactory {
 		System.out.println("CREATED PLAYER WITH ID: " + uid);
 
 		// New player and camera to follow the player
-		return new Player(playerModel, position, 0, 180f, 0, 1, new Camera(initialPlayerY, position), gameWorld, uid);
+		return new Player(playerModel, position, 0, 180f, 0, 1, uid, new Camera(initialPlayerY, position));
 	}
 }

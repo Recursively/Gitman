@@ -7,8 +7,9 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Created by Marcel on 29/09/15.
  */
-public class SwipeCard extends StaticEntity {
-    public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int textureIndex, ModelData modelData) {
+public class CollidableEntity extends StaticEntity {
+
+    public CollidableEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int textureIndex, ModelData modelData) {
         super(model, position, rotX, rotY, rotZ, scale, textureIndex, modelData);
     }
 
@@ -22,7 +23,6 @@ public class SwipeCard extends StaticEntity {
         // Ascending if statements to help terminate early
         if (diffX < radiusX) {
             if (diffZ < radiusZ) {
-                System.out.println("Colliding at X: " + diffX + " Y: " + diffY + " Z: " + diffZ);
                 return true;
             }
         }

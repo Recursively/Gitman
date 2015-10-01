@@ -48,7 +48,7 @@ public class Client extends Thread {
 				float[] position = readPlayerPosition();
 				// if the player id received is a different player, update it's
 				// position accordingly
-				if (playerID != gameController.getPlayer().getUid()) {
+				if (playerID != gameController.getPlayer().getUID()) {
 					updatePlayer(playerID, position);
 				}
 			}

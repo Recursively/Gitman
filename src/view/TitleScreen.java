@@ -69,9 +69,8 @@ public class TitleScreen {
 		}
 
 		// create the game now
-		new GameController(isHost, hostname);
-		// change to make new window
-		// TODO
+		new PlayLoadOptionsScreen(isHost,hostname);
+		
 	}
 
 	/**
