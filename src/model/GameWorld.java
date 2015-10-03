@@ -27,7 +27,8 @@ public class GameWorld {
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int ITEM_DISTANCE = 30; //TODO furtherest distance a player can be from an item and still be allowed to interact with it
+	private static final int INTERACT_DISTANCE = 200; //TODO furtherest distance a player can be from an entity and still be allowed to interact with it
+	// FIXME change item dist = 20
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -220,27 +221,55 @@ public class GameWorld {
     	}
 	}
     
-    /**
-     * Find the item that is within ITEM_DISTANCE 
-     * of the given position
-     * 
-     * @param position of player
-     * @return closest item to given position, within certain radius
-     */
-    public Item findItem(Vector3f position) {
-		Item item = null;
-		Vector3f itemPos = null;
-		for(Entity e: this.movableEntities){
-			// only check entity if it is an item (i.e. ignore players)
-			if(e instanceof Item){
-				if(Entity.isCloserThan(e.getPosition(), itemPos, player, ITEM_DISTANCE)){ 
-					item = (Item) e;
-					itemPos = e.getPosition();
-				}
-			}
-		}
-		return item;
-	}
+//    /**
+//     * Find the item that is within ITEM_DISTANCE 
+//     * of the given position
+//     * 
+//     * @param position of player
+//     * @return closest item to given position, within certain radius
+//     */
+//    public Item findItem(Vector3f position) {
+//		Item item = null;
+//		Vector3f itemPos = null;
+//		for(Entity e: this.movableEntities){
+//			// only check entity if it is an item (i.e. ignore players)
+//			if(e instanceof Item){
+//				if(Entity.isCloserThan(e.getPosition(), itemPos, player, ITEM_DISTANCE)){ 
+//					item = (Item) e;
+//					itemPos = e.getPosition();
+//				}
+//			}
+//		}
+//		return item;
+//	}
+    
+    //FIXME findItem method to return entities?
+    
+    public Item findItem(Vector3f position){
+    	Entity closest = null;
+    	double closeDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
+    	
+    	System.out.println(player.getPosition().x + " " + player.getPosition().y +" " + player.getPosition().z);
+    	// get position of player
+    	float px = player.getPosition().x;
+		float pz = player.getPosition().z;
+		
+    	for(Entity e : this.getTestEntity()){
+    		System.out.println(e + ": x=" + e.getPosition().x + ", y=" + e.getPosition().y + ", z=" + e.getPosition().z);
+    		float ex = e.getPosition().x;
+    		float ez = e.getPosition().z;
+    		
+    		double diff = (ex-px)*(ex-px) + (ez-pz)*(ez-pz);
+    		System.out.println(diff);
+    		if(diff <= closeDiff && Entity.isInFrontOfPlayer(e, player)){
+    			closest = e;
+    			closeDiff = diff;
+    		}
+    	}
+    	System.out.println(closest);
+    	// FIXME for testing
+    	return null;
+    }
 
     /**
      * Remove a movable entity from the game

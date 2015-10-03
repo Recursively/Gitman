@@ -236,5 +236,13 @@ public class Entity {
 		return false;
 	}
 
+	// take into
+	public static boolean isInFrontOfPlayer(Entity e, Player player) {
+		// take into account camera position, direction and field of view and determine if entity is in front of the player
+		// can limit field of view to minimise getting intems from edges of the view...
+		
+		return true;
+	}
+
 
 }
