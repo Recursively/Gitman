@@ -237,6 +237,9 @@ public class GameWorld {
 		float pz = playerPos.getZ();
 	
     	for(MovableEntity e : this.movableEntities){
+    		// check that entity is 'interactable'
+    		if(!e.canInteract()) { continue; }
+    		
     		float ex = e.getPosition().getX();
     		float ez = e.getPosition().getZ();    		
     		double diff = (ex-px)*(ex-px) + (ez-pz)*(ez-pz);
