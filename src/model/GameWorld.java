@@ -27,8 +27,7 @@ public class GameWorld {
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int INTERACT_DISTANCE = 300; //TODO furtherest distance a player can be from an entity and still be allowed to interact with it
-	// FIXME change item dist = 30
+	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -42,7 +41,7 @@ public class GameWorld {
 
     // collection of entities in the game
     private ArrayList<Entity> staticEntities;
-    private ArrayList<Entity> movableEntities;   //TODO save
+    private ArrayList<MovableEntity> movableEntities;  
 
     // Terrain the world is on
     // TODO this will need to become a list once we have multiple terrains
@@ -50,7 +49,7 @@ public class GameWorld {
 	private Terrain otherTerrain;
 
     // The actual player
-    private Player player;    //TODO save
+    private Player player;    
 
     // Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -64,7 +63,7 @@ public class GameWorld {
     // object file loader
     private Loader loader;
  
-    // game state elements  //TODO save
+    // game state elements  
     private Inventory inventory;
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
@@ -211,65 +210,45 @@ public class GameWorld {
      * Find item that player is trying to interact with 
      * and then carry out interaction
      */
-    public void interactWithItem() {
+    public void interactWithMovEntity() {
     	if(inventory.isVisible()) return;
-    	
+    	//TODO fix this so can interact with not just items!
     	// only allowed to interact with items if inventory is not open
-    	Item item = findItem(player.getPosition()); 
-    	if(item != null){
-    		item.interact(this); 
+    	MovableEntity entity = findMovEntity(player.getPosition()); 
+    	if(entity != null){
+    		entity.interact(this); 
     	}
 	}
     
-//    /**
-//     * Find the item that is within ITEM_DISTANCE 
-//     * of the given position
-//     * 
-//     * @param position of player
-//     * @return closest item to given position, within certain radius
-//     */
-//    public Item findItem(Vector3f position) {
-//		Item item = null;
-//		Vector3f itemPos = null;
-//		for(Entity e: this.movableEntities){
-//			// only check entity if it is an item (i.e. ignore players)
-//			if(e instanceof Item){
-//				if(Entity.isCloserThan(e.getPosition(), itemPos, player, ITEM_DISTANCE)){ 
-//					item = (Item) e;
-//					itemPos = e.getPosition();
-//				}
-//			}
-//		}
-//		return item;
-//	}
-    
-    //FIXME findItem method to return entities?
-    
-    public Item findItem(Vector3f position){
-    	Entity closest = null;
-    	double closeDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
+    /**
+     * Go through all movable entities and find the movable
+     * entity that is the closest to the player, and also
+     * within the players field of view. 
+     * 
+     * @param playerPos position of player 
+     * @return closest movable entity found
+     */
+    public MovableEntity findMovEntity(Vector3f playerPos){
+    	MovableEntity closest = null;
+    	double closestDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
     	
-    	System.out.println(player.getPosition().x + " " + player.getPosition().y +" " + player.getPosition().z);
     	// get position of player
-    	float px = player.getPosition().x;
-		float pz = player.getPosition().z;
-		
-    	for(Entity e : this.getTestEntity()){
-    		System.out.println("Entity: x=" + e.getPosition().x + ", y=" + e.getPosition().y + ", z=" + e.getPosition().z);
-    		float ex = e.getPosition().x;
-    		float ez = e.getPosition().z;
-    		
+    	float px = playerPos.getX();
+		float pz = playerPos.getZ();
+	
+    	for(MovableEntity e : this.movableEntities){
+    		float ex = e.getPosition().getX();
+    		float ez = e.getPosition().getZ();    		
     		double diff = (ex-px)*(ex-px) + (ez-pz)*(ez-pz);
-    		System.out.println(diff);
-    		Entity.isInFrontOfPlayer(e, player);
-//    		if(diff <= closeDiff && Entity.isInFrontOfPlayer(e, player)){
-//    			closest = e;
-//    			closeDiff = diff;
-//    		}
+    		
+    		// update closest entity if e is within max interacting distance
+    		// and in front of the player (within view of player)
+    		if(diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), player)){
+    			closest = e;
+    			closestDiff = diff;
+    		}
     	}
-    	System.out.println(closeDiff);
-    	// FIXME for testing
-    	return null;
+    	return closest;
     }
 
     /**
@@ -287,6 +266,7 @@ public class GameWorld {
 		
 	}
 
+	// TODO do the inventory methods need boolean return values? 
 	/**
 	 * Add the given item to the inventory
 	 * 
@@ -312,7 +292,7 @@ public class GameWorld {
 	 */
 	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
 		//TODO does set position need to be slightly in front of player?
-		Entity entity = this.inventory.deleteItem(item);
+		MovableEntity entity = this.inventory.deleteItem(item);
 		if(entity != null){
 			entity.setPosition(playerPosition);
 			this.movableEntities.add(entity);
@@ -400,11 +380,6 @@ public class GameWorld {
 
 	}
 
-	//FIXME
-	public int getScore() {
-		return score;
-	}
-
     public ArrayList<Entity> getStaticEntities() {
         return staticEntities;
     }
@@ -443,7 +418,7 @@ public class GameWorld {
 		playerTexture.setReflectivity(1);
 	}
 
-	public ArrayList<Entity> getMoveableEntities() {
+	public ArrayList<MovableEntity> getMoveableEntities() {
 		return movableEntities;
 	}
 

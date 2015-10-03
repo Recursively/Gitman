@@ -6,6 +6,7 @@ import org.lwjgl.input.Mouse;
 
 import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
 
@@ -83,7 +84,7 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public Entity deleteItem(LaptopItem item){
+	public MovableEntity deleteItem(LaptopItem item){
 		if(inLaptop.contains(item)){
 			this.storageUsed = this.storageUsed - item.getSize();
 			inLaptop.remove(item);

@@ -17,4 +17,9 @@ public abstract class NonPlayerCharacters extends MovableEntity {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public boolean canInteract() {
+		return true;
+	}
 }

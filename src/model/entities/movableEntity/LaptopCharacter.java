@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -16,6 +17,12 @@ public class LaptopCharacter extends NonPlayerCharacters {
             int textureIndex, int id) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void interact(GameWorld game) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

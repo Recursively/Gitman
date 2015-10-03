@@ -199,65 +199,30 @@ public class Entity {
         this.scale = scale;
     }
 
-	/**
-	 * Determine which position (new or old) is closer to the
-	 * origin position
-	 * 
-	 * @param newPos
-	 * @param oldPos
-	 * @param player that is interacting with the item
-	 * @return true if the new position is closer to the player
-	 * than the oldPos
-	 */
-	public static boolean isCloserThan(Vector3f newPos, Vector3f oldPos,
-			Player player, int radius) {
-		Vector3f origin = player.getPosition();
-		if(Entity.isWithinBounds(newPos, origin, radius)){
-			if(oldPos == null){
-				return true;
-			}
-			// TODO check what is closer
-			// player.getcamera yaw...
-			// x and z
-			// ask ellie to make graphics...
-		}
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	 /**
-     * Determine if the point is within the given radius bounds from 
-     * the origin position
+    /**
+     * Determine if the given entityPos is in front of the player, 
+     * and within the player's field of view
      * 
-     * @param point
-     * @param origin
-     * @param radius
-     * @return true if point is within the bounds, false otherwise
+     * @param entityPos position of entity
+     * @param player player to get view of
+     * @return true if entity can be seen by player
      */
-	public static boolean isWithinBounds(Vector3f point, Vector3f origin, int radius) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	// take into
-	public static boolean isInFrontOfPlayer(Entity e, Player player) {
+	public static boolean isInFrontOfPlayer(Vector3f entityPos, Player player) {
+		// get camera direction vector
 		Camera cam = player.getCamera();
 		Vector3f camDirection = cam.getDirection();
-		Vector3f camToEntity = new Vector3f(0, 0, 0);
-		Vector3f.sub(e.getPosition(), cam.getPosition(), camToEntity);
 		
-		System.out.println(camDirection.x + " " + camDirection.y + " " + camDirection.z);
-		System.out.println(camToEntity.x + " " + camToEntity.y + " " + camToEntity.z);
-	
-		// ignore y values
+		// calculate vector from camera to entity
+		Vector3f camToEntity = new Vector3f(0, 0, 0);    // need to initialise for .sub method
+		Vector3f.sub(entityPos, cam.getPosition(), camToEntity);
+		
+		// calculate angle between camera direction and entity
 		Vector2f dir = new Vector2f(camDirection.getX(), camDirection.getZ());
-		dir.normalise(dir);
 		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());	
-		ent.normalise(ent);
 		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
-		System.out.println("A: " + angle);
 		
 		// check that entity is within player's field of view
+		// TODO can limit angle so that entities on edges of screen are not considered either!
 		double maxAngle = MasterRenderer.getFOV()/2.0;
 		if(angle <= maxAngle){
 			return true;

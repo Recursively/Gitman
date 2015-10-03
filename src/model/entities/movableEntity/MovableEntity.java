@@ -2,6 +2,7 @@ package model.entities.movableEntity;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import model.GameWorld;
 import model.entities.Entity;
 import model.models.TexturedModel;
 
@@ -33,6 +34,10 @@ public abstract class MovableEntity extends Entity {
 	public int getUID(){
 		return this.UID;
 	}
+	
+	public abstract void interact(GameWorld game);
+	
+	public abstract boolean canInteract();
 	
 	// TODO add NPC (which include bugs and characters)...
 	// TODO add door as item (it's invisible)

@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Camera represents a players current view of the world
  *
  * @author Marcel van Workum
+ * @author Divya
  */
 public class Camera {
 
@@ -102,7 +103,10 @@ public class Camera {
         this.pitch = pitch;
     }
     
-    //TODO fix this? are sin and cos right way around
+    /**
+     * Calculate the direction vector of the camera
+     * @return direction vector of the camera
+     */
     public Vector3f getDirection(){
     	double pitchRadians = Math.toRadians(pitch);
     	double yawRadians = Math.toRadians(yaw);
