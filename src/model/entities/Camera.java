@@ -101,4 +101,17 @@ public class Camera {
     public void setPitch(int pitch) {
         this.pitch = pitch;
     }
+    
+    //TODO fix this? are sin and cos right way around
+    public Vector3f getDirection(){
+    	double pitchRadians = Math.toRadians(pitch);
+    	double yawRadians = Math.toRadians(yaw);
+
+    	float sinPitch = (float) Math.sin(pitchRadians);
+    	float cosPitch = (float) Math.cos(pitchRadians);
+    	float sinYaw = (float) Math.sin(yawRadians);
+    	float cosYaw = (float) Math.cos(yawRadians);
+
+    	return new Vector3f(-cosPitch * sinYaw, sinPitch, -cosPitch * cosYaw);
+    }
 }

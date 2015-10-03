@@ -27,8 +27,8 @@ public class GameWorld {
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int INTERACT_DISTANCE = 200; //TODO furtherest distance a player can be from an entity and still be allowed to interact with it
-	// FIXME change item dist = 20
+	private static final int INTERACT_DISTANCE = 300; //TODO furtherest distance a player can be from an entity and still be allowed to interact with it
+	// FIXME change item dist = 30
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -255,18 +255,19 @@ public class GameWorld {
 		float pz = player.getPosition().z;
 		
     	for(Entity e : this.getTestEntity()){
-    		System.out.println(e + ": x=" + e.getPosition().x + ", y=" + e.getPosition().y + ", z=" + e.getPosition().z);
+    		System.out.println("Entity: x=" + e.getPosition().x + ", y=" + e.getPosition().y + ", z=" + e.getPosition().z);
     		float ex = e.getPosition().x;
     		float ez = e.getPosition().z;
     		
     		double diff = (ex-px)*(ex-px) + (ez-pz)*(ez-pz);
     		System.out.println(diff);
-    		if(diff <= closeDiff && Entity.isInFrontOfPlayer(e, player)){
-    			closest = e;
-    			closeDiff = diff;
-    		}
+    		Entity.isInFrontOfPlayer(e, player);
+//    		if(diff <= closeDiff && Entity.isInFrontOfPlayer(e, player)){
+//    			closest = e;
+//    			closeDiff = diff;
+//    		}
     	}
-    	System.out.println(closest);
+    	System.out.println(closeDiff);
     	// FIXME for testing
     	return null;
     }
@@ -386,7 +387,7 @@ public class GameWorld {
 	private void compileProgram() {
 		// TODO method called when player should be given
 	    // options to compile and run program
-		// should start PatchTime thread here with delay added in thread before decrease patch  method is called
+		// should create method that deals with decreasing patch progress over time (look at title screen as example)
 	}
 	
 	private void loseGame() {

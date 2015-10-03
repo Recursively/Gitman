@@ -3,7 +3,10 @@ package model.entities;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+
+import view.renderEngine.MasterRenderer;
 
 /**
  * An entity is any object in the game world. They are represented as a RawModel and TexturedModel
@@ -238,10 +241,26 @@ public class Entity {
 
 	// take into
 	public static boolean isInFrontOfPlayer(Entity e, Player player) {
-		// take into account camera position, direction and field of view and determine if entity is in front of the player
-		// can limit field of view to minimise getting intems from edges of the view...
+		Camera cam = player.getCamera();
+		Vector3f camDirection = cam.getDirection();
+		Vector3f camToEntity = new Vector3f(0, 0, 0);
+		Vector3f.sub(e.getPosition(), cam.getPosition(), camToEntity);
 		
-		return true;
+		System.out.println(camDirection.x + " " + camDirection.y + " " + camDirection.z);
+		System.out.println(camToEntity.x + " " + camToEntity.y + " " + camToEntity.z);
+	
+		// ignore y values
+		Vector2f dir = new Vector2f(camDirection.getX(), camDirection.getZ());
+		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());		
+		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
+		System.out.println("A: " + angle);
+		
+		// check that entity is within player's field of view
+		double maxAngle = MasterRenderer.getFOV()/2.0;
+		if(angle <= maxAngle){
+			return true;
+		}
+		return false;
 	}
 
 
