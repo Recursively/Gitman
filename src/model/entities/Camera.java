@@ -112,6 +112,6 @@ public class Camera {
     	float sinYaw = (float) Math.sin(yawRadians);
     	float cosYaw = (float) Math.cos(yawRadians);
 
-    	return new Vector3f(-cosPitch * sinYaw, sinPitch, -cosPitch * cosYaw);
+    	return new Vector3f(sinYaw, -(sinPitch*cosYaw), -(cosPitch*cosYaw));
     }
 }

@@ -251,7 +251,9 @@ public class Entity {
 	
 		// ignore y values
 		Vector2f dir = new Vector2f(camDirection.getX(), camDirection.getZ());
-		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());		
+		dir.normalise(dir);
+		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());	
+		ent.normalise(ent);
 		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
 		System.out.println("A: " + angle);
 		
