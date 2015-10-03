@@ -43,7 +43,7 @@ public class GameWorld {
 
     // collection of entities in the game
     private ArrayList<Entity> staticEntities;
-    private ArrayList<MovableEntity> movableEntities;  
+    private Map<Integer, MovableEntity> movableEntities;  
 
     // Terrain the world is on
     // TODO this will need to become a list once we have multiple terrains
@@ -149,7 +149,7 @@ public class GameWorld {
     private void initDataStructures() {
         guiImages = new ArrayList<>();
         staticEntities = new ArrayList<>();
-        movableEntities = new ArrayList<>();
+        movableEntities = new HashMap<>();
         allPlayers = new HashMap<>();
         lights = new ArrayList<>();
         
@@ -214,8 +214,6 @@ public class GameWorld {
      */
     public void interactWithMovEntity() {
     	if(inventory.isVisible()) return;
-    	//TODO fix this so can interact with not just items!
-    	// only allowed to interact with items if inventory is not open
     	MovableEntity entity = findMovEntity(player.getCamera()); 
     	if(entity != null){
     		entity.interact(this); 
@@ -238,7 +236,7 @@ public class GameWorld {
     	float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 	
-    	for(MovableEntity e : this.movableEntities){
+		for(MovableEntity e : this.movableEntities.values()){
     		// check that entity is 'interactable'
     		if(!e.canInteract()) { continue; }
     		
@@ -262,7 +260,7 @@ public class GameWorld {
      * @param entity to remove
      */
 	public void removeMovableEntity(MovableEntity entity) {
-		movableEntities.remove(entity);
+		movableEntities.remove(entity.getUID());
 	}
 
 	
@@ -296,11 +294,10 @@ public class GameWorld {
 	 * @return true if remove was successful
 	 */
 	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
-		//TODO does set position need to be slightly in front of player?
 		MovableEntity entity = this.inventory.deleteItem(item);
 		if(entity != null){
 			entity.setPosition(playerPosition);
-			this.movableEntities.add(entity);
+			this.movableEntities.put(entity.getUID(), entity);
 			return true;
 		}
 		return false;
@@ -423,7 +420,7 @@ public class GameWorld {
 		playerTexture.setReflectivity(1);
 	}
 
-	public ArrayList<MovableEntity> getMoveableEntities() {
+	public Map<Integer, MovableEntity> getMoveableEntities() {
 		return movableEntities;
 	}
 

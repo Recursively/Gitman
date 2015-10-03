@@ -197,7 +197,7 @@ public class EntityFactory {
             for (int j = 0; j < image.getHeight(); j++) {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
-                   makePineTree(loader, terrain, i, j); 
+                	makePineTree(loader, terrain, i, j); 
                 } else if (color == -11731200) {
                     makeRandomLamp(loader, terrain, i, j);
                 } else if (color == -10240){
