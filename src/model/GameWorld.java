@@ -1,5 +1,6 @@
 package model;
 
+import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.*;
@@ -11,6 +12,7 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -214,7 +216,7 @@ public class GameWorld {
     	if(inventory.isVisible()) return;
     	//TODO fix this so can interact with not just items!
     	// only allowed to interact with items if inventory is not open
-    	MovableEntity entity = findMovEntity(player.getPosition()); 
+    	MovableEntity entity = findMovEntity(player.getCamera()); 
     	if(entity != null){
     		entity.interact(this); 
     	}
@@ -228,13 +230,13 @@ public class GameWorld {
      * @param playerPos position of player 
      * @return closest movable entity found
      */
-    public MovableEntity findMovEntity(Vector3f playerPos){
+    public MovableEntity findMovEntity(Camera camera){
     	MovableEntity closest = null;
     	double closestDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
     	
     	// get position of player
-    	float px = playerPos.getX();
-		float pz = playerPos.getZ();
+    	float px = camera.getPosition().getX();
+		float pz = camera.getPosition().getZ();
 	
     	for(MovableEntity e : this.movableEntities){
     		// check that entity is 'interactable'
@@ -246,7 +248,7 @@ public class GameWorld {
     		
     		// update closest entity if e is within max interacting distance
     		// and in front of the player (within view of player)
-    		if(diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), player)){
+    		if(diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), camera)){
     			closest = e;
     			closestDiff = diff;
     		}

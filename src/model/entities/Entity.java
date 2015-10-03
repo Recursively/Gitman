@@ -207,9 +207,8 @@ public class Entity {
      * @param player player to get view of
      * @return true if entity can be seen by player
      */
-	public static boolean isInFrontOfPlayer(Vector3f entityPos, Player player) {
+	public static boolean isInFrontOfPlayer(Vector3f entityPos, Camera cam) {
 		// get camera direction vector
-		Camera cam = player.getCamera();
 		Vector3f camDirection = cam.getDirection();
 		
 		// calculate vector from camera to entity
@@ -221,9 +220,8 @@ public class Entity {
 		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());	
 		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
 		
-		// check that entity is within player's field of view
-		// TODO can limit angle so that entities on edges of screen are not considered either!
-		double maxAngle = MasterRenderer.getFOV()/2.0;
+		// check that entity is within player's 1/2 field of view
+		double maxAngle = MasterRenderer.getFOV()/4.0;
 		if(angle <= maxAngle){
 			return true;
 		}
