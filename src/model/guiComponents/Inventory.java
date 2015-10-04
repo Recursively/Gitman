@@ -6,6 +6,7 @@ import org.lwjgl.input.Mouse;
 
 import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
 
@@ -13,7 +14,8 @@ import model.textures.GuiTexture;
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
  * files and README txt documents).
  * 
- * @author Divya and Ellie
+ * @author Divya 
+ * @author Ellie
  *
  */
 public class Inventory {
@@ -22,6 +24,7 @@ public class Inventory {
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
+	private boolean itemDisplayed;
 	private GuiFactory guiFactory;
 	private ArrayList<GuiTexture> textureList;
 
@@ -31,6 +34,7 @@ public class Inventory {
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
 		this.isVisible = false;
+		this.itemDisplayed = false;
 		this.guiFactory = guiFactory;
 
 	}
@@ -70,7 +74,7 @@ public class Inventory {
 	public boolean addItem(LaptopItem item){
 		if(this.storageUsed + item.getSize() <= MAX_STORAGE_SIZE){
 			inLaptop.add(item);
-			this.storageUsed = this.storageUsed + item.getSize();
+			increaseStorageUsed(item.getSize());
 			return true;
 		}
 		return false;
@@ -83,7 +87,7 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public Entity deleteItem(LaptopItem item){
+	public MovableEntity deleteItem(LaptopItem item){
 		if(inLaptop.contains(item)){
 			this.storageUsed = this.storageUsed - item.getSize();
 			inLaptop.remove(item);
@@ -110,8 +114,6 @@ public class Inventory {
 	}
 	
 	private void openInventory(){
-		//TODO debuggin code to remove
-		System.out.println("Open");
 		isVisible = true;
 		Mouse.setGrabbed(false);
 		textureList = guiFactory.makeInventory(this);
@@ -125,10 +127,51 @@ public class Inventory {
 	}
 	
 	private void closeInventory(){
-		System.out.println("Close");
 		isVisible = false;
 		Mouse.setGrabbed(true);
 		//TODO
+	}
+	
+	public void displayLaptopItem(int x, int y) {
+		if(itemDisplayed){
+			closeLaptopItem();
+		}
+		else {
+			openLaptopItem(x, y);
+		}
+		
+	}
+
+	private void openLaptopItem(int x, int y) {
+		LaptopItem item = findItem(x, y);
+		if(item != null){
+			itemDisplayed = true;
+		}
+		// TODO open displays in front of laptop screen showing 
+		// full image of item
+		
+	}
+	
+	public void closeLaptopItem(){
+		if(itemDisplayed){
+			itemDisplayed = false;
+			// TODO close the display of the item 
+		}
+	}
+	
+	private LaptopItem findItem(int x, int y) {
+		// TODO find item that has been clicked on
+		// maybe implement 2d array storage to make finding 
+		// items easier???
+		return null;
+	}
+
+	public void showDeleteOption(int x, int y) {
+		LaptopItem item = findItem(x, y);
+		if(item != null){
+			// TODO how should deletes be carried out?
+			// IDEAS: maybe show message: do you want to delete this item: Y = Yes, N = No???
+		}		
 	}
 
 }

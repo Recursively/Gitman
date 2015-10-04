@@ -1,17 +1,25 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.DisplayManager;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marcel van Workum
+ * @author Divya
+ *
+ */
 public class Player extends MovableEntity {
 
     private static final float RUN_SPEED = 1f;
@@ -226,4 +234,14 @@ public class Player extends MovableEntity {
     public void setCurrentTerrain(Terrain currentTerrain) {
         this.currentTerrain = currentTerrain;
     }
+
+	@Override
+	public void interact(GameWorld game) {
+		return;
+	}
+
+	@Override
+	public boolean canInteract() {
+		return false;
+	}
 }

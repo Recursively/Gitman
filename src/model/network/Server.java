@@ -49,7 +49,7 @@ public class Server extends Thread {
 				// updateEntityPosition();
 
 				// TODO send items information
-				for (Entity entity : gameController.getGameWorld().getMoveableEntities()) {
+				for (Entity entity : gameController.getGameWorld().getMoveableEntities().values()) {
 					// sendEntityPosition(entity);
 				}
 			}

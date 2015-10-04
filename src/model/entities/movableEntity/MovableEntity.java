@@ -2,10 +2,14 @@ package model.entities.movableEntity;
 
 import org.lwjgl.util.vector.Vector3f;
 
+import model.GameWorld;
 import model.entities.Entity;
 import model.models.TexturedModel;
 
 /**
+ * This class represents a movable entity in the game. This is an 
+ * entity that's postion can change throughout the course of the game, 
+ * and that can be interacted with by the player.
  * 
  * @author Divya
  *
@@ -34,6 +38,17 @@ public abstract class MovableEntity extends Entity {
 		return this.UID;
 	}
 	
-	// TODO add NPC (which include bugs and characters)...
-	// TODO add door as item (it's invisible)
+	/**
+	 * All movable entities may be able to be interacted 
+	 * with. This method will carry out the relevant 
+	 * interactions with the player, and update
+	 * the game state (score and progress) accordingly.
+	 * @param game
+	 */
+	public abstract void interact(GameWorld game);
+	
+	/**
+	 * @return true if entity can be interacted with
+	 */
+	public abstract boolean canInteract();
 }

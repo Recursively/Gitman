@@ -40,4 +40,9 @@ public abstract class Item extends MovableEntity {
 	 * interacting with it will do
 	 */
 	public abstract String viewInfo(); 
+	
+	@Override
+	public boolean canInteract() {
+		return true;
+	}
 }
