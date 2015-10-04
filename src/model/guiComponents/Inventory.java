@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 
+import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
@@ -25,6 +26,7 @@ public class Inventory {
 	private int storageUsed;
 	private boolean isVisible;
 	private boolean itemDisplayed;
+	private LaptopItem selected;
 	private GuiFactory guiFactory;
 	private ArrayList<GuiTexture> textureList;
 
@@ -35,6 +37,7 @@ public class Inventory {
 		this.storageUsed = 0;
 		this.isVisible = false;
 		this.itemDisplayed = false;
+		this.selected = null;
 		this.guiFactory = guiFactory;
 
 	}
@@ -87,13 +90,13 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public MovableEntity deleteItem(LaptopItem item){
-		if(inLaptop.contains(item)){
-			this.storageUsed = this.storageUsed - item.getSize();
-			inLaptop.remove(item);
-			return item;
+	public void deleteItem(GameWorld game){
+		if(this.selected != null){
+			this.storageUsed = this.storageUsed - this.selected.getSize();
+			inLaptop.remove(this.selected);
+			game.removeFromInventory(this.selected);
+			this.selected = null;
 		}
-		return null; 
 	}
 	
 	/**
@@ -133,6 +136,7 @@ public class Inventory {
 	}
 	
 	public void displayLaptopItem(int x, int y) {
+		this.selected = null;  // make sure no item is shown as selected with left click
 		if(itemDisplayed){
 			closeLaptopItem();
 		}
@@ -149,6 +153,7 @@ public class Inventory {
 		}
 		// TODO open displays in front of laptop screen showing 
 		// full image of item
+		// just add image to texture list
 		
 	}
 	
@@ -166,11 +171,11 @@ public class Inventory {
 		return null;
 	}
 
-	public void showDeleteOption(int x, int y) {
+	public void showSelected(int x, int y) {
 		LaptopItem item = findItem(x, y);
 		if(item != null){
-			// TODO how should deletes be carried out?
-			// IDEAS: maybe show message: do you want to delete this item: Y = Yes, N = No???
+			this.selected = item;
+			// update textures to show the clicked on item's 'selected' image, not normal one
 		}		
 	}
 

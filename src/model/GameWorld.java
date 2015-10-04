@@ -13,6 +13,7 @@ import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -137,8 +138,10 @@ public class GameWorld {
      * initialises the Gui to be rendered to the display
      */
     private void initGui() {
-		//TODO should init some gui here maybe?
-        //guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		//TODO should init some gui with score, progress and cards collected. 
+    	//TODO fix this...maybe make it smaller...different design?
+    	// this shoudl create the basic background, if there is one. 
+        guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
     }
 
     /**
@@ -195,6 +198,7 @@ public class GameWorld {
      * @return the gui images
      */
     public ArrayList<GuiTexture> getGuiImages() {
+    	updateGui();
         return guiImages;
     }
 
@@ -240,6 +244,11 @@ public class GameWorld {
 
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
+	}
+	
+	private void updateGui(){
+		// TODO like init gui, but with current score, progress and cards collected
+		int progress = this.inProgram? this.patchProgress: this.codeProgress;
 	}
 
 	/**
@@ -303,7 +312,6 @@ public class GameWorld {
 		
 	}
 
-	// TODO do the inventory methods need boolean return values? 
 	/**
 	 * Add the given item to the inventory
 	 * 
@@ -316,6 +324,7 @@ public class GameWorld {
 			return true;
 		}
 		// TODO display message that inventory is too full and player must delete an item first
+		// TODO (Message on how to delete: right click to select and X to delete)
 		return false;
 	}
 	
@@ -327,14 +336,11 @@ public class GameWorld {
 	 * @param playerPosition position to drop item at
 	 * @return true if remove was successful
 	 */
-	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
-		MovableEntity entity = this.inventory.deleteItem(item);
-		if(entity != null){
-			entity.setPosition(playerPosition);
-			this.movableEntities.put(entity.getUID(), entity);
-			return true;
+	public void removeFromInventory(LaptopItem item) {
+		if(item != null){
+			item.setPosition(player.getPosition());
+			this.movableEntities.put(item.getUID(), item);
 		}
-		return false;
 	}
 
 	/**
