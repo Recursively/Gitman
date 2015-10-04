@@ -408,22 +408,42 @@ public class GameWorld {
     	this.score+=score;
     }
     
+    /**
+     * Code progess reached 100 means all bits of code collected. Player 
+     * is given the option of multiplayer or single player, and the 
+     * environment they are displayed in changes
+     * in 
+     */
 	private void compileProgram() {
-		// TODO display message to show that player has collected all bits of code
-		// and what they should do
 		this.inProgram = true;
-		
-	    // options to compile and run program
+		// TODO display message to show that player has collected all bits of code
+		// and what they have to do now (e.g. press enter to continue)
+		// move player into different terrian
+		// show single vs multiplayer option
 		// should create method that deals with decreasing patch progress over time (look at title screen as example)
 	}
 	
+	/**
+	 * Display message to player when they 
+	 * have lost the game
+	 */
 	private void loseGame() {
-		// TODO display win game message
+		// TODO display lose game message
+		// ungrab mouse and message is end of game. 
+		// can you make it so that pressing enter takes you back to the
+		// play/options screen
 		
 	}
 	
+	/**
+	 * Display message to player when they have won
+	 * the game
+	 */
 	private void winGame() {
-		// TODO display lose game message
+		// TODO display win game message
+		// ungrab mouse and message is end of game. 
+		// can you make it so that pressing enter takes you back to the
+		// play/options screen
 
 	}
 
