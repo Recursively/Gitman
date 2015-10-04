@@ -3,11 +3,13 @@ package controller;
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
+import model.guiComponents.GuiBox;
 import model.toolbox.Loader;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -136,7 +138,7 @@ public class GameController {
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
 			// render the gui
-			// guiRenderer.render(gameWorld.getGuiImages());
+			guiRenderer.render(gameWorld.getGuiImages());
 
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());

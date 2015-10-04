@@ -70,6 +70,7 @@ public class GameWorld {
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
     private int score;               // overall score
+    private boolean inProgram;
     private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
 
@@ -110,6 +111,7 @@ public class GameWorld {
         inventory = new Inventory(guiFactory);
         this.patchProgress = START_PATCH;
         this.cards = new HashSet<SwipeCard>();
+        this.inProgram = false;
     }
 
     /**
@@ -206,6 +208,46 @@ public class GameWorld {
 	 */
 	public Inventory getInventory() {
 		return inventory;
+	}
+	
+	public ArrayList<Entity> getStaticEntities() {
+        return staticEntities;
+    }
+    
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
+	/**
+	 * @return the otherPlayers
+	 */
+	public Map<Integer, Player> getAllPlayers() {
+		return allPlayers;
+	}
+	
+	public Map<Integer, MovableEntity> getMoveableEntities() {
+		return movableEntities;
+	}
+	
+	public int getScore() {
+		return this.score;
+	}
+
+	public Set<SwipeCard> getSwipeCards() {
+		return this.cards;
+	}
+
+	public boolean isInProgram() {
+		return this.inProgram;
+	}
+
+	public int getPatchProgress() {
+		return this.patchProgress;
+	}
+
+	public int getCodeProgess() {
+		return this.codeProgress;
 	}
 
 	/**
@@ -367,28 +409,22 @@ public class GameWorld {
     }
     
 	private void compileProgram() {
-		// TODO method called when player should be given
+		// TODO display message to show that player has collected all bits of code
+		// and what they should do
+		this.inProgram = true;
+		
 	    // options to compile and run program
 		// should create method that deals with decreasing patch progress over time (look at title screen as example)
 	}
 	
 	private void loseGame() {
-		// TODO Auto-generated method stub
+		// TODO display win game message
 		
 	}
 	
 	private void winGame() {
-		// TODO Auto-generated method stub
+		// TODO display lose game message
 
-	}
-
-    public ArrayList<Entity> getStaticEntities() {
-        return staticEntities;
-    }
-    
-
-	public void setPlayer(Player player) {
-		this.player = player;
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
@@ -405,24 +441,13 @@ public class GameWorld {
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 
-	/**
-	 * @return the otherPlayers
-	 */
-	public Map<Integer, Player> getAllPlayers() {
-		return allPlayers;
-	}
-	
 	private void initPlayerModel() {
 		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/orb", loader),
 				new ModelTexture(loader.loadTexture("textures/orb")));
 		ModelTexture playerTexture = playerModel.getTexture();
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
-	}
-
-	public Map<Integer, MovableEntity> getMoveableEntities() {
-		return movableEntities;
-	}
+	}	
 
 	public ArrayList<Entity> getTestEntity() {
 		return entityFactory.getTestEntities();
