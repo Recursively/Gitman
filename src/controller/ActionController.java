@@ -40,8 +40,6 @@ public class ActionController {
     				System.out.println("Save");
     				Save.saveGame(gameWorld);
     			}
-    			
-        		// TODO delete items in inventory???
         	}
 		}
 	}

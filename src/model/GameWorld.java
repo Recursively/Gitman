@@ -71,6 +71,7 @@ public class GameWorld {
     private int patchProgress;       // commit collection progress
     private int score;               // overall score
     private boolean inProgram;
+    private boolean canApplyPatch;
     private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
 
@@ -112,6 +113,7 @@ public class GameWorld {
         this.patchProgress = START_PATCH;
         this.cards = new HashSet<SwipeCard>();
         this.inProgram = false;
+        this.canApplyPatch = false;
     }
 
     /**
@@ -229,25 +231,13 @@ public class GameWorld {
 	public Map<Integer, MovableEntity> getMoveableEntities() {
 		return movableEntities;
 	}
-	
-	public int getScore() {
-		return this.score;
-	}
 
 	public Set<SwipeCard> getSwipeCards() {
 		return this.cards;
 	}
 
-	public boolean isInProgram() {
-		return this.inProgram;
-	}
-
-	public int getPatchProgress() {
-		return this.patchProgress;
-	}
-
-	public int getCodeProgess() {
-		return this.codeProgress;
+	public boolean canApplyPatch() {
+		return this.canApplyPatch;
 	}
 
 	/**
@@ -381,9 +371,10 @@ public class GameWorld {
 		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 		
     	this.patchProgress+=commitScore;
-    	// 100% reached, game won
+    	// 100% reached, game almost won...display messag with last task
     	if(this.patchProgress >= MAX_PROGRESS){
-    		winGame();
+    		this.canApplyPatch = true;
+    		findBugMessage();
     	}
     }
 
@@ -439,12 +430,18 @@ public class GameWorld {
 	 * Display message to player when they have won
 	 * the game
 	 */
-	private void winGame() {
+	public void winGame() {
 		// TODO display win game message
 		// ungrab mouse and message is end of game. 
 		// can you make it so that pressing enter takes you back to the
 		// play/options screen
 
+	}
+	
+	private void findBugMessage() {
+		// TODO display message to inform user that they
+		// now have to find bug and apply patch
+		
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
