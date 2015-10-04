@@ -16,19 +16,16 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class ReadMe extends LaptopItem{
 	private static final int README_SCORE = 10;
-
-	private final String message;
+	private static final int README_SIZE = 20;
 
 	public ReadMe(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale, int id, String name, String msg, int size) {
-		super(model, position, rotX, rotY, rotZ, scale, id, name, size);
-		this.message = msg;
+			float rotY, float rotZ, float scale, int id, String name) {
+		super(model, position, rotX, rotY, rotZ, scale, id, name);
 	}
 	
 	public ReadMe(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int textureIndex, int id, String name, String msg, int size) {
-		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name, size);
-		this.message = msg;
+			float rotZ, float scale, int textureIndex, int id, String name) {
+		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name);
 	}
 	
 	@Override
@@ -39,5 +36,10 @@ public class ReadMe extends LaptopItem{
 	@Override
 	public String viewInfo() {
 		return "README documents can contain useful hints about the game...";
+	}
+
+	@Override
+	public int getSize() {
+		return README_SIZE;
 	}
 }

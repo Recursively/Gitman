@@ -71,7 +71,7 @@ public class Inventory {
 	public boolean addItem(LaptopItem item){
 		if(this.storageUsed + item.getSize() <= MAX_STORAGE_SIZE){
 			inLaptop.add(item);
-			this.storageUsed = this.storageUsed + item.getSize();
+			increaseStorageUsed(item.getSize());
 			return true;
 		}
 		return false;
@@ -111,8 +111,6 @@ public class Inventory {
 	}
 	
 	private void openInventory(){
-		//TODO debuggin code to remove
-		System.out.println("Open");
 		isVisible = true;
 		Mouse.setGrabbed(false);
 		textureList = guiFactory.makeInventory(this);
@@ -126,7 +124,6 @@ public class Inventory {
 	}
 	
 	private void closeInventory(){
-		System.out.println("Close");
 		isVisible = false;
 		Mouse.setGrabbed(true);
 		//TODO

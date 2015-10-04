@@ -384,6 +384,7 @@ public class GameWorld {
 	 */
 	public void updateCodeProgress(){
     	this.codeProgress+=CODE_VALUE;
+    	inventory.increaseStorageUsed(CODE_VALUE);
     	
     	// player has cloned all bits of code
     	if(this.codeProgress >= MAX_PROGRESS){
@@ -441,6 +442,7 @@ public class GameWorld {
 	private void findBugMessage() {
 		// TODO display message to inform user that they
 		// now have to find bug and apply patch
+		// maybe press enter to remove message
 		
 	}
 
