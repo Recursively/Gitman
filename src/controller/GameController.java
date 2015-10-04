@@ -133,6 +133,9 @@ public class GameController {
 			if (!gameWorld.getInventory().isVisible()) {
 				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 			}
+			
+			// decrease patch progress as time passes
+			gameWorld.decreasePatch();
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());

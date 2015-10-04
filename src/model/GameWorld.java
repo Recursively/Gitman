@@ -27,6 +27,7 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10;   // starting progress value for patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
+	private static final double PATCH_TIMER = 5000;   // FIXME currently is 5 seconds
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
 	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
@@ -72,6 +73,7 @@ public class GameWorld {
     private int score;               // overall score
     private boolean inProgram;
     private boolean canApplyPatch;
+    private long timer;
     private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
 
@@ -349,15 +351,26 @@ public class GameWorld {
      *  
      */
     public void decreasePatch(){
-    	if(this.patchProgress >= MAX_PROGRESS){
-    		return;  // do nothing if reached 100%
-    	}
-    	double value = this.patchProgress*PATCH_DECREASE;
-    	this.patchProgress = (int) (this.patchProgress - value);
+    	// if not in outside area, do nothing
+    	if(!inProgram) return;
     	
-    	// if patch progress reaches zero, players lose
-    	if(this.patchProgress <= 0) {
-    		loseGame();
+    	// decrease patch in relation to how much time has passed since last decrease
+    	long currentTime = System.currentTimeMillis();
+    	if (currentTime - this.timer > PATCH_TIMER) {
+    		
+    		if(this.patchProgress >= MAX_PROGRESS){
+    			return;  // do nothing if reached 100%
+    		}
+    		double value = this.patchProgress*PATCH_DECREASE;
+    		this.patchProgress = (int) (this.patchProgress - value);
+
+    		// if patch progress reaches zero, players lose
+    		if(this.patchProgress <= 0) {
+    			loseGame();
+    		}
+    		
+    		// update new time
+    		this.timer = System.currentTimeMillis();
     	}
     }
 
@@ -371,7 +384,7 @@ public class GameWorld {
 		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 		
     	this.patchProgress+=commitScore;
-    	// 100% reached, game almost won...display messag with last task
+    	// 100% reached, game almost won...display message with last task
     	if(this.patchProgress >= MAX_PROGRESS){
     		this.canApplyPatch = true;
     		findBugMessage();
@@ -408,6 +421,8 @@ public class GameWorld {
      */
 	private void compileProgram() {
 		this.inProgram = true;
+		this.timer = System.currentTimeMillis(); // start timer
+		
 		// TODO display message to show that player has collected all bits of code
 		// and what they have to do now (e.g. press enter to continue)
 		// move player into different terrian

@@ -8,6 +8,10 @@ import model.data.Save;
 import model.toolbox.Loader;
 
 /**
+ * Controller to handle mouse and key input by the player. The
+ * class identifies what action has been carried out and 
+ * calls the appropriate methods to make updates to the game
+ * accordingly
  * 
  * @author Divya
  *
@@ -32,7 +36,7 @@ public class ActionController {
 					int x = Mouse.getX();
 					int y = Mouse.getY();
 
-					// TODO Note: coordinates work that (0,0) is at the bottom, left corner of the display)
+					// TODO Note: point (0,0) is at the bottom, left corner of the display
 					System.out.println("Mouse pressed:" + x + ", " + y);
 
 					if(Mouse.isButtonDown(0)){  // left click

@@ -14,7 +14,8 @@ import model.textures.GuiTexture;
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
  * files and README txt documents).
  * 
- * @author Divya and Ellie
+ * @author Divya 
+ * @author Ellie
  *
  */
 public class Inventory {
