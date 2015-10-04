@@ -23,6 +23,7 @@ public class Inventory {
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
+	private boolean itemDisplayed;
 	private GuiFactory guiFactory;
 	private ArrayList<GuiTexture> textureList;
 
@@ -32,6 +33,7 @@ public class Inventory {
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
 		this.isVisible = false;
+		this.itemDisplayed = false;
 		this.guiFactory = guiFactory;
 
 	}
@@ -127,6 +129,48 @@ public class Inventory {
 		isVisible = false;
 		Mouse.setGrabbed(true);
 		//TODO
+	}
+	
+	public void displayLaptopItem(int x, int y) {
+		if(itemDisplayed){
+			closeLaptopItem();
+		}
+		else {
+			openLaptopItem(x, y);
+		}
+		
+	}
+
+	private void openLaptopItem(int x, int y) {
+		LaptopItem item = findItem(x, y);
+		if(item != null){
+			itemDisplayed = true;
+		}
+		// TODO open displays in front of laptop screen showing 
+		// full image of item
+		
+	}
+	
+	public void closeLaptopItem(){
+		if(itemDisplayed){
+			itemDisplayed = false;
+			// TODO close the display of the item 
+		}
+	}
+	
+	private LaptopItem findItem(int x, int y) {
+		// TODO find item that has been clicked on
+		// maybe implement 2d array storage to make finding 
+		// items easier???
+		return null;
+	}
+
+	public void showDeleteOption(int x, int y) {
+		LaptopItem item = findItem(x, y);
+		if(item != null){
+			// TODO how should deletes be carried out?
+			// IDEAS: maybe show message: do you want to delete this item: Y = Yes, N = No???
+		}		
 	}
 
 }

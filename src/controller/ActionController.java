@@ -1,6 +1,7 @@
 package controller;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 
 import model.GameWorld;
 import model.data.Save;
@@ -21,13 +22,36 @@ public class ActionController {
 	}
 
 	public void processActions(){
-		// ensures single reaction to a key press event when dealing with items
+		// react to the mouse if it is not grabbed
+		if(!Mouse.isGrabbed()){
+			
+			// ensure single reaction to mouse event
+			while(Mouse.next()){
+				// carry out methods when mouse is pressed (not released)
+				if(Mouse.getEventButtonState()){
+					int x = Mouse.getX();
+					int y = Mouse.getY();
+
+					// TODO Note: coordinates work that (0,0) is at the bottom, left corner of the display)
+					System.out.println("Mouse pressed:" + x + ", " + y);
+
+					if(Mouse.isButtonDown(0)){  // left click
+						gameWorld.getInventory().displayLaptopItem(x, y);
+					}
+
+					if(Mouse.isButtonDown(1)){  // right click
+						gameWorld.getInventory().showDeleteOption(x, y);
+					}
+				}
+			}
+		}
+		
+		// ensures single reaction to a key event
 		while(Keyboard.next()){
         	// carry out methods when key is pressed (not released)
         	if(Keyboard.getEventKeyState()){
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_I){
-        			System.out.println("Inventory");
         			gameWorld.getInventory().displayInventory();
             	} 
         		
@@ -37,7 +61,6 @@ public class ActionController {
         		}
         		
     			if (Keyboard.getEventKey() == Keyboard.KEY_F){
-    				System.out.println("Save");
     				Save.saveGame(gameWorld);
     			}
         	}
