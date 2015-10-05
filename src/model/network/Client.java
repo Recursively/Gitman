@@ -15,6 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import controller.GameController;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 
 public class Client extends Thread {
@@ -27,11 +28,14 @@ public class Client extends Thread {
 	private int uid;
 
 	public boolean running;
+	private MovableEntity mostRecentEntity;
+	private int mostRecentUpdate;
 
 	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
 		this.running = true;
+		this.mostRecentEntity = null;
 		initStreams();
 
 	}
@@ -57,6 +61,10 @@ public class Client extends Thread {
 					}
 				}
 
+				if (mostRecentEntity != null) {
+					sendUpdateEntity();
+				}
+
 			}
 		} catch (IOException e) {
 			terminate();
@@ -74,7 +82,12 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public void sendUpdateEntity() {
+
+		mostRecentEntity = null;
 	}
 
 	private int readNumberOfPlayers() throws IOException {
@@ -113,7 +126,7 @@ public class Client extends Thread {
 
 	public void sendPlayerLocation(Player player) throws IOException {
 		outputStream.writeFloat(player.getPosition().getX());
-		outputStream.writeFloat(player.getPosition().getY()+10);
+		outputStream.writeFloat(player.getPosition().getY() + 10);
 		outputStream.writeFloat(player.getPosition().getZ());
 
 	}
@@ -125,6 +138,10 @@ public class Client extends Thread {
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
-
+	
+	public void setUpdate(int updateType, MovableEntity entity){
+		this.mostRecentUpdate = updateType;
+		this.mostRecentEntity = entity;
+	}
 
 }
