@@ -86,8 +86,8 @@ public class ServerController extends Thread {
 	
 
 	// when an update is sent to the server about an entitiy update process it here
-	public void dealWithUpdate(int id, float x, float y, float z) {
-		switch (id) {
+	public void dealWithUpdate(int type, int id, float x, float y, float z) {
+		switch (type) {
 		case 10:
 			
 			break;
@@ -104,7 +104,7 @@ public class ServerController extends Thread {
 			
 			break;
 		case 15:
-			System.out.println("UPDATE PLAYER INTERACTION");
+			System.out.println("TYPE: " + type + " UPDATE PLAYER INTERACTION ID: " + id);
 			break;
 		case 16:
 			

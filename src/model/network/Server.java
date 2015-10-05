@@ -48,9 +48,9 @@ public class Server extends Thread {
 				for (Player player : gameController.getPlayers().values()) {
 					sendPlayerPosition(player);
 				}
-				
-				if (checkUpdate() != -1) {
-					updateEntitiy();
+				int updateType = checkUpdate();
+				if (updateType != -1) {
+					updateEntitiy(updateType);
 				}
 
 				// TODO send items information
@@ -81,13 +81,13 @@ public class Server extends Thread {
 		return inputStream.readInt();
 	}
 
-	private void updateEntitiy() throws IOException {
+	private void updateEntitiy(int updateType) throws IOException {
 		int id = inputStream.readInt();
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
-		serverController.dealWithUpdate(id, x, y, z);
+		serverController.dealWithUpdate(updateType, id, x, y, z);
 
 	}
 
