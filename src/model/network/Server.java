@@ -8,6 +8,7 @@ import java.net.Socket;
 import org.lwjgl.util.vector.Vector3f;
 
 import controller.GameController;
+import controller.ServerController;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
 
@@ -16,6 +17,8 @@ public class Server extends Thread {
 	private Socket socket;
 
 	private GameController gameController;
+	
+	private ServerController serverController;
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
@@ -24,9 +27,10 @@ public class Server extends Thread {
 
 	private boolean isRunning;
 
-	public Server(Socket socket, GameController gameController) {
+	public Server(Socket socket, GameController gameController, ServerController serverController) {
 		this.socket = socket;
 		this.gameController = gameController;
+		this.serverController = serverController;
 		this.isRunning = true;
 		initStreams();
 	}
@@ -44,9 +48,9 @@ public class Server extends Thread {
 				for (Player player : gameController.getPlayers().values()) {
 					sendPlayerPosition(player);
 				}
-				int update = checkUpdate();
-				if (update != -1) {
-					updateEntityPosition();
+				
+				if (checkUpdate() != -1) {
+					updateEntitiy();
 				}
 
 				// TODO send items information
@@ -77,13 +81,13 @@ public class Server extends Thread {
 		return inputStream.readInt();
 	}
 
-	private void updateEntityPosition() throws IOException {
+	private void updateEntitiy() throws IOException {
 		int id = inputStream.readInt();
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
-		System.out.println(id + " " + x + " " + y + " " + z + " ");
+		serverController.dealWithUpdate(id, x, y, z);
 
 	}
 

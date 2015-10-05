@@ -39,7 +39,7 @@ public class ServerController extends Thread {
 
 			try {
 				socket = serverSocket.accept();
-				server = new Server(socket, gameController);
+				server = new Server(socket, gameController, this);
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
@@ -82,6 +82,41 @@ public class ServerController extends Thread {
 		int uid = gameController.gameSize();
 		gameController.createPlayer(uid);
 		return uid;
+	}
+	
+
+	// when an update is sent to the server about an entitiy update process it here
+	public void dealWithUpdate(int id, float x, float y, float z) {
+		switch (id) {
+		case 10:
+			
+			break;
+		case 11:
+			
+			break;
+		case 12:
+			
+			break;
+		case 13:
+			
+			break;
+		case 14:
+			
+			break;
+		case 15:
+			System.out.println("UPDATE PLAYER INTERACTION");
+			break;
+		case 16:
+			
+			break;
+		case 17:
+			
+			break;
+
+		default:
+			break;
+		}
+		
 	}
 
 }
