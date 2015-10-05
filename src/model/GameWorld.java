@@ -1,5 +1,6 @@
 package model;
 
+import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.entities.movableEntity.*;
@@ -11,6 +12,7 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.*;
@@ -25,9 +27,10 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10;   // starting progress value for patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
+	private static final double PATCH_TIMER = 5000;   // FIXME currently is 5 seconds
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int ITEM_DISTANCE = 30; //TODO furtherest distance a player can be from an item and still be allowed to interact with it
+	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -41,7 +44,7 @@ public class GameWorld {
 
     // collection of entities in the game
     private ArrayList<Entity> staticEntities;
-    private ArrayList<Entity> movableEntities;   //TODO save
+    private Map<Integer, MovableEntity> movableEntities;  
 
     // Terrain the world is on
     // TODO this will need to become a list once we have multiple terrains
@@ -49,7 +52,7 @@ public class GameWorld {
 	private Terrain otherTerrain;
 
     // The actual player
-    private Player player;    //TODO save
+    private Player player;    
 
     // Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -63,11 +66,14 @@ public class GameWorld {
     // object file loader
     private Loader loader;
  
-    // game state elements  //TODO save
+    // game state elements  
     private Inventory inventory;
     private int codeProgress;        // code collection progress
     private int patchProgress;       // commit collection progress
     private int score;               // overall score
+    private boolean inProgram;
+    private boolean canApplyPatch;
+    private long timer;
     private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
 
@@ -105,9 +111,11 @@ public class GameWorld {
         staticEntities = entityFactory.getTestEntities();
         
         // game state
-        inventory = new Inventory(guiFactory,loader);
+        inventory = new Inventory(guiFactory);
         this.patchProgress = START_PATCH;
         this.cards = new HashSet<SwipeCard>();
+        this.inProgram = false;
+        this.canApplyPatch = false;
     }
 
     /**
@@ -147,7 +155,7 @@ public class GameWorld {
     private void initDataStructures() {
         guiImages = new ArrayList<>();
         staticEntities = new ArrayList<>();
-        movableEntities = new ArrayList<>();
+        movableEntities = new HashMap<>();
         allPlayers = new HashMap<>();
         lights = new ArrayList<>();
         
@@ -205,42 +213,80 @@ public class GameWorld {
 	public Inventory getInventory() {
 		return inventory;
 	}
+	
+	public ArrayList<Entity> getStaticEntities() {
+        return staticEntities;
+    }
+    
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+	
+	/**
+	 * @return the otherPlayers
+	 */
+	public Map<Integer, Player> getAllPlayers() {
+		return allPlayers;
+	}
+	
+	public Map<Integer, MovableEntity> getMoveableEntities() {
+		return movableEntities;
+	}
+
+	public Set<SwipeCard> getSwipeCards() {
+		return this.cards;
+	}
+
+	public boolean canApplyPatch() {
+		return this.canApplyPatch;
+	}
 
 	/**
      * Find item that player is trying to interact with 
      * and then carry out interaction
      */
-    public void interactWithItem() {
+    public void interactWithMovEntity() {
     	if(inventory.isVisible()) return;
-    	
-    	// only allowed to interact with items if inventory is not open
-    	Item item = findItem(player.getPosition()); 
-    	if(item != null){
-    		item.interact(this); 
+    	MovableEntity entity = findMovEntity(player.getCamera()); 
+    	if(entity != null){
+    		entity.interact(this); 
     	}
 	}
     
     /**
-     * Find the item that is within ITEM_DISTANCE 
-     * of the given position
+     * Go through all movable entities and find the movable
+     * entity that is the closest to the player, and also
+     * within the players field of view. 
      * 
-     * @param position of player
-     * @return closest item to given position, within certain radius
+     * @param playerPos position of player 
+     * @return closest movable entity found
      */
-    public Item findItem(Vector3f position) {
-		Item item = null;
-		Vector3f itemPos = null;
-		for(Entity e: this.movableEntities){
-			// only check entity if it is an item (i.e. ignore players)
-			if(e instanceof Item){
-				if(Entity.isCloserThan(e.getPosition(), itemPos, player, ITEM_DISTANCE)){ 
-					item = (Item) e;
-					itemPos = e.getPosition();
-				}
-			}
-		}
-		return item;
-	}
+    public MovableEntity findMovEntity(Camera camera){
+    	MovableEntity closest = null;
+    	double closestDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
+    	
+    	// get position of player
+    	float px = camera.getPosition().getX();
+		float pz = camera.getPosition().getZ();
+	
+		for(MovableEntity e : this.movableEntities.values()){
+    		// check that entity is 'interactable'
+    		if(!e.canInteract()) { continue; }
+    		
+    		float ex = e.getPosition().getX();
+    		float ez = e.getPosition().getZ();    		
+    		double diff = (ex-px)*(ex-px) + (ez-pz)*(ez-pz);
+    		
+    		// update closest entity if e is within max interacting distance
+    		// and in front of the player (within view of player)
+    		if(diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), camera)){
+    			closest = e;
+    			closestDiff = diff;
+    		}
+    	}
+    	return closest;
+    }
 
     /**
      * Remove a movable entity from the game
@@ -248,7 +294,7 @@ public class GameWorld {
      * @param entity to remove
      */
 	public void removeMovableEntity(MovableEntity entity) {
-		movableEntities.remove(entity);
+		movableEntities.remove(entity.getUID());
 	}
 
 	
@@ -257,6 +303,7 @@ public class GameWorld {
 		
 	}
 
+	// TODO do the inventory methods need boolean return values? 
 	/**
 	 * Add the given item to the inventory
 	 * 
@@ -281,11 +328,10 @@ public class GameWorld {
 	 * @return true if remove was successful
 	 */
 	public boolean removeFromInventory(LaptopItem item, Vector3f playerPosition) {
-		//TODO does set position need to be slightly in front of player?
-		Entity entity = this.inventory.deleteItem(item);
+		MovableEntity entity = this.inventory.deleteItem(item);
 		if(entity != null){
 			entity.setPosition(playerPosition);
-			this.movableEntities.add(entity);
+			this.movableEntities.put(entity.getUID(), entity);
 			return true;
 		}
 		return false;
@@ -305,15 +351,26 @@ public class GameWorld {
      *  
      */
     public void decreasePatch(){
-    	if(this.patchProgress >= MAX_PROGRESS){
-    		return;  // do nothing if reached 100%
-    	}
-    	double value = this.patchProgress*PATCH_DECREASE;
-    	this.patchProgress = (int) (this.patchProgress - value);
+    	// if not in outside area, do nothing
+    	if(!inProgram) return;
     	
-    	// if patch progress reaches zero, players lose
-    	if(this.patchProgress <= 0) {
-    		loseGame();
+    	// decrease patch in relation to how much time has passed since last decrease
+    	long currentTime = System.currentTimeMillis();
+    	if (currentTime - this.timer > PATCH_TIMER) {
+    		
+    		if(this.patchProgress >= MAX_PROGRESS){
+    			return;  // do nothing if reached 100%
+    		}
+    		double value = this.patchProgress*PATCH_DECREASE;
+    		this.patchProgress = (int) (this.patchProgress - value);
+
+    		// if patch progress reaches zero, players lose
+    		if(this.patchProgress <= 0) {
+    			loseGame();
+    		}
+    		
+    		// update new time
+    		this.timer = System.currentTimeMillis();
     	}
     }
 
@@ -327,9 +384,10 @@ public class GameWorld {
 		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 		
     	this.patchProgress+=commitScore;
-    	// 100% reached, game won
+    	// 100% reached, game almost won...display message with last task
     	if(this.patchProgress >= MAX_PROGRESS){
-    		winGame();
+    		this.canApplyPatch = true;
+    		findBugMessage();
     	}
     }
 
@@ -339,6 +397,7 @@ public class GameWorld {
 	 */
 	public void updateCodeProgress(){
     	this.codeProgress+=CODE_VALUE;
+    	inventory.increaseStorageUsed(CODE_VALUE);
     	
     	// player has cloned all bits of code
     	if(this.codeProgress >= MAX_PROGRESS){
@@ -354,34 +413,52 @@ public class GameWorld {
     	this.score+=score;
     }
     
+    /**
+     * Code progess reached 100 means all bits of code collected. Player 
+     * is given the option of multiplayer or single player, and the 
+     * environment they are displayed in changes
+     * in 
+     */
 	private void compileProgram() {
-		// TODO method called when player should be given
-	    // options to compile and run program
-		// should start PatchTime thread here with delay added in thread before decrease patch  method is called
+		this.inProgram = true;
+		this.timer = System.currentTimeMillis(); // start timer
+		
+		// TODO display message to show that player has collected all bits of code
+		// and what they have to do now (e.g. press enter to continue)
+		// move player into different terrian
+		// show single vs multiplayer option
+		// should create method that deals with decreasing patch progress over time (look at title screen as example)
 	}
 	
+	/**
+	 * Display message to player when they 
+	 * have lost the game
+	 */
 	private void loseGame() {
-		// TODO Auto-generated method stub
+		// TODO display lose game message
+		// ungrab mouse and message is end of game. 
+		// can you make it so that pressing enter takes you back to the
+		// play/options screen
 		
 	}
 	
-	private void winGame() {
-		// TODO Auto-generated method stub
+	/**
+	 * Display message to player when they have won
+	 * the game
+	 */
+	public void winGame() {
+		// TODO display win game message
+		// ungrab mouse and message is end of game. 
+		// can you make it so that pressing enter takes you back to the
+		// play/options screen
 
 	}
-
-	//FIXME
-	public int getScore() {
-		return score;
-	}
-
-    public ArrayList<Entity> getStaticEntities() {
-        return staticEntities;
-    }
-    
-
-	public void setPlayer(Player player) {
-		this.player = player;
+	
+	private void findBugMessage() {
+		// TODO display message to inform user that they
+		// now have to find bug and apply patch
+		// maybe press enter to remove message
+		
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
@@ -398,24 +475,13 @@ public class GameWorld {
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 
-	/**
-	 * @return the otherPlayers
-	 */
-	public Map<Integer, Player> getAllPlayers() {
-		return allPlayers;
-	}
-	
 	private void initPlayerModel() {
-		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/player", loader),
-				new ModelTexture(loader.loadTexture("textures/white")));
+		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/orb", loader),
+				new ModelTexture(loader.loadTexture("textures/orb")));
 		ModelTexture playerTexture = playerModel.getTexture();
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
-	}
-
-	public ArrayList<Entity> getMoveableEntities() {
-		return movableEntities;
-	}
+	}	
 
 	public ArrayList<Entity> getTestEntity() {
 		return entityFactory.getTestEntities();

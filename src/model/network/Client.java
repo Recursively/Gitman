@@ -26,64 +26,70 @@ public class Client extends Thread {
 	private GameController gameController;
 	private int uid;
 
+	public boolean running;
+
 	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
+		this.running = true;
 		initStreams();
 
 	}
 
 	public void run() {
+		try {
+			while (running) {
+				// send information
+				sendPlayerID();
+				sendPlayerLocation(gameController.getPlayer());
 
-		while (1 == 1) {
-			// send information
-			sendPlayerID();
-			sendPlayerLocation(gameController.getPlayer());
+				// receive information
+				int size = readNumberOfPlayers();
 
-			// receive information
-			int size = readNumberOfPlayers();
-
-			for (int i = 0; i < size; i++) {
-				int playerID = readPlayerID();
-				float[] position = readPlayerPosition();
-				// if the player id received is a different player, update it's
-				// position accordingly
-				if (playerID != gameController.getPlayer().getUID()) {
-					updatePlayer(playerID, position);
+				for (int i = 0; i < size; i++) {
+					int playerID = readPlayerID();
+					float[] position = readPlayerPosition();
+					// if the player id received is a different player, update
+					// it's
+					// position accordingly
+					if (playerID != gameController.getPlayer().getUID()) {
+						updatePlayer(playerID, position);
+					}
 				}
+
 			}
-
-		}
-
-	}
-
-	private int readNumberOfPlayers() {
-		try {
-			return inputStream.readInt();
 		} catch (IOException e) {
-			e.printStackTrace();
-			return 0;
+			terminate();
 		}
+
 	}
 
-	private void sendPlayerID() {
-
+	public void terminate() {
+		System.out.println("THE SERVER HAS BEEN DISCONNECTED");
+		running = false;
+		gameController.networkRunning = false;
 		try {
-			outputStream.writeInt(this.uid);
+			outputStream.close();
+			inputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
-	private float[] readPlayerPosition() {
+	private int readNumberOfPlayers() throws IOException {
+		return inputStream.readInt();
+	}
+
+	private void sendPlayerID() throws IOException {
+		outputStream.writeInt(this.uid);
+	}
+
+	private float[] readPlayerPosition() throws IOException {
 		float[] position = new float[3];
-		try {
-			position[0] = inputStream.readFloat();
-			position[1] = inputStream.readFloat();
-			position[2] = inputStream.readFloat();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		position[0] = inputStream.readFloat();
+		position[1] = inputStream.readFloat();
+		position[2] = inputStream.readFloat();
 
 		return position;
 	}
@@ -105,29 +111,20 @@ public class Client extends Thread {
 		}
 	}
 
-	public void sendPlayerLocation(Player player) {
-		try {
-			outputStream.writeFloat(player.getPosition().getX());
-			outputStream.writeFloat(player.getPosition().getY());
-			outputStream.writeFloat(player.getPosition().getZ());
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void sendPlayerLocation(Player player) throws IOException {
+		outputStream.writeFloat(player.getPosition().getX());
+		outputStream.writeFloat(player.getPosition().getY()+10);
+		outputStream.writeFloat(player.getPosition().getZ());
 
 	}
 
-	public int readPlayerID() {
-		try {
-			return inputStream.readInt();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return -1;
-		}
+	public int readPlayerID() throws IOException {
+		return inputStream.readInt();
 	}
 
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
+
 
 }

@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector2f;
 
 import controller.GameController;
+import model.data.Load;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import view.renderEngine.GuiRenderer;
@@ -61,7 +62,7 @@ public class PlayLoadOptionsScreen {
 					break;
 				}
 				else if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-					//TODO bring up load screen
+					Load.loadGame();
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_O)){

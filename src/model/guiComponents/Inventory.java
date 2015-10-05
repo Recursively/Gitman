@@ -1,25 +1,21 @@
 package model.guiComponents;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.lwjgl.util.vector.Vector2f;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
+import org.lwjgl.input.Mouse;
 
 import model.entities.Entity;
-import model.entities.movableEntity.Item;
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
-import view.DisplayManager;
-import view.renderEngine.GuiRenderer;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
  * files and README txt documents).
  * 
- * @author Divya and Ellie
+ * @author Divya 
+ * @author Ellie
  *
  */
 public class Inventory {
@@ -28,18 +24,19 @@ public class Inventory {
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
-	private ArrayList<GuiTexture> inventoryTexture;
+	private boolean itemDisplayed;
 	private GuiFactory guiFactory;
-	private GuiRenderer guiRenderer;
+	private ArrayList<GuiTexture> textureList;
+
 	
 	
-	public Inventory (GuiFactory guiFactory, model.toolbox.Loader loader){
+	public Inventory (GuiFactory guiFactory){
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
 		this.isVisible = false;
+		this.itemDisplayed = false;
 		this.guiFactory = guiFactory;
-		
-		this.guiRenderer = new GuiRenderer(loader);
+
 	}
 	
 	/**
@@ -56,6 +53,10 @@ public class Inventory {
 		return this.storageUsed;
 	}
 	
+	public ArrayList<GuiTexture> getTextureList() {
+		return textureList;
+	}
+
 	/**
 	 * @return the isVisible
 	 */
@@ -73,7 +74,7 @@ public class Inventory {
 	public boolean addItem(LaptopItem item){
 		if(this.storageUsed + item.getSize() <= MAX_STORAGE_SIZE){
 			inLaptop.add(item);
-			this.storageUsed = this.storageUsed + item.getSize();
+			increaseStorageUsed(item.getSize());
 			return true;
 		}
 		return false;
@@ -86,7 +87,7 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public Entity deleteItem(LaptopItem item){
+	public MovableEntity deleteItem(LaptopItem item){
 		if(inLaptop.contains(item)){
 			this.storageUsed = this.storageUsed - item.getSize();
 			inLaptop.remove(item);
@@ -113,22 +114,64 @@ public class Inventory {
 	}
 	
 	private void openInventory(){
-		System.out.println("Open");
 		isVisible = true;
+		Mouse.setGrabbed(false);
+		textureList = guiFactory.makeInventory(this);
 		
-		List<GuiTexture> guiList = new ArrayList<>();
-		guiList.add(guiFactory.makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(1f,1f)));
-		guiRenderer.render(guiList);
-		DisplayManager.updateDisplay();
+		//List<GuiTexture> guiList = new ArrayList<>();
+		//
+		//DisplayManager.updateDisplay();
 		//		for(LaptopItem item : inLaptop){
 //			guiFactory.makeGuiTexture(item.getFileName(), 0f, 1);
 //		}
 	}
 	
 	private void closeInventory(){
-		System.out.println("Close");
 		isVisible = false;
+		Mouse.setGrabbed(true);
 		//TODO
+	}
+	
+	public void displayLaptopItem(int x, int y) {
+		if(itemDisplayed){
+			closeLaptopItem();
+		}
+		else {
+			openLaptopItem(x, y);
+		}
+		
+	}
+
+	private void openLaptopItem(int x, int y) {
+		LaptopItem item = findItem(x, y);
+		if(item != null){
+			itemDisplayed = true;
+		}
+		// TODO open displays in front of laptop screen showing 
+		// full image of item
+		
+	}
+	
+	public void closeLaptopItem(){
+		if(itemDisplayed){
+			itemDisplayed = false;
+			// TODO close the display of the item 
+		}
+	}
+	
+	private LaptopItem findItem(int x, int y) {
+		// TODO find item that has been clicked on
+		// maybe implement 2d array storage to make finding 
+		// items easier???
+		return null;
+	}
+
+	public void showDeleteOption(int x, int y) {
+		LaptopItem item = findItem(x, y);
+		if(item != null){
+			// TODO how should deletes be carried out?
+			// IDEAS: maybe show message: do you want to delete this item: Y = Yes, N = No???
+		}		
 	}
 
 }

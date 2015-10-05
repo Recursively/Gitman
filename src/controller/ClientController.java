@@ -24,18 +24,18 @@ public class ClientController extends Thread {
 
 		int port = 32768; // default
 
-
 		try {
 			socket = new Socket(ipAddres, port);
 			client = new Client(socket, gameController);
 			int uid = client.readPlayerID();
 			client.setUid(uid);
 			createPlayer(uid);
-			GameController.READY = true;
+			gameController.READY = true;
 			client.start();
 
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			System.out.println("INCORRECT IP ADDRESS");
+			gameController.networkRunning = false;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,4 +46,9 @@ public class ClientController extends Thread {
 		gameController.createPlayer(uid, true);
 	}
 
+	public void terminate() {
+		client.terminate();
+	}
+
 }
+

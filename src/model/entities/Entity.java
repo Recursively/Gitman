@@ -3,7 +3,10 @@ package model.entities;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+
+import view.renderEngine.MasterRenderer;
 
 /**
  * An entity is any object in the game world. They are represented as a RawModel and TexturedModel
@@ -196,43 +199,32 @@ public class Entity {
         this.scale = scale;
     }
 
-	/**
-	 * Determine which position (new or old) is closer to the
-	 * origin position
-	 * 
-	 * @param newPos
-	 * @param oldPos
-	 * @param player that is interacting with the item
-	 * @return true if the new position is closer to the player
-	 * than the oldPos
-	 */
-	public static boolean isCloserThan(Vector3f newPos, Vector3f oldPos,
-			Player player, int radius) {
-		Vector3f origin = player.getPosition();
-		if(Entity.isWithinBounds(newPos, origin, radius)){
-			if(oldPos == null){
-				return true;
-			}
-			// TODO check what is closer
-			// player.getcamera yaw...
-			// x and z
-			// ask ellie to make graphics...
-		}
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
-	 /**
-     * Determine if the point is within the given radius bounds from 
-     * the origin position
+    /**
+     * Determine if the given entityPos is in front of the player, 
+     * and within the player's field of view
      * 
-     * @param point
-     * @param origin
-     * @param radius
-     * @return true if point is within the bounds, false otherwise
+     * @param entityPos position of entity
+     * @param player player to get view of
+     * @return true if entity can be seen by player
      */
-	public static boolean isWithinBounds(Vector3f point, Vector3f origin, int radius) {
-		// TODO Auto-generated method stub
+	public static boolean isInFrontOfPlayer(Vector3f entityPos, Camera cam) {
+		// get camera direction vector
+		Vector3f camDirection = cam.getDirection();
+		
+		// calculate vector from camera to entity
+		Vector3f camToEntity = new Vector3f(0, 0, 0);    // need to initialise for .sub method
+		Vector3f.sub(entityPos, cam.getPosition(), camToEntity);
+		
+		// calculate angle between camera direction and entity
+		Vector2f dir = new Vector2f(camDirection.getX(), camDirection.getZ());
+		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());	
+		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
+		
+		// check that entity is within player's 1/2 field of view
+		double maxAngle = MasterRenderer.getFOV()/4.0;
+		if(angle <= maxAngle){
+			return true;
+		}
 		return false;
 	}
 
