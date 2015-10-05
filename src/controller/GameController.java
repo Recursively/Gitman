@@ -153,6 +153,11 @@ public class GameController {
 				gameWorld.swapTerrains();
 				gameWorld.getPlayer().setPosition(new Vector3f(100, 200, -100));
 			}
+			
+			if(gameWorld.isGameLost()){
+				guiRenderer.render(gameWorld.loseGame());
+				//TODO add keypress window change
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();

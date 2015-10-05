@@ -62,4 +62,10 @@ public class GuiFactory {
 		return inventoryImages;
 
 	}
+	
+	public ArrayList<GuiTexture> makeLostScreen(){
+		ArrayList<GuiTexture> lostScreen = new ArrayList<GuiTexture>();
+		lostScreen.add(makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)));
+		return lostScreen;
+	}
 }
