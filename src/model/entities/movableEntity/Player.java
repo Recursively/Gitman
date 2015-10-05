@@ -237,7 +237,7 @@ public class Player extends MovableEntity {
 
 	@Override
 	public int interact(GameWorld game) {
-		return 4;
+		return 6;
 	}
 
 	@Override

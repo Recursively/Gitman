@@ -34,7 +34,7 @@ public class NPCCharacter extends NonPlayerCharacters {
 		if(hasCode){
 			game.updateCodeProgress();
 			this.hasCode = false;
-			return 3;
+			return 5;
 		}
 		return -1;
 	}

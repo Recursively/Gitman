@@ -259,7 +259,8 @@ public class GameWorld {
     	if(inventory.isVisible()) return;
     	MovableEntity entity = findMovEntity(player.getCamera()); 
     	if(entity != null){
-    		entity.interact(this); 
+    		int id = entity.interact(this); 
+    		sendInteraction(entity, id);
     	}
     	// TODO for reuben! :)
     	// at end of this method there are changes to:
@@ -272,7 +273,12 @@ public class GameWorld {
     	// score in GameWorld
 	}
     
-    /**
+    private void sendInteraction(MovableEntity entity, int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
      * Go through all movable entities and find the movable
      * entity that is the closest to the player, and also
      * within the players field of view. 
