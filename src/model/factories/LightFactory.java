@@ -64,4 +64,13 @@ public class LightFactory {
     public static void createEntityLight(Vector3f position, Vector3f colour) {
         entityLights.add(new Light(position, colour, DEFAULT_ATTENUATION_FACTOR));
     }
+
+    public static void removeEntityLight(Vector3f position) {
+        for (Light light : entityLights) {
+            if (light.getPosition().equals(position)) {
+                entityLights.remove(light);
+                break;
+            }
+        }
+    }
 }
