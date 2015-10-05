@@ -22,7 +22,7 @@ import java.io.IOException;
 public class Terrain {
 
     // Map parameters : change these to shape terrain
-    private static final float SIZE = 256;
+    private static final float SIZE = 512;
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
