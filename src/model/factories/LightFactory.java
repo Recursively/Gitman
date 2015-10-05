@@ -4,7 +4,6 @@ import model.entities.Light;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Factory class to handle the creation of {@link Light} sources in the game.
@@ -24,11 +23,9 @@ public class LightFactory {
     private static final Vector3f DEFAULT_LIGHT_COLOUR = new Vector3f(1f, 1f, 1f);
 
     private static ArrayList<Light> staticEntityLights = new ArrayList<>();
-    private static Random random = new Random();
 
     // should the sun be included in the lights?
     private ArrayList<Light> lights;
-    private Light sun;
 
 
     private static ArrayList<Light> entityLights = new ArrayList<>();
