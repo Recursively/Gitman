@@ -28,11 +28,6 @@ public class Load {
 	private static String roll;
 	private static String yaw;
 	
-	// player camera position elements
-	private static String cameraPosX;
-	private static String cameraPosY;
-	private static String cameraPosZ;
-	
 	// player id element
 	private static String uid;
 	
@@ -62,16 +57,11 @@ public class Load {
 			roll = getTextValue(roll, doc, "roll");
 			yaw = getTextValue(yaw, doc, "yaw");
 			
-			cameraPosX = getTextValue(cameraPosX, doc, "cameraPosX");
-			cameraPosY = getTextValue(cameraPosY, doc, "cameraPosY");
-			cameraPosZ = getTextValue(cameraPosZ, doc, "cameraPosZ");
-			
 			uid = getTextValue(uid, doc, "uid");
 			
 			Vector3f playerVec = new Vector3f(Integer.parseInt(posX), Integer.parseInt(posY), Integer.parseInt(posZ));
-			Vector3f cameraVec = new Vector3f(Integer.parseInt(cameraPosX), Integer.parseInt(cameraPosY), Integer.parseInt(cameraPosZ));
 			
-			Data data = new Data(playerVec, pitch, roll, yaw, cameraVec, uid);
+			Data data = new Data(playerVec, pitch, roll, yaw, uid);
 			
 			return true;
 

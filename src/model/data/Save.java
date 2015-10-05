@@ -66,25 +66,6 @@ public class Save {
 		// camera elements
 		Element camera = doc.createElement("camera");
 		player.appendChild(camera);
-		
-		// camera position elements
-		Element cameraPosition = doc.createElement("cameraPosition");
-		camera.appendChild(cameraPosition);
-		
-		// camera position x element
-		Element cameraPosX = doc.createElement("cameraPosX");
-		cameraPosX.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getPosition().getX())));
-		cameraPosition.appendChild(cameraPosX);
-		
-		// camera position y element
-		Element cameraPosY = doc.createElement("cameraPosY");
-		cameraPosY.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getPosition().getY())));
-		cameraPosition.appendChild(cameraPosY);
-		
-		// camera position z element
-		Element cameraPosZ = doc.createElement("cameraPosZ");
-		cameraPosZ.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getPosition().getZ())));
-		cameraPosition.appendChild(cameraPosZ);
 
 		// pitch element
 		Element pitch = doc.createElement("pitch");

@@ -10,9 +10,9 @@ public class Data {
 	private Camera camera;
 	private int uid;
 	
-	public Data(Vector3f playerVec, String pitch, String roll, String yaw, Vector3f cameraVec, String uid){
+	public Data(Vector3f playerVec, String pitch, String roll, String yaw, String uid){
 		this.playerVec = playerVec;
-		camera = new Camera(10, cameraVec);
+		//camera = new Camera();
 		this.uid = Integer.parseInt(uid);
 	}
 }
