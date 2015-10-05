@@ -47,7 +47,6 @@ public class GameWorld {
     private Map<Integer, MovableEntity> movableEntities;  
 
     // Terrain the world is on
-    // TODO this will need to become a list once we have multiple terrains
     private Terrain terrain;
 	private Terrain otherTerrain;
 
@@ -113,7 +112,7 @@ public class GameWorld {
         // game state
         inventory = new Inventory(guiFactory);
         this.patchProgress = START_PATCH;
-        this.cards = new HashSet<SwipeCard>();
+        this.cards = new HashSet<>();
         this.inProgram = false;
         this.canApplyPatch = false;
     }
@@ -145,9 +144,10 @@ public class GameWorld {
      * Initialises all the terrains of the gameworld
      */
     private void initTerrain() {
-        terrain = terrainFactory.makeTerrain(0, -1);
-		otherTerrain = terrainFactory.makeTerrain(2, 2);
+        terrain = terrainFactory.makeOutsideTerrain(0, -1);
+		otherTerrain = terrainFactory.makeOutsideTerrain(2, 2);
     }
+
 
     /**
      * initialises the data structures which hold all of the world data
@@ -481,15 +481,23 @@ public class GameWorld {
 		ModelTexture playerTexture = playerModel.getTexture();
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
-	}	
-
-	public ArrayList<Entity> getTestEntity() {
-		return entityFactory.getTestEntities();
 	}
 
+	/**
+	 * Swaps out the terrains for the players game world
+	 */
 	public void swapTerrains() {
 		Terrain temp = terrain;
 		terrain = otherTerrain;
 		otherTerrain = temp;
+	}
+
+	/**
+	 * Gets test entity.
+	 *
+	 * @return the test entity
+	 */
+	public ArrayList<Entity> getTestEntity() {
+		return entityFactory.getTestEntities();
 	}
 }

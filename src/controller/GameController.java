@@ -3,13 +3,10 @@ package controller;
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
-import model.guiComponents.GuiBox;
 import model.toolbox.Loader;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -119,14 +116,18 @@ public class GameController {
 
 			// TODO Should only get static entities
 			ArrayList<Entity> statics = gameWorld.getTestEntity();
+			Player player = gameWorld.getPlayer();
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
 			for (Entity e : statics) {
-				renderer.processEntity(e);
+				if (e.isWithinRange(player)) {
+					renderer.processEntity(e);
+				}
 			}
 
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
+
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
