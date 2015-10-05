@@ -87,9 +87,12 @@ public class ServerController extends Thread {
 	}
 	
 
-	// when an update is sent to the server about an entitiy update process it here
+	// when an update is sent to the server about an entity update process it here
 	public void dealWithUpdate(int type, int id, float x, float y, float z) {
 		switch (type) {
+		case 8:
+			gameController.getGameWorld().dropMovableEntity();
+			break;
 		case 10:
 			gameController.getGameWorld().interactBug();
 			break;

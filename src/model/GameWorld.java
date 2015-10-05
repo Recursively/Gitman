@@ -79,7 +79,7 @@ public class GameWorld {
 
 	// object file loader
 	private Loader loader;
-	
+
 	// reference to the gameController
 	private GameController gameController;
 
@@ -320,7 +320,7 @@ public class GameWorld {
 			if (!e.canInteract()) {
 				continue;
 			}
-			
+
 			float ex = e.getPosition().getX();
 			float ez = e.getPosition().getZ();
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);
@@ -546,36 +546,40 @@ public class GameWorld {
 
 	public void interactBug() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void interactCommit() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void interactDoor() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void interactLaptopItem() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void interactNPCCharacter() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void interactPlayer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void interactSwipeCard() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void dropMovableEntity() {
+		System.out.println("DROPPED");
 	}
 }
