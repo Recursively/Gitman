@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import javax.media.j3d.ImageComponent2D.Updater;
+
 import model.network.Server;
 
 /**
@@ -89,30 +91,28 @@ public class ServerController extends Thread {
 	public void dealWithUpdate(int type, int id, float x, float y, float z) {
 		switch (type) {
 		case 10:
-			
+			gameController.getGameWorld().interactBug();
 			break;
 		case 11:
-			
+			gameController.getGameWorld().interactCommit();
 			break;
 		case 12:
-			
+			gameController.getGameWorld().interactDoor();
 			break;
 		case 13:
-			
+			gameController.getGameWorld().interactLaptopItem();
 			break;
 		case 14:
-			
+			gameController.getGameWorld().interactNPCCharacter();
 			break;
 		case 15:
-			System.out.println("TYPE: " + type + " UPDATE PLAYER INTERACTION ID: " + id);
+			gameController.getGameWorld().interactPlayer();
 			break;
 		case 16:
-			
+			gameController.getGameWorld().interactSwipeCard();
 			break;
 		case 17:
-			
 			break;
-
 		default:
 			break;
 		}

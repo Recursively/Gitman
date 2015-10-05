@@ -543,4 +543,39 @@ public class GameWorld {
 		terrain = otherTerrain;
 		otherTerrain = temp;
 	}
+
+	public void interactBug() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void interactCommit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void interactDoor() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void interactLaptopItem() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void interactNPCCharacter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void interactPlayer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void interactSwipeCard() {
+		// TODO Auto-generated method stub
+		
+	}
 }

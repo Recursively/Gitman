@@ -35,7 +35,7 @@ public abstract class LaptopItem extends Item {
 		// if add to inventory is successful, update score
 		if(game.addToInventory(this)){
 			game.updateScore(this.getScore());
-			return 4;
+			return 13;
 		}
 		return -1;
 	}
