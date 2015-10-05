@@ -98,9 +98,31 @@ public class Save {
 			Element laptopItem = doc.createElement("laptopItem");
 			inventory.appendChild(laptopItem);
 			
+			Element rotX = doc.createElement("rotX");
+			rotX.appendChild(doc.createTextNode(String.valueOf(item.getRotX())));
+			laptopItem.appendChild(rotX);
+			
+			Element rotY = doc.createElement("rotY");
+			rotY.appendChild(doc.createTextNode(String.valueOf(item.getRotY())));
+			laptopItem.appendChild(rotY);
+			
+			Element rotZ = doc.createElement("rotZ");
+			rotZ.appendChild(doc.createTextNode(String.valueOf(item.getRotZ())));
+			laptopItem.appendChild(rotZ);
+			
+			Element scale = doc.createElement("scale");
+			scale.appendChild(doc.createTextNode(String.valueOf(item.getScale())));
+			laptopItem.appendChild(scale);
+			
+			Element id = doc.createElement("id");
+			rotZ.appendChild(doc.createTextNode(String.valueOf(item.getUID())));
+			laptopItem.appendChild(id);
+			
 			Element name = doc.createElement("name");
-			// name.appendChild(doc.createTextNode(item.getName()));
+			name.appendChild(doc.createTextNode(item.getName()));
 			laptopItem.appendChild(name);
+			
+			
 		}
 
 		// write the content into xml file
