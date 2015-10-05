@@ -59,17 +59,16 @@ public class ActionController {
         			gameWorld.getInventory().displayInventory();
             	} 
         		
+        		if (Keyboard.getEventKey() == Keyboard.KEY_X){
+    				gameWorld.getInventory().deleteItem(gameWorld);
+    			}
+        		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
         		}
         		
     			if (Keyboard.getEventKey() == Keyboard.KEY_F){
     				Save.saveGame(gameWorld);
-    			}
-    			
-    			if (Keyboard.getEventKey() == Keyboard.KEY_X){
-    				gameWorld.getInventory().deleteItem(gameWorld);
     			}
         	}
 		}

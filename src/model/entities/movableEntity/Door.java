@@ -3,6 +3,7 @@ package model.entities.movableEntity;
 import java.util.Set;
 
 import model.GameWorld;
+import model.entities.staticEntity.CollidableEntity;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;

@@ -261,6 +261,15 @@ public class GameWorld {
     	if(entity != null){
     		entity.interact(this); 
     	}
+    	// TODO for reuben! :)
+    	// at end of this method there are changes to:
+    	// storageUsed in Inventory
+    	// movableEnities map in GameWorld
+    	// inLaptop list in Inventory
+    	// swipeCards list in GameWorld
+    	// codeProgress in GameWorld
+    	// patchProgress in GameWOrld
+    	// score in GameWorld
 	}
     
     /**
@@ -293,7 +302,7 @@ public class GameWorld {
     			closest = e;
     			closestDiff = diff;
     		}
-    	}
+		}
     	return closest;
     }
 
