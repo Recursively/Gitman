@@ -35,6 +35,7 @@ public class Client extends Thread {
 		this.socket = socket;
 		this.gameController = gameController;
 		this.running = true;
+		this.mostRecentUpdate = -1;
 		this.mostRecentEntity = null;
 		initStreams();
 
@@ -61,9 +62,9 @@ public class Client extends Thread {
 					}
 				}
 
-				if (mostRecentEntity != null) {
+				if (sendUpdateStatus() != -1) {
 					sendUpdateEntity();
-				}
+				} 
 
 			}
 		} catch (IOException e) {
@@ -85,9 +86,21 @@ public class Client extends Thread {
 
 	}
 
-	public void sendUpdateEntity() {
+	private int sendUpdateStatus() throws IOException {
+		// send that there is an update to be made
+		outputStream.writeInt(mostRecentUpdate);
+		return mostRecentUpdate;
+	}
 
-		mostRecentEntity = null;
+	private void sendUpdateEntity() throws IOException {
+
+		outputStream.writeInt(mostRecentEntity.getUID());
+		outputStream.writeFloat(mostRecentEntity.getPosition().getX());
+		outputStream.writeFloat(mostRecentEntity.getPosition().getY());
+		outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
+
+		// make sure we don't send the update again
+		this.mostRecentUpdate = -1;
 	}
 
 	private int readNumberOfPlayers() throws IOException {
@@ -138,8 +151,8 @@ public class Client extends Thread {
 	public void setUid(int uid) {
 		this.uid = uid;
 	}
-	
-	public void setUpdate(int updateType, MovableEntity entity){
+
+	public void setUpdate(int updateType, MovableEntity entity) {
 		this.mostRecentUpdate = updateType;
 		this.mostRecentEntity = entity;
 	}

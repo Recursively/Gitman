@@ -44,8 +44,9 @@ public abstract class MovableEntity extends Entity {
 	 * interactions with the player, and update
 	 * the game state (score and progress) accordingly.
 	 * @param game
+	 * @return 
 	 */
-	public abstract void interact(GameWorld game);
+	public abstract int interact(GameWorld game);
 	
 	/**
 	 * @return true if entity can be interacted with

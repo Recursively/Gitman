@@ -2,6 +2,7 @@ package controller;
 
 import model.GameWorld;
 import model.entities.Entity;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
 
@@ -66,7 +67,7 @@ public class GameController {
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
-		actionController = new ActionController(loader, gameWorld);
+		actionController = new ActionController(loader, gameWorld, this);
 
 		// setup client
 		this.isHost = isHost;
@@ -205,6 +206,10 @@ public class GameController {
 
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
+	}
+	
+	public void setNetworkUpdate(int status, MovableEntity entity){
+		clientController.setNetworkUpdate(status, entity);
 	}
 
 	public int gameSize() {

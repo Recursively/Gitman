@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import model.entities.movableEntity.MovableEntity;
 import model.network.Client;
 
 public class ClientController extends Thread {
@@ -48,6 +49,11 @@ public class ClientController extends Thread {
 
 	public void terminate() {
 		client.terminate();
+	}
+
+	public void setNetworkUpdate(int status, MovableEntity entity) {
+		client.setUpdate(status, entity);
+		
 	}
 
 }

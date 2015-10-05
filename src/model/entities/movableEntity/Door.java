@@ -29,7 +29,7 @@ public class Door extends Item{
 	}
 
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		// can only unlock door if it is locked
 		if(locked){
 			Set<SwipeCard> cards = game.getSwipeCards();
@@ -38,13 +38,14 @@ public class Door extends Item{
 					locked = false;
 					game.updateScore(UNLOCK_DOOR_SCORE);
 					// TODO send message to gameworld that the door at this doors position is no longer locked
-					return;
+					return 3;
 				}
 			}
 			
 			// no card found that can unlock door. display message
 			unsuccessfulUnlockMessage();
 		}
+		return -1;
 	}
 
 	private void unsuccessfulUnlockMessage() {

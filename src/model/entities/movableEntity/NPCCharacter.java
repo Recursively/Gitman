@@ -29,12 +29,14 @@ public class NPCCharacter extends NonPlayerCharacters {
 	}
 
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		// can only clone code from characters once
 		if(hasCode){
 			game.updateCodeProgress();
 			this.hasCode = false;
+			return 3;
 		}
+		return -1;
 	}
 
 }

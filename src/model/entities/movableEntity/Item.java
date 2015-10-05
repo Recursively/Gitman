@@ -28,7 +28,7 @@ public abstract class Item extends MovableEntity {
 	 * Interact with the item. Updates game state and score
 	 * accordingly. 
 	 */
-	public abstract void interact(GameWorld game);
+	public abstract int interact(GameWorld game);
 	
 	/**
 	 * @return score of item

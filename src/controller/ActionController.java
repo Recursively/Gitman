@@ -5,6 +5,7 @@ import org.lwjgl.input.Mouse;
 
 import model.GameWorld;
 import model.data.Save;
+import model.entities.movableEntity.MovableEntity;
 import model.toolbox.Loader;
 
 /**
@@ -19,10 +20,12 @@ import model.toolbox.Loader;
 public class ActionController {
 	private Loader loader;
 	private GameWorld gameWorld;
+	private GameController gameController;
 	
-	public ActionController(Loader loader, GameWorld gameWorld) {
+	public ActionController(Loader loader, GameWorld gameWorld, GameController gameController) {
 		this.loader = loader;		
 		this.gameWorld = gameWorld;
+		this.gameController = gameController;
 	}
 
 	public void processActions(){
@@ -60,7 +63,13 @@ public class ActionController {
             	} 
         		
         		if (Keyboard.getEventKey() == Keyboard.KEY_X){
-    				gameWorld.getInventory().deleteItem(gameWorld);
+        			
+    				MovableEntity entity = gameWorld.getInventory().deleteItem(gameWorld);
+    				
+    				if(entity != null){
+    					gameController.setNetworkUpdate(2, entity);
+    				}
+    				
     			}
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
