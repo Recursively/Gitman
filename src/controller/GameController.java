@@ -189,7 +189,7 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
+		gameWorld.addPlayer(new Vector3f(30, 100, -20), uid);
 		playerCount++;
 	}
 

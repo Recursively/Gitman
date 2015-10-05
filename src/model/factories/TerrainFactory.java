@@ -46,7 +46,7 @@ public class TerrainFactory {
         outsideTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 
         // Blend map for mixing terrains
-        outsideBlendMap = new TerrainTexture(loader.loadTexture("terrains/blendMap2"));
+        outsideBlendMap = new TerrainTexture(loader.loadTexture("terrains/blendMap"));
     }
 
     private void initOfficeTextures(Loader loader) {
@@ -71,7 +71,7 @@ public class TerrainFactory {
      */
     public Terrain makeOutsideTerrain(int gridX, int gridZ) {
         // Create the new terrain object, using pack blendermap and heightmap
-        return new Terrain(gridX, gridZ, loader, outsideTexturePack, outsideBlendMap, "terrains/heightMap2");
+        return new Terrain(gridX, gridZ, loader, outsideTexturePack, outsideBlendMap, "terrains/heightMap");
     }
 
     public Terrain makeOfficeTerrain(int gridX, int gridZ) {

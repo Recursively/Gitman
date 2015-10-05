@@ -1,7 +1,6 @@
 package model.factories;
 
 import model.entities.Entity;
-import model.entities.staticEntity.StaticEntity;
 import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -30,20 +29,39 @@ public class EntityFactory {
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
     private static final String TEXTURES_PATH = "textures/";
-    private static final String ENTITY_MAP = "terrains/entityMap2";
+    private static final String ENTITY_MAP = "terrains/entityMap";
 
-    // parameters
-    private float reflectivity = 1f;
-    private float shineDamper = 10f;
-    private float scale = 1f;
+    private Loader loader;
 
     private Random random = new Random();
+
+    private ModelData pineData;
+    private TexturedModel pineTexturedModel;
+    private ModelData lampData;
+    private TexturedModel lampTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
      */
     public EntityFactory(Loader loader, Terrain terrain) {
-        parseEntityMap(loader, terrain);
+        this.loader = loader;
+        initModels();
+        parseEntityMap(terrain);
+    }
+
+    private void initModels() {
+        pineData = OBJFileLoader.loadOBJ(MODEL_PATH + "pine");
+        RawModel pineRawModel = loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(),
+                pineData.getNormals(), pineData.getIndices());
+        pineTexturedModel = new TexturedModel(pineRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "pine")));
+
+
+        lampData = OBJFileLoader.loadOBJ(MODEL_PATH + "lamp");
+        RawModel lampRawModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
+                lampData.getNormals(), lampData.getIndices());
+        lampTexturedModel = new TexturedModel(lampRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "lamp")));
     }
 
     // HELPER METHOD
@@ -69,36 +87,40 @@ public class EntityFactory {
 
     private ArrayList<Entity> testEntities = new ArrayList<>();
 
-    private void parseEntityMap(Loader loader, Terrain terrain) {
+    private void parseEntityMap(Terrain terrain) {
         BufferedImage image = getBufferedImage(ENTITY_MAP);
 
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
-                	makeEntity(loader, terrain, i, j, "pine");
+                	makeEntity(terrain, i, j, "pine");
+                } else if (color == -16776961){
+                    // make patch list
+                } else if (color == -16711936) {
+                    makeEntity(terrain, i, j, "lamp");
                 }
             }
         }
     }
 
-    private void makeEntity(Loader loader, Terrain terrain, int i, int j, String entityName) {
-        ModelData data = OBJFileLoader.loadOBJ(MODEL_PATH + entityName);
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
+    // TODO only load model data once?!?!
 
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + entityName)));
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(shineDamper);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(reflectivity);
-
+    private void makeEntity(Terrain terrain, int i, int j, String entityName) {
 
         float x = i;
         float z = j - Terrain.getSIZE();
-        float y = terrain.getTerrainHeight(x, z) - 2;
+        float y = terrain.getTerrainHeight(x, z);
+        float scale = random.nextFloat() + 1;
 
-        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
-        testEntities.add(e);
+        if (entityName.equals("lamp")) {
+            testEntities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
+                    random.nextFloat() * 256f, 0, 1f, 0, lampData));
+        } else if (entityName.equals("pine")) {
+            y -= 2;
+            testEntities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
+                    random.nextFloat() * 256f, 0, scale, 0, pineData));
+        }
     }
 
     public ArrayList<Entity> getTestEntities() {
