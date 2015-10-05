@@ -3,7 +3,6 @@ package controller;
 import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.Player;
-import model.guiComponents.GuiBox;
 import model.toolbox.Loader;
 
 import org.lwjgl.input.Mouse;

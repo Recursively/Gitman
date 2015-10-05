@@ -44,7 +44,7 @@ public class ActionController {
 					}
 
 					if(Mouse.isButtonDown(1)){  // right click
-						gameWorld.getInventory().showDeleteOption(x, y);
+						gameWorld.getInventory().showSelected(x, y);
 					}
 				}
 			}
@@ -59,8 +59,11 @@ public class ActionController {
         			gameWorld.getInventory().displayInventory();
             	} 
         		
+        		if (Keyboard.getEventKey() == Keyboard.KEY_X){
+    				gameWorld.getInventory().deleteItem(gameWorld);
+    			}
+        		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
         		}
         		
