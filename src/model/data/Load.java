@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import model.entities.movableEntity.Player;
 
+import org.lwjgl.util.vector.Vector3f;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,18 +18,23 @@ import org.xml.sax.SAXException;
 
 public class Load {
 
+	// player position elements
+	private static String posX;
+	private static String posY;
+	private static String posZ;
+	
 	// player camera elements
-	private static String pitch = null;
-	private static String roll = null;
-	private static String yaw = null;
+	private static String pitch;
+	private static String roll;
+	private static String yaw;
+	
+	// player camera position elements
+	private static String cameraPosX;
+	private static String cameraPosY;
+	private static String cameraPosZ;
 	
 	// player id element
-	private static String uid = null;
-	
-	// player position elements
-	private static String posX = null;
-	private static String posY = null;
-	private static String posZ = null;
+	private static String uid;
 	
 	// inventory elements
 	// TODO	add these
@@ -48,13 +54,24 @@ public class Load {
 
 			Element doc = dom.getDocumentElement();
 
-			pitch = getTextValue(pitch, doc, "pitch");
-			roll = getTextValue(roll, doc, "roll");
-			yaw = getTextValue(yaw, doc, "yaw");
-			uid = getTextValue(uid, doc, "uid");
 			posX = getTextValue(posX, doc, "posX");
 			posY = getTextValue(posY, doc, "posY");
 			posZ = getTextValue(posZ, doc, "posZ");
+			
+			pitch = getTextValue(pitch, doc, "pitch");
+			roll = getTextValue(roll, doc, "roll");
+			yaw = getTextValue(yaw, doc, "yaw");
+			
+			cameraPosX = getTextValue(cameraPosX, doc, "cameraPosX");
+			cameraPosY = getTextValue(cameraPosY, doc, "cameraPosY");
+			cameraPosZ = getTextValue(cameraPosZ, doc, "cameraPosZ");
+			
+			uid = getTextValue(uid, doc, "uid");
+			
+			Vector3f playerVec = new Vector3f(Integer.parseInt(posX), Integer.parseInt(posY), Integer.parseInt(posZ));
+			Vector3f cameraVec = new Vector3f(Integer.parseInt(cameraPosX), Integer.parseInt(cameraPosY), Integer.parseInt(cameraPosZ));
+			
+			Data data = new Data(playerVec, pitch, roll, yaw, cameraVec, uid);
 			
 			return true;
 
