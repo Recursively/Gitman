@@ -6,11 +6,9 @@ import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.DisplayManager;
 
 import java.util.ArrayList;
@@ -60,6 +58,10 @@ public class Player extends MovableEntity {
 
     //TODO this is ugly and needs love
     private boolean firstPersonMove(ArrayList<Entity> statics, Terrain terrain) {
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
+            verticalVelocity += 1;
+        }
 
         boolean collision = false;
 
@@ -118,16 +120,16 @@ public class Player extends MovableEntity {
         float xPos = position.getX();
         float zPos = position.getZ();
 
-        if (xPos < terrainOriginX) {
-            position.x = terrainOriginX;
-        } else if (xPos > terrainBoundX) {
-            position.x = terrainBoundX;
+        if (xPos < terrainOriginX + 1) {
+            position.x = terrainOriginX + 1;
+        } else if (xPos > terrainBoundX - 1) {
+            position.x = terrainBoundX - 1;
         }
 
-        if (zPos < terrainOriginZ) {
-            position.z = terrainOriginZ;
-        } else if (zPos > terrainBoundZ) {
-            position.z = terrainBoundZ;
+        if (zPos < terrainOriginZ + 1) {
+            position.z = terrainOriginZ + 1;
+        } else if (zPos > terrainBoundZ - 1) {
+            position.z = terrainBoundZ - 1;
         }
     }
 
