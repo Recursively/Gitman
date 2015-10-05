@@ -63,7 +63,7 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader);
+		gameWorld = new GameWorld(loader, this);
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
