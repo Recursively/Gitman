@@ -35,7 +35,7 @@ public class Commit extends Item {
 		// add new commit in random position in game
 		game.addCommit();
 		
-		return 2;
+		return 11;
 	}
 	
 	@Override

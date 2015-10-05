@@ -28,7 +28,7 @@ public class Bug extends NonPlayerCharacters {
 		// only can 'apply patch' to bug if all commits collected
 		if(game.canApplyPatch()){
 			game.winGame();
-			return 1;
+			return 10;
 		}
 		
 		return -1;

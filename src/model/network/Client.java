@@ -94,7 +94,7 @@ public class Client extends Thread {
 	}
 
 	private void sendUpdateEntity() throws IOException {
-
+		System.out.println("SENT UPDATE: " + mostRecentUpdate);
 		outputStream.writeInt(mostRecentEntity.getUID());
 		outputStream.writeFloat(mostRecentEntity.getPosition().getX());
 		outputStream.writeFloat(mostRecentEntity.getPosition().getY());

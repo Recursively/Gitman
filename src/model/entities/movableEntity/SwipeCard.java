@@ -36,7 +36,7 @@ public class SwipeCard extends Item {
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
-		return 7;
+		return 16;
 	}
 
 	@Override

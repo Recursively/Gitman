@@ -237,11 +237,11 @@ public class Player extends MovableEntity {
 
 	@Override
 	public int interact(GameWorld game) {
-		return 6;
+		return 15;
 	}
 
 	@Override
 	public boolean canInteract() {
-		return false;
+		return true;
 	}
 }

@@ -44,8 +44,8 @@ public class Server extends Thread {
 				for (Player player : gameController.getPlayers().values()) {
 					sendPlayerPosition(player);
 				}
-
-				if (checkUpdate() != -1) {
+				int update = checkUpdate();
+				if (update != -1) {
 					updateEntityPosition();
 				}
 

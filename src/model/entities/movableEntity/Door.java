@@ -38,7 +38,7 @@ public class Door extends Item{
 					locked = false;
 					game.updateScore(UNLOCK_DOOR_SCORE);
 					// TODO send message to gameworld that the door at this doors position is no longer locked
-					return 3;
+					return 12;
 				}
 			}
 			

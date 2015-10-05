@@ -133,7 +133,7 @@ public class GameController {
 			if (!gameWorld.getInventory().isVisible()) {
 				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 			}
-
+			
 			// decrease patch progress as time passes
 			gameWorld.decreasePatch();
 
@@ -207,8 +207,8 @@ public class GameController {
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
 	}
-
-	public void setNetworkUpdate(int status, MovableEntity entity) {
+	
+	public void setNetworkUpdate(int status, MovableEntity entity){
 		clientController.setNetworkUpdate(status, entity);
 	}
 

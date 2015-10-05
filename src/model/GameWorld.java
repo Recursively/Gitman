@@ -281,8 +281,8 @@ public class GameWorld {
 			return;
 		MovableEntity entity = findMovEntity(player.getCamera());
 		if (entity != null) {
-			int id = entity.interact(this);
-			sendInteraction(id, entity);
+			int type = entity.interact(this);
+			sendInteraction(type, entity);
 		}
 		// TODO for reuben! :)
 		// at end of this method there are changes to:
@@ -295,8 +295,8 @@ public class GameWorld {
 		// score in GameWorld
 	}
 
-	private void sendInteraction(int id, MovableEntity entity) {
-		gameController.setNetworkUpdate(id, entity);
+	private void sendInteraction(int type, MovableEntity entity) {
+		gameController.setNetworkUpdate(type, entity);
 	}
 
 	/**
@@ -315,12 +315,12 @@ public class GameWorld {
 		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
-		for (MovableEntity e : this.movableEntities.values()) {
+		for (MovableEntity e : this.allPlayers.values()) {
 			// check that entity is 'interactable'
 			if (!e.canInteract()) {
 				continue;
 			}
-
+			
 			float ex = e.getPosition().getX();
 			float ez = e.getPosition().getZ();
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);

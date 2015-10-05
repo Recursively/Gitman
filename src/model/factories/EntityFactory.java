@@ -268,7 +268,7 @@ public class EntityFactory {
 
         StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
 
-        testEntities.add(e);
+        //testEntities.add(e);
     }
 
     public void getTestEntity(Loader loader, Terrain terrain) {
