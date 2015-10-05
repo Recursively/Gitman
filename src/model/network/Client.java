@@ -63,6 +63,7 @@ public class Client extends Thread {
 				}
 
 				if (sendUpdateStatus() != -1) {
+					System.out.println("INTERACTION CLIENT");
 					sendUpdateEntity();
 				} 
 

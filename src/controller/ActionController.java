@@ -67,7 +67,7 @@ public class ActionController {
     				MovableEntity entity = gameWorld.getInventory().deleteItem(gameWorld);
     				
     				if(entity != null){
-    					gameController.setNetworkUpdate(2, entity);
+    					gameController.setNetworkUpdate(8, entity);
     				}
     				
     			}

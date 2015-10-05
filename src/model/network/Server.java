@@ -45,8 +45,9 @@ public class Server extends Thread {
 					sendPlayerPosition(player);
 				}
 
-				// TODO receive items information
-				// updateEntityPosition();
+				if (checkUpdate() != -1) {
+					updateEntityPosition();
+				}
 
 				// TODO send items information
 				for (Entity entity : gameController.getGameWorld().getMoveableEntities().values()) {
@@ -72,11 +73,17 @@ public class Server extends Thread {
 		outputStream.writeInt(id);
 	}
 
+	private int checkUpdate() throws IOException {
+		return inputStream.readInt();
+	}
+
 	private void updateEntityPosition() throws IOException {
+		int id = inputStream.readInt();
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
-		// TODO UPDATE THE POSITION WITH CORRESPONDING COORDINATES
+
+		System.out.println(id + " " + x + " " + y + " " + z + " ");
 
 	}
 
