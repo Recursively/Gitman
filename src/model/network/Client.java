@@ -1,22 +1,14 @@
 package model.network;
 
+import controller.GameController;
+import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.Player;
+import org.lwjgl.util.vector.Vector3f;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import javax.crypto.spec.PSource;
-
-import org.lwjgl.util.vector.Vector3f;
-
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
-import controller.GameController;
-import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
 
 public class Client extends Thread {
 
