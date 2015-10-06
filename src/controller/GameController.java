@@ -2,6 +2,7 @@ package controller;
 
 import model.GameWorld;
 import model.entities.Entity;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
@@ -115,11 +116,18 @@ public class GameController {
 			}
 
 			// TODO Should only get static entities
-			ArrayList<Entity> statics = gameWorld.getTestEntity();
+			ArrayList<Entity> statics = gameWorld.getStaticEntities();
+			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
 			Player player = gameWorld.getPlayer();
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
 			for (Entity e : statics) {
+				if (e.isWithinRange(player)) {
+					renderer.processEntity(e);
+				}
+			}
+
+			for (MovableEntity e : movables.values()) {
 				if (e.isWithinRange(player)) {
 					renderer.processEntity(e);
 				}

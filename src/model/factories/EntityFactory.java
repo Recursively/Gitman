@@ -1,6 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
+import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.NPCCharacter;
 import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -16,6 +18,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -36,7 +40,6 @@ public class EntityFactory {
     private Loader loader;
 
     private ArrayList<Vector3f> commitPositions = new ArrayList<>();
-    private ArrayList<Vector3f> moveableEntityPositions = new ArrayList<>();
 
     private Random random = new Random();
 
@@ -128,6 +131,8 @@ public class EntityFactory {
     // ENTITY MAP DEBUGGING
 
     private ArrayList<Entity> entities = new ArrayList<>();
+    private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
+    private static int movableItemID = 0;
 
     private void parseEntityMap(Terrain terrain, BufferedImage image) {
 
@@ -189,10 +194,16 @@ public class EntityFactory {
             y += 4;
             entities.add(new CollidableEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1.5f, 0, tableData));
-        } else if (entityName.equals("laptop")) {
+        }
+
+        // Movable entities
+
+        else if (entityName.equals("laptop")) {
             y += 7;
-            entities.add(new CollidableEntity(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1.5f, 0, laptopData));
+            movableEntities.put(EntityFactory.movableItemID, new NPCCharacter(laptopTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1f,  EntityFactory.movableItemID, false));
+
+            EntityFactory.movableItemID++;
         }
     }
 
@@ -202,5 +213,9 @@ public class EntityFactory {
 
     public ArrayList<Vector3f> getCommitPositions() {
         return commitPositions;
+    }
+
+    public Map<Integer, MovableEntity> getMovableEntities() {
+        return movableEntities;
     }
 }

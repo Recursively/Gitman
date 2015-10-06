@@ -110,6 +110,7 @@ public class GameWorld {
         initPlayerModel();
 
         staticEntities = entityFactory.getEntities();
+		movableEntities = entityFactory.getMovableEntities();
         
         // game state
         inventory = new Inventory(guiFactory);
@@ -491,14 +492,5 @@ public class GameWorld {
 		Terrain temp = terrain;
 		terrain = officeTerrain;
 		officeTerrain = temp;
-	}
-
-	/**
-	 * Gets test entity.
-	 *
-	 * @return the test entity
-	 */
-	public ArrayList<Entity> getTestEntity() {
-		return entityFactory.getEntities();
 	}
 }
