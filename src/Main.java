@@ -44,7 +44,7 @@ public class Main {
      */
 	// ARGS ARE BOOLEAN: IS HOST OF THE GAME, STRING: IPADDRESS TO CONNECT TO
     public static void main(String[] args) {
-        new TitleScreen(false, "130.195.6.142");
+        new TitleScreen(false, "localhost");
     }
 
 }

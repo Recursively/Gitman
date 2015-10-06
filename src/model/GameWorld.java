@@ -13,6 +13,7 @@ import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -34,7 +35,7 @@ public class GameWorld {
 	private static final double PATCH_TIMER = 5000;   // FIXME currently is 5 seconds
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
+	private static final int INTERACT_DISTANCE = 15; //max distance player can be from entity and still interact with it
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	
@@ -84,6 +85,7 @@ public class GameWorld {
 	private long timer;
 	private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
+	private boolean gameLost = false;
 
 	/**
 	 * Creates the game world and passes in the loader
@@ -253,6 +255,10 @@ public class GameWorld {
 		return this.cards;
 	}
 
+	public boolean isGameLost() {
+		return gameLost;
+	}
+
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
 	}
@@ -386,35 +392,36 @@ public class GameWorld {
 		this.cards.add(swipeCard);
 	}
 
-	/**
-	 * Decreases patch progress bar steadily by 10% of current progress
-	 * 
-	 */
-	public void decreasePatch() {
-		// if not in outside area, do nothing
-		if (!inProgram)
-			return;
 
-		// decrease patch in relation to how much time has passed since last
-		// decrease
-		long currentTime = System.currentTimeMillis();
-		if (currentTime - this.timer > PATCH_TIMER) {
+    
+    /**
+     * Decreases patch progress bar steadily by 10% of current
+     * progress
+     *  
+     */
+    public void decreasePatch(){
+    	// if not in outside area, do nothing
+    	if(!inProgram) return;
+    	
+    	// decrease patch in relation to how much time has passed since last decrease
+    	long currentTime = System.currentTimeMillis();
+    	if (currentTime - this.timer > PATCH_TIMER) {
+    		
+    		if(this.patchProgress >= MAX_PROGRESS){
+    			return;  // do nothing if reached 100%
+    		}
+    		double value = this.patchProgress*PATCH_DECREASE;
+    		this.patchProgress = (int) (this.patchProgress - value);
 
-			if (this.patchProgress >= MAX_PROGRESS) {
-				return; // do nothing if reached 100%
-			}
-			double value = this.patchProgress * PATCH_DECREASE;
-			this.patchProgress = (int) (this.patchProgress - value);
-
-			// if patch progress reaches zero, players lose
-			if (this.patchProgress <= 0) {
-				loseGame();
-			}
-
-			// update new time
-			this.timer = System.currentTimeMillis();
-		}
-	}
+    		// if patch progress reaches zero, players lose
+    		if(this.patchProgress <= 0) {
+    			gameLost = true;
+    		}
+    		
+    		// update new time
+    		this.timer = System.currentTimeMillis();
+    	}
+    }
 
 	/**
 	 * Updates patch progress by "commitScore" ( a score that takes into account
@@ -432,34 +439,32 @@ public class GameWorld {
 		}
 	}
 
-	/**
-	 * As player collects code into inventory, code progress level increases
-	 */
-	public void updateCodeProgress() {
-		this.codeProgress += CODE_VALUE;
-		inventory.increaseStorageUsed(CODE_VALUE);
 
-		// player has cloned all bits of code
-		if (this.codeProgress >= MAX_PROGRESS) {
-			compileProgram();
-		}
-	}
-
-	/**
-	 * Updates game score (players get points for interacting with items)
-	 * 
-	 * @param score
-	 *            is score of item in game
-	 */
-	public void updateScore(int score) {
-		this.score += score;
-	}
-
-	/**
-	 * Code progess reached 100 means all bits of code collected. Player is
-	 * given the option of multiplayer or single player, and the environment
-	 * they are displayed in changes in
-	 */
+	public void updateCodeProgress(){
+    	this.codeProgress+=CODE_VALUE;
+    	inventory.increaseStorageUsed(CODE_VALUE);
+    	
+    	// player has cloned all bits of code
+    	if(this.codeProgress >= MAX_PROGRESS){
+    		compileProgram();
+    	}
+    }
+    
+    /**
+     * Updates game score (players get points for interacting with items)
+     * @param score is score of item in game
+     */
+    public void updateScore(int score){
+    	this.score+=score;
+    	System.out.println("Game Score:" + score);
+    }
+    
+    /**
+     * Code progess reached 100 means all bits of code collected. Player 
+     * is given the option of multiplayer or single player, and the 
+     * environment they are displayed in changes
+     * in 
+     */
 	private void compileProgram() {
 		this.inProgram = true;
 		this.timer = System.currentTimeMillis(); // start timer
@@ -474,9 +479,19 @@ public class GameWorld {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Display message to player when they have lost the game
+=======
+	 * Display message to player when they 
+	 * have lost the game
+	 * @return 
+>>>>>>> b99c6d8d1f1686469e2b28189a9df115324c0d30
 	 */
-	private void loseGame() {
+	public List<GuiTexture> loseGame() {
+		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
+		Mouse.setGrabbed(false);
+		
+		return lostScreen;
 		// TODO display lose game message
 		// ungrab mouse and message is end of game.
 		// can you make it so that pressing enter takes you back to the

@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class NPCCharacter extends NonPlayerCharacters {
+	private static final int CHARACTER_INTERACT_SCORE = 10;
 	private boolean hasCode;
 
 	public NPCCharacter(TexturedModel model, Vector3f position, float rotX,
@@ -32,7 +33,10 @@ public class NPCCharacter extends NonPlayerCharacters {
 	public int interact(GameWorld game) {
 		// can only clone code from characters once
 		if(hasCode){
+			System.out.println("Collecting code");
 			game.updateCodeProgress();
+			game.updateScore(CHARACTER_INTERACT_SCORE);
+			game.removeMovableEntity(this);
 			this.hasCode = false;
 			return 14;
 		}

@@ -201,7 +201,7 @@ public class EntityFactory {
         else if (entityName.equals("laptop")) {
             y += 7;
             movableEntities.put(EntityFactory.movableItemID, new NPCCharacter(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID, false));
+                    270f, 0, 1f,  EntityFactory.movableItemID, true));
 
             EntityFactory.movableItemID++;
         }

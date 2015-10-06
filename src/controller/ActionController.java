@@ -2,11 +2,14 @@ package controller;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 
 import model.GameWorld;
 import model.data.Save;
 import model.entities.movableEntity.MovableEntity;
 import model.toolbox.Loader;
+import view.DisplayManager;
+import view.PlayLoadOptionsScreen;
 
 /**
  * Controller to handle mouse and key input by the player. The
@@ -73,12 +76,21 @@ public class ActionController {
     			}
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
+        			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
         		}
         		
     			if (Keyboard.getEventKey() == Keyboard.KEY_F){
     				Save.saveGame(gameWorld);
     			}
+    			if(gameWorld.isGameLost()){
+					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+						DisplayManager.closeDisplay();
+						//TODO networking idk what to put here help
+						//is currently testing mode
+						new PlayLoadOptionsScreen(false, "");
+					}
+				}
         	}
 		}
 	}
