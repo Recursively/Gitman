@@ -30,31 +30,41 @@ import java.util.*;
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
-	private static final int START_PATCH = 10;   // starting progress value for patch
-	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
-	private static final double PATCH_TIMER = 5000;   // FIXME currently is 5 seconds
-	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
-	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int INTERACT_DISTANCE = 15; //max distance player can be from entity and still interact with it
+	private static final int START_PATCH = 10; // starting progress value for
+												// patch
+	private static final double PATCH_DECREASE = 0.1; // percent to decrease
+														// patch progress
+	private static final double PATCH_TIMER = 5000; // FIXME currently is 5
+													// seconds
+	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
+														// player should collect
+														// on average...
+	private static final int CODE_VALUE = 20; // value to increment code
+												// progress by (5 clones
+												// required)
+	private static final int INTERACT_DISTANCE = 15; // max distance player can
+														// be from entity and
+														// still interact with
+														// it
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
-	
-    // Object creation factories
-    private EntityFactory entityFactory;
-    private TerrainFactory terrainFactory;
-    private LightFactory lightFactory;
-    private GuiFactory guiFactory;
-    private PlayerFactory playerFactory;
 
-    // Collection of guiImages to render to the screen
-    private ArrayList<GuiTexture> guiImages;
+	// Object creation factories
+	private EntityFactory entityFactory;
+	private TerrainFactory terrainFactory;
+	private LightFactory lightFactory;
+	private GuiFactory guiFactory;
+	private PlayerFactory playerFactory;
 
-    // collection of entities in the game
-    private ArrayList<Entity> staticEntities;
-    private Map<Integer, MovableEntity> movableEntities;  
+	// Collection of guiImages to render to the screen
+	private ArrayList<GuiTexture> guiImages;
 
-    // Terrain the world is on
-    private Terrain terrain;
+	// collection of entities in the game
+	private ArrayList<Entity> staticEntities;
+	private Map<Integer, MovableEntity> movableEntities;
+
+	// Terrain the world is on
+	private Terrain terrain;
 	private Terrain officeTerrain;
 
 	// The actual player
@@ -120,80 +130,80 @@ public class GameWorld {
 		// Adds lighting to game world
 		setupLighting();
 
-        initPlayerModel();
+		initPlayerModel();
 
-        staticEntities = entityFactory.getEntities();
+		staticEntities = entityFactory.getEntities();
 		movableEntities = entityFactory.getMovableEntities();
-        
-        // game state
-        inventory = new Inventory(guiFactory);
-        this.patchProgress = START_PATCH;
-        this.cards = new HashSet<>();
-        this.inProgram = false;
-        this.canApplyPatch = false;
-    }
 
-    /**
-     * Adds the light sources to the game worlds list of lights to be rendered
-     */
-    private void setupLighting() {
-        sun = lightFactory.createSun();
-        lights.add(sun);
+		// game state
+		inventory = new Inventory(guiFactory);
+		this.patchProgress = START_PATCH;
+		this.cards = new HashSet<>();
+		this.inProgram = false;
+		this.canApplyPatch = false;
+	}
 
-        //TODO remove
-        for (Light l : lightFactory.getLights()) {
+	/**
+	 * Adds the light sources to the game worlds list of lights to be rendered
+	 */
+	private void setupLighting() {
+		sun = lightFactory.createSun();
+		lights.add(sun);
+
+		// TODO remove
+		for (Light l : lightFactory.getLights()) {
 			lights.add(l);
 		}
 
 		lights.addAll(LightFactory.getStaticEntityLights());
 
-    }
+	}
 
-    /**
-     * initialises the Gui to be rendered to the display
-     */
-    private void initGui() {
-		//TODO should init some gui here maybe?
-        //guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
-    }
+	/**
+	 * initialises the Gui to be rendered to the display
+	 */
+	private void initGui() {
+		// TODO should init some gui here maybe?
+		// guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
+		// Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+	}
 
-    /**
-     * Initialises all the terrains of the gameworld
-     */
-    private void initTerrain() {
-        terrain = terrainFactory.makeOutsideTerrain(0, -1);
+	/**
+	 * Initialises all the terrains of the gameworld
+	 */
+	private void initTerrain() {
+		terrain = terrainFactory.makeOutsideTerrain(0, -1);
 		officeTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
-    }
+	}
 
+	/**
+	 * initialises the data structures which hold all of the world data
+	 */
+	private void initDataStructures() {
+		guiImages = new ArrayList<>();
+		staticEntities = new ArrayList<>();
+		movableEntities = new HashMap<>();
+		allPlayers = new HashMap<>();
+		lights = new ArrayList<>();
 
-    /**
-     * initialises the data structures which hold all of the world data
-     */
-    private void initDataStructures() {
-        guiImages = new ArrayList<>();
-        staticEntities = new ArrayList<>();
-        movableEntities = new HashMap<>();
-        allPlayers = new HashMap<>();
-        lights = new ArrayList<>();
-        
-    }
+	}
 
-    /**
-     * initialises the factories
-     */
-    private void initFactories() {
-        playerFactory = new PlayerFactory(this, loader);
-        lightFactory = new LightFactory();
-        terrainFactory = new TerrainFactory(loader);
-        guiFactory = new GuiFactory(loader);
-    }
+	/**
+	 * initialises the factories
+	 */
+	private void initFactories() {
+		playerFactory = new PlayerFactory(this, loader);
+		lightFactory = new LightFactory();
+		terrainFactory = new TerrainFactory(loader);
+		guiFactory = new GuiFactory(loader);
+	}
 
-    /**
-     * Gets lights.
-     *
-     * @return the lights
-     */
-    public ArrayList<Light> getLights() {
+	/**
+	 * Gets lights.
+	 *
+	 * @return the lights
+	 */
+	public ArrayList<Light> getLights() {
 		return lights;
 	}
 
@@ -295,20 +305,19 @@ public class GameWorld {
 	private void sendInteraction(int type, MovableEntity entity) {
 		gameController.setNetworkUpdate(type, entity);
 	}
-    
-    /**
-     * Go through all movable entities and find the movable
-     * entity that is the closest to the player, and also
-     * within the players field of view. 
-     *
-     * @return closest movable entity found
-     */
-    public MovableEntity findMovEntity(Camera camera){
-    	MovableEntity closest = null;
-    	double closestDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
-    	
-    	// get position of player
-    	float px = camera.getPosition().getX();
+
+	/**
+	 * Go through all movable entities and find the movable entity that is the
+	 * closest to the player, and also within the players field of view.
+	 *
+	 * @return closest movable entity found
+	 */
+	public MovableEntity findMovEntity(Camera camera) {
+		MovableEntity closest = null;
+		double closestDiff = INTERACT_DISTANCE * INTERACT_DISTANCE;
+
+		// get position of player
+		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
 		for (MovableEntity e : this.allPlayers.values()) {
@@ -392,36 +401,35 @@ public class GameWorld {
 		this.cards.add(swipeCard);
 	}
 
+	/**
+	 * Decreases patch progress bar steadily by 10% of current progress
+	 * 
+	 */
+	public void decreasePatch() {
+		// if not in outside area, do nothing
+		if (!inProgram)
+			return;
 
-    
-    /**
-     * Decreases patch progress bar steadily by 10% of current
-     * progress
-     *  
-     */
-    public void decreasePatch(){
-    	// if not in outside area, do nothing
-    	if(!inProgram) return;
-    	
-    	// decrease patch in relation to how much time has passed since last decrease
-    	long currentTime = System.currentTimeMillis();
-    	if (currentTime - this.timer > PATCH_TIMER) {
-    		
-    		if(this.patchProgress >= MAX_PROGRESS){
-    			return;  // do nothing if reached 100%
-    		}
-    		double value = this.patchProgress*PATCH_DECREASE;
-    		this.patchProgress = (int) (this.patchProgress - value);
+		// decrease patch in relation to how much time has passed since last
+		// decrease
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - this.timer > PATCH_TIMER) {
 
-    		// if patch progress reaches zero, players lose
-    		if(this.patchProgress <= 0) {
-    			gameLost = true;
-    		}
-    		
-    		// update new time
-    		this.timer = System.currentTimeMillis();
-    	}
-    }
+			if (this.patchProgress >= MAX_PROGRESS) {
+				return; // do nothing if reached 100%
+			}
+			double value = this.patchProgress * PATCH_DECREASE;
+			this.patchProgress = (int) (this.patchProgress - value);
+
+			// if patch progress reaches zero, players lose
+			if (this.patchProgress <= 0) {
+				gameLost = true;
+			}
+
+			// update new time
+			this.timer = System.currentTimeMillis();
+		}
+	}
 
 	/**
 	 * Updates patch progress by "commitScore" ( a score that takes into account
@@ -439,32 +447,32 @@ public class GameWorld {
 		}
 	}
 
+	public void updateCodeProgress() {
+		this.codeProgress += CODE_VALUE;
+		inventory.increaseStorageUsed(CODE_VALUE);
 
-	public void updateCodeProgress(){
-    	this.codeProgress+=CODE_VALUE;
-    	inventory.increaseStorageUsed(CODE_VALUE);
-    	
-    	// player has cloned all bits of code
-    	if(this.codeProgress >= MAX_PROGRESS){
-    		compileProgram();
-    	}
-    }
-    
-    /**
-     * Updates game score (players get points for interacting with items)
-     * @param score is score of item in game
-     */
-    public void updateScore(int score){
-    	this.score+=score;
-    	System.out.println("Game Score:" + score);
-    }
-    
-    /**
-     * Code progess reached 100 means all bits of code collected. Player 
-     * is given the option of multiplayer or single player, and the 
-     * environment they are displayed in changes
-     * in 
-     */
+		// player has cloned all bits of code
+		if (this.codeProgress >= MAX_PROGRESS) {
+			compileProgram();
+		}
+	}
+
+	/**
+	 * Updates game score (players get points for interacting with items)
+	 * 
+	 * @param score
+	 *            is score of item in game
+	 */
+	public void updateScore(int score) {
+		this.score += score;
+		System.out.println("Game Score:" + score);
+	}
+
+	/**
+	 * Code progess reached 100 means all bits of code collected. Player is
+	 * given the option of multiplayer or single player, and the environment
+	 * they are displayed in changes in
+	 */
 	private void compileProgram() {
 		this.inProgram = true;
 		this.timer = System.currentTimeMillis(); // start timer
@@ -478,19 +486,15 @@ public class GameWorld {
 		// time (look at title screen as example)
 	}
 
-	/**
-<<<<<<< HEAD
+	/*
 	 * Display message to player when they have lost the game
-=======
-	 * Display message to player when they 
-	 * have lost the game
-	 * @return 
->>>>>>> b99c6d8d1f1686469e2b28189a9df115324c0d30
+	 * 
+	 * @return
 	 */
 	public List<GuiTexture> loseGame() {
 		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
 		Mouse.setGrabbed(false);
-		
+
 		return lostScreen;
 		// TODO display lose game message
 		// ungrab mouse and message is end of game.
