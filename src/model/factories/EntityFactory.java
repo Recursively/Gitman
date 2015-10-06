@@ -45,6 +45,10 @@ public class EntityFactory {
     private TexturedModel lampTexturedModel;
     private ModelData wallData;
     private TexturedModel wallTexturedModel;
+    private ModelData whiteboardData;
+    private TexturedModel whiteboardTexturedModel;
+    private ModelData tableData;
+    private TexturedModel tableTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -79,6 +83,18 @@ public class EntityFactory {
                 wallData.getNormals(), wallData.getIndices());
         wallTexturedModel = new TexturedModel(wallRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
+
+        whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
+        RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
+                whiteboardData.getNormals(), whiteboardData.getIndices());
+        whiteboardTexturedModel = new TexturedModel(whiteboardRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
+
+        tableData = OBJFileLoader.loadOBJ(MODEL_PATH + "table_with_drawer");
+        RawModel tableRawModel = loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
+                tableData.getNormals(), tableData.getIndices());
+        tableTexturedModel = new TexturedModel(tableRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "table_with_drawer")));
     }
 
     // HELPER METHOD
@@ -119,6 +135,10 @@ public class EntityFactory {
                     makeEntity(terrain, i, j, "wall", false);
                 } else if (color == -6908266) {
                     makeEntity(terrain, i, j, "wall", true);
+                } else if (color == -196864) {
+                    makeEntity(terrain, i, j, "free_standing_whiteboard", false);
+                } else if (color == -16713985) {
+                    makeEntity(terrain, i, j, "table_with_drawer", false);
                 }
             }
         }
@@ -150,6 +170,14 @@ public class EntityFactory {
                 entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
                         0, 0, 10f, 0, wallData));
             }
+        } else if (entityName.equals("free_standing_whiteboard")) {
+            y += 8;
+            entities.add(new CollidableEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1.5f, 0, whiteboardData));
+        } else if (entityName.equals("table_with_drawer")) {
+            y += 4;
+            entities.add(new CollidableEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1.5f, 0, tableData));
         }
     }
 

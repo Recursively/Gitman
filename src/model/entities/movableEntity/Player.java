@@ -49,7 +49,6 @@ public class Player extends MovableEntity {
     }
 
     public void move(Terrain terrain, ArrayList<Entity> statics) {
-        System.out.println(super.getPosition().getX() + " : " + super.getPosition().getZ());
         updateTerrainHeight(terrain);
         gravityPull();
         if(firstPersonMove(statics, terrain)) {
