@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 /**
  * @author Marcel van Workum
- * @author Divya
+ *
  *
  */
 public class Player extends MovableEntity {
@@ -27,6 +27,8 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
+
+    private float edgeBound = 12;
 
     private Terrain currentTerrain;
 
@@ -59,10 +61,6 @@ public class Player extends MovableEntity {
 
     //TODO this is ugly and needs love
     private boolean firstPersonMove(ArrayList<Entity> statics, Terrain terrain) {
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_G)) {
-            verticalVelocity += 1;
-        }
 
         boolean collision = false;
 
@@ -121,16 +119,16 @@ public class Player extends MovableEntity {
         float xPos = position.getX();
         float zPos = position.getZ();
 
-        if (xPos < terrainOriginX + 1) {
-            position.x = terrainOriginX + 1;
-        } else if (xPos > terrainBoundX - 1) {
-            position.x = terrainBoundX - 1;
+        if (xPos < terrainOriginX + edgeBound) {
+            position.x = terrainOriginX + edgeBound;
+        } else if (xPos > terrainBoundX - edgeBound) {
+            position.x = terrainBoundX - edgeBound;
         }
 
-        if (zPos < terrainOriginZ + 1) {
-            position.z = terrainOriginZ + 1;
-        } else if (zPos > terrainBoundZ - 1) {
-            position.z = terrainBoundZ - 1;
+        if (zPos < terrainOriginZ + edgeBound) {
+            position.z = terrainOriginZ + edgeBound;
+        } else if (zPos > terrainBoundZ - edgeBound) {
+            position.z = terrainBoundZ - edgeBound;
         }
     }
 

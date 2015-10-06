@@ -35,6 +35,8 @@ public class EntityFactory {
 
     private Loader loader;
 
+    private ArrayList<Vector3f> commitPositions = new ArrayList<>();
+
     private Random random = new Random();
 
     private ModelData pineData;
@@ -100,7 +102,7 @@ public class EntityFactory {
 
     // ENTITY MAP DEBUGGING
 
-    private ArrayList<Entity> testEntities = new ArrayList<>();
+    private ArrayList<Entity> entities = new ArrayList<>();
 
     private void parseEntityMap(Terrain terrain, BufferedImage image) {
 
@@ -110,7 +112,7 @@ public class EntityFactory {
                 if (color == -65536) {
                 	makeEntity(terrain, i, j, "pine", false);
                 } else if (color == -16776961){
-                    // make patch list
+                    makeEntity(terrain, i, j, "commit", false);
                 } else if (color == -16711936) {
                     makeEntity(terrain, i, j, "lamp", false);
                 } else if (color == -16777216) {
@@ -131,25 +133,31 @@ public class EntityFactory {
         float y = terrain.getTerrainHeight(x, z);
         float scale = random.nextFloat() + 1;
 
-        if (entityName.equals("lamp")) {
-            testEntities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
+        if (entityName.equals("commit")) {
+            commitPositions.add(new Vector3f(x, y, z));
+        } else if (entityName.equals("lamp")) {
+            entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, 1f, 0, lampData));
         } else if (entityName.equals("pine")) {
             y -= 2;
-            testEntities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
+            entities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, scale, 0, pineData));
         } else if (entityName.equals("wall")) {
             if (rotate) {
-                testEntities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
                         90f, 0, 10f, 0, wallData));
             } else {
-                testEntities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
                         0, 0, 10f, 0, wallData));
             }
         }
     }
 
-    public ArrayList<Entity> getTestEntities() {
-        return testEntities;
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
+
+    public ArrayList<Vector3f> getCommitPositions() {
+        return commitPositions;
     }
 }

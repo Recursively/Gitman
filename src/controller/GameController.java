@@ -7,7 +7,6 @@ import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -181,12 +180,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
+		gameWorld.addNewPlayer(GameWorld.SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(30, 100, -20), uid);
+		gameWorld.addPlayer(GameWorld.SPAWN_POSITION, uid);
 		playerCount++;
 	}
 

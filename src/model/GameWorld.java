@@ -31,6 +31,8 @@ public class GameWorld {
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
 	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
+
+	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -107,7 +109,7 @@ public class GameWorld {
 
         initPlayerModel();
 
-        staticEntities = entityFactory.getTestEntities();
+        staticEntities = entityFactory.getEntities();
         
         // game state
         inventory = new Inventory(guiFactory);
@@ -258,8 +260,7 @@ public class GameWorld {
      * Go through all movable entities and find the movable
      * entity that is the closest to the player, and also
      * within the players field of view. 
-     * 
-     * @param playerPos position of player 
+     *
      * @return closest movable entity found
      */
     public MovableEntity findMovEntity(Camera camera){
@@ -498,6 +499,6 @@ public class GameWorld {
 	 * @return the test entity
 	 */
 	public ArrayList<Entity> getTestEntity() {
-		return entityFactory.getTestEntities();
+		return entityFactory.getEntities();
 	}
 }
