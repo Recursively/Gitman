@@ -4,12 +4,9 @@ import model.entities.movableEntity.LaptopItem;
 import model.guiComponents.Inventory;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
-
-import java.util.ArrayList;
-
 import org.lwjgl.util.vector.Vector2f;
 
-import com.sun.jmx.snmp.SnmpUnknownSubSystemException;
+import java.util.ArrayList;
 
 /**
  * Factory Game for creating Gui Components
