@@ -47,6 +47,7 @@ public class Player extends MovableEntity {
     }
 
     public void move(Terrain terrain, ArrayList<Entity> statics) {
+        System.out.println(super.getPosition().getX() + " : " + super.getPosition().getZ());
         updateTerrainHeight(terrain);
         gravityPull();
         if(firstPersonMove(statics, terrain)) {
@@ -109,7 +110,7 @@ public class Player extends MovableEntity {
 
     private void checkBounds(Terrain terrain) {
         Vector3f position = super.getPosition();
-        float terrainSize = Terrain.getSIZE();
+        float terrainSize = terrain.getSIZE();
 
         float terrainOriginX = terrain.getGridX();
         float terrainOriginZ = terrain.getGridZ();

@@ -48,7 +48,7 @@ public class GameWorld {
 
     // Terrain the world is on
     private Terrain terrain;
-	private Terrain otherTerrain;
+	private Terrain officeTerrain;
 
     // The actual player
     private Player player;    
@@ -100,7 +100,7 @@ public class GameWorld {
 		// initialises the terrain //TODO this will need to support multi terrain at some point.
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, terrain);
+		entityFactory = new EntityFactory(loader, terrain, officeTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
@@ -145,7 +145,7 @@ public class GameWorld {
      */
     private void initTerrain() {
         terrain = terrainFactory.makeOutsideTerrain(0, -1);
-		otherTerrain = terrainFactory.makeOutsideTerrain(2, 2);
+		officeTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
     }
 
 
@@ -488,8 +488,8 @@ public class GameWorld {
 	 */
 	public void swapTerrains() {
 		Terrain temp = terrain;
-		terrain = otherTerrain;
-		otherTerrain = temp;
+		terrain = officeTerrain;
+		officeTerrain = temp;
 	}
 
 	/**

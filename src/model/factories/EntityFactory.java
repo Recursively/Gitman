@@ -30,6 +30,8 @@ public class EntityFactory {
     private static final String MODEL_PATH = "models/";
     private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
+    private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
+
 
     private Loader loader;
 
@@ -39,14 +41,21 @@ public class EntityFactory {
     private TexturedModel pineTexturedModel;
     private ModelData lampData;
     private TexturedModel lampTexturedModel;
+    private ModelData wallData;
+    private TexturedModel wallTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
      */
-    public EntityFactory(Loader loader, Terrain terrain) {
+    public EntityFactory(Loader loader, Terrain terrain, Terrain office) {
         this.loader = loader;
         initModels();
-        parseEntityMap(terrain);
+
+        BufferedImage image = getBufferedImage(ENTITY_MAP);
+        parseEntityMap(terrain, image);
+
+        image = getBufferedImage(OFFICE_ENTITY_MAP);
+        parseEntityMap(office, image);
     }
 
     private void initModels() {
@@ -62,6 +71,12 @@ public class EntityFactory {
                 lampData.getNormals(), lampData.getIndices());
         lampTexturedModel = new TexturedModel(lampRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "lamp")));
+
+        wallData = OBJFileLoader.loadOBJ(MODEL_PATH + "wall");
+        RawModel wallRawModel = loader.loadToVAO(wallData.getVertices(), wallData.getTextureCoords(),
+                wallData.getNormals(), wallData.getIndices());
+        wallTexturedModel = new TexturedModel(wallRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
     }
 
     // HELPER METHOD
@@ -87,18 +102,21 @@ public class EntityFactory {
 
     private ArrayList<Entity> testEntities = new ArrayList<>();
 
-    private void parseEntityMap(Terrain terrain) {
-        BufferedImage image = getBufferedImage(ENTITY_MAP);
+    private void parseEntityMap(Terrain terrain, BufferedImage image) {
 
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
-                	makeEntity(terrain, i, j, "pine");
+                	makeEntity(terrain, i, j, "pine", false);
                 } else if (color == -16776961){
                     // make patch list
                 } else if (color == -16711936) {
-                    makeEntity(terrain, i, j, "lamp");
+                    makeEntity(terrain, i, j, "lamp", false);
+                } else if (color == -16777216) {
+                    makeEntity(terrain, i, j, "wall", false);
+                } else if (color == -6908266) {
+                    makeEntity(terrain, i, j, "wall", true);
                 }
             }
         }
@@ -106,10 +124,10 @@ public class EntityFactory {
 
     // TODO only load model data once?!?!
 
-    private void makeEntity(Terrain terrain, int i, int j, String entityName) {
+    private void makeEntity(Terrain terrain, int i, int j, String entityName, boolean rotate) {
 
-        float x = i;
-        float z = j - Terrain.getSIZE();
+        float x = i + terrain.getGridX();
+        float z = j + terrain.getGridZ();
         float y = terrain.getTerrainHeight(x, z);
         float scale = random.nextFloat() + 1;
 
@@ -120,6 +138,14 @@ public class EntityFactory {
             y -= 2;
             testEntities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, scale, 0, pineData));
+        } else if (entityName.equals("wall")) {
+            if (rotate) {
+                testEntities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                        90f, 0, 10f, 0, wallData));
+            } else {
+                testEntities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                        0, 0, 10f, 0, wallData));
+            }
         }
     }
 

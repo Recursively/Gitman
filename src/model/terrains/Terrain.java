@@ -22,7 +22,7 @@ import java.io.IOException;
 public class Terrain {
 
     // Map parameters : change these to shape terrain
-    private static final float SIZE = 512;
+    private float SIZE = 512;
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
@@ -51,6 +51,30 @@ public class Terrain {
      */
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texture, TerrainTexture blendMap,
                    String heightMap) {
+        this.blendMap = blendMap;
+        this.texturePack = texture;
+        this.gridX = gridX * SIZE;
+        this.gridZ = gridZ * SIZE;
+
+        // finally generate the terrain from the height map
+        this.model = generateTerrain(loader, heightMap);
+    }
+
+    /**
+     * Constructor
+     * <p/>
+     * Creates a new terrain at the given gridX/gridZ grid
+     *
+     * @param gridX     gridX position
+     * @param gridZ     gridZ position
+     * @param loader    loader
+     * @param texture   texture pack to make up the terrain
+     * @param blendMap  blend map for mixing textures
+     * @param heightMap height map to style terrain y values
+     */
+    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texture, TerrainTexture blendMap,
+                   String heightMap, int size) {
+        SIZE = size;
         this.blendMap = blendMap;
         this.texturePack = texture;
         this.gridX = gridX * SIZE;
@@ -322,7 +346,7 @@ public class Terrain {
      *
      * @return the size
      */
-    public static float getSIZE() {
+    public float getSIZE() {
         return SIZE;
     }
 

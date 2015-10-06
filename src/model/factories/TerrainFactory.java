@@ -52,10 +52,10 @@ public class TerrainFactory {
     private void initOfficeTextures(Loader loader) {
         //TODO only using one texture at the moment
 
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/path"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("textures/path"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("textures/path"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("textures/path"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
 
         // Bundle terrains into pack
         officeTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
@@ -76,6 +76,6 @@ public class TerrainFactory {
 
     public Terrain makeOfficeTerrain(int gridX, int gridZ) {
         // Create the new terrain object, using pack blendermap and heightmap
-        return new Terrain(gridX, gridZ, loader, officeTexturePack, officeBlendMap, "terrains/officeHeightMap");
+        return new Terrain(gridX, gridZ, loader, officeTexturePack, officeBlendMap, "terrains/officeHeightMap", 128);
     }
 }
