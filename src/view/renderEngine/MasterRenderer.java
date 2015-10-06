@@ -34,6 +34,11 @@ public class MasterRenderer {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 2000;
 
+    /**
+     * Used in the calculate as to which entities need to be rendered to the screen
+     */
+    public static final int RENDER_DISTANCE = 200;
+
     // Fog colour values
     private static final float RED = 0.5444f;
     private static final float GREEN = 0.62f;

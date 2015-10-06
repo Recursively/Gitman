@@ -22,7 +22,6 @@ public class Entity {
     private float rotX = 0, rotY = 0, rotZ = 0;
     private float scale;
 
-    // TODO remove as debug
     private boolean collidable = true;
 
     // used for atlassing
@@ -204,7 +203,7 @@ public class Entity {
      * and within the player's field of view
      * 
      * @param entityPos position of entity
-     * @param player player to get view of
+     * @param cam player to get view of
      * @return true if entity can be seen by player
      */
 	public static boolean isInFrontOfPlayer(Vector3f entityPos, Camera cam) {
@@ -228,5 +227,18 @@ public class Entity {
 		return false;
 	}
 
-
+    /**
+     * Checks if a given entity is within a render range limit of the players current location
+     *
+     * @param player players position
+     *
+     * @return is the entity within range?
+     */
+    public boolean isWithinRange(Player player) {
+        if (Math.abs(position.getX() - player.getPosition().getX()) < MasterRenderer.RENDER_DISTANCE) {
+            if (Math.abs(position.getZ() - player.getPosition().getZ()) < MasterRenderer.RENDER_DISTANCE)
+            return true;
+        }
+        return false;
+    }
 }

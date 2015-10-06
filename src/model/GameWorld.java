@@ -29,41 +29,32 @@ import java.util.*;
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
-	private static final int START_PATCH = 10; // starting progress value for
-												// patch
-	private static final double PATCH_DECREASE = 0.1; // percent to decrease
-														// patch progress
-	private static final double PATCH_TIMER = 5000; // FIXME currently is 5
-													// seconds
-	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
-														// player should collect
-														// on average...
-	private static final int CODE_VALUE = 20; // value to increment code
-												// progress by (5 clones
-												// required)
-	private static final int INTERACT_DISTANCE = 30; // max distance player can
-														// be from entity and
-														// still interact with
-														// it
+	private static final int START_PATCH = 10;   // starting progress value for patch
+	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
+	private static final double PATCH_TIMER = 5000;   // FIXME currently is 5 seconds
+	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
+	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
+	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
 
-	// Object creation factories
-	private EntityFactory entityFactory;
-	private TerrainFactory terrainFactory;
-	private LightFactory lightFactory;
-	private GuiFactory guiFactory;
-	private PlayerFactory playerFactory;
+	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
+	
+    // Object creation factories
+    private EntityFactory entityFactory;
+    private TerrainFactory terrainFactory;
+    private LightFactory lightFactory;
+    private GuiFactory guiFactory;
+    private PlayerFactory playerFactory;
 
-	// Collection of guiImages to render to the screen
-	private ArrayList<GuiTexture> guiImages;
+    // Collection of guiImages to render to the screen
+    private ArrayList<GuiTexture> guiImages;
 
-	// collection of entities in the game
-	private ArrayList<Entity> staticEntities;
-	private Map<Integer, MovableEntity> movableEntities;
+    // collection of entities in the game
+    private ArrayList<Entity> staticEntities;
+    private Map<Integer, MovableEntity> movableEntities;  
 
-	// Terrain the world is on
-	// TODO this will need to become a list once we have multiple terrains
-	private Terrain terrain;
-	private Terrain otherTerrain;
+    // Terrain the world is on
+    private Terrain terrain;
+	private Terrain officeTerrain;
 
 	// The actual player
 	private Player player;
@@ -122,85 +113,85 @@ public class GameWorld {
 		// terrain at some point.
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, terrain);
+		entityFactory = new EntityFactory(loader, terrain, officeTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
 
-		initPlayerModel();
+        initPlayerModel();
 
-		staticEntities = entityFactory.getTestEntities();
+        staticEntities = entityFactory.getEntities();
+		movableEntities = entityFactory.getMovableEntities();
+        
+        // game state
+        inventory = new Inventory(guiFactory);
+        this.patchProgress = START_PATCH;
+        this.cards = new HashSet<>();
+        this.inProgram = false;
+        this.canApplyPatch = false;
+    }
 
-		// game state
-		inventory = new Inventory(guiFactory);
-		this.patchProgress = START_PATCH;
-		this.cards = new HashSet<SwipeCard>();
-		this.inProgram = false;
-		this.canApplyPatch = false;
-	}
+    /**
+     * Adds the light sources to the game worlds list of lights to be rendered
+     */
+    private void setupLighting() {
+        sun = lightFactory.createSun();
+        lights.add(sun);
 
-	/**
-	 * Adds the light sources to the game worlds list of lights to be rendered
-	 */
-	private void setupLighting() {
-		sun = lightFactory.createSun();
-		lights.add(sun);
-
-		// TODO remove
-		for (Light l : lightFactory.getLights()) {
+        //TODO remove
+        for (Light l : lightFactory.getLights()) {
 			lights.add(l);
 		}
 
 		lights.addAll(LightFactory.getStaticEntityLights());
-	}
 
-	/**
-	 * initialises the Gui to be rendered to the display
-	 */
-	private void initGui() {
-		// TODO should init some gui with score, progress and cards collected.
-		// TODO fix this...maybe make it smaller...different design?
-		// this shoudl create the basic background, if there is one.
-		guiImages
-				.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
-	}
+    }
 
-	/**
-	 * Initialises all the terrains of the gameworld
-	 */
-	private void initTerrain() {
-		terrain = terrainFactory.makeTerrain(0, -1);
-		otherTerrain = terrainFactory.makeTerrain(2, 2);
-	}
+    /**
+     * initialises the Gui to be rendered to the display
+     */
+    private void initGui() {
+		//TODO should init some gui here maybe?
+        //guiImages.add(guiFactory.makeGuiTexture("panel_brown", new Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+    }
 
-	/**
-	 * initialises the data structures which hold all of the world data
-	 */
-	private void initDataStructures() {
-		guiImages = new ArrayList<>();
-		staticEntities = new ArrayList<>();
-		movableEntities = new HashMap<>();
-		allPlayers = new HashMap<>();
-		lights = new ArrayList<>();
+    /**
+     * Initialises all the terrains of the gameworld
+     */
+    private void initTerrain() {
+        terrain = terrainFactory.makeOutsideTerrain(0, -1);
+		officeTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
+    }
 
-	}
 
-	/**
-	 * initialises the factories
-	 */
-	private void initFactories() {
-		playerFactory = new PlayerFactory(this, loader);
-		lightFactory = new LightFactory();
-		terrainFactory = new TerrainFactory(loader);
-		guiFactory = new GuiFactory(loader);
-	}
+    /**
+     * initialises the data structures which hold all of the world data
+     */
+    private void initDataStructures() {
+        guiImages = new ArrayList<>();
+        staticEntities = new ArrayList<>();
+        movableEntities = new HashMap<>();
+        allPlayers = new HashMap<>();
+        lights = new ArrayList<>();
+        
+    }
 
-	/**
-	 * Gets lights.
-	 *
-	 * @return the lights
-	 */
-	public ArrayList<Light> getLights() {
+    /**
+     * initialises the factories
+     */
+    private void initFactories() {
+        playerFactory = new PlayerFactory(this, loader);
+        lightFactory = new LightFactory();
+        terrainFactory = new TerrainFactory(loader);
+        guiFactory = new GuiFactory(loader);
+    }
+
+    /**
+     * Gets lights.
+     *
+     * @return the lights
+     */
+    public ArrayList<Light> getLights() {
 		return lights;
 	}
 
@@ -298,21 +289,20 @@ public class GameWorld {
 	private void sendInteraction(int type, MovableEntity entity) {
 		gameController.setNetworkUpdate(type, entity);
 	}
-
-	/**
-	 * Go through all movable entities and find the movable entity that is the
-	 * closest to the player, and also within the players field of view.
-	 * 
-	 * @param playerPos
-	 *            position of player
-	 * @return closest movable entity found
-	 */
-	public MovableEntity findMovEntity(Camera camera) {
-		MovableEntity closest = null;
-		double closestDiff = INTERACT_DISTANCE * INTERACT_DISTANCE;
-
-		// get position of player
-		float px = camera.getPosition().getX();
+    
+    /**
+     * Go through all movable entities and find the movable
+     * entity that is the closest to the player, and also
+     * within the players field of view. 
+     *
+     * @return closest movable entity found
+     */
+    public MovableEntity findMovEntity(Camera camera){
+    	MovableEntity closest = null;
+    	double closestDiff = INTERACT_DISTANCE*INTERACT_DISTANCE;
+    	
+    	// get position of player
+    	float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
 		for (MovableEntity e : this.allPlayers.values()) {
@@ -532,16 +522,16 @@ public class GameWorld {
 		ModelTexture playerTexture = playerModel.getTexture();
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
+
 	}
 
-	public ArrayList<Entity> getTestEntity() {
-		return entityFactory.getTestEntities();
-	}
-
+	/**
+	 * Swaps out the terrains for the players game world
+	 */
 	public void swapTerrains() {
 		Terrain temp = terrain;
-		terrain = otherTerrain;
-		otherTerrain = temp;
+		terrain = officeTerrain;
+		officeTerrain = temp;
 	}
 
 	public void interactBug() {

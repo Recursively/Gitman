@@ -59,7 +59,7 @@ void main(void){
 	}
 
 	// This should be maxed to 0.2 in the outdoors scene
-	totalDiffuse = max(totalDiffuse, 0);
+	totalDiffuse = max(totalDiffuse, 0.2);
 
 	out_Color = vec4(totalDiffuse, 1.0) * totalColour + vec4(totalSpecular, 1.0);
 	out_Color = mix(vec4(skyColour, 1.0), out_Color, visibility);

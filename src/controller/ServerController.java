@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import javax.media.j3d.ImageComponent2D.Updater;
-
 import model.network.Server;
 
 /**
