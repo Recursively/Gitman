@@ -36,6 +36,7 @@ public class EntityFactory {
     private Loader loader;
 
     private ArrayList<Vector3f> commitPositions = new ArrayList<>();
+    private ArrayList<Vector3f> moveableEntityPositions = new ArrayList<>();
 
     private Random random = new Random();
 
@@ -49,6 +50,8 @@ public class EntityFactory {
     private TexturedModel whiteboardTexturedModel;
     private ModelData tableData;
     private TexturedModel tableTexturedModel;
+    private ModelData laptopData;
+    private TexturedModel laptopTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -95,6 +98,12 @@ public class EntityFactory {
                 tableData.getNormals(), tableData.getIndices());
         tableTexturedModel = new TexturedModel(tableRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "table_with_drawer")));
+
+        laptopData = OBJFileLoader.loadOBJ(MODEL_PATH + "laptop");
+        RawModel laptopRawModel = loader.loadToVAO(laptopData.getVertices(), laptopData.getTextureCoords(),
+                laptopData.getNormals(), laptopData.getIndices());
+        laptopTexturedModel = new TexturedModel(laptopRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "laptop")));
     }
 
     // HELPER METHOD
@@ -139,6 +148,8 @@ public class EntityFactory {
                     makeEntity(terrain, i, j, "free_standing_whiteboard", false);
                 } else if (color == -16713985) {
                     makeEntity(terrain, i, j, "table_with_drawer", false);
+                } else if (color == -261889) {
+                    makeEntity(terrain, i, j, "laptop", false);
                 }
             }
         }
@@ -178,6 +189,10 @@ public class EntityFactory {
             y += 4;
             entities.add(new CollidableEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1.5f, 0, tableData));
+        } else if (entityName.equals("laptop")) {
+            y += 7;
+            entities.add(new CollidableEntity(laptopTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1.5f, 0, laptopData));
         }
     }
 
