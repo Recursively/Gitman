@@ -64,6 +64,7 @@ public class ActionController {
     			}
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
+        			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
         		}
         		
