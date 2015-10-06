@@ -44,6 +44,7 @@ public class GameController {
 	private ActionController actionController;
 
 	private final boolean isHost;
+	private final String ipAddress;
 	private int playerCount;
 
 	/**
@@ -70,6 +71,7 @@ public class GameController {
 
 		// setup client
 		this.isHost = isHost;
+		this.ipAddress = ipAddress;
 		if (isHost) {
 			serverController = new ServerController(this);
 			serverController.start();
@@ -206,6 +208,10 @@ public class GameController {
 
 	public Player getPlayer() {
 		return gameWorld.getPlayer();
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
 	}
 
 	public void removePlayer(int uid) {

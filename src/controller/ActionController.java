@@ -77,7 +77,8 @@ public class ActionController {
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 						DisplayManager.closeDisplay();
 						//TODO networking idk what to put here help
-						//new PlayLoadOptionsScreen(isHost, hostname);
+						//is currently testing mode
+						new PlayLoadOptionsScreen(false, "");
 					}
 				}
         	}
