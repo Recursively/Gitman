@@ -306,7 +306,7 @@ public class GameWorld {
 		float pz = camera.getPosition().getZ();
 
 		for (MovableEntity e : this.allPlayers.values()) {
-			// check that entity is 'interactable'
+			// check that entity is 'intractable'
 			if (!e.canInteract()) {
 				continue;
 			}
