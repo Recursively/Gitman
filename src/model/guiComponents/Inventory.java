@@ -138,6 +138,7 @@ public class Inventory {
 	private void closeInventory(){
 		isVisible = false;
 		Mouse.setGrabbed(true);
+		this.selected = null;
 		//TODO
 	}
 	
