@@ -13,12 +13,14 @@ import model.toolbox.Loader;
 public class TerrainFactory {
 
     private final Loader loader;
-    private final TerrainTexture backgroundTexture;
-    private final TerrainTexture rTexture;
-    private final TerrainTexture gTexture;
-    private final TerrainTexture bTexture;
-    private final TerrainTexturePack texturePack;
-    private final TerrainTexture blendMap;
+
+    // outside textures
+    private TerrainTexturePack outsideTexturePack;
+    private TerrainTexture outsideBlendMap;
+
+    // office textures
+    private TerrainTexturePack officeTexturePack;
+    private TerrainTexture officeBlendMap;
 
     /**
      * Instantiates a new Terrain factory.
@@ -28,19 +30,38 @@ public class TerrainFactory {
     public TerrainFactory(Loader loader) {
         this.loader = loader;
 
-        // TODO
+        initOutsideTextures(loader);
 
+        initOfficeTextures(loader);
+    }
+
+    private void initOutsideTextures(Loader loader) {
         // Terrain creation
-        backgroundTexture = new TerrainTexture(loader.loadTexture("textures/grass"));
-        rTexture = new TerrainTexture(loader.loadTexture("textures/mud"));
-        gTexture = new TerrainTexture(loader.loadTexture("textures/grassFlowers"));
-        bTexture = new TerrainTexture(loader.loadTexture("textures/path"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/grass"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("textures/mud"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("textures/grassFlowers"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("textures/path"));
 
         // Bundle terrains into pack
-        texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+        outsideTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 
         // Blend map for mixing terrains
-        blendMap = new TerrainTexture(loader.loadTexture("terrains/blendMap"));
+        outsideBlendMap = new TerrainTexture(loader.loadTexture("terrains/blendMap"));
+    }
+
+    private void initOfficeTextures(Loader loader) {
+        //TODO only using one texture at the moment
+
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("textures/wood_tiles"));
+
+        // Bundle terrains into pack
+        officeTexturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
+
+        // Blend map for mixing terrains
+        officeBlendMap = new TerrainTexture(loader.loadTexture("terrains/officeBlendMap"));
     }
 
     /**
@@ -48,9 +69,13 @@ public class TerrainFactory {
      *
      * @return the terrain
      */
-    public Terrain makeTerrain(int gridX, int gridZ) {
+    public Terrain makeOutsideTerrain(int gridX, int gridZ) {
         // Create the new terrain object, using pack blendermap and heightmap
-        return new Terrain(gridX, gridZ, loader, texturePack, blendMap, "terrains/heightMap");
+        return new Terrain(gridX, gridZ, loader, outsideTexturePack, outsideBlendMap, "terrains/heightMap");
     }
 
+    public Terrain makeOfficeTerrain(int gridX, int gridZ) {
+        // Create the new terrain object, using pack blendermap and heightmap
+        return new Terrain(gridX, gridZ, loader, officeTexturePack, officeBlendMap, "terrains/officeHeightMap", 128);
+    }
 }

@@ -2,13 +2,12 @@ package controller;
 
 import model.GameWorld;
 import model.entities.Entity;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -117,15 +116,26 @@ public class GameController {
 			}
 
 			// TODO Should only get static entities
-			ArrayList<Entity> statics = gameWorld.getTestEntity();
+			ArrayList<Entity> statics = gameWorld.getStaticEntities();
+			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
+			Player player = gameWorld.getPlayer();
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
 			for (Entity e : statics) {
-				renderer.processEntity(e);
+				if (e.isWithinRange(player)) {
+					renderer.processEntity(e);
+				}
+			}
+
+			for (MovableEntity e : movables.values()) {
+				if (e.isWithinRange(player)) {
+					renderer.processEntity(e);
+				}
 			}
 
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
+
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
@@ -142,16 +152,12 @@ public class GameController {
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 
-			if (gameWorld.getInventory().isVisible()) {
-				guiRenderer.render(gameWorld.getInventory().getTextureList());
+			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+				gameWorld.swapTerrains();
 			}
 
-			if (gameWorld.getPlayer().getPosition().getX() == 256 && gameWorld.getPlayer().getPosition().getZ() == 0) {
-				gameWorld.swapTerrains();
-			} else if (gameWorld.getPlayer().getPosition().getX() == 512
-					&& gameWorld.getPlayer().getPosition().getZ() == 768) {
-				gameWorld.swapTerrains();
-				gameWorld.getPlayer().setPosition(new Vector3f(100, 200, -100));
+			if (gameWorld.getInventory().isVisible()) {
+				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
 
 			// update the Display window
@@ -182,12 +188,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
+		gameWorld.addNewPlayer(GameWorld.SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
+		gameWorld.addPlayer(GameWorld.SPAWN_POSITION, uid);
 		playerCount++;
 	}
 

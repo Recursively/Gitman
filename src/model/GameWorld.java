@@ -32,6 +32,8 @@ public class GameWorld {
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
 	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
+
+	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	
     // Object creation factories
     private EntityFactory entityFactory;
@@ -48,9 +50,8 @@ public class GameWorld {
     private Map<Integer, MovableEntity> movableEntities;  
 
     // Terrain the world is on
-    // TODO this will need to become a list once we have multiple terrains
     private Terrain terrain;
-	private Terrain otherTerrain;
+	private Terrain officeTerrain;
 
     // The actual player
     private Player player;    
@@ -102,19 +103,20 @@ public class GameWorld {
 		// initialises the terrain //TODO this will need to support multi terrain at some point.
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, terrain);
+		entityFactory = new EntityFactory(loader, terrain, officeTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
 
         initPlayerModel();
 
-        staticEntities = entityFactory.getTestEntities();
+        staticEntities = entityFactory.getEntities();
+		movableEntities = entityFactory.getMovableEntities();
         
         // game state
         inventory = new Inventory(guiFactory);
         this.patchProgress = START_PATCH;
-        this.cards = new HashSet<SwipeCard>();
+        this.cards = new HashSet<>();
         this.inProgram = false;
         this.canApplyPatch = false;
     }
@@ -148,9 +150,10 @@ public class GameWorld {
      * Initialises all the terrains of the gameworld
      */
     private void initTerrain() {
-        terrain = terrainFactory.makeTerrain(0, -1);
-		otherTerrain = terrainFactory.makeTerrain(2, 2);
+        terrain = terrainFactory.makeOutsideTerrain(0, -1);
+		officeTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
     }
+
 
     /**
      * initialises the data structures which hold all of the world data
@@ -276,8 +279,7 @@ public class GameWorld {
      * Go through all movable entities and find the movable
      * entity that is the closest to the player, and also
      * within the players field of view. 
-     * 
-     * @param playerPos position of player 
+     *
      * @return closest movable entity found
      */
     public MovableEntity findMovEntity(Camera camera){
@@ -496,15 +498,14 @@ public class GameWorld {
 		ModelTexture playerTexture = playerModel.getTexture();
 		playerTexture.setShineDamper(10);
 		playerTexture.setReflectivity(1);
-	}	
-
-	public ArrayList<Entity> getTestEntity() {
-		return entityFactory.getTestEntities();
 	}
 
+	/**
+	 * Swaps out the terrains for the players game world
+	 */
 	public void swapTerrains() {
 		Terrain temp = terrain;
-		terrain = otherTerrain;
-		otherTerrain = temp;
+		terrain = officeTerrain;
+		officeTerrain = temp;
 	}
 }

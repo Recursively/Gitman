@@ -1,7 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
-import model.entities.staticEntity.StaticEntity;
+import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.NPCCharacter;
 import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -17,7 +18,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -32,146 +34,82 @@ public class EntityFactory {
     private static final String MODEL_PATH = "models/";
     private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
+    private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
 
-    // Collection of object models in the game
-    private ArrayList<String> objectModels;
 
-    // parameters
-    private float reflectivity = 1f;
-    private float shineDamper = 10f;
-    private float scale = 1f;
-    private float maxTerrainOffset = 200f;
+    private Loader loader;
 
-    private Vector3f rotation = new Vector3f(0, 0, 0);
+    private ArrayList<Vector3f> commitPositions = new ArrayList<>();
+
     private Random random = new Random();
+
+    private ModelData pineData;
+    private TexturedModel pineTexturedModel;
+    private ModelData lampData;
+    private TexturedModel lampTexturedModel;
+    private ModelData wallData;
+    private TexturedModel wallTexturedModel;
+    private ModelData whiteboardData;
+    private TexturedModel whiteboardTexturedModel;
+    private ModelData tableData;
+    private TexturedModel tableTexturedModel;
+    private ModelData laptopData;
+    private TexturedModel laptopTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
      */
-    public EntityFactory(Loader loader, Terrain terrain) {
-        parseEntityMap(loader, terrain);
-        //getTestEntity(loader, terrain);
+    public EntityFactory(Loader loader, Terrain terrain, Terrain office) {
+        this.loader = loader;
+        initModels();
+
+        BufferedImage image = getBufferedImage(ENTITY_MAP);
+        parseEntityMap(terrain, image);
+
+        image = getBufferedImage(OFFICE_ENTITY_MAP);
+        parseEntityMap(office, image);
     }
 
-    /**
-     * Creates the object models collections and loads the list of modesl to each
-     *
-     * @param models Basic models
-     */
-    public EntityFactory(List<String> models) {
-        objectModels = new ArrayList<>();
+    private void initModels() {
+        pineData = OBJFileLoader.loadOBJ(MODEL_PATH + "pine");
+        RawModel pineRawModel = loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(),
+                pineData.getNormals(), pineData.getIndices());
+        pineTexturedModel = new TexturedModel(pineRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "pine")));
 
-        objectModels.addAll(models);
+
+        lampData = OBJFileLoader.loadOBJ(MODEL_PATH + "lamp");
+        RawModel lampRawModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
+                lampData.getNormals(), lampData.getIndices());
+        lampTexturedModel = new TexturedModel(lampRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "lamp")));
+
+        wallData = OBJFileLoader.loadOBJ(MODEL_PATH + "wall");
+        RawModel wallRawModel = loader.loadToVAO(wallData.getVertices(), wallData.getTextureCoords(),
+                wallData.getNormals(), wallData.getIndices());
+        wallTexturedModel = new TexturedModel(wallRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
+
+        whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
+        RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
+                whiteboardData.getNormals(), whiteboardData.getIndices());
+        whiteboardTexturedModel = new TexturedModel(whiteboardRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
+
+        tableData = OBJFileLoader.loadOBJ(MODEL_PATH + "table_with_drawer");
+        RawModel tableRawModel = loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
+                tableData.getNormals(), tableData.getIndices());
+        tableTexturedModel = new TexturedModel(tableRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "table_with_drawer")));
+
+        laptopData = OBJFileLoader.loadOBJ(MODEL_PATH + "laptop");
+        RawModel laptopRawModel = loader.loadToVAO(laptopData.getVertices(), laptopData.getTextureCoords(),
+                laptopData.getNormals(), laptopData.getIndices());
+        laptopTexturedModel = new TexturedModel(laptopRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "laptop")));
     }
 
-    /**
-     * Adds a object model name to the hashset of available objects
-     *
-     * @param objectModel Name of object model to add
-     */
-    public void addObjectToSet(String objectModel) {
-        objectModels.add(objectModel);
-    }
-
-    /**
-     * Create random entity entity.
-     *
-     * @param loader  the loader
-     * @param terrain the terrain
-     * @return the entity
-     */
-    public Entity createRandomEntity(Loader loader, Terrain terrain) {
-        return makeRandomEntity(random.nextInt(objectModels.size()), loader, terrain);
-    }
-
-    // HELPER METHODS
-
-    private Entity makeRandomEntity(int i, Loader loader, Terrain terrain) {
-        return makeFernEntity(loader, terrain, objectModels.get(i));
-    }
-
-    private Entity makeFernEntity(Loader loader, Terrain terrain, String name) {
-        TexturedModel texturedModel = getTexturedModel(loader, name);
-
-        //setupTexture(texturedModel, name);
-
-        return constructEntity(terrain, texturedModel);
-    }
-
-    private Entity constructEntity(Terrain terrain, TexturedModel texturedModel) {
-        float x = random.nextFloat() * maxTerrainOffset;
-        float z = random.nextFloat() * -maxTerrainOffset;
-        float y = terrain.getTerrainHeight(x, z);
-
-        return new Entity(texturedModel, new Vector3f(x, y, z), rotation.x, rotation.y, rotation.z, scale);
-    }
-
-    private void setupTexture(TexturedModel texturedModel, String name) {
-        ModelTexture modelTexture = texturedModel.getTexture();
-
-        modelTexture.setShineDamper(shineDamper);
-        modelTexture.setReflectivity(reflectivity);
-
-        // Have to deal with cases where extra parameters must be added for transparency or atlassing
-
-        // gotta have at least one switch right?
-
-        switch (name) {
-            case "fern":
-                modelTexture.setNumberOfRows(2);
-                modelTexture.setHasTransparency(true);
-                break;
-            case "grassClumps":
-                modelTexture.setHasTransparency(true);
-                modelTexture.setUseFakeLighting(true);
-                break;
-            case "lowPolyTree":
-                modelTexture.setNumberOfRows(2);
-                break;
-        }
-    }
-
-    private TexturedModel getTexturedModel(Loader loader, String name) {
-        ModelData data = OBJFileLoader.loadOBJ(MODEL_PATH + name);
-        RawModel model = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
-
-        return new TexturedModel(model,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + name)));
-    }
-
-
-    // TESTING METHOD
-    // TODO REMOVE #generateRandomMap
-
-    public ArrayList<Entity> generateRandomMap(Loader loader, Terrain terrain) {
-        ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
-
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
-        lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
-
-        ArrayList<Entity> allPolyTrees = new ArrayList<>();
-
-        for (int i = 0; i < 50; i++) {
-            float x = random.nextFloat() * 256;
-            float z = random.nextFloat() * -256;
-            float y = terrain.getTerrainHeight(x, z);
-            allPolyTrees.add(new Entity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0,
-                    0, 0f, 1f, random.nextInt(4)));
-        }
-
-        return allPolyTrees;
-    }
-
-
-    // ENTITY MAP DEBUGGING
-
-    private ArrayList<Entity> testEntities = new ArrayList<>();
+    // HELPER METHOD
 
     /**
      * Attempts to parse the height map
@@ -190,110 +128,94 @@ public class EntityFactory {
         return image;
     }
 
-    private void parseEntityMap(Loader loader, Terrain terrain) {
-        BufferedImage image = getBufferedImage(ENTITY_MAP);
+    // ENTITY MAP DEBUGGING
+
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
+    private static int movableItemID = 0;
+
+    private void parseEntityMap(Terrain terrain, BufferedImage image) {
 
         for (int i = 0; i < image.getWidth(); i++) {
             for (int j = 0; j < image.getHeight(); j++) {
                 int color = image.getRGB(i, j);
                 if (color == -65536) {
-                	makePineTree(loader, terrain, i, j); 
-                } else if (color == -11731200) {
-                    makeRandomLamp(loader, terrain, i, j);
-                } else if (color == -10240){
-                    makeRandomOrb(loader, terrain, i, j);
+                	makeEntity(terrain, i, j, "pine", false);
+                } else if (color == -16776961){
+                    makeEntity(terrain, i, j, "commit", false);
+                } else if (color == -16711936) {
+                    makeEntity(terrain, i, j, "lamp", false);
+                } else if (color == -16777216) {
+                    makeEntity(terrain, i, j, "wall", false);
+                } else if (color == -6908266) {
+                    makeEntity(terrain, i, j, "wall", true);
+                } else if (color == -196864) {
+                    makeEntity(terrain, i, j, "free_standing_whiteboard", false);
+                } else if (color == -16713985) {
+                    makeEntity(terrain, i, j, "table_with_drawer", false);
+                } else if (color == -261889) {
+                    makeEntity(terrain, i, j, "laptop", false);
                 }
             }
         }
     }
 
-    private void makeRandomOrb(Loader loader, Terrain terrain, int i, int j) {
-        ModelData data = OBJFileLoader.loadOBJ("models/orb");
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
+    // TODO only load model data once?!?!
 
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("textures/orb")));
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
+    private void makeEntity(Terrain terrain, int i, int j, String entityName, boolean rotate) {
 
-
-        float x = i;
-        float z = j - 256;
-        float y = terrain.getTerrainHeight(x, z) + 10;
-
-        LightFactory.createPlayerOrbLight(x, y + 10, z);
-
-        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 2f, 0, data);
-
-        testEntities.add(e);
-    }
-
-    private void makeRandomLamp(Loader loader, Terrain terrain, int i, int j) {
-        ModelData data = OBJFileLoader.loadOBJ("models/lamp");
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
-
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("textures/lamp")));
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
-
-
-        float x = i;
-        float z = j - 256;
+        float x = i + terrain.getGridX();
+        float z = j + terrain.getGridZ();
         float y = terrain.getTerrainHeight(x, z);
+        float scale = random.nextFloat() + 1;
 
-        LightFactory.createRandomEntityLight(x, y + 3.5f, z);
+        if (entityName.equals("commit")) {
+            commitPositions.add(new Vector3f(x, y, z));
+        } else if (entityName.equals("lamp")) {
+            entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
+                    random.nextFloat() * 256f, 0, 1f, 0, lampData));
+        } else if (entityName.equals("pine")) {
+            y -= 2;
+            entities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
+                    random.nextFloat() * 256f, 0, scale, 0, pineData));
+        } else if (entityName.equals("wall")) {
+            if (rotate) {
+                entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                        90f, 0, 10f, 0, wallData));
+            } else {
+                entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                        0, 0, 10f, 0, wallData));
+            }
+        } else if (entityName.equals("free_standing_whiteboard")) {
+            y += 8;
+            entities.add(new CollidableEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1.5f, 0, whiteboardData));
+        } else if (entityName.equals("table_with_drawer")) {
+            y += 4;
+            entities.add(new CollidableEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1.5f, 0, tableData));
+        }
 
-        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
+        // Movable entities
 
-        testEntities.add(e);
-    }
+        else if (entityName.equals("laptop")) {
+            y += 7;
+            movableEntities.put(EntityFactory.movableItemID, new NPCCharacter(laptopTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1f,  EntityFactory.movableItemID, false));
 
-    private void makePineTree(Loader loader, Terrain terrain, int i, int j) {
-        ModelData data = OBJFileLoader.loadOBJ("models/pine");
-        RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                data.getIndices());
-
-        TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                new ModelTexture(loader.loadTexture("textures/pine")));
-        lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-        lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
-
-
-        float x = i;
-        float z = j - 256;
-        float y = terrain.getTerrainHeight(x, z) - 2;
-
-        StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 256f, 0, 1f, 0, data);
-
-        testEntities.add(e);
-    }
-
-    public void getTestEntity(Loader loader, Terrain terrain) {
-        for (int i = 0; i < 100; i++) {
-            ModelData data = OBJFileLoader.loadOBJ("models/lowPolyTree");
-            RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(),
-                    data.getIndices());
-
-            TexturedModel lowPolyTreeTexturedModel = new TexturedModel(lowPolyTreeModel,
-                    new ModelTexture(loader.loadTexture("textures/lowPolyTree")));
-            lowPolyTreeTexturedModel.getTexture().setNumberOfRows(2);
-            lowPolyTreeTexturedModel.getTexture().setShineDamper(10);
-            lowPolyTreeTexturedModel.getTexture().setReflectivity(1);
-
-            float x = random.nextInt(256);
-            float z = random.nextInt(256) - 256;
-            float y = terrain.getTerrainHeight(x, z) + 10;
-
-            StaticEntity e = new CollidableEntity(lowPolyTreeTexturedModel, new Vector3f(x, y, z), 0, 0, 0, 1f, random.nextInt(4), data);
-
-            testEntities.add(e);
+            EntityFactory.movableItemID++;
         }
     }
 
-    public ArrayList<Entity> getTestEntities() {
-        return testEntities;
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
+
+    public ArrayList<Vector3f> getCommitPositions() {
+        return commitPositions;
+    }
+
+    public Map<Integer, MovableEntity> getMovableEntities() {
+        return movableEntities;
     }
 }

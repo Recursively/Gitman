@@ -8,7 +8,7 @@ out vec2 pass_textureCoords;
 out vec3 surfaceNormal;
 // Maximum number of lights that can affect an entity
 // is set to 4 to keep performance consistent
-out vec3 toLightVector[5];
+out vec3 toLightVector[1];
 out vec3 toCameraVector;
 out float visibility;
 
@@ -17,15 +17,15 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 // Maximum number of lights that can affect an entity
 // is set to 4 to keep performance consistent
-uniform vec3 lightPosition[5];
+uniform vec3 lightPosition[1];
 
 uniform float numberOfRows;
 uniform vec2 offset;
 
 uniform float useFakeLighting;
 
-const float density = 0.016;
-const float gradient = 1.5;
+const float density = 0.02;
+const float gradient = 2.5;
 
 void main(void){
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
@@ -40,7 +40,7 @@ void main(void){
 
 	surfaceNormal = (transformationMatrix * vec4(actualNormal, 0.0)).xyz;
 
-	for(int i = 0; i < 5; i++) {
+	for(int i = 0; i < 1; i++) {
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}
 
