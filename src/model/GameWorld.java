@@ -29,10 +29,10 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10;   // starting progress value for patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease patch progress
-	private static final double PATCH_TIMER = 5000;   // FIXME currently is 5 seconds
+	private static final double PATCH_TIMER = 10000;   // FIXME currently is 10 seconds
 	private static final int AVG_COMMIT_COLLECT = 5;  // number of commits each player should collect on average...
 	private static final int CODE_VALUE = 20;    // value to increment code progress by (5 clones required)
-	private static final int INTERACT_DISTANCE = 15; //max distance player can be from entity and still interact with it
+	private static final int INTERACT_DISTANCE = 10; //max distance player can be from entity and still interact with it
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	
@@ -434,7 +434,7 @@ public class GameWorld {
      */
     public void updateScore(int score){
     	this.score+=score;
-    	System.out.println("Game Score:" + score);
+    	System.out.println("Game Score:" + this.score);
     }
     
     /**

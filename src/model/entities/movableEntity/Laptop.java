@@ -13,17 +13,17 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Divya
  *
  */
-public class NPCCharacter extends NonPlayerCharacters {
-	private static final int CHARACTER_INTERACT_SCORE = 10;
+public class Laptop extends Item {
+	private static final int LAPTOP_SCORE = 10;
 	private boolean hasCode;
 
-	public NPCCharacter(TexturedModel model, Vector3f position, float rotX,
+	public Laptop(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id, boolean code) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.hasCode = code;  // to make it so that not all NPCCharacters have clonable clode
+		this.hasCode = code;  // to make it so that not all laptops have clonable clode
 	}
 	
-	public NPCCharacter(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
+	public Laptop(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
             int textureIndex, int id, boolean code) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.hasCode = code;
@@ -35,10 +35,19 @@ public class NPCCharacter extends NonPlayerCharacters {
 		if(hasCode){
 			System.out.println("Collecting code");
 			game.updateCodeProgress();
-			game.updateScore(CHARACTER_INTERACT_SCORE);
-			game.removeMovableEntity(this);
+			game.updateScore(LAPTOP_SCORE);
 			this.hasCode = false;
 		}
+	}
+
+	@Override
+	public int getScore() {
+		return LAPTOP_SCORE;
+	}
+
+	@Override
+	public String viewInfo() {
+		return "Clone code from laptops to help complete the program";
 	}
 
 }
