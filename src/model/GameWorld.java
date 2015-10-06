@@ -13,6 +13,7 @@ import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -78,6 +79,7 @@ public class GameWorld {
     private long timer;
     private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
+	private boolean gameLost = false;
 
     /**
      * Creates the game world and passes in the loader
@@ -245,6 +247,10 @@ public class GameWorld {
 		return this.cards;
 	}
 
+	public boolean isGameLost() {
+		return gameLost;
+	}
+
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
 	}
@@ -383,7 +389,7 @@ public class GameWorld {
 
     		// if patch progress reaches zero, players lose
     		if(this.patchProgress <= 0) {
-    			loseGame();
+    			gameLost = true;
     		}
     		
     		// update new time
@@ -451,8 +457,13 @@ public class GameWorld {
 	/**
 	 * Display message to player when they 
 	 * have lost the game
+	 * @return 
 	 */
-	private void loseGame() {
+	public List<GuiTexture> loseGame() {
+		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
+		Mouse.setGrabbed(false);
+		
+		return lostScreen;
 		// TODO display lose game message
 		// ungrab mouse and message is end of game. 
 		// can you make it so that pressing enter takes you back to the

@@ -61,11 +61,13 @@ public class PlayLoadOptionsScreen {
 					break;
 				}
 				else if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-					//TODO bring up load screen
+					DisplayManager.closeDisplay();
+					//TODO
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_O)){
-					//TODO bring up options screen
+					DisplayManager.closeDisplay();
+					//TODO
 					break;
 					
 				}

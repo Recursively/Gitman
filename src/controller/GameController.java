@@ -43,6 +43,7 @@ public class GameController {
 	private ActionController actionController;
 
 	private final boolean isHost;
+	private final String ipAddress;
 	private int playerCount;
 
 	/**
@@ -69,6 +70,7 @@ public class GameController {
 
 		// setup client
 		this.isHost = isHost;
+		this.ipAddress = ipAddress;
 		if (isHost) {
 			serverController = new ServerController(this);
 			serverController.start();
@@ -159,6 +161,11 @@ public class GameController {
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
+			
+			if(gameWorld.isGameLost()){
+				guiRenderer.render(gameWorld.loseGame());
+				//TODO add keypress window change
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
@@ -207,6 +214,10 @@ public class GameController {
 
 	public Player getPlayer() {
 		return gameWorld.getPlayer();
+	}
+
+	public String getIpAddress() {
+		return ipAddress;
 	}
 
 	public void removePlayer(int uid) {
