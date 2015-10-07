@@ -16,18 +16,23 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public abstract class LaptopItem extends Item {
+	private static final String SELECTED_ENDING = "selected";
+	
 	private final String name;
+	private String imgName;
 	
 	public LaptopItem(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.name = name;
+		this.imgName = name;
 	}
 	
 	public LaptopItem(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.name = name;
+		this.imgName = name;
 	}
 
 	@Override
@@ -41,7 +46,20 @@ public abstract class LaptopItem extends Item {
 	public abstract int getSize();
 	
 	public String getName(){
-		return name;
+		return this.name;
+	}
+	
+	public String getImgName(){
+		return this.imgName;
+	}
+	
+	public void setSelected(boolean isSelected){
+		if(!isSelected){
+			this.imgName = this.name;
+		}
+		else {
+			this.imgName = this.name + SELECTED_ENDING;
+		}
 	}
 
 

@@ -451,7 +451,6 @@ public class GameWorld {
 		// and what they have to do now (e.g. press enter to continue)
 		// move player into different terrian
 		// show single vs multiplayer option
-		// should create method that deals with decreasing patch progress over time (look at title screen as example)
 	}
 	
 	/**

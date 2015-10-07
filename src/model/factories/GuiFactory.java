@@ -12,6 +12,8 @@ import java.util.ArrayList;
  * Factory Game for creating Gui Components
  *
  * @author Marcel van Workum
+ * @author Ellie
+ * @author Divya
  */
 public class GuiFactory {
 
@@ -49,10 +51,16 @@ public class GuiFactory {
 	public ArrayList<GuiTexture> makeInventory(Inventory inventory) {
 		ArrayList<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
 		inventoryImages.add(makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
-		if (inventory.getInventory() != null) {
-			ArrayList<LaptopItem> inventoryList = inventory.getInventory();
-			for (int i = 0; i < inventoryList.size(); i++) {
-				makeGuiTexture(inventoryList.get(i).getName(), new Vector2f(0f + 100 * i, 0f), new Vector2f(1f, 1f));
+		if (inventory.getLaptopDisplay() != null) {
+			LaptopItem[][] items = inventory.getLaptopDisplay();
+			for(int x = 0; x < items.length; x++){
+				for(int y = 0; y < items[0].length; y++){
+					if(items[x][y] != null){
+						// TODO fix vector calulations depending on x y values
+						GuiTexture img = makeGuiTexture(items[x][y].getImgName(), new Vector2f(0f + 100 * x, 0f), new Vector2f(1f, 1f));
+						inventoryImages.add(img);
+					}
+				}
 			}
 		}
 

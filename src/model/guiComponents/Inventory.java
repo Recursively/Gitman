@@ -22,6 +22,13 @@ import model.textures.GuiTexture;
 public class Inventory {
 	private static final int MAX_STORAGE_SIZE = 512;   // laptop has 512MB available for storage
 	
+	// final fields for image display //FIXME
+	private static final int NUM_ACROSS = 7;
+	private static final int NUM_DOWN = 4;
+	private static final int X_SIZE = 20;
+	private static final int Y_SIZE = 30;
+	
+	private LaptopItem[][] laptopDisplay;
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
@@ -102,6 +109,9 @@ public class Inventory {
 			inLaptop.remove(this.selected);
 			game.removeFromInventory(this.selected);
 			this.selected = null;
+			
+			// redraw inventory gui as item has been deleted // TODO
+			updateLaptopDisplay();
 		}
 	}
 	
@@ -126,7 +136,7 @@ public class Inventory {
 	private void openInventory(){
 		isVisible = true;
 		Mouse.setGrabbed(false);
-		textureList = guiFactory.makeInventory(this);
+		updateLaptopDisplay();
 		
 		//List<GuiTexture> guiList = new ArrayList<>();
 		//
@@ -136,6 +146,21 @@ public class Inventory {
 //		}
 	}
 	
+	private void updateLaptopDisplay() {
+		this.laptopDisplay = new LaptopItem[NUM_ACROSS][NUM_DOWN];
+		int i = 0;
+		for(int x = 0; x < NUM_ACROSS; x++){
+			for(int y = 0; y < NUM_DOWN; y++){
+				if(i < this.inLaptop.size()){
+					this.laptopDisplay[x][y] = this.inLaptop.get(i);
+					i++;
+				}
+			}
+		}
+
+		textureList = guiFactory.makeInventory(this);
+	}
+
 	private void closeInventory(){
 		isVisible = false;
 		Mouse.setGrabbed(true);
@@ -173,18 +198,27 @@ public class Inventory {
 	}
 	
 	private LaptopItem findItem(int x, int y) {
-		// TODO find item that has been clicked on
-		// maybe implement 2d array storage to make finding 
-		// items easier???
+		
 		return null;
 	}
 
-	public void showSelected(int x, int y) {
+	public void showSelected(int x, int y) {		
 		LaptopItem item = findItem(x, y);
 		if(item != null){
+			// if something else was selected before, reset its selected image, 
+			if(this.selected != null){
+				// TODO maybe item.setSelectedImage(false);
+			}
 			this.selected = item;
 			// update textures to show the clicked on item's 'selected' image, not normal one
+			
+			// update display as something has been selected
+			updateLaptopDisplay();
 		}		
+	}
+
+	public LaptopItem[][] getLaptopDisplay() {
+		return this.laptopDisplay;
 	}
 
 }
