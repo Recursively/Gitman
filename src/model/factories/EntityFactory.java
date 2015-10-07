@@ -203,7 +203,7 @@ public class EntityFactory {
         else if (entityName.equals("laptop")) {
             y += 7;
             movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID, true));
+                    270f, 0, 1f,  EntityFactory.movableItemID, true, 1));  // TODO last value has to match value of one swipe cardID
 
             EntityFactory.movableItemID++;
         }

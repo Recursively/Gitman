@@ -1,5 +1,7 @@
 package model.entities.movableEntity;
 
+import java.util.Set;
+
 import model.GameWorld;
 import model.models.TexturedModel;
 
@@ -14,30 +16,51 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Laptop extends Item {
-	private static final int LAPTOP_SCORE = 10;
+	private static final int LAPTOP_SCORE = 50;
+	
 	private boolean hasCode;
+	private boolean locked;
+	private int cardID;
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale, int id, boolean code) {
+			float rotY, float rotZ, float scale, int id, boolean code, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.hasCode = code;  // to make it so that not all laptops have clonable clode
+		this.locked = true;
+		this.cardID = cardID;
 	}
 	
 	public Laptop(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
-            int textureIndex, int id, boolean code) {
+            int textureIndex, int id, boolean code, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.hasCode = code;
+		this.locked = true;
+		this.cardID = cardID;
 	}
 
 	@Override
 	public void interact(GameWorld game) {
-		// can only clone code from characters once
-		if(hasCode){
-			System.out.println("Collecting code");
-			game.updateCodeProgress();
-			game.updateScore(LAPTOP_SCORE);
-			this.hasCode = false;
+		// useful interaction requires locked laptop that has code on it	
+		if(locked && hasCode){
+			Set<SwipeCard> cards = game.getSwipeCards();
+			for(SwipeCard s: cards){
+				if(s.matchID(cardID)){
+					this.locked = false;
+					System.out.println("Collecting code");
+					game.updateCodeProgress();
+					game.updateScore(LAPTOP_SCORE);
+					this.hasCode = false;
+					return;
+				}
+			}
+			// no card found that can unlock door. display message
+			unsuccessfulUnlockMessage();
 		}
+	}
+	
+	private void unsuccessfulUnlockMessage() {
+		// TODO display message about unsuccesful unlock.
+		// maybe have enter key to make message disappear	
 	}
 
 	@Override
