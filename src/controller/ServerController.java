@@ -97,9 +97,9 @@ public class ServerController extends Thread {
 		case 11:
 			gameController.getGameWorld().interactCommit();
 			break;
-		case 12:
-			gameController.getGameWorld().interactDoor();
-			break;
+//		case 12:
+//			gameController.getGameWorld().interactDoor();
+//			break;
 		case 13:
 			gameController.getGameWorld().interactLaptopItem();
 			break;
