@@ -30,19 +30,20 @@ import java.util.*;
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
+
 	private static final int START_PATCH = 10; // starting progress value for
 												// patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease
 														// patch progress
-	private static final double PATCH_TIMER = 5000; // FIXME currently is 5
-													// seconds
+	private static final double PATCH_TIMER = 10000; // FIXME currently is 10
+														// seconds
 	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
 														// player should collect
 														// on average...
 	private static final int CODE_VALUE = 20; // value to increment code
 												// progress by (5 clones
 												// required)
-	private static final int INTERACT_DISTANCE = 15; // max distance player can
+	private static final int INTERACT_DISTANCE = 10; // max distance player can
 														// be from entity and
 														// still interact with
 														// it
@@ -447,15 +448,6 @@ public class GameWorld {
 		}
 	}
 
-	public void updateCodeProgress() {
-		this.codeProgress += CODE_VALUE;
-		inventory.increaseStorageUsed(CODE_VALUE);
-
-		// player has cloned all bits of code
-		if (this.codeProgress >= MAX_PROGRESS) {
-			compileProgram();
-		}
-	}
 
 	/**
 	 * Updates game score (players get points for interacting with items)
@@ -466,6 +458,22 @@ public class GameWorld {
 	public void updateScore(int score) {
 		this.score += score;
 		System.out.println("Game Score:" + score);
+	}
+
+	/**
+	 * Code progess reached 100 means all bits of code collected. Player is
+	 * given the option of multiplayer or single player, and the environment
+	 * they are displayed in changes in
+	 */
+
+	public void updateCodeProgress() {
+		this.codeProgress += CODE_VALUE;
+		inventory.increaseStorageUsed(CODE_VALUE);
+
+		// player has cloned all bits of code
+		if (this.codeProgress >= MAX_PROGRESS) {
+			compileProgram();
+		}
 	}
 
 	/**
