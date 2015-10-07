@@ -89,7 +89,7 @@ public class ServerController extends Thread {
 	public void dealWithUpdate(int type, int id, float x, float y, float z) {
 		switch (type) {
 		case 8:
-			gameController.getGameWorld().dropMovableEntity();
+			gameController.getGameWorld().dropLaptopItem();
 			break;
 		case 10:
 			gameController.getGameWorld().interactBug();
@@ -103,12 +103,12 @@ public class ServerController extends Thread {
 		case 13:
 			gameController.getGameWorld().interactLaptopItem();
 			break;
-		case 14:
-			gameController.getGameWorld().interactNPCCharacter();
-			break;
-		case 15:
-			gameController.getGameWorld().interactPlayer();
-			break;
+//		case 14:
+//			gameController.getGameWorld().interactNPCCharacter();
+//			break;
+//		case 15:
+//			gameController.getGameWorld().interactPlayer();
+//			break;
 		case 16:
 			gameController.getGameWorld().interactSwipeCard();
 			break;

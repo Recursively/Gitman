@@ -47,6 +47,8 @@ public abstract class LaptopItem extends Item {
 	
 	public abstract int getSize();
 	
+	public abstract int getScore();
+	
 	public String getName(){
 		return this.name;
 	}

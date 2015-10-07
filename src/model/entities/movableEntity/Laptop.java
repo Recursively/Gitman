@@ -70,12 +70,7 @@ public class Laptop extends Item {
 			}
 		}
 	}
-
-	@Override
-	public int getScore() {
-		return LAPTOP_SCORE;
-	}
-
+	
 	@Override
 	public String viewInfo() {
 		return "Clone code from laptops to help complete the program";

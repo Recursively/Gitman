@@ -31,11 +31,6 @@ public abstract class Item extends MovableEntity {
 	public abstract int interact(GameWorld game);
 	
 	/**
-	 * @return score of item
-	 */
-	public abstract int getScore();
-	
-	/**
 	 * @return String information about the item and what 
 	 * interacting with it will do
 	 */

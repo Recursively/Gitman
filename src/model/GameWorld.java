@@ -63,6 +63,7 @@ public class GameWorld {
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
 	private Map<Integer, MovableEntity> movableEntities;
+	private Set<SwipeCard> cards;
 
 	// Terrain the world is on
 	private Terrain terrain;
@@ -94,7 +95,6 @@ public class GameWorld {
 	private boolean inProgram;
 	private boolean canApplyPatch;
 	private long timer;
-	private Set<SwipeCard> cards;
 	private TexturedModel playerModel;
 	private boolean gameLost = false;
 
@@ -425,6 +425,7 @@ public class GameWorld {
 			// if patch progress reaches zero, players lose
 			if (this.patchProgress <= 0) {
 				gameLost = true;
+				// TODO REUBEN -> 
 			}
 
 			// update new time
@@ -562,41 +563,47 @@ public class GameWorld {
 	}
 
 	public void interactBug() {
-		// TODO Auto-generated method stub
-
+		// win games???
 	}
 
 	public void interactCommit() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void interactDoor() {
-		// TODO Auto-generated method stub
+		// update score 
+		incrementPatch();
 
 	}
 
 	public void interactLaptopItem() {
-		// TODO Auto-generated method stub
+		// removes uid from movables map
+		// adds that item to inlaptop array in inventory
+		// updates score by .getScore()
 
 	}
 
-	public void interactNPCCharacter() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void interactPlayer() {
-		// TODO Auto-generated method stub
-
-	}
+//	public void interactNPCCharacter() {
+//		// TODO Auto-generated method stub
+//
+//	}
+//
+//	public void interactPlayer() {
+//		// TODO Auto-generated method stub
+//
+//	}
 
 	public void interactSwipeCard() {
-		// TODO Auto-generated method stub
+		// remove from movables
+		// add to swipe cards array
 
 	}
 
-	public void dropMovableEntity() {
+	public void dropLaptopItem() {
 		System.out.println("DROPPED");
+		// remove uid from inventory laptop
+		// item.setPosition(x,y,z)
+		// add to movable maps...
+	}
+	
+	public void setGameLost(boolean lost){
+		gameLost = lost;
 	}
 }
+

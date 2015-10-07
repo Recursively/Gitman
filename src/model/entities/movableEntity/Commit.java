@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Commit extends Item {
-	private static final int COMMIT_SCORE = 10;
+	public static final int COMMIT_SCORE = 10;
 
 	public Commit(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id) {
@@ -36,11 +36,6 @@ public class Commit extends Item {
 		game.addCommit();
 		
 		return 11;
-	}
-	
-	@Override
-	public int getScore() {
-		return COMMIT_SCORE;
 	}
 
 	@Override

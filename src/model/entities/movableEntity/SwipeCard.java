@@ -39,7 +39,6 @@ public class SwipeCard extends Item {
 		return 16;
 	}
 
-	@Override
 	public int getScore() {
 		return SWIPE_CARD_SCORE;
 	}
