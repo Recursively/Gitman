@@ -40,7 +40,7 @@ public class Laptop extends Item {
 	}
 
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		// useful interaction requires locked laptop that has code on it	
 		if(locked && hasCode){
 			Set<SwipeCard> cards = game.getSwipeCards();
@@ -51,12 +51,13 @@ public class Laptop extends Item {
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
-					return;
+					return 18;
 				}
 			}
 			// no card found that can unlock door. display message
 			unsuccessfulUnlockMessage();
 		}
+		return -1;
 	}
 	
 	private void unsuccessfulUnlockMessage() {

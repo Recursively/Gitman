@@ -62,11 +62,11 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader);
+		gameWorld = new GameWorld(loader, this);
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
-		actionController = new ActionController(loader, gameWorld);
+		actionController = new ActionController(loader, gameWorld, this);
 
 		// setup client
 		this.isHost = isHost;
@@ -223,6 +223,10 @@ public class GameController {
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
 	}
+	
+	public void setNetworkUpdate(int status, MovableEntity entity){
+		clientController.setNetworkUpdate(status, entity);
+	}
 
 	public int gameSize() {
 		return playerCount;
@@ -231,4 +235,5 @@ public class GameController {
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
+
 }

@@ -209,6 +209,7 @@ public class EntityFactory {
         }
     }
 
+
     public ArrayList<Entity> getEntities() {
         return entities;
     }

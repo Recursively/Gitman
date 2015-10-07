@@ -31,11 +31,12 @@ public class SwipeCard extends Item {
 	}
 	
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		game.updateScore(SWIPE_CARD_SCORE);
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
+		return 16;
 	}
 
 	@Override

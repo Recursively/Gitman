@@ -97,13 +97,13 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public void deleteItem(GameWorld game){
+	public LaptopItem deleteItem(GameWorld game){
 		// TODO for reuben! :)
 		// at end of this method there are changes to:
 		// storageUsed in Inventory
 		// movableEnities map in GameWorld
 		// inLaptop list in Inventory
-		
+		LaptopItem item = this.selected;
 		if(this.selected != null){
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
@@ -113,6 +113,9 @@ public class Inventory {
 			// redraw inventory gui as item has been deleted // TODO
 			updateLaptopDisplay();
 		}
+		
+		//Networking
+		return item;
 	}
 	
 	/**
