@@ -5,6 +5,7 @@ import java.util.Set;
 import model.GameWorld;
 import model.models.TexturedModel;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -60,7 +61,13 @@ public class Laptop extends Item {
 	
 	private void unsuccessfulUnlockMessage() {
 		// TODO display message about unsuccesful unlock.
-		// maybe have enter key to make message disappear	
+		// maybe have enter key to make message disappear
+		// call to update display here
+		while(true){
+			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
+				break;
+			}
+		}
 	}
 
 	@Override
