@@ -225,7 +225,9 @@ public class GameController {
 	}
 	
 	public void setNetworkUpdate(int status, MovableEntity entity){
-		clientController.setNetworkUpdate(status, entity);
+
+		//TODO FIX ME
+		//clientController.setNetworkUpdate(status, entity);
 	}
 
 	public int gameSize() {

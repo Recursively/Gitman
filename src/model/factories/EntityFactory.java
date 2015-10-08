@@ -2,6 +2,10 @@ package model.factories;
 
 import model.entities.Entity;
 import model.entities.movableEntity.*;
+import model.entities.Entity;
+import model.entities.movableEntity.*;
+import model.entities.movableEntity.Laptop;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -253,9 +257,10 @@ public class EntityFactory {
         // Movable entities
 
         else if (entityName.equals("laptop")) {
+
             y += 7;
-//            movableEntities.put(EntityFactory.movableItemID++, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-//                    270f, 0, 1f,  EntityFactory.laptopItemID++, false));
+            movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
         } else if (entityName.equals("bug")) {
             y += 15;
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
