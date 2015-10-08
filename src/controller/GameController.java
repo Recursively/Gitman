@@ -4,6 +4,7 @@ import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
+import model.factories.GuiFactory;
 import model.toolbox.Loader;
 
 import org.lwjgl.input.Keyboard;
@@ -171,7 +172,9 @@ public class GameController {
 			}
 			
 			// TODO pick up e to interact
-			
+			for(MovableEntity e : gameWorld.withinDistance().values()){
+				guiRenderer.render(gameWorld.eInteractMessage(e));
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();

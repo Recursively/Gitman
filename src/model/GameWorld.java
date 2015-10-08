@@ -612,6 +612,10 @@ public class GameWorld {
 	public void displayHelp() {
 		// TODO
 		
+	}
+
+	public List<GuiTexture> eInteractMessage(MovableEntity e) {
+		return guiFactory.makePopUpInteract(e.getPosition());
 	}	
 }
 
