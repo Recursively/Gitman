@@ -605,5 +605,10 @@ public class GameWorld {
 	public void setGameLost(boolean lost){
 		gameLost = lost;
 	}
+
+	public void displayHelp() {
+		
+		
+	}
 }
 
