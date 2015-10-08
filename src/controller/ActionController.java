@@ -2,12 +2,13 @@ package controller;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import main.ServerMain;
 import model.GameWorld;
 import model.data.Save;
 import model.entities.movableEntity.MovableEntity;
 import model.toolbox.Loader;
 import view.DisplayManager;
-import view.PlayLoadHelpScreen;
 
 /**
  * Controller to handle mouse and key input by the player. The
@@ -88,7 +89,7 @@ public class ActionController {
 						DisplayManager.closeDisplay();
 						//TODO networking idk what to put here help
 						//is currently testing mode
-						new PlayLoadHelpScreen(false, "");
+						new ServerMain();
 					}
 				}
         	}
