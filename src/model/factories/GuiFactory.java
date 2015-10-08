@@ -57,7 +57,7 @@ public class GuiFactory {
 				for(int y = 0; y < items[0].length; y++){
 					if(items[x][y] != null){
 						// TODO fix vector calulations depending on x y values
-						GuiTexture img = makeGuiTexture(items[x][y].getImgName(), new Vector2f(0f + 100 * x, 0f), new Vector2f(1f, 1f));
+						GuiTexture img = makeGuiTexture(items[x][y].getName(), new Vector2f(0f + 100 * x, 0f), new Vector2f(1f, 1f));
 						inventoryImages.add(img);
 					}
 				}

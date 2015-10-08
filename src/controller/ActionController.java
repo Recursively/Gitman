@@ -83,6 +83,7 @@ public class ActionController {
     			if (Keyboard.getEventKey() == Keyboard.KEY_F){
     				Save.saveGame(gameWorld);
     			}
+    			
     			if(gameWorld.isGameLost()){
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 						DisplayManager.closeDisplay();
@@ -91,6 +92,11 @@ public class ActionController {
 						new PlayLoadOptionsScreen(false, "");
 					}
 				}
+    			
+    			// escape closes screen
+    			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
+    				DisplayManager.closeDisplay();
+    			}
         	}
 		}
 	}

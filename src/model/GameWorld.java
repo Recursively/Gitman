@@ -17,6 +17,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import view.renderEngine.GuiRenderer;
 import controller.GameController;
 
 import java.util.*;
@@ -35,7 +36,7 @@ public class GameWorld {
 												// patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease
 														// patch progress
-	private static final double PATCH_TIMER = 10000; // FIXME currently is 10
+	private static final double PATCH_TIMER = 1000; // FIXME currently is 10
 														// seconds
 	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
 														// player should collect
@@ -59,6 +60,7 @@ public class GameWorld {
 
 	// Collection of guiImages to render to the screen
 	private ArrayList<GuiTexture> guiImages;
+	private GuiRenderer guiRenderer;
 
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
@@ -104,9 +106,10 @@ public class GameWorld {
 	 * @param loader
 	 *            loader
 	 */
-	public GameWorld(Loader loader, GameController gameController) {
+	public GameWorld(Loader loader, GameController gameController, GuiRenderer guiRender) {
 		this.loader = loader;
 		this.gameController = gameController;
+		this.guiRenderer = guiRender;
 	}
 
 	/**
@@ -140,7 +143,7 @@ public class GameWorld {
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
 		this.cards = new HashSet<>();
-		this.inProgram = false;
+		this.inProgram = false;  
 		this.canApplyPatch = false;
 	}
 
@@ -165,8 +168,8 @@ public class GameWorld {
 	 */
 	private void initGui() {
 		// TODO should init some gui here maybe?
-		// guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
-		// Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		//guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
+		//Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
 	}
 
 	/**
@@ -490,7 +493,6 @@ public class GameWorld {
 		// code
 		// and what they have to do now (e.g. press enter to continue)
 		// move player into different terrian
-		// show single vs multiplayer option
 		// should create method that deals with decreasing patch progress over
 		// time (look at title screen as example)
 	}
@@ -502,13 +504,8 @@ public class GameWorld {
 	 */
 	public List<GuiTexture> loseGame() {
 		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
-		Mouse.setGrabbed(false);
-
+		guiRenderer.render(guiFactory.makeLostScreen());
 		return lostScreen;
-		// TODO display lose game message
-		// ungrab mouse and message is end of game.
-		// can you make it so that pressing enter takes you back to the
-		// play/options screen
 
 	}
 
@@ -578,16 +575,6 @@ public class GameWorld {
 		// updates score by .getScore()
 
 	}
-
-//	public void interactNPCCharacter() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	public void interactPlayer() {
-//		// TODO Auto-generated method stub
-//
-//	}
 
 	public void interactSwipeCard() {
 		// remove from movables

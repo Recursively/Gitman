@@ -64,11 +64,7 @@ public class Laptop extends Item {
 		// TODO display message about unsuccesful unlock.
 		// maybe have enter key to make message disappear
 		// call to update display here
-		while(true){
-			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-				break;
-			}
-		}
+		
 	}
 	
 	@Override

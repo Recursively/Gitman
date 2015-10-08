@@ -62,7 +62,7 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader, this);
+		gameWorld = new GameWorld(loader, this, guiRenderer);
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
@@ -164,7 +164,6 @@ public class GameController {
 			
 			if(gameWorld.isGameLost()){
 				guiRenderer.render(gameWorld.loseGame());
-				//TODO add keypress window change
 			}
 
 			// update the Display window
