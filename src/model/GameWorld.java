@@ -560,6 +560,8 @@ public class GameWorld {
 		Terrain temp = terrain;
 		terrain = officeTerrain;
 		officeTerrain = temp;
+		player.getPosition().x = SPAWN_POSITION.getX();
+		player.getPosition().z = SPAWN_POSITION.getZ();
 	}
 
 	
