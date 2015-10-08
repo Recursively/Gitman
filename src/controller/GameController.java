@@ -43,6 +43,7 @@ public class GameController {
 	private ActionController actionController;
 
 	private final boolean isHost;
+	private final String ipAddress;
 	private int playerCount;
 
 	/**
@@ -61,14 +62,15 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader);
+		gameWorld = new GameWorld(loader, this);
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
-		actionController = new ActionController(loader, gameWorld);
+		actionController = new ActionController(loader, gameWorld, this);
 
 		// setup client
 		this.isHost = isHost;
+		this.ipAddress = ipAddress;
 		if (isHost) {
 			serverController = new ServerController(this);
 			serverController.start();
@@ -159,6 +161,11 @@ public class GameController {
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
+			
+			if(gameWorld.isGameLost()){
+				guiRenderer.render(gameWorld.loseGame());
+				//TODO add keypress window change
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
@@ -209,8 +216,18 @@ public class GameController {
 		return gameWorld.getPlayer();
 	}
 
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
+	}
+	
+	public void setNetworkUpdate(int status, MovableEntity entity){
+
+		//TODO FIX ME
+		//clientController.setNetworkUpdate(status, entity);
 	}
 
 	public int gameSize() {
@@ -220,4 +237,5 @@ public class GameController {
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
+
 }

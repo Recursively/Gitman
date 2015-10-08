@@ -3,9 +3,12 @@ package controller;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import main.ServerMain;
 import model.GameWorld;
 import model.data.Save;
+import model.entities.movableEntity.MovableEntity;
 import model.toolbox.Loader;
+import view.DisplayManager;
 
 /**
  * Controller to handle mouse and key input by the player. The
@@ -17,12 +20,12 @@ import model.toolbox.Loader;
  *
  */
 public class ActionController {
-	private Loader loader;
 	private GameWorld gameWorld;
+	private GameController gameController;
 	
-	public ActionController(Loader loader, GameWorld gameWorld) {
-		this.loader = loader;		
+	public ActionController(Loader loader, GameWorld gameWorld, GameController gameController) {
 		this.gameWorld = gameWorld;
+		this.gameController = gameController;
 	}
 
 	public void processActions(){
@@ -44,7 +47,7 @@ public class ActionController {
 					}
 
 					if(Mouse.isButtonDown(1)){  // right click
-						gameWorld.getInventory().showDeleteOption(x, y);
+						gameWorld.getInventory().showSelected(x, y);
 					}
 				}
 			}
@@ -59,6 +62,20 @@ public class ActionController {
         			gameWorld.getInventory().displayInventory();
             	} 
         		
+        		if (Keyboard.getEventKey() == Keyboard.KEY_X){
+        			
+    				MovableEntity entity = gameWorld.getInventory().deleteItem(gameWorld);
+    				
+    				if(entity != null){
+    					gameController.setNetworkUpdate(8, entity);
+    				}
+    				
+    			}
+        		
+        		if(Keyboard.getEventKey() == Keyboard.KEY_H){
+        			gameWorld.displayHelp();
+        		}
+        		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
         			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
@@ -67,6 +84,14 @@ public class ActionController {
     			if (Keyboard.getEventKey() == Keyboard.KEY_F){
     				Save.saveGame(gameWorld);
     			}
+    			if(gameWorld.isGameLost()){
+					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+						DisplayManager.closeDisplay();
+						//TODO networking idk what to put here help
+						//is currently testing mode
+						new ServerMain();
+					}
+				}
         	}
 		}
 	}

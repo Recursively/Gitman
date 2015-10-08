@@ -24,11 +24,14 @@ public class Bug extends NonPlayerCharacters {
 	}
 
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		// only can 'apply patch' to bug if all commits collected
 		if(game.canApplyPatch()){
 			game.winGame();
+			return 10;
 		}
+		
+		return -1;
 	}
 
 }

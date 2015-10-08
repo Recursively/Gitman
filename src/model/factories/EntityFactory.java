@@ -2,6 +2,8 @@ package model.factories;
 
 import model.entities.Entity;
 import model.entities.movableEntity.*;
+import model.entities.movableEntity.Laptop;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -10,9 +12,11 @@ import model.terrains.Terrain;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.objParser.OBJFileLoader;
+
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -252,8 +256,8 @@ public class EntityFactory {
 
         else if (entityName.equals("laptop")) {
             y += 7;
-            movableEntities.put(EntityFactory.movableItemID++, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.laptopItemID++, false));
+            movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
         } else if (entityName.equals("bug")) {
             y += 15;
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
@@ -275,6 +279,7 @@ public class EntityFactory {
             0, 180, 0, 0.5f, EntityFactory.movableItemID++, "extImg" + EntityFactory.flashdriveItemID++));
         }
     }
+
 
     public ArrayList<Entity> getEntities() {
         return entities;

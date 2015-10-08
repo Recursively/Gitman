@@ -16,8 +16,6 @@ public class FlashDrive extends LaptopItem {
 	private static final int FLASH_DRIVE_SCORE = 20;
 	private static final int FLASH_DRIVE_SIZE = 40;
 	
-	//TODO field to store image?
-	
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, id, name);
