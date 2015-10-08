@@ -50,6 +50,7 @@ public class GameWorld {
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 
+
 	// Object creation factories
 	private EntityFactory entityFactory;
 	private TerrainFactory terrainFactory;
@@ -67,6 +68,7 @@ public class GameWorld {
 
 	// Terrain the world is on
 	private Terrain terrain;
+
 	private Terrain officeTerrain;
 
 	// The actual player
