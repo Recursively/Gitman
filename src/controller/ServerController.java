@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import model.GameWorld;
 import model.network.Server;
+import model.network.ServerHandler;
 
 /**
  * Controller class to handle the delegations between the Model and View
@@ -17,6 +19,7 @@ import model.network.Server;
 public class ServerController extends Thread {
 
 	private GameController gameController;
+	private ServerHandler serverHandler;
 
 	private ServerSocket serverSocket;
 	private Server server;
@@ -28,6 +31,7 @@ public class ServerController extends Thread {
 		this.gameController = gameController;
 		this.isRunning = true;
 		initServerSocket();
+		initServerHandler();
 	}
 
 	public void run() {
@@ -59,6 +63,10 @@ public class ServerController extends Thread {
 			e.printStackTrace();
 		}
 	}
+	
+	private void initServerHandler() {
+		this.serverHandler = new ServerHandler(gameController.getGameWorld());
+	}
 
 	public void terminate() {
 
@@ -87,32 +95,25 @@ public class ServerController extends Thread {
 
 	// when an update is sent to the server about an entity update process it here
 	public void dealWithUpdate(int type, int id, float x, float y, float z) {
+		
 		switch (type) {
 		case 8:
-			gameController.getGameWorld().dropLaptopItem();
+			serverHandler.dropLaptopItem(id, x, y, z);
 			break;
 		case 10:
-			gameController.getGameWorld().interactBug();
+			serverHandler.interactBug();
 			break;
 		case 11:
-			gameController.getGameWorld().interactCommit();
+			serverHandler.interactCommit();
 			break;
-//		case 12:
-//			gameController.getGameWorld().interactDoor();
-//			break;
 		case 13:
-			gameController.getGameWorld().interactLaptopItem();
+			serverHandler.interactLaptopItem(id);
 			break;
-//		case 14:
-//			gameController.getGameWorld().interactNPCCharacter();
-//			break;
-//		case 15:
-//			gameController.getGameWorld().interactPlayer();
-//			break;
 		case 16:
-			gameController.getGameWorld().interactSwipeCard();
+			serverHandler.interactSwipeCard(id);
 			break;
 		case 17:
+			
 			break;
 		default:
 			break;

@@ -12,6 +12,8 @@ import java.net.Socket;
 
 public class Client extends Thread {
 
+	private ClientHandler clientHandler;
+
 	private final Socket socket;
 	private DataOutputStream outputStream;
 	private DataInputStream inputStream;
@@ -29,6 +31,7 @@ public class Client extends Thread {
 		this.running = true;
 		this.mostRecentUpdate = -1;
 		this.mostRecentEntity = null;
+		initClientHandler();
 		initStreams();
 
 	}
@@ -57,7 +60,7 @@ public class Client extends Thread {
 				if (sendUpdateStatus() != -1) {
 					System.out.println("INTERACTION CLIENT");
 					sendUpdateEntity();
-				} 
+				}
 
 			}
 		} catch (IOException e) {
@@ -88,9 +91,15 @@ public class Client extends Thread {
 	private void sendUpdateEntity() throws IOException {
 		System.out.println("SENT UPDATE: " + mostRecentUpdate);
 		outputStream.writeInt(mostRecentEntity.getUID());
-		outputStream.writeFloat(mostRecentEntity.getPosition().getX());
-		outputStream.writeFloat(mostRecentEntity.getPosition().getY());
-		outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
+		if (mostRecentUpdate != 8) {
+			outputStream.writeFloat(mostRecentEntity.getPosition().getX());
+			outputStream.writeFloat(mostRecentEntity.getPosition().getY());
+			outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
+		} else {
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getX());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getY());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getZ());
+		}
 
 		// make sure we don't send the update again
 		this.mostRecentUpdate = -1;
@@ -120,6 +129,10 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initClientHandler() {
+		this.clientHandler = new ClientHandler(gameController.getGameWorld());
 	}
 
 	public void updatePlayer(int playerID, float[] packet) {

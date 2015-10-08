@@ -562,45 +562,6 @@ public class GameWorld {
 		officeTerrain = temp;
 	}
 
-	public void interactBug() {
-		// win games???
-	}
-
-	public void interactCommit() {
-		// update score 
-		incrementPatch();
-
-	}
-
-	public void interactLaptopItem() {
-		// removes uid from movables map
-		// adds that item to inlaptop array in inventory
-		// updates score by .getScore()
-
-	}
-
-//	public void interactNPCCharacter() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	public void interactPlayer() {
-//		// TODO Auto-generated method stub
-//
-//	}
-
-	public void interactSwipeCard() {
-		// remove from movables
-		// add to swipe cards array
-
-	}
-
-	public void dropLaptopItem() {
-		System.out.println("DROPPED");
-		// remove uid from inventory laptop
-		// item.setPosition(x,y,z)
-		// add to movable maps...
-	}
 	
 	public void setGameLost(boolean lost){
 		gameLost = lost;
