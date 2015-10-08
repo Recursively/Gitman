@@ -16,7 +16,9 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import view.renderEngine.GuiRenderer;
@@ -321,8 +323,21 @@ public class GameWorld {
 	public MovableEntity findMovEntity(Camera camera) {
 		MovableEntity closest = null;
 		double closestDiff = INTERACT_DISTANCE * INTERACT_DISTANCE;
-
+		
+		for(Map.Entry<Double, MovableEntity> e : this.withinDistance().entrySet()){
+			if(e.getKey() <= closestDiff){
+				closestDiff = e.getKey();
+				closest = e.getValue();
+			}
+		}
+		return closest;
+	}
+	
+	public Map<Double, MovableEntity> withinDistance(){
+		HashMap<Double, MovableEntity> interactable = new HashMap<Double, MovableEntity>();
+		
 		// get position of player
+		Camera camera = player.getCamera();
 		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
@@ -335,15 +350,14 @@ public class GameWorld {
 			float ex = e.getPosition().getX();
 			float ez = e.getPosition().getZ();
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);
-
-			// update closest entity if e is within max interacting distance
-			// and in front of the player (within view of player)
-			if (diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
-				closest = e;
-				closestDiff = diff;
+			
+			// if within interactable distance, add to map
+			if (diff <= (INTERACT_DISTANCE*INTERACT_DISTANCE) 
+					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
+				interactable.put(diff, e);
 			}
 		}
-		return closest;
+		return interactable;
 	}
 
 	/**
@@ -596,8 +610,8 @@ public class GameWorld {
 	}
 
 	public void displayHelp() {
+		// TODO
 		
-		
-	}
+	}	
 }
 

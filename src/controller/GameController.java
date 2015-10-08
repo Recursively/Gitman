@@ -5,13 +5,17 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.TrueTypeFont;
+
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -165,6 +169,9 @@ public class GameController {
 			if(gameWorld.isGameLost()){
 				guiRenderer.render(gameWorld.loseGame());
 			}
+			
+			// TODO pick up e to interact
+			
 
 			// update the Display window
 			DisplayManager.updateDisplay();
