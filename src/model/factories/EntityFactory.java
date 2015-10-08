@@ -1,6 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
+import model.entities.movableEntity.Bug;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
@@ -57,6 +59,10 @@ public class EntityFactory {
     private TexturedModel tableTexturedModel;
     private ModelData laptopData;
     private TexturedModel laptopTexturedModel;
+    private ModelData bugData;
+    private TexturedModel bugTexturedModel;
+    private ModelData tabletData;
+    private static TexturedModel tabletTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -109,6 +115,18 @@ public class EntityFactory {
                 laptopData.getNormals(), laptopData.getIndices());
         laptopTexturedModel = new TexturedModel(laptopRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "laptop")));
+
+        bugData = OBJFileLoader.loadOBJ(MODEL_PATH + "bug");
+        RawModel bugRawModel = loader.loadToVAO(bugData.getVertices(), bugData.getTextureCoords(),
+                bugData.getNormals(), bugData.getIndices());
+        bugTexturedModel = new TexturedModel(bugRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "bug")));
+
+        tabletData = OBJFileLoader.loadOBJ(MODEL_PATH + "tablet");
+        RawModel tabletRawModel = loader.loadToVAO(tabletData.getVertices(), tabletData.getTextureCoords(),
+                tabletData.getNormals(), tabletData.getIndices());
+        EntityFactory.tabletTexturedModel = new TexturedModel(tabletRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "tablet")));
     }
 
     // HELPER METHOD
@@ -157,6 +175,8 @@ public class EntityFactory {
                     makeEntity(terrain, i, j, "table_with_drawer", false);
                 } else if (color == -261889) {
                     makeEntity(terrain, i, j, "laptop", false);
+                } else if (color == -28672) {
+                    makeEntity(terrain, i, j, "bug", false);
                 }
             }
         }
@@ -206,6 +226,11 @@ public class EntityFactory {
                     270f, 0, 1f,  EntityFactory.movableItemID, true, 1));  // TODO last value has to match value of one swipe cardID
 
             EntityFactory.movableItemID++;
+        } else if (entityName.equals("bug")) {
+            y += 15;
+            movableEntities.put(EntityFactory.movableItemID, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 10f, 0));
+            EntityFactory.movableItemID++;
         }
     }
 
@@ -220,5 +245,10 @@ public class EntityFactory {
 
     public Map<Integer, MovableEntity> getMovableEntities() {
         return movableEntities;
+    }
+
+    public static Commit createCommit(Vector3f position) {
+        position.y += 10;
+        return new Commit(EntityFactory.tabletTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
     }
 }

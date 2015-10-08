@@ -40,4 +40,9 @@ public class FlashDrive extends LaptopItem {
 	public int getSize() {
 		return FLASH_DRIVE_SIZE;
 	}
+	
+	@Override
+	public String getType(){
+		return "FlashDrive";
+	}
 }

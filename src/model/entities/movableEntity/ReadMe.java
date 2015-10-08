@@ -42,4 +42,9 @@ public class ReadMe extends LaptopItem{
 	public int getSize() {
 		return README_SIZE;
 	}
+	
+	@Override
+	public String getType(){
+		return "ReadMe";
+	}
 }

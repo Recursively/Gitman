@@ -71,5 +71,10 @@ public class Laptop extends Item {
 	public String viewInfo() {
 		return "Clone code from laptops to help complete the program";
 	}
+	
+	@Override
+	public String getType(){
+		return "Laptop";
+	}
 
 }

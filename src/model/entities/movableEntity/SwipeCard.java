@@ -58,4 +58,9 @@ public class SwipeCard extends Item {
 	public boolean matchID(int id){
 		return this.cardID == id;
 	}
+	
+	@Override
+	public String getType(){
+		return "SwipeCard";
+	}
 }

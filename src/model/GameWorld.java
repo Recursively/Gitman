@@ -324,7 +324,7 @@ public class GameWorld {
 		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
-		for (MovableEntity e : this.allPlayers.values()) {
+		for (MovableEntity e : this.movableEntities.values()) {
 			// check that entity is 'intractable'
 			if (!e.canInteract()) {
 				continue;
@@ -557,6 +557,8 @@ public class GameWorld {
 		Terrain temp = terrain;
 		terrain = officeTerrain;
 		officeTerrain = temp;
+		player.getPosition().x = SPAWN_POSITION.getX();
+		player.getPosition().z = SPAWN_POSITION.getZ();
 	}
 
 	public void interactBug() {
