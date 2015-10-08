@@ -322,7 +322,7 @@ public class GameWorld {
 		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
-		for (MovableEntity e : this.allPlayers.values()) {
+		for (MovableEntity e : this.movableEntities.values()) {
 			// check that entity is 'intractable'
 			if (!e.canInteract()) {
 				continue;
