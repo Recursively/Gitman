@@ -2,14 +2,13 @@ package controller;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
+import main.ServerMain;
 import model.GameWorld;
 import model.data.Save;
 import model.entities.movableEntity.MovableEntity;
 import model.toolbox.Loader;
 import view.DisplayManager;
-import view.PlayLoadOptionsScreen;
 
 /**
  * Controller to handle mouse and key input by the player. The
@@ -21,12 +20,10 @@ import view.PlayLoadOptionsScreen;
  *
  */
 public class ActionController {
-	private Loader loader;
 	private GameWorld gameWorld;
 	private GameController gameController;
 	
 	public ActionController(Loader loader, GameWorld gameWorld, GameController gameController) {
-		this.loader = loader;		
 		this.gameWorld = gameWorld;
 		this.gameController = gameController;
 	}
@@ -75,6 +72,10 @@ public class ActionController {
     				
     			}
         		
+        		if(Keyboard.getEventKey() == Keyboard.KEY_H){
+        			gameWorld.displayHelp();
+        		}
+        		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
         			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
@@ -89,7 +90,7 @@ public class ActionController {
 						DisplayManager.closeDisplay();
 						//TODO networking idk what to put here help
 						//is currently testing mode
-						new PlayLoadOptionsScreen(false, "");
+						new ServerMain();
 					}
 				}
     			

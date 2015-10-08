@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Represent the characters in the game that will be found in 
  * the office section, and will have laptops with them that
  * the player can clone code off. 
- * 
+ *
  * @author Divya
  *
  */
@@ -24,15 +24,15 @@ public class Laptop extends Item {
 	private int cardID;
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale, int id, boolean code, int cardID) {
+				  float rotY, float rotZ, float scale, int id, boolean code, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.hasCode = code;  // to make it so that not all laptops have clonable clode
 		this.locked = true;
 		this.cardID = cardID;
 	}
-	
+
 	public Laptop(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
-            int textureIndex, int id, boolean code, int cardID) {
+				  int textureIndex, int id, boolean code, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.hasCode = code;
 		this.locked = true;
@@ -59,14 +59,14 @@ public class Laptop extends Item {
 		}
 		return -1;
 	}
-	
+
 	private void unsuccessfulUnlockMessage() {
 		// TODO display message about unsuccesful unlock.
 		// maybe have enter key to make message disappear
 		// call to update display here
 		
 	}
-	
+
 	@Override
 	public String viewInfo() {
 		return "Clone code from laptops to help complete the program";

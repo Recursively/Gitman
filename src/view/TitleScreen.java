@@ -69,7 +69,7 @@ public class TitleScreen {
 		}
 
 		// create the game now
-		new PlayLoadOptionsScreen(isHost,hostname);
+		new PlayLoadHelpScreen(isHost,hostname);
 		
 	}
 

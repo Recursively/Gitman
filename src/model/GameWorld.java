@@ -1,9 +1,13 @@
 package model;
 
+import controller.GameController;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
-import model.entities.movableEntity.*;
+import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.Player;
+import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
 import model.guiComponents.Inventory;
 import model.models.TexturedModel;
@@ -12,9 +16,7 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
-
 import org.lwjgl.input.Mouse;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import view.renderEngine.GuiRenderer;
@@ -385,8 +387,6 @@ public class GameWorld {
 	 * 
 	 * @param item
 	 *            to remove
-	 * @param playerPosition
-	 *            position to drop item at
 	 * @return true if remove was successful
 	 */
 	public void removeFromInventory(LaptopItem item) {
@@ -593,6 +593,11 @@ public class GameWorld {
 	
 	public void setGameLost(boolean lost){
 		gameLost = lost;
+	}
+
+	public void displayHelp() {
+		
+		
 	}
 }
 
