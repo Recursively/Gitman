@@ -33,6 +33,7 @@ public class GameWorld {
 	private static final int INTERACT_DISTANCE = 30; //max distance player can be from entity and still interact with it
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
+
 	
     // Object creation factories
     private EntityFactory entityFactory;

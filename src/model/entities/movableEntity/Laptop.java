@@ -13,17 +13,17 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Divya
  *
  */
-public class NPCCharacter extends NonPlayerCharacters {
+public class Laptop extends NonPlayerCharacters {
 	private boolean hasCode;
 
-	public NPCCharacter(TexturedModel model, Vector3f position, float rotX,
-			float rotY, float rotZ, float scale, int id, boolean code) {
+	public Laptop(TexturedModel model, Vector3f position, float rotX,
+				  float rotY, float rotZ, float scale, int id, boolean code) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.hasCode = code;  // to make it so that not all NPCCharacters have clonable clode
 	}
 	
-	public NPCCharacter(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
-            int textureIndex, int id, boolean code) {
+	public Laptop(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
+				  int textureIndex, int id, boolean code) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.hasCode = code;
 	}
