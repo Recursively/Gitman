@@ -17,7 +17,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Laptop extends Item {
-	private static final int LAPTOP_SCORE = 50;
+	public static final int LAPTOP_SCORE = 50;
 	
 	private boolean hasCode;
 	private boolean locked;

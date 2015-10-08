@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class SwipeCard extends Item {
-	private static final int SWIPE_CARD_SCORE = 15;
+	public static final int SWIPE_CARD_SCORE = 15;
 	
 	private final int cardID;
 
