@@ -22,14 +22,17 @@ public class Server extends Thread {
 	private Socket socket;
 
 	private GameController gameController;
-	
+
 	private NetworkHandler networkHandler;
-	
+
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
 	private int uid;
-	private int entityID;
+
+	private MovableEntity mostRecentEntity;
+
+	private int mostRecentUpdate = -1;
 
 	private boolean isRunning;
 
@@ -58,16 +61,16 @@ public class Server extends Thread {
 				for (Player player : gameController.getPlayers().values()) {
 					sendPlayerPosition(player);
 				}
-				
+
 				int updateType = checkUpdate();
-				
+
 				if (updateType != -1) {
-					entityID = updateEntitiy(updateType);
+					mostRecentEntity = updateEntitiy(updateType);
 				}
 
 				if (sendUpdateStatus(updateType) != -1) {
 					System.out.println("INTERACTION SERVER");
-					sendUpdateEntity(updateType, gameController.getGameWorld().getMoveableEntities().get(entityID));
+					sendUpdateEntity(updateType, mostRecentEntity);
 				}
 
 			}
@@ -77,25 +80,36 @@ public class Server extends Thread {
 
 	}
 
-	private void sendUpdateEntity(int mostRecentUpdate, MovableEntity mostRecentEntity) throws IOException {
-		System.out.println("SENT UPDATE: " + mostRecentUpdate);
+	private void sendUpdateEntity(int mostRecentUpdate,
+			MovableEntity mostRecentEntity) throws IOException {
 		outputStream.writeInt(mostRecentEntity.getUID());
 		if (mostRecentUpdate != 8) {
 			outputStream.writeFloat(mostRecentEntity.getPosition().getX());
 			outputStream.writeFloat(mostRecentEntity.getPosition().getY());
 			outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
 		} else {
-			outputStream.writeFloat(gameController.getPlayer().getPosition().getX());
-			outputStream.writeFloat(gameController.getPlayer().getPosition().getY());
-			outputStream.writeFloat(gameController.getPlayer().getPosition().getZ());
+			outputStream.writeFloat(gameController.getPlayer().getPosition()
+					.getX());
+			outputStream.writeFloat(gameController.getPlayer().getPosition()
+					.getY());
+			outputStream.writeFloat(gameController.getPlayer().getPosition()
+					.getZ());
 		}
+
+		// so update doesn't happen again
+		this.mostRecentUpdate = -1;
 
 	}
 
 	private int sendUpdateStatus(int status) throws IOException {
 		// send that there is an update to be made
-		outputStream.writeInt(status);
-		return status;
+		if (status != -1) {
+			outputStream.writeInt(status);
+			return status;
+		} else {
+			outputStream.writeInt(mostRecentUpdate);
+			return mostRecentUpdate;
+		}
 	}
 
 	public void initStreams() {
@@ -115,15 +129,19 @@ public class Server extends Thread {
 		return inputStream.readInt();
 	}
 
-	private int updateEntitiy(int updateType) throws IOException {
+	private MovableEntity updateEntitiy(int updateType) throws IOException {
+
 		int id = inputStream.readInt();
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
+		MovableEntity temp = gameController.getGameWorld()
+				.getMoveableEntities().get(id);
+
 		networkHandler.dealWithUpdate(updateType, id, x, y, z);
-		
-		return id;
+
+		return temp;
 
 	}
 
@@ -174,6 +192,12 @@ public class Server extends Thread {
 
 	public void setUid(int uid) {
 		this.uid = uid;
+	}
+
+	public void setUpdate(int status, MovableEntity entity) {
+		this.mostRecentUpdate = status;
+		this.mostRecentEntity = entity;
+
 	}
 
 }

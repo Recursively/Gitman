@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import model.GameWorld;
+import model.entities.movableEntity.MovableEntity;
 import model.network.Server;
 import model.network.NetworkHandler;
 
@@ -30,7 +31,7 @@ public class ServerController extends Thread {
 		this.gameController = gameController;
 		this.isRunning = true;
 		initServerSocket();
-		
+
 	}
 
 	public void run() {
@@ -62,8 +63,8 @@ public class ServerController extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+
 
 	public void terminate() {
 
@@ -88,8 +89,13 @@ public class ServerController extends Thread {
 		gameController.createPlayer(uid);
 		return uid;
 	}
-	
 
-	
+	public void setNetworkUpdate(int status, MovableEntity entity) {
+		server.setUpdate(status, entity);
+
+	}
+
+
+
 
 }

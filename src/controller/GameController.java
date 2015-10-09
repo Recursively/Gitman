@@ -53,7 +53,7 @@ public class GameController {
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -149,7 +149,7 @@ public class GameController {
 			if (!gameWorld.getInventory().isVisible()) {
 				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 			}
-			
+
 			// decrease patch progress as time passes
 			gameWorld.decreasePatch();
 
@@ -166,11 +166,11 @@ public class GameController {
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
-			
+
 			if(gameWorld.isGameLost()){
 				guiRenderer.render(gameWorld.loseGame());
 			}
-			
+
 			// TODO pick up e to interact
 			for(MovableEntity e : gameWorld.withinDistance().values()){
 				guiRenderer.render(gameWorld.eInteractMessage(e));
@@ -232,11 +232,14 @@ public class GameController {
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
 	}
-	
+
 	public void setNetworkUpdate(int status, MovableEntity entity){
 
 		if(!isHost()){
 			clientController.setNetworkUpdate(status, entity);
+		}
+		else{
+			serverController.setNetworkUpdate(status, entity);
 		}
 	}
 
