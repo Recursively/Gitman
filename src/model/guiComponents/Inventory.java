@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 
+import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
@@ -21,10 +22,18 @@ import model.textures.GuiTexture;
 public class Inventory {
 	private static final int MAX_STORAGE_SIZE = 512;   // laptop has 512MB available for storage
 	
+	// final fields for image display //FIXME
+	private static final int NUM_ACROSS = 7;
+	private static final int NUM_DOWN = 4;
+	private static final int X_SIZE = 20;
+	private static final int Y_SIZE = 30;
+	
+	private LaptopItem[][] laptopDisplay;
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
 	private boolean itemDisplayed;
+	private LaptopItem selected;
 	private GuiFactory guiFactory;
 	private ArrayList<GuiTexture> textureList;
 
@@ -35,6 +44,7 @@ public class Inventory {
 		this.storageUsed = 0;
 		this.isVisible = false;
 		this.itemDisplayed = false;
+		this.selected = null;
 		this.guiFactory = guiFactory;
 
 	}
@@ -87,13 +97,25 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public MovableEntity deleteItem(LaptopItem item){
-		if(inLaptop.contains(item)){
-			this.storageUsed = this.storageUsed - item.getSize();
-			inLaptop.remove(item);
-			return item;
+	public LaptopItem deleteItem(GameWorld game){
+		// TODO for reuben! :)
+		// at end of this method there are changes to:
+		// storageUsed in Inventory
+		// movableEnities map in GameWorld
+		// inLaptop list in Inventory
+		LaptopItem item = this.selected;
+		if(this.selected != null){
+			this.storageUsed = this.storageUsed - this.selected.getSize();
+			inLaptop.remove(this.selected);
+			game.removeFromInventory(this.selected);
+			this.selected = null;
+			
+			// redraw inventory gui as item has been deleted // TODO
+			updateLaptopDisplay();
 		}
-		return null; 
+		
+		//Networking
+		return item;
 	}
 	
 	/**
@@ -102,6 +124,7 @@ public class Inventory {
 	 */
 	public void increaseStorageUsed(int size){
 		this.storageUsed = this.storageUsed + size;
+		System.out.println("Inventory Storage:" + storageUsed + "/" + MAX_STORAGE_SIZE);
 	}
 
 	public void displayInventory() {
@@ -116,7 +139,7 @@ public class Inventory {
 	private void openInventory(){
 		isVisible = true;
 		Mouse.setGrabbed(false);
-		textureList = guiFactory.makeInventory(this);
+		updateLaptopDisplay();
 		
 		//List<GuiTexture> guiList = new ArrayList<>();
 		//
@@ -126,13 +149,30 @@ public class Inventory {
 //		}
 	}
 	
+	private void updateLaptopDisplay() {
+		this.laptopDisplay = new LaptopItem[NUM_ACROSS][NUM_DOWN];
+		int i = 0;
+		for(int x = 0; x < NUM_ACROSS; x++){
+			for(int y = 0; y < NUM_DOWN; y++){
+				if(i < this.inLaptop.size()){
+					this.laptopDisplay[x][y] = this.inLaptop.get(i);
+					i++;
+				}
+			}
+		}
+
+		textureList = guiFactory.makeInventory(this);
+	}
+
 	private void closeInventory(){
 		isVisible = false;
 		Mouse.setGrabbed(true);
+		this.selected = null;
 		//TODO
 	}
 	
 	public void displayLaptopItem(int x, int y) {
+		this.selected = null;  // make sure no item is shown as selected with left click
 		if(itemDisplayed){
 			closeLaptopItem();
 		}
@@ -149,6 +189,7 @@ public class Inventory {
 		}
 		// TODO open displays in front of laptop screen showing 
 		// full image of item
+		// just add image to texture list
 		
 	}
 	
@@ -160,18 +201,27 @@ public class Inventory {
 	}
 	
 	private LaptopItem findItem(int x, int y) {
-		// TODO find item that has been clicked on
-		// maybe implement 2d array storage to make finding 
-		// items easier???
+		
 		return null;
 	}
 
-	public void showDeleteOption(int x, int y) {
+	public void showSelected(int x, int y) {		
 		LaptopItem item = findItem(x, y);
 		if(item != null){
-			// TODO how should deletes be carried out?
-			// IDEAS: maybe show message: do you want to delete this item: Y = Yes, N = No???
+			// if something else was selected before, reset its selected image, 
+			if(this.selected != null){
+				// TODO maybe item.setSelectedImage(false);
+			}
+			this.selected = item;
+			// update textures to show the clicked on item's 'selected' image, not normal one
+			
+			// update display as something has been selected
+			updateLaptopDisplay();
 		}		
+	}
+
+	public LaptopItem[][] getLaptopDisplay() {
+		return this.laptopDisplay;
 	}
 
 }

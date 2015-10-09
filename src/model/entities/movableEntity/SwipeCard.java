@@ -31,14 +31,14 @@ public class SwipeCard extends Item {
 	}
 	
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		game.updateScore(SWIPE_CARD_SCORE);
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
+		return 16;
 	}
 
-	@Override
 	public int getScore() {
 		return SWIPE_CARD_SCORE;
 	}
@@ -49,10 +49,10 @@ public class SwipeCard extends Item {
 	}
 	
 	/**
-	 * Check if this swipe card can unlock the door the player
+	 * Check if this swipe card can unlock the laptop the player
 	 * wants to unlock
 	 * 
-	 * @param id number of door to match
+	 * @param id number of laptop to match
 	 * @return true if the given id number matches the card's id number
 	 */
 	public boolean matchID(int id){

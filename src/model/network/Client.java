@@ -1,21 +1,14 @@
 package model.network;
 
+import controller.GameController;
+import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.Player;
+import org.lwjgl.util.vector.Vector3f;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-import javax.crypto.spec.PSource;
-
-import org.lwjgl.util.vector.Vector3f;
-
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-
-import controller.GameController;
-import model.entities.movableEntity.Player;
 
 public class Client extends Thread {
 
@@ -27,11 +20,15 @@ public class Client extends Thread {
 	private int uid;
 
 	public boolean running;
+	private MovableEntity mostRecentEntity;
+	private int mostRecentUpdate;
 
 	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
 		this.running = true;
+		this.mostRecentUpdate = -1;
+		this.mostRecentEntity = null;
 		initStreams();
 
 	}
@@ -57,6 +54,11 @@ public class Client extends Thread {
 					}
 				}
 
+				if (sendUpdateStatus() != -1) {
+					System.out.println("INTERACTION CLIENT");
+					sendUpdateEntity();
+				} 
+
 			}
 		} catch (IOException e) {
 			terminate();
@@ -74,7 +76,24 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	private int sendUpdateStatus() throws IOException {
+		// send that there is an update to be made
+		outputStream.writeInt(mostRecentUpdate);
+		return mostRecentUpdate;
+	}
+
+	private void sendUpdateEntity() throws IOException {
+		System.out.println("SENT UPDATE: " + mostRecentUpdate);
+		outputStream.writeInt(mostRecentEntity.getUID());
+		outputStream.writeFloat(mostRecentEntity.getPosition().getX());
+		outputStream.writeFloat(mostRecentEntity.getPosition().getY());
+		outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
+
+		// make sure we don't send the update again
+		this.mostRecentUpdate = -1;
 	}
 
 	private int readNumberOfPlayers() throws IOException {
@@ -113,7 +132,7 @@ public class Client extends Thread {
 
 	public void sendPlayerLocation(Player player) throws IOException {
 		outputStream.writeFloat(player.getPosition().getX());
-		outputStream.writeFloat(player.getPosition().getY()+10);
+		outputStream.writeFloat(player.getPosition().getY() + 10);
 		outputStream.writeFloat(player.getPosition().getZ());
 
 	}
@@ -126,5 +145,9 @@ public class Client extends Thread {
 		this.uid = uid;
 	}
 
+	public void setUpdate(int updateType, MovableEntity entity) {
+		this.mostRecentUpdate = updateType;
+		this.mostRecentEntity = entity;
+	}
 
 }

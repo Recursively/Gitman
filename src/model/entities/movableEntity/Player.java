@@ -6,18 +6,16 @@ import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.DisplayManager;
 
 import java.util.ArrayList;
 
 /**
  * @author Marcel van Workum
- * @author Divya
+ *
  *
  */
 public class Player extends MovableEntity {
@@ -29,6 +27,8 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
+
+    private float edgeBound = 12;
 
     private Terrain currentTerrain;
 
@@ -107,7 +107,7 @@ public class Player extends MovableEntity {
 
     private void checkBounds(Terrain terrain) {
         Vector3f position = super.getPosition();
-        float terrainSize = Terrain.getSIZE();
+        float terrainSize = terrain.getSIZE();
 
         float terrainOriginX = terrain.getGridX();
         float terrainOriginZ = terrain.getGridZ();
@@ -118,16 +118,16 @@ public class Player extends MovableEntity {
         float xPos = position.getX();
         float zPos = position.getZ();
 
-        if (xPos < terrainOriginX) {
-            position.x = terrainOriginX;
-        } else if (xPos > terrainBoundX) {
-            position.x = terrainBoundX;
+        if (xPos < terrainOriginX + edgeBound) {
+            position.x = terrainOriginX + edgeBound;
+        } else if (xPos > terrainBoundX - edgeBound) {
+            position.x = terrainBoundX - edgeBound;
         }
 
-        if (zPos < terrainOriginZ) {
-            position.z = terrainOriginZ;
-        } else if (zPos > terrainBoundZ) {
-            position.z = terrainBoundZ;
+        if (zPos < terrainOriginZ + edgeBound) {
+            position.z = terrainOriginZ + edgeBound;
+        } else if (zPos > terrainBoundZ - edgeBound) {
+            position.z = terrainBoundZ - edgeBound;
         }
     }
 
@@ -236,12 +236,12 @@ public class Player extends MovableEntity {
     }
 
 	@Override
-	public void interact(GameWorld game) {
-		return;
+	public int interact(GameWorld game) {
+		return 15;
 	}
 
 	@Override
 	public boolean canInteract() {
-		return false;
+		return true;
 	}
 }

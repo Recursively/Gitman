@@ -39,7 +39,7 @@ public class ServerController extends Thread {
 
 			try {
 				socket = serverSocket.accept();
-				server = new Server(socket, gameController);
+				server = new Server(socket, gameController, this);
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
@@ -82,6 +82,42 @@ public class ServerController extends Thread {
 		int uid = gameController.gameSize();
 		gameController.createPlayer(uid);
 		return uid;
+	}
+	
+
+	// when an update is sent to the server about an entity update process it here
+	public void dealWithUpdate(int type, int id, float x, float y, float z) {
+		switch (type) {
+		case 8:
+			gameController.getGameWorld().dropLaptopItem();
+			break;
+		case 10:
+			gameController.getGameWorld().interactBug();
+			break;
+		case 11:
+			gameController.getGameWorld().interactCommit();
+			break;
+//		case 12:
+//			gameController.getGameWorld().interactDoor();
+//			break;
+		case 13:
+			gameController.getGameWorld().interactLaptopItem();
+			break;
+//		case 14:
+//			gameController.getGameWorld().interactNPCCharacter();
+//			break;
+//		case 15:
+//			gameController.getGameWorld().interactPlayer();
+//			break;
+		case 16:
+			gameController.getGameWorld().interactSwipeCard();
+			break;
+		case 17:
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 }
