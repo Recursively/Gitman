@@ -8,7 +8,10 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
+import model.guiComponents.Inventory;
 
 import org.lwjgl.util.vector.Vector3f;
 import org.w3c.dom.Document;
@@ -32,7 +35,12 @@ public class Load {
 	private static String uid;
 	
 	// inventory elements
-	// TODO	add these
+	private static String inventorySize;
+	private static ArrayList<LaptopItem> inventory;
+	
+	// movable entity elements
+	private static String movableEntityCount;
+	private static ArrayList<MovableEntity> movableEntities;
 	
 
 	public static boolean loadGame() {
@@ -58,6 +66,12 @@ public class Load {
 			yaw = getTextValue(yaw, doc, "yaw");
 			
 			uid = getTextValue(uid, doc, "uid");
+			
+			inventorySize = getTextValue(inventorySize, doc, "inventorySize");
+			
+			for (int i = 0; i < Integer.parseInt(inventorySize); i++){
+				// TODO recreate the laptop items here
+			}
 			
 			Vector3f playerVec = new Vector3f(Integer.parseInt(posX), Integer.parseInt(posY), Integer.parseInt(posZ));
 			

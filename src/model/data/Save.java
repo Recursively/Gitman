@@ -92,11 +92,20 @@ public class Save {
 		Element inventory = doc.createElement("inventory");
 		rootElement.appendChild(inventory);
 		
-		Inventory inv = gameWorld.getInventory();
+		ArrayList<LaptopItem> inv = gameWorld.getInventory().getInventory();
 		
-		for (LaptopItem item : inv.getInventory()){
-			Element laptopItem = doc.createElement("laptopItem");
+		// inventory size element
+		Element inventorySize = doc.createElement("inventorySize");
+		inventorySize.appendChild(doc.createTextNode(String.valueOf(inv.size())));
+		inventory.appendChild(inventorySize);
+		
+		// laptop item elements
+		for (int i = 0; i < inv.size(); i++){
+			
+			Element laptopItem = doc.createElement("laptopItem" + i);
 			inventory.appendChild(laptopItem);
+			
+			LaptopItem item = inv.get(i);
 			
 			Element rotX = doc.createElement("rotX");
 			rotX.appendChild(doc.createTextNode(String.valueOf(item.getRotX())));
