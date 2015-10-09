@@ -79,11 +79,7 @@ public class GuiFactory {
 
 	public List<GuiTexture> makePopUpInteract(Vector3f position) {
 		List<GuiTexture> message = new ArrayList<GuiTexture>();
-		// TODO fix calculations
-		Vector3f norm = new Vector3f(0,0,0);
-		position.normalise(norm);
-		Vector2f pos = new Vector2f(norm.getX()*2 - 1, norm.getY());
-		message.add(makeGuiTexture("pressEToInteract", pos, new Vector2f(0.5f, 0.5f)));
+		message.add(makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f)));
 		return message;
 	}
 }
