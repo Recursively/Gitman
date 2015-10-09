@@ -2,6 +2,8 @@ package model.data;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,6 +20,7 @@ import org.w3c.dom.Element;
 
 import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
 import model.guiComponents.Inventory;
 
 public class Save {
@@ -92,47 +95,87 @@ public class Save {
 		Element inventory = doc.createElement("inventory");
 		rootElement.appendChild(inventory);
 		
-		ArrayList<LaptopItem> inv = gameWorld.getInventory().getInventory();
-		
-		// inventory size element
-		Element inventorySize = doc.createElement("inventorySize");
-		inventorySize.appendChild(doc.createTextNode(String.valueOf(inv.size())));
-		inventory.appendChild(inventorySize);
-		
 		// laptop item elements
-		for (int i = 0; i < inv.size(); i++){
+		for (LaptopItem item : gameWorld.getInventory().getInventory()){
 			
-			Element laptopItem = doc.createElement("laptopItem" + i);
-			inventory.appendChild(laptopItem);
-			
-			LaptopItem item = inv.get(i);
+			Element inventoryItem = doc.createElement("inventoryItem");
+			inventory.appendChild(inventoryItem);
 			
 			Element rotX = doc.createElement("rotX");
 			rotX.appendChild(doc.createTextNode(String.valueOf(item.getRotX())));
-			laptopItem.appendChild(rotX);
+			inventoryItem.appendChild(rotX);
 			
 			Element rotY = doc.createElement("rotY");
 			rotY.appendChild(doc.createTextNode(String.valueOf(item.getRotY())));
-			laptopItem.appendChild(rotY);
+			inventoryItem.appendChild(rotY);
 			
 			Element rotZ = doc.createElement("rotZ");
 			rotZ.appendChild(doc.createTextNode(String.valueOf(item.getRotZ())));
-			laptopItem.appendChild(rotZ);
+			inventoryItem.appendChild(rotZ);
 			
 			Element scale = doc.createElement("scale");
 			scale.appendChild(doc.createTextNode(String.valueOf(item.getScale())));
-			laptopItem.appendChild(scale);
+			inventoryItem.appendChild(scale);
 			
 			Element id = doc.createElement("id");
 			rotZ.appendChild(doc.createTextNode(String.valueOf(item.getUID())));
-			laptopItem.appendChild(id);
+			inventoryItem.appendChild(id);
 			
 			Element name = doc.createElement("name");
 			name.appendChild(doc.createTextNode(item.getName()));
-			laptopItem.appendChild(name);
+			inventoryItem.appendChild(name);
 			
 			
 		}
+		
+		// movable entity elements
+		Element movableEntities = doc.createElement("movableEntities");
+		rootElement.appendChild(movableEntities);
+		
+		// movable entity elements
+		for (MovableEntity e : gameWorld.getMoveableEntities().values()){
+			
+			Element movableEntity = doc.createElement("movableEntity");
+			movableEntities.appendChild(movableEntity);
+			
+			Element entPosition = doc.createElement("entPosition");
+			movableEntity.appendChild(entPosition);
+			
+			Element entPosX = doc.createElement("entPosX");
+			entPosX.appendChild(doc.createTextNode(String.valueOf(e.getPosition().x)));
+			entPosition.appendChild(entPosX);
+			
+			Element entPosY = doc.createElement("entPosY");
+			entPosY.appendChild(doc.createTextNode(String.valueOf(e.getPosition().y)));
+			entPosition.appendChild(entPosY);
+			
+			Element entPosZ = doc.createElement("entPosZ");
+			entPosZ.appendChild(doc.createTextNode(String.valueOf(e.getPosition().z)));
+			entPosition.appendChild(entPosZ);
+			
+			Element rotX = doc.createElement("rotX");
+			rotX.appendChild(doc.createTextNode(String.valueOf(e.getRotX())));
+			movableEntity.appendChild(rotX);
+			
+			Element rotY = doc.createElement("rotY");
+			rotY.appendChild(doc.createTextNode(String.valueOf(e.getRotY())));
+			movableEntity.appendChild(rotY);
+			
+			Element rotZ = doc.createElement("rotZ");
+			rotZ.appendChild(doc.createTextNode(String.valueOf(e.getRotZ())));
+			movableEntity.appendChild(rotZ);
+			
+			Element scale = doc.createElement("scale");
+			scale.appendChild(doc.createTextNode(String.valueOf(e.getScale())));
+			movableEntity.appendChild(scale);
+			
+			Element id = doc.createElement("id");
+			rotZ.appendChild(doc.createTextNode(String.valueOf(e.getUID())));
+			movableEntity.appendChild(id);
+			
+		}
+		
+		
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();

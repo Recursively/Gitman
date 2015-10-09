@@ -35,15 +35,13 @@ public class Load {
 	private static String uid;
 	
 	// inventory elements
-	private static String inventorySize;
 	private static ArrayList<LaptopItem> inventory;
 	
 	// movable entity elements
-	private static String movableEntityCount;
 	private static ArrayList<MovableEntity> movableEntities;
 	
 
-	public static boolean loadGame() {
+	public static Data loadGame() {
 		
 		Document dom;
 		// Make an instance of the DocumentBuilderFactory
@@ -56,28 +54,12 @@ public class Load {
 			dom = db.parse(System.getProperty("user.dir") + File.separator + "res" + File.separator + "data" + File.separator + "save.xml");
 
 			Element doc = dom.getDocumentElement();
-
-			posX = getTextValue(posX, doc, "posX");
-			posY = getTextValue(posY, doc, "posY");
-			posZ = getTextValue(posZ, doc, "posZ");
 			
-			pitch = getTextValue(pitch, doc, "pitch");
-			roll = getTextValue(roll, doc, "roll");
-			yaw = getTextValue(yaw, doc, "yaw");
-			
-			uid = getTextValue(uid, doc, "uid");
-			
-			inventorySize = getTextValue(inventorySize, doc, "inventorySize");
-			
-			for (int i = 0; i < Integer.parseInt(inventorySize); i++){
-				// TODO recreate the laptop items here
-			}
+			// TODO iterate through saved elements
 			
 			Vector3f playerVec = new Vector3f(Integer.parseInt(posX), Integer.parseInt(posY), Integer.parseInt(posZ));
 			
-			Data data = new Data(playerVec, pitch, roll, yaw, uid);
-			
-			return true;
+			return new Data(playerVec, pitch, roll, yaw, uid);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());
@@ -86,8 +68,8 @@ public class Load {
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
 		}
-
-		return false;
+		
+		return null;
 	}
 
 	private static String getTextValue(String def, Element doc, String tag) {
