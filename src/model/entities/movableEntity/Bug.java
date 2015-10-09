@@ -33,5 +33,10 @@ public class Bug extends NonPlayerCharacters {
 		
 		return 10;
 	}
+	
+	@Override
+	public String getType(){
+		return "Bug";
+	}
 
 }

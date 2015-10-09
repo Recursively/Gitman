@@ -42,4 +42,9 @@ public class Commit extends Item {
 	public String viewInfo() {
 		return "Commits add to the patch progress";
 	}
+	
+	@Override
+	public String getType(){
+		return "Commit";
+	}
 }

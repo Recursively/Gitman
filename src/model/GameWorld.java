@@ -16,8 +16,13 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
+
+import view.renderEngine.GuiRenderer;
+import controller.GameController;
 
 import java.util.*;
 
@@ -35,7 +40,7 @@ public class GameWorld {
 												// patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease
 														// patch progress
-	private static final double PATCH_TIMER = 10000; // FIXME currently is 10
+	private static final double PATCH_TIMER = 1000; // FIXME currently is 10
 														// seconds
 	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
 														// player should collect
@@ -60,6 +65,7 @@ public class GameWorld {
 
 	// Collection of guiImages to render to the screen
 	private ArrayList<GuiTexture> guiImages;
+	private GuiRenderer guiRenderer;
 
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
@@ -105,9 +111,10 @@ public class GameWorld {
 	 * @param loader
 	 *            loader
 	 */
-	public GameWorld(Loader loader, GameController gameController) {
+	public GameWorld(Loader loader, GameController gameController, GuiRenderer guiRender) {
 		this.loader = loader;
 		this.gameController = gameController;
+		this.guiRenderer = guiRender;
 	}
 
 	/**
@@ -141,7 +148,7 @@ public class GameWorld {
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
 		this.cards = new HashSet<>();
-		this.inProgram = false;
+		this.inProgram = false;  
 		this.canApplyPatch = false;
 	}
 
@@ -166,8 +173,8 @@ public class GameWorld {
 	 */
 	private void initGui() {
 		// TODO should init some gui here maybe?
-		// guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
-		// Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		//guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
+		//Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
 	}
 
 	/**
@@ -318,8 +325,21 @@ public class GameWorld {
 	public MovableEntity findMovEntity(Camera camera) {
 		MovableEntity closest = null;
 		double closestDiff = INTERACT_DISTANCE * INTERACT_DISTANCE;
-
+		
+		for(Map.Entry<Double, MovableEntity> e : this.withinDistance().entrySet()){
+			if(e.getKey() <= closestDiff){
+				closestDiff = e.getKey();
+				closest = e.getValue();
+			}
+		}
+		return closest;
+	}
+	
+	public Map<Double, MovableEntity> withinDistance(){
+		HashMap<Double, MovableEntity> interactable = new HashMap<Double, MovableEntity>();
+		
 		// get position of player
+		Camera camera = player.getCamera();
 		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
@@ -332,15 +352,14 @@ public class GameWorld {
 			float ex = e.getPosition().getX();
 			float ez = e.getPosition().getZ();
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);
-
-			// update closest entity if e is within max interacting distance
-			// and in front of the player (within view of player)
-			if (diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
-				closest = e;
-				closestDiff = diff;
+			
+			// if within interactable distance, add to map
+			if (diff <= (INTERACT_DISTANCE*INTERACT_DISTANCE) 
+					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
+				interactable.put(diff, e);
 			}
 		}
-		return closest;
+		return interactable;
 	}
 
 	/**
@@ -490,7 +509,6 @@ public class GameWorld {
 		// code
 		// and what they have to do now (e.g. press enter to continue)
 		// move player into different terrian
-		// show single vs multiplayer option
 		// should create method that deals with decreasing patch progress over
 		// time (look at title screen as example)
 	}
@@ -502,13 +520,8 @@ public class GameWorld {
 	 */
 	public List<GuiTexture> loseGame() {
 		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
-		Mouse.setGrabbed(false);
-
+		guiRenderer.render(guiFactory.makeLostScreen());
 		return lostScreen;
-		// TODO display lose game message
-		// ungrab mouse and message is end of game.
-		// can you make it so that pressing enter takes you back to the
-		// play/options screen
 
 	}
 
@@ -564,14 +577,48 @@ public class GameWorld {
 		player.getPosition().z = SPAWN_POSITION.getZ();
 	}
 
+
+	public void interactBug() {
+		// win games???
+	}
+
+	public void interactCommit() {
+		// update score 
+		incrementPatch();
+
+	}
+
+	public void interactLaptopItem() {
+		// removes uid from movables map
+		// adds that item to inlaptop array in inventory
+		// updates score by .getScore()
+
+	}
+
+	public void interactSwipeCard() {
+		// remove from movables
+		// add to swipe cards array
+
+	}
+
+	public void dropLaptopItem() {
+		System.out.println("DROPPED");
+		// remove uid from inventory laptop
+		// item.setPosition(x,y,z)
+		// add to movable maps...
+	}
 	
 	public void setGameLost(boolean lost){
 		gameLost = lost;
 	}
 
 	public void displayHelp() {
-		
+		// TODO
 		
 	}
+
+	public List<GuiTexture> eInteractMessage(MovableEntity e) {
+		return guiFactory.makePopUpInteract(e.getPosition());
+	}	
 }
 

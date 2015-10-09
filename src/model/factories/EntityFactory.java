@@ -1,8 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
-import model.entities.movableEntity.*;
-import model.entities.Entity;
+import model.entities.movableEntity.Bug;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.*;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
