@@ -65,6 +65,7 @@ public class Client extends Thread {
 				int updateType = checkUpdate();
 
 				if (updateType != -1) {
+					System.out.println("RECEIVED AN UPDATE");
 					updateEntitiy(updateType);
 				}
 

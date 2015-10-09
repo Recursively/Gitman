@@ -20,6 +20,7 @@ import model.network.NetworkHandler;
 public class ServerController extends Thread {
 
 	private GameController gameController;
+	private NetworkHandler networkHandler;
 
 	private ServerSocket serverSocket;
 	private Server server;
@@ -31,6 +32,7 @@ public class ServerController extends Thread {
 		this.gameController = gameController;
 		this.isRunning = true;
 		initServerSocket();
+		initNetworkHandler();
 
 	}
 
@@ -43,7 +45,7 @@ public class ServerController extends Thread {
 
 			try {
 				socket = serverSocket.accept();
-				server = new Server(socket, gameController);
+				server = new Server(socket, gameController, networkHandler);
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
@@ -62,6 +64,10 @@ public class ServerController extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void initNetworkHandler() {
+		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
 	}
 
 

@@ -10,6 +10,8 @@ import model.entities.movableEntity.SwipeCard;
 public class NetworkHandler {
 
 	private GameWorld gameWorld;
+	
+	private int update = -1;
 
 	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
@@ -19,7 +21,11 @@ public class NetworkHandler {
 	// here
 	public void dealWithUpdate(int type, int id, float x, float y, float z) {
 		
+		System.out.println("DECIDING WHETHER TO UPDATE");
+		
 		if(gameWorld.getMoveableEntities().get(id) == null) return;
+		
+		System.out.println("UPDATING NOW");
 		
 		switch (type) {
 		case 8:
@@ -103,6 +109,20 @@ public class NetworkHandler {
 		entity.setPosition(new Vector3f(x, y, z));
 		// add to movable maps...
 		gameWorld.getMoveableEntities().put(id, entity);
+	}
+
+	/**
+	 * @return the update
+	 */
+	public int getUpdate() {
+		return update;
+	}
+
+	/**
+	 * @param update the update to set
+	 */
+	public void setUpdate(int update) {
+		this.update = update;
 	}
 
 }

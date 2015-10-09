@@ -24,6 +24,7 @@ public class Server extends Thread {
 	private GameController gameController;
 
 	private NetworkHandler networkHandler;
+	
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
@@ -36,17 +37,15 @@ public class Server extends Thread {
 
 	private boolean isRunning;
 
-	public Server(Socket socket, GameController gameController) {
+	public Server(Socket socket, GameController gameController, NetworkHandler networkHandler) {
 		this.socket = socket;
 		this.gameController = gameController;
 		this.isRunning = true;
+		this.networkHandler = networkHandler;
 		initStreams();
-		initNetworkHandler();
 	}
 
-	private void initNetworkHandler() {
-		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
-	}
+	
 
 	public void run() {
 		try {
@@ -62,15 +61,15 @@ public class Server extends Thread {
 					sendPlayerPosition(player);
 				}
 
-				int updateType = checkUpdate();
+				networkHandler.setUpdate(checkUpdate());
 
-				if (updateType != -1) {
-					mostRecentEntity = updateEntitiy(updateType);
+				if (networkHandler.getUpdate() != -1) {
+					mostRecentEntity = updateEntitiy(networkHandler.getUpdate());
 				}
-
-				if (sendUpdateStatus(updateType) != -1) {
+				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
+				if (sendUpdateStatus(networkHandler.getUpdate()) != -1) {
 					System.out.println("INTERACTION SERVER");
-					sendUpdateEntity(updateType, mostRecentEntity);
+					sendUpdateEntity(networkHandler.getUpdate(), mostRecentEntity);
 				}
 
 			}
@@ -80,24 +79,20 @@ public class Server extends Thread {
 
 	}
 
-	private void sendUpdateEntity(int mostRecentUpdate,
-			MovableEntity mostRecentEntity) throws IOException {
+	private void sendUpdateEntity(int mostRecentUpdate, MovableEntity mostRecentEntity) throws IOException {
 		outputStream.writeInt(mostRecentEntity.getUID());
 		if (mostRecentUpdate != 8) {
 			outputStream.writeFloat(mostRecentEntity.getPosition().getX());
 			outputStream.writeFloat(mostRecentEntity.getPosition().getY());
 			outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
 		} else {
-			outputStream.writeFloat(gameController.getPlayer().getPosition()
-					.getX());
-			outputStream.writeFloat(gameController.getPlayer().getPosition()
-					.getY());
-			outputStream.writeFloat(gameController.getPlayer().getPosition()
-					.getZ());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getX());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getY());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getZ());
 		}
 
 		// so update doesn't happen again
-		this.mostRecentUpdate = -1;
+		networkHandler.setUpdate(-1);
 
 	}
 
@@ -136,8 +131,7 @@ public class Server extends Thread {
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
-		MovableEntity temp = gameController.getGameWorld()
-				.getMoveableEntities().get(id);
+		MovableEntity temp = gameController.getGameWorld().getMoveableEntities().get(id);
 
 		networkHandler.dealWithUpdate(updateType, id, x, y, z);
 
