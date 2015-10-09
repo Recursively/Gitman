@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 import model.entities.movableEntity.MovableEntity;
 import model.network.Client;
 
-public class ClientController extends Thread {
+public class ClientController {
 
 	private GameController gameController;
 	private Socket socket;
@@ -15,8 +15,6 @@ public class ClientController extends Thread {
 	private String ipAddres;
 
 	public ClientController(GameController controller, String ipAddress) {
-		this.socket = null;
-		this.client = null;
 		this.gameController = controller;
 		this.ipAddres = ipAddress;
 	}
@@ -53,8 +51,7 @@ public class ClientController extends Thread {
 
 	public void setNetworkUpdate(int status, MovableEntity entity) {
 		client.setUpdate(status, entity);
-		
+
 	}
 
 }
-

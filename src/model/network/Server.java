@@ -5,11 +5,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
+
 import org.lwjgl.util.vector.Vector3f;
+
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import controller.GameController;
 import controller.ServerController;
 import model.entities.Entity;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
@@ -18,21 +23,26 @@ public class Server extends Thread {
 
 	private GameController gameController;
 	
-	private ServerController serverController;
-
+	private NetworkHandler networkHandler;
+	
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
 	private int uid;
+	private int entityID;
 
 	private boolean isRunning;
 
-	public Server(Socket socket, GameController gameController, ServerController serverController) {
+	public Server(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
-		this.serverController = serverController;
 		this.isRunning = true;
 		initStreams();
+		initNetworkHandler();
+	}
+
+	private void initNetworkHandler() {
+		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
 	}
 
 	public void run() {
@@ -48,20 +58,44 @@ public class Server extends Thread {
 				for (Player player : gameController.getPlayers().values()) {
 					sendPlayerPosition(player);
 				}
+				
 				int updateType = checkUpdate();
+				
 				if (updateType != -1) {
-					updateEntitiy(updateType);
+					entityID = updateEntitiy(updateType);
 				}
 
-				// TODO send items information
-				for (Entity entity : gameController.getGameWorld().getMoveableEntities().values()) {
-					// sendEntityPosition(entity);
+				if (sendUpdateStatus(updateType) != -1) {
+					System.out.println("INTERACTION SERVER");
+					sendUpdateEntity(updateType, gameController.getGameWorld().getMoveableEntities().get(entityID));
 				}
+
 			}
 		} catch (IOException e) {
 			terminate();
 		}
 
+	}
+
+	private void sendUpdateEntity(int mostRecentUpdate, MovableEntity mostRecentEntity) throws IOException {
+		System.out.println("SENT UPDATE: " + mostRecentUpdate);
+		outputStream.writeInt(mostRecentEntity.getUID());
+		if (mostRecentUpdate != 8) {
+			outputStream.writeFloat(mostRecentEntity.getPosition().getX());
+			outputStream.writeFloat(mostRecentEntity.getPosition().getY());
+			outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
+		} else {
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getX());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getY());
+			outputStream.writeFloat(gameController.getPlayer().getPosition().getZ());
+		}
+
+	}
+
+	private int sendUpdateStatus(int status) throws IOException {
+		// send that there is an update to be made
+		outputStream.writeInt(status);
+		return status;
 	}
 
 	public void initStreams() {
@@ -81,21 +115,15 @@ public class Server extends Thread {
 		return inputStream.readInt();
 	}
 
-	private void updateEntitiy(int updateType) throws IOException {
+	private int updateEntitiy(int updateType) throws IOException {
 		int id = inputStream.readInt();
 		float x = inputStream.readFloat();
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
-		serverController.dealWithUpdate(updateType, id, x, y, z);
-
-	}
-
-	private void sendEntityPosition(Entity entity) throws IOException {
-		// FIXME outputStream.writeInt(entity.getUid());
-		outputStream.writeFloat(entity.getPosition().x);
-		outputStream.writeFloat(entity.getPosition().y);
-		outputStream.writeFloat(entity.getPosition().z);
+		networkHandler.dealWithUpdate(updateType, id, x, y, z);
+		
+		return id;
 
 	}
 
@@ -134,7 +162,7 @@ public class Server extends Thread {
 
 	public void terminate() {
 		System.out.println("CONNECTION TERMINATED TO PLAYER WITH ID: " + uid);
-		//gameController.removePlayer(uid);
+		// gameController.removePlayer(uid);
 		isRunning = false;
 		try {
 			inputStream.close();

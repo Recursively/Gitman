@@ -7,12 +7,43 @@ import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.SwipeCard;
 
-public class ServerHandler {
+public class NetworkHandler {
 
 	private GameWorld gameWorld;
 
-	public ServerHandler(GameWorld gameWorld) {
+	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
+	}
+
+	// when an update is sent to the server about an entity update process it
+	// here
+	public void dealWithUpdate(int type, int id, float x, float y, float z) {
+		
+		if(gameWorld.getMoveableEntities().get(id) == null) return;
+		
+		switch (type) {
+		case 8:
+			dropLaptopItem(id, x, y, z);
+			break;
+		case 10:
+			interactBug();
+			break;
+		case 11:
+			interactCommit();
+			break;
+		case 13:
+			interactLaptopItem(id);
+			break;
+		case 16:
+			interactSwipeCard(id);
+			break;
+		case 17:
+
+			break;
+		default:
+			break;
+		}
+
 	}
 
 	public void interactBug() {
@@ -32,23 +63,22 @@ public class ServerHandler {
 	public void interactLaptopItem(int id) {
 		System.out.println("INTERACTED WITH LAPTOP ITEM");
 
-
 		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities().get(id);
-		
+
 		// removes uid from movables map
 		gameWorld.removeMovableEntity(entity);
 		// adds that item to inlaptop array in inventory
 		gameWorld.addToInventory(entity);
 		// updates score by .getScore()
 		gameWorld.updateScore(entity.getScore());
-	
+
 	}
 
 	public void interactSwipeCard(int id) {
 		System.out.println("INTERACTED WITH SWIPE CARD");
-		
+
 		SwipeCard entity = (SwipeCard) gameWorld.getMoveableEntities().get(id);
-		
+
 		// remove from movables
 		gameWorld.removeMovableEntity(entity);
 		// add to swipe cards array
@@ -58,19 +88,19 @@ public class ServerHandler {
 
 	public void dropLaptopItem(int id, float x, float y, float z) {
 		System.out.println("DROPPED ITEM");
-	
+
 		LaptopItem entity = null;
-		
-		for(LaptopItem laptopItem : gameWorld.getInventory().getInventory()){
-			if(laptopItem.getUID() == id){
+
+		for (LaptopItem laptopItem : gameWorld.getInventory().getInventory()) {
+			if (laptopItem.getUID() == id) {
 				entity = laptopItem;
 			}
 		}
-		
+
 		// remove uid from inventory laptop
 		gameWorld.removeFromInventory(entity);
 		// item.setPosition(x,y,z)
-		entity.setPosition(new Vector3f(x,y,z));
+		entity.setPosition(new Vector3f(x, y, z));
 		// add to movable maps...
 		gameWorld.getMoveableEntities().put(id, entity);
 	}

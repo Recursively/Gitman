@@ -76,7 +76,7 @@ public class GameController {
 			serverController.start();
 		} else {
 			clientController = new ClientController(this, ipAddress);
-			clientController.start();
+			clientController.run();
 		}
 
 		this.networkRunning = true;
@@ -226,8 +226,9 @@ public class GameController {
 	
 	public void setNetworkUpdate(int status, MovableEntity entity){
 
-		//TODO FIX ME
-		//clientController.setNetworkUpdate(status, entity);
+		if(!isHost()){
+			clientController.setNetworkUpdate(status, entity);
+		}
 	}
 
 	public int gameSize() {

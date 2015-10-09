@@ -6,7 +6,7 @@ import java.net.Socket;
 
 import model.GameWorld;
 import model.network.Server;
-import model.network.ServerHandler;
+import model.network.NetworkHandler;
 
 /**
  * Controller class to handle the delegations between the Model and View
@@ -19,7 +19,6 @@ import model.network.ServerHandler;
 public class ServerController extends Thread {
 
 	private GameController gameController;
-	private ServerHandler serverHandler;
 
 	private ServerSocket serverSocket;
 	private Server server;
@@ -31,7 +30,7 @@ public class ServerController extends Thread {
 		this.gameController = gameController;
 		this.isRunning = true;
 		initServerSocket();
-		initServerHandler();
+		
 	}
 
 	public void run() {
@@ -43,7 +42,7 @@ public class ServerController extends Thread {
 
 			try {
 				socket = serverSocket.accept();
-				server = new Server(socket, gameController, this);
+				server = new Server(socket, gameController);
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
@@ -64,9 +63,7 @@ public class ServerController extends Thread {
 		}
 	}
 	
-	private void initServerHandler() {
-		this.serverHandler = new ServerHandler(gameController.getGameWorld());
-	}
+	
 
 	public void terminate() {
 
@@ -93,32 +90,6 @@ public class ServerController extends Thread {
 	}
 	
 
-	// when an update is sent to the server about an entity update process it here
-	public void dealWithUpdate(int type, int id, float x, float y, float z) {
-		
-		switch (type) {
-		case 8:
-			serverHandler.dropLaptopItem(id, x, y, z);
-			break;
-		case 10:
-			serverHandler.interactBug();
-			break;
-		case 11:
-			serverHandler.interactCommit();
-			break;
-		case 13:
-			serverHandler.interactLaptopItem(id);
-			break;
-		case 16:
-			serverHandler.interactSwipeCard(id);
-			break;
-		case 17:
-			
-			break;
-		default:
-			break;
-		}
-		
-	}
+	
 
 }

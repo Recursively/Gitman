@@ -12,7 +12,7 @@ import java.net.Socket;
 
 public class Client extends Thread {
 
-	private ClientHandler clientHandler;
+	private NetworkHandler networkHandler;
 
 	private final Socket socket;
 	private DataOutputStream outputStream;
@@ -31,7 +31,7 @@ public class Client extends Thread {
 		this.running = true;
 		this.mostRecentUpdate = -1;
 		this.mostRecentEntity = null;
-		initClientHandler();
+		initNetworkHandler();
 		initStreams();
 
 	}
@@ -62,11 +62,33 @@ public class Client extends Thread {
 					sendUpdateEntity();
 				}
 
+				int updateType = checkUpdate();
+
+				if (updateType != -1) {
+					updateEntitiy(updateType);
+				}
+
 			}
 		} catch (IOException e) {
 			terminate();
 		}
 
+	}
+	
+	private int updateEntitiy(int updateType) throws IOException {
+		int id = inputStream.readInt();
+		float x = inputStream.readFloat();
+		float y = inputStream.readFloat();
+		float z = inputStream.readFloat();
+
+		networkHandler.dealWithUpdate(updateType, id, x, y, z);
+		
+		return id;
+
+	}
+	
+	private int checkUpdate() throws IOException {
+		return inputStream.readInt();
 	}
 
 	public void terminate() {
@@ -131,8 +153,8 @@ public class Client extends Thread {
 		}
 	}
 
-	private void initClientHandler() {
-		this.clientHandler = new ClientHandler(gameController.getGameWorld());
+	private void initNetworkHandler() {
+		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
 	}
 
 	public void updatePlayer(int playerID, float[] packet) {
