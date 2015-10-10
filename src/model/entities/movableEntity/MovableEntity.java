@@ -52,4 +52,6 @@ public abstract class MovableEntity extends Entity {
 	 * @return true if entity can be interacted with
 	 */
 	public abstract boolean canInteract();
+	
+	public abstract String getType();
 }

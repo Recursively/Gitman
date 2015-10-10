@@ -1,6 +1,9 @@
 package model.factories;
 
 import model.entities.Entity;
+import model.entities.movableEntity.Bug;
+import model.entities.movableEntity.Commit;
+import model.entities.movableEntity.*;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
@@ -57,6 +60,25 @@ public class EntityFactory {
     private TexturedModel tableTexturedModel;
     private ModelData laptopData;
     private TexturedModel laptopTexturedModel;
+    private ModelData bugData;
+    private TexturedModel bugTexturedModel;
+    private ModelData tabletData;
+    private static TexturedModel tabletTexturedModel;
+
+    private ModelData swipecardData;
+    private TexturedModel[] swipecardTexturedModel = new TexturedModel[5];
+    private ModelData commitData;
+    private static TexturedModel commitTexturedModel;
+    private ModelData flashdriveData;
+    private TexturedModel flashdriveTexturedModel;
+
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
+    private static int movableItemID = 0;
+    private static int laptopItemID = 0;
+    private static int swipecardItemID = 0;
+    private static int readmeItemID = 0;
+    private static int flashdriveItemID = 0;
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -109,6 +131,38 @@ public class EntityFactory {
                 laptopData.getNormals(), laptopData.getIndices());
         laptopTexturedModel = new TexturedModel(laptopRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "laptop")));
+
+        bugData = OBJFileLoader.loadOBJ(MODEL_PATH + "bug");
+        RawModel bugRawModel = loader.loadToVAO(bugData.getVertices(), bugData.getTextureCoords(),
+                bugData.getNormals(), bugData.getIndices());
+        bugTexturedModel = new TexturedModel(bugRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "bug")));
+
+        tabletData = OBJFileLoader.loadOBJ(MODEL_PATH + "tablet");
+        RawModel tabletRawModel = loader.loadToVAO(tabletData.getVertices(), tabletData.getTextureCoords(),
+                tabletData.getNormals(), tabletData.getIndices());
+        EntityFactory.tabletTexturedModel = new TexturedModel(tabletRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "tablet")));
+
+        commitData = OBJFileLoader.loadOBJ(MODEL_PATH + "commit_cube");
+        RawModel commitRawModel = loader.loadToVAO(commitData.getVertices(), commitData.getTextureCoords(),
+                commitData.getNormals(), commitData.getIndices());
+        commitTexturedModel = new TexturedModel(commitRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "commit_cube")));
+
+        flashdriveData = OBJFileLoader.loadOBJ(MODEL_PATH + "flash_drive");
+        RawModel flashdriveRawModel = loader.loadToVAO(flashdriveData.getVertices(), flashdriveData.getTextureCoords(),
+                flashdriveData.getNormals(), flashdriveData.getIndices());
+        flashdriveTexturedModel = new TexturedModel(flashdriveRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "flash_drive")));
+
+        swipecardData = OBJFileLoader.loadOBJ(MODEL_PATH + "swipe_card");
+        for (int i = 0; i < 4; i++) {
+            RawModel swipecardRawModel = loader.loadToVAO(swipecardData.getVertices(), swipecardData.getTextureCoords(),
+                    swipecardData.getNormals(), swipecardData.getIndices());
+            swipecardTexturedModel[i] = new TexturedModel(swipecardRawModel,
+                    new ModelTexture(loader.loadTexture(TEXTURES_PATH + "swipe_card" + i)));
+        }
     }
 
     // HELPER METHOD
@@ -129,12 +183,6 @@ public class EntityFactory {
         }
         return image;
     }
-
-    // ENTITY MAP DEBUGGING
-
-    private ArrayList<Entity> entities = new ArrayList<>();
-    private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
-    private static int movableItemID = 0;
 
     private void parseEntityMap(Terrain terrain, BufferedImage image) {
 
@@ -157,6 +205,14 @@ public class EntityFactory {
                     makeEntity(terrain, i, j, "table_with_drawer", false);
                 } else if (color == -261889) {
                     makeEntity(terrain, i, j, "laptop", false);
+                } else if (color == -28672) {
+                    makeEntity(terrain, i, j, "bug", false);
+                } else if (color == -16747777) {
+                    //makeEntity(terrain, i, j, "swipe_card", false);
+                } else if (color == -16711810) {
+                    makeEntity(terrain, i, j, "tablet", false);
+                } else if (color == -4980481) {
+                    makeEntity(terrain, i, j, "flash_drive", false);
                 }
             }
         }
@@ -203,9 +259,26 @@ public class EntityFactory {
         else if (entityName.equals("laptop")) {
             y += 7;
             movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID, true, 1));  // TODO last value has to match value of one swipe cardID
-
-            EntityFactory.movableItemID++;
+                    270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
+        } else if (entityName.equals("bug")) {
+            y += 15;
+            movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 10f, 0));
+        } else if (entityName.equals("swipe_card")) {
+            y += 7;
+            movableEntities.put(EntityFactory.movableItemID, new SwipeCard(
+                    swipecardTexturedModel[EntityFactory.swipecardItemID], new Vector3f(x, y, z), 0, 270f, 0, 1f,
+                    EntityFactory.movableItemID++, EntityFactory.swipecardItemID++));
+        } else if (entityName.equals("tablet")) {
+            y += 7;
+            movableEntities.put(EntityFactory.movableItemID, new ReadMe(tabletTexturedModel, new Vector3f(x, y, z), 0,
+                    270f, 0, 1f, EntityFactory.movableItemID++, "readme1" + EntityFactory.readmeItemID++));
+        } else if (entityName.equals("flash_drive")) {
+            y += 3.3;
+            z += 2;
+            x -= 2;
+            movableEntities.put(EntityFactory.movableItemID, new FlashDrive(flashdriveTexturedModel, new Vector3f(x, y, z),
+            0, 180, 0, 0.5f, EntityFactory.movableItemID++, "extImg" + EntityFactory.flashdriveItemID++));
         }
     }
 
@@ -220,5 +293,34 @@ public class EntityFactory {
 
     public Map<Integer, MovableEntity> getMovableEntities() {
         return movableEntities;
+    }
+
+    public static Commit createCommit(Vector3f position) {
+        position.y += 10;
+        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
+    }
+
+    public TexturedModel getFlashdriveTexturedModel() {
+        return flashdriveTexturedModel;
+    }
+
+    public static TexturedModel getCommitTexturedModel() {
+        return commitTexturedModel;
+    }
+
+    public TexturedModel[] getSwipecardTexturedModel() {
+        return swipecardTexturedModel;
+    }
+
+    public static TexturedModel getTabletTexturedModel() {
+        return tabletTexturedModel;
+    }
+
+    public TexturedModel getBugTexturedModel() {
+        return bugTexturedModel;
+    }
+
+    public TexturedModel getLaptopTexturedModel() {
+        return laptopTexturedModel;
     }
 }

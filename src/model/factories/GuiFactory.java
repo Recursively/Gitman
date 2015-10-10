@@ -4,9 +4,12 @@ import model.entities.movableEntity.LaptopItem;
 import model.guiComponents.Inventory;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
+
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Factory Game for creating Gui Components
@@ -66,7 +69,7 @@ public class GuiFactory {
 				for(int y = 0; y < items[0].length; y++){
 					if(items[x][y] != null){
 						// TODO fix vector calulations depending on x y values
-						GuiTexture img = makeGuiTexture(items[x][y].getImgName(), new Vector2f(0f + 100 * x, 0f), new Vector2f(1f, 1f));
+						GuiTexture img = makeGuiTexture(items[x][y].getName(), new Vector2f(0f + 100 * x, 0f), new Vector2f(1f, 1f));
 						inventoryImages.add(img);
 					}
 				}
@@ -86,5 +89,12 @@ public class GuiFactory {
 	public GuiTexture getProgress(int progress) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public List<GuiTexture> makePopUpInteract(Vector3f position) {
+		List<GuiTexture> message = new ArrayList<GuiTexture>();
+		message.add(makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f)));
+		return message;
+
 	}
 }
