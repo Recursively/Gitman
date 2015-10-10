@@ -83,7 +83,7 @@ public class GuiFactory {
 			for(int x = 0; x < items.length; x++){
 				for(int y = 0; y < items[0].length; y++){
 					if(items[x][y] != null){
-						float xPos = Inventory.START_X + y*Inventory.ICON_SCALE.getX()*2f;
+						float xPos = Inventory.START_X + y*Inventory.ICON_SCALE.getX()*3f;
 						float yPos = Inventory.START_Y - x*Inventory.ICON_SCALE.getY()*1.5f;
 						Vector2f pos = new Vector2f(xPos, yPos);
 						GuiTexture img = makeItemTexture(items[x][y].getName(), pos, Inventory.ICON_SCALE);
@@ -91,7 +91,7 @@ public class GuiFactory {
 						
 						// highlight selected image
 						if(items[x][y] == inventory.getSelected()){
-							GuiTexture select = makeItemTexture("selectBox", pos, Inventory.ICON_SCALE);
+							GuiTexture select = makeItemTexture("selectBox", pos, Inventory.SELECT_SCALE);
 							inventoryImages.add(select);
 						}
 					}

@@ -29,7 +29,8 @@ public class Inventory {
 	public static final int NUM_DOWN = 7;
 	public static final float START_X = -0.6f;
 	public static final float START_Y = 0.35f;
-	public static final Vector2f ICON_SCALE = new Vector2f(0.1f, 0.2f);
+	public static final Vector2f ICON_SCALE = new Vector2f(0.08f, 0.16f);
+	public static final Vector2f SELECT_SCALE = new Vector2f(0.1f, 0.2f);
 	public static final Vector2f CENTER_POS = new Vector2f(0f, 0f);
 	public static final Vector2f IMAGE_SCALE = new Vector2f(0.6f, 0.8f);
 
