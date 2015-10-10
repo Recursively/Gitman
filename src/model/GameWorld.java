@@ -179,6 +179,7 @@ public class GameWorld {
 	 * initialises the Gui to be rendered to the display
 	 */
 	private void initGui() {
+		guiImages = new ArrayList<GuiTexture>();
 		// TODO should init some gui here maybe?
 		//guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
 		//Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
@@ -298,7 +299,7 @@ public class GameWorld {
 		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
 		guiImages = new ArrayList<GuiTexture>();
-		guiImages.add(guiFactory.getProgress(progress));
+		//FIXME guiImages.add(guiFactory.getProgress(progress));
 		//TODO
 	}
 
