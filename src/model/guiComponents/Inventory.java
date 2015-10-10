@@ -2,6 +2,7 @@ package model.guiComponents;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
@@ -29,13 +30,15 @@ public class Inventory {
 	public static final float START_X = -0.6f;
 	public static final float START_Y = 0.35f;
 	public static final Vector2f ICON_SCALE = new Vector2f(0.1f, 0.2f);
+	public static final Vector2f CENTER_POS = new Vector2f(0f, 0f);
+	public static final Vector2f IMAGE_SCALE = new Vector2f(0.6f, 0.8f);
 
 	
 	private LaptopItem[][] laptopDisplay;
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
 	private boolean isVisible;
-	private boolean itemDisplayed;
+	private GuiTexture itemDisplayed;
 	private LaptopItem selected;
 	private GuiFactory guiFactory;
 	private ArrayList<GuiTexture> textureList;
@@ -44,7 +47,7 @@ public class Inventory {
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
 		this.isVisible = false;
-		this.itemDisplayed = false;
+		this.itemDisplayed = null;
 		this.selected = null;
 		this.guiFactory = guiFactory;
 
@@ -53,7 +56,7 @@ public class Inventory {
 	/**
 	 * @return list of items in inventory
 	 */
-	public ArrayList<LaptopItem> getInventory(){
+	public ArrayList<LaptopItem> getItems(){
 		return inLaptop;
 	}
 	
@@ -99,19 +102,13 @@ public class Inventory {
 	 * @return Item if successfully removed, null if not
 	 */
 	public LaptopItem deleteItem(GameWorld game){
-		// TODO for reuben! :)
-		// at end of this method there are changes to:
-		// storageUsed in Inventory
-		// movableEnities map in GameWorld
-		// inLaptop list in Inventory
 		LaptopItem item = this.selected;
 		if(this.selected != null){
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
 			game.removeFromInventory(this.selected);
 			this.selected = null;
-			
-			// redraw inventory gui as item has been deleted // TODO
+			// redraw inventory gui as item has been deleted 
 			updateLaptopDisplay();
 		}
 		
@@ -129,7 +126,7 @@ public class Inventory {
 	}
 
 	public void displayInventory() {
-		if(isVisible){
+		if(this.isVisible){
 			closeInventory();
 		}
 		else {
@@ -138,16 +135,9 @@ public class Inventory {
 	}
 	
 	private void openInventory(){
-		isVisible = true;
+		this.isVisible = true;
 		Mouse.setGrabbed(false);
 		updateLaptopDisplay();
-		
-		//List<GuiTexture> guiList = new ArrayList<>();
-		//
-		//DisplayManager.updateDisplay();
-		//		for(LaptopItem item : inLaptop){
-//			guiFactory.makeGuiTexture(item.getFileName(), 0f, 1);
-//		}
 	}
 	
 	private void updateLaptopDisplay() {
@@ -162,59 +152,27 @@ public class Inventory {
 			}
 		}
 
-		textureList = guiFactory.makeInventory(this);
+		this.textureList = this.guiFactory.makeInventory(this);
 	}
 
 	private void closeInventory(){
-		isVisible = false;
+		this.isVisible = false;
 		Mouse.setGrabbed(true);
 		this.selected = null;
-		//TODO
 	}
 	
-	public void displayLaptopItem(int x, int y) {
-		this.selected = null;  // make sure no item is shown as selected with left click
-		if(itemDisplayed){
-			closeLaptopItem();
+	public void displayLaptopItem() {
+		if(itemDisplayed != null){
+			this.textureList.remove(this.itemDisplayed);
+			this.itemDisplayed = null;
 		}
 		else {
-			openLaptopItem(x, y);
+			if(this.selected != null){
+				this.itemDisplayed = guiFactory.makeItemTexture("swipeCardBlue", CENTER_POS, IMAGE_SCALE);
+				this.textureList.add(this.itemDisplayed);
+			}
 		}
 		
-	}
-
-	private void openLaptopItem(int x, int y) {
-		LaptopItem item = findItem(x, y);
-		if(item != null){
-			itemDisplayed = true;
-		}
-		// TODO open displays in front of laptop screen showing 
-		// full image of item
-		// just add image to texture list
-		
-	}
-	
-	public void closeLaptopItem(){
-		if(itemDisplayed){
-			itemDisplayed = false;
-			// TODO close the display of the item 
-		}
-	}
-	
-	private LaptopItem findItem(int x, int y) {
-		
-		return null;
-	}
-
-	public void showSelected(int x, int y) {		
-		LaptopItem item = findItem(x, y);
-		if(item != null){
-			this.selected = item;
-			// update textures to show the clicked on item's 'selected' image, not normal one
-			
-			// update display as something has been selected
-			updateLaptopDisplay();
-		}		
 	}
 
 	public LaptopItem[][] getLaptopDisplay() {
@@ -223,6 +181,64 @@ public class Inventory {
 	
 	public LaptopItem getSelected(){
 		return this.selected;
+	}
+
+	public void selectItem(int keyEvent) {
+		if(this.isVisible && !this.inLaptop.isEmpty()){
+			if(this.selected == null){
+				this.selected = this.inLaptop.get(0);
+			}
+			else{
+				// find currently selected item
+				boolean found = false;
+				int xPos = 0;
+				int yPos = 0;
+				for(int x = 0; x < laptopDisplay.length; x++){
+					for(int y = 0; y < laptopDisplay[0].length; y++){
+						if(this.selected == laptopDisplay[x][y]){
+							found = true;
+							xPos = x;
+							yPos = y;
+							break;
+						}
+					}
+					if(found){break;}
+				}
+				
+				// move selection based on key press
+				if(Keyboard.KEY_UP == keyEvent){
+					xPos = selectUpOrLeft(xPos);
+				}
+				if(Keyboard.KEY_DOWN == keyEvent){
+					xPos = selectDownOrRight(xPos, laptopDisplay.length-1);
+				}
+				if(Keyboard.KEY_LEFT == keyEvent){
+					yPos = selectUpOrLeft(yPos);
+				}
+				if(Keyboard.KEY_RIGHT == keyEvent){
+					yPos = selectDownOrRight(yPos, laptopDisplay[0].length-1);
+				}
+				
+				this.selected = laptopDisplay[xPos][yPos];
+				if(this.selected != null){
+					updateLaptopDisplay();
+				}
+			}
+		}
+	}
+
+	public int selectDownOrRight(int num, int max) {
+		if(num < max){
+			return num + 1;
+		}
+		return num;
+	}
+
+	public int selectUpOrLeft(int num) {
+		if(num > 0){
+			return num - 1;
+		}
+		return num;
 	}
 
 }

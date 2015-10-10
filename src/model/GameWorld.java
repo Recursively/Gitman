@@ -299,15 +299,6 @@ public class GameWorld {
 			int type = entity.interact(this);
 			sendInteraction(type, entity);
 		}
-		// TODO for reuben! :)
-		// at end of this method there are changes to:
-		// storageUsed in Inventory
-		// movableEnities map in GameWorld
-		// inLaptop list in Inventory
-		// swipeCards list in GameWorld
-		// codeProgress in GameWorld
-		// patchProgress in GameWOrld
-		// score in GameWorld
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
