@@ -14,6 +14,7 @@ import com.sun.xml.internal.bind.v2.model.core.ID;
 import controller.GameController;
 import controller.ServerController;
 import model.entities.Entity;
+import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 
@@ -24,16 +25,15 @@ public class Server extends Thread {
 	private GameController gameController;
 
 	private NetworkHandler networkHandler;
-	
+
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
 	private int uid;
 
-	private MovableEntity mostRecentEntity;
-
 	private int mostRecentUpdate = -1;
+	private int update;
 
 	private boolean isRunning;
 
@@ -45,7 +45,7 @@ public class Server extends Thread {
 		initStreams();
 	}
 
-	
+
 
 	public void run() {
 		try {
@@ -61,15 +61,19 @@ public class Server extends Thread {
 					sendPlayerPosition(player);
 				}
 
-				networkHandler.setUpdate(checkUpdate());
+				int check = checkUpdate();
+				this.update = check;
+				networkHandler.setUpdate(check);
 
-				if (networkHandler.getUpdate() != -1) {
-					mostRecentEntity = updateEntitiy(networkHandler.getUpdate());
+				System.out.println(uid + " " + networkHandler.getUpdate());
+
+				if (networkHandler.getUpdate() != -1 && networkHandler.getUpdate() != 0 && check == networkHandler.getUpdate()) {
+					networkHandler.setMostRecentEntity(updateEntitiy(networkHandler.getUpdate()));
 				}
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
-				if (sendUpdateStatus(networkHandler.getUpdate()) != -1) {
+				if (sendUpdateStatus(networkHandler.getUpdate()) != -1&& networkHandler.getUpdate() != 0) {
 					System.out.println("INTERACTION SERVER");
-					sendUpdateEntity(networkHandler.getUpdate(), mostRecentEntity);
+					sendUpdateEntity(networkHandler.getUpdate(), networkHandler.getMostRecentEntity());
 				}
 
 			}
@@ -92,7 +96,8 @@ public class Server extends Thread {
 		}
 
 		// so update doesn't happen again
-		networkHandler.setUpdate(-1);
+		//networkHandler.setUpdate(-1);
+		networkHandler.sentDone(uid);
 
 	}
 
@@ -190,8 +195,22 @@ public class Server extends Thread {
 
 	public void setUpdate(int status, MovableEntity entity) {
 		this.mostRecentUpdate = status;
-		this.mostRecentEntity = entity;
+		this.networkHandler.setMostRecentEntity(entity);
 
+	}
+
+
+
+	public void initNewPlayer() throws IOException {
+		int inventorySize = gameController.getGameWorld().getInventory().getInventory().size();
+		
+		outputStream.writeInt(inventorySize);
+		for(LaptopItem entity : gameController.getGameWorld().getInventory().getInventory()){
+			outputStream.writeInt(entity.getUID());
+		}
+		
+		outputStream.writeInt(gameController.getGameWorld().getPatchProgress());
+		
 	}
 
 }

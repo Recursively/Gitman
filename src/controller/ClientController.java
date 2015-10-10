@@ -29,6 +29,7 @@ public class ClientController {
 			int uid = client.readPlayerID();
 			client.setUid(uid);
 			createPlayer(uid);
+			client.updateGameInformation();
 			gameController.READY = true;
 			client.start();
 

@@ -98,6 +98,7 @@ public class GameWorld {
 	private Inventory inventory;
 	private int codeProgress; // code collection progress
 	private int patchProgress; // commit collection progress
+
 	private int score; // overall score
 	private boolean inProgram;
 	private boolean canApplyPatch;
@@ -149,7 +150,7 @@ public class GameWorld {
 		this.patchProgress = START_PATCH;
 		this.cards = new HashSet<>();
 		this.inProgram = false;  
-		this.canApplyPatch = false;
+		this.canApplyPatch = true;
 	}
 
 	/**
@@ -620,5 +621,16 @@ public class GameWorld {
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
 		return guiFactory.makePopUpInteract(e.getPosition());
 	}	
+	
+	/**
+	 * @return the patchProgress
+	 */
+	public int getPatchProgress() {
+		return patchProgress;
+	}
+	
+	public void setPatchProgress(int size){
+		this.patchProgress = size;
+	}
 }
 

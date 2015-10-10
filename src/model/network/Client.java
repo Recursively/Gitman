@@ -1,6 +1,7 @@
 package model.network;
 
 import controller.GameController;
+import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import org.lwjgl.util.vector.Vector3f;
@@ -9,6 +10,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Client extends Thread {
 
@@ -75,7 +77,7 @@ public class Client extends Thread {
 		}
 
 	}
-	
+
 	private int updateEntitiy(int updateType) throws IOException {
 		int id = inputStream.readInt();
 		float x = inputStream.readFloat();
@@ -83,11 +85,11 @@ public class Client extends Thread {
 		float z = inputStream.readFloat();
 
 		networkHandler.dealWithUpdate(updateType, id, x, y, z);
-		
+
 		return id;
 
 	}
-	
+
 	private int checkUpdate() throws IOException {
 		return inputStream.readInt();
 	}
@@ -184,6 +186,17 @@ public class Client extends Thread {
 	public void setUpdate(int updateType, MovableEntity entity) {
 		this.mostRecentUpdate = updateType;
 		this.mostRecentEntity = entity;
+	}
+
+	public void updateGameInformation() throws IOException {
+		int inventorySize = inputStream.readInt();
+
+		for (int i = 0; i < inventorySize; i++) {
+			gameController.getGameWorld().getMoveableEntities().get(inputStream.readInt())
+					.interact(gameController.getGameWorld());
+		}
+
+		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
 	}
 
 }

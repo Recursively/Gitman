@@ -49,6 +49,7 @@ public class ServerController extends Thread {
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
+				server.initNewPlayer();
 				server.start();
 
 			} catch (IOException e) {
@@ -97,7 +98,9 @@ public class ServerController extends Thread {
 	}
 
 	public void setNetworkUpdate(int status, MovableEntity entity) {
-		server.setUpdate(status, entity);
+		if (gameController.getPlayers().size() != 1) {
+			server.setUpdate(status, entity);
+		}
 
 	}
 

@@ -10,8 +10,11 @@ import model.entities.movableEntity.SwipeCard;
 public class NetworkHandler {
 
 	private GameWorld gameWorld;
-	
+
 	private int update = -1;
+	private int completedUpdateProgress;
+
+	private MovableEntity mostRecentEntity;
 
 	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
@@ -20,13 +23,14 @@ public class NetworkHandler {
 	// when an update is sent to the server about an entity update process it
 	// here
 	public void dealWithUpdate(int type, int id, float x, float y, float z) {
-		
+
 		System.out.println("DECIDING WHETHER TO UPDATE");
-		
-		if(gameWorld.getMoveableEntities().get(id) == null) return;
-		
+
+		if (gameWorld.getMoveableEntities().get(id) == null)
+			return;
+
 		System.out.println("UPDATING NOW");
-		
+
 		switch (type) {
 		case 8:
 			dropLaptopItem(id, x, y, z);
@@ -69,7 +73,8 @@ public class NetworkHandler {
 	public void interactLaptopItem(int id) {
 		System.out.println("INTERACTED WITH LAPTOP ITEM");
 
-		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities().get(id);
+		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities()
+				.get(id);
 
 		// removes uid from movables map
 		gameWorld.removeMovableEntity(entity);
@@ -119,10 +124,28 @@ public class NetworkHandler {
 	}
 
 	/**
-	 * @param update the update to set
+	 * @param update
+	 *            the update to set
 	 */
 	public void setUpdate(int update) {
-		this.update = update;
+		if (update != -1) {
+			this.update = update;
+		}
 	}
 
+	public void sentDone(int uid) {
+		System.out.println("SENT DONE ID: " + uid);
+		completedUpdateProgress++;
+		if(completedUpdateProgress == gameWorld.getAllPlayers().size()){
+			this.update = -1;
+		}
+	}
+
+	public MovableEntity getMostRecentEntity() {
+		return mostRecentEntity;
+	}
+
+	public void setMostRecentEntity(MovableEntity mostRecentEntity) {
+		this.mostRecentEntity = mostRecentEntity;
+	}
 }
