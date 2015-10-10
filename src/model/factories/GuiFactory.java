@@ -9,6 +9,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,7 +25,10 @@ public class GuiFactory {
 	private static final String ITEM_PATH = "itemImages/";
 	
 	private final Loader loader;
-	private ArrayList<GuiTexture> progressBars;
+	private GuiTexture inventoryScreen;
+	private GuiTexture interactMessage;
+	private GuiTexture infoPanel;
+	private GuiTexture lostScreen;
 
 	/**
 	 * Create the Gui factory passing in the object loader
@@ -34,15 +38,18 @@ public class GuiFactory {
 	 */
 	public GuiFactory(Loader loader) {
 		this.loader = loader;
-		makeProgressBars();
+
+		loadImages();
 	}
 
-	private void makeProgressBars() {
-//		progressBars = new ArrayList<GuiTexture>();
-//		for(int i = 0 ; i < 100; i++){
-//		progressBars.add(makeGuiTexture("progress"+i, new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
-//		}
+	private void loadImages() {
+		inventoryScreen = makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f));
+		interactMessage = makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f));
+		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
+		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
 	}
+
+
 
 	/**
 	 * Creates a {@link GuiTexture} with the specified texture, position and
@@ -68,7 +75,7 @@ public class GuiFactory {
 
 	public ArrayList<GuiTexture> makeInventory(Inventory inventory) {
 		ArrayList<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
-		inventoryImages.add(makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
+		inventoryImages.add(inventoryScreen);
 		if (inventory.getLaptopDisplay() != null) {
 			LaptopItem[][] items = inventory.getLaptopDisplay();
 			for(int x = 0; x < items.length; x++){
@@ -94,21 +101,31 @@ public class GuiFactory {
 
 	}
 	
-	public ArrayList<GuiTexture> makeLostScreen(){
-		ArrayList<GuiTexture> lostScreen = new ArrayList<GuiTexture>();
-		lostScreen.add(makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)));
-		return lostScreen;
+	public List<GuiTexture> makeLostScreen(){
+		List<GuiTexture> lostScreens = new ArrayList<GuiTexture>();
+		lostScreens.add(lostScreen);
+		return lostScreens;
 	}
 
 	public GuiTexture getProgress(int progress) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public GuiTexture getScore(int score){
+		return null;
+	}
 
 	public List<GuiTexture> makePopUpInteract(Vector3f position) {
 		List<GuiTexture> message = new ArrayList<GuiTexture>();
-		message.add(makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f)));
+		message.add(interactMessage);
 		return message;
 
+	}
+
+	public List<GuiTexture> getInfoPanel() {
+		List<GuiTexture> infoPanels = new ArrayList<GuiTexture>();
+		infoPanels.add(infoPanel);
+		return infoPanels;
 	}
 }

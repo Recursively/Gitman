@@ -71,7 +71,7 @@ public class GameWorld {
 	private PlayerFactory playerFactory;
 
 	// Collection of guiImages to render to the screen
-	private ArrayList<GuiTexture> guiImages;
+	private List<GuiTexture> guiImages;
 	private GuiRenderer guiRenderer;
 
 	// collection of entities in the game
@@ -180,9 +180,8 @@ public class GameWorld {
 	 */
 	private void initGui() {
 		guiImages = new ArrayList<GuiTexture>();
-		// TODO should init some gui here maybe?
-		//guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
-		//Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		guiImages = guiFactory.getInfoPanel();
+		
 	}
 
 	/**
@@ -242,7 +241,7 @@ public class GameWorld {
 	 *
 	 * @return the gui images
 	 */
-	public ArrayList<GuiTexture> getGuiImages() {
+	public List<GuiTexture> getGuiImages() {
 		updateGui();
 		return guiImages;
 	}
@@ -294,11 +293,12 @@ public class GameWorld {
 		return this.canApplyPatch;
 	}
 
-	private void updateGui() {
+	public void updateGui() {
 		// TODO like init gui, but with current score, progress and cards
 		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
-		guiImages = new ArrayList<GuiTexture>();
+		guiImages = guiFactory.getInfoPanel();
+		guiRenderer.render(guiImages);
 		//FIXME guiImages.add(guiFactory.getProgress(progress));
 		//TODO
 	}
@@ -530,7 +530,7 @@ public class GameWorld {
 	 * @return
 	 */
 	public List<GuiTexture> loseGame() {
-		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
+		List<GuiTexture> lostScreen = guiFactory.makeLostScreen();
 		guiRenderer.render(guiFactory.makeLostScreen());
 		return lostScreen;
 

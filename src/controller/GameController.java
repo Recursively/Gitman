@@ -186,6 +186,7 @@ public class GameController {
 			
 
 			// update the Display window
+			gameWorld.updateGui();
 			DisplayManager.updateDisplay();
 		}
 
