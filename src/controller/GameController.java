@@ -7,6 +7,7 @@ import model.entities.movableEntity.Player;
 import model.factories.GuiFactory;
 import model.toolbox.Loader;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -109,7 +110,6 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
-
 		while (!Display.isCloseRequested() && networkRunning) {
 
 			// process the terrains

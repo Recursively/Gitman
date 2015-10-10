@@ -1,5 +1,6 @@
 package controller;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -28,7 +29,7 @@ public class ActionController {
 		this.gameController = gameController;
 	}
 
-	public void processActions(){
+	public void processActions(){		
 		// react to the mouse click if it is not grabbed
 		if(Mouse.isGrabbed()){
 			// ensure single reaction to mouse event

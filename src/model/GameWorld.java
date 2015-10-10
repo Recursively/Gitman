@@ -482,7 +482,7 @@ public class GameWorld {
 	 */
 	public void updateScore(int score) {
 		this.score += score;
-		System.out.println("Game Score:" + score);
+		System.out.println("Game Score:" + this.score);
 	}
 
 	/**
