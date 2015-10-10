@@ -26,7 +26,6 @@ public class Server extends Thread {
 
 	private NetworkHandler networkHandler;
 
-
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
 
@@ -44,8 +43,6 @@ public class Server extends Thread {
 		this.networkHandler = networkHandler;
 		initStreams();
 	}
-
-
 
 	public void run() {
 		try {
@@ -67,11 +64,12 @@ public class Server extends Thread {
 
 				System.out.println(uid + " " + networkHandler.getUpdate());
 
-				if (networkHandler.getUpdate() != -1 && networkHandler.getUpdate() != 0 && check == networkHandler.getUpdate()) {
+				if (networkHandler.getUpdate() != -1 && networkHandler.getUpdate() != 0
+						&& check == networkHandler.getUpdate()) {
 					networkHandler.setMostRecentEntity(updateEntitiy(networkHandler.getUpdate()));
 				}
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
-				if (sendUpdateStatus(networkHandler.getUpdate()) != -1&& networkHandler.getUpdate() != 0) {
+				if (sendUpdateStatus(networkHandler.getUpdate()) != -1 && networkHandler.getUpdate() != 0) {
 					System.out.println("INTERACTION SERVER");
 					sendUpdateEntity(networkHandler.getUpdate(), networkHandler.getMostRecentEntity());
 				}
@@ -96,7 +94,7 @@ public class Server extends Thread {
 		}
 
 		// so update doesn't happen again
-		//networkHandler.setUpdate(-1);
+		// networkHandler.setUpdate(-1);
 		networkHandler.sentDone(uid);
 
 	}
@@ -179,7 +177,7 @@ public class Server extends Thread {
 
 	public void terminate() {
 		System.out.println("CONNECTION TERMINATED TO PLAYER WITH ID: " + uid);
-		// gameController.removePlayer(uid);
+		gameController.removePlayer(uid);
 		isRunning = false;
 		try {
 			inputStream.close();
@@ -199,18 +197,16 @@ public class Server extends Thread {
 
 	}
 
-
-
 	public void initNewPlayer() throws IOException {
 		int inventorySize = gameController.getGameWorld().getInventory().getInventory().size();
-		
+
 		outputStream.writeInt(inventorySize);
-		for(LaptopItem entity : gameController.getGameWorld().getInventory().getInventory()){
+		for (LaptopItem entity : gameController.getGameWorld().getInventory().getInventory()) {
 			outputStream.writeInt(entity.getUID());
 		}
-		
+
 		outputStream.writeInt(gameController.getGameWorld().getPatchProgress());
-		
+
 	}
 
 }

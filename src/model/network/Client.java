@@ -47,6 +47,7 @@ public class Client extends Thread {
 
 				// receive information
 				int size = readNumberOfPlayers();
+				ArrayList<Integer> receivedPlayers = new ArrayList<>();
 
 				for (int i = 0; i < size; i++) {
 					int playerID = readPlayerID();
@@ -57,7 +58,10 @@ public class Client extends Thread {
 					if (playerID != gameController.getPlayer().getUID()) {
 						updatePlayer(playerID, position);
 					}
+					receivedPlayers.add(playerID);
 				}
+				
+				checkForRemovedPlayers(receivedPlayers);
 
 				if (sendUpdateStatus() != -1) {
 					System.out.println("INTERACTION CLIENT");
@@ -76,6 +80,14 @@ public class Client extends Thread {
 			terminate();
 		}
 
+	}
+
+	private void checkForRemovedPlayers(ArrayList<Integer> receivedPlayers) {
+		for (Integer index : gameController.getPlayers().keySet()){
+			if(!receivedPlayers.contains(index)){
+				gameController.getPlayers().remove(index);
+			}
+		}
 	}
 
 	private int updateEntitiy(int updateType) throws IOException {
