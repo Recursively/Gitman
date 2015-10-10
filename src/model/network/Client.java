@@ -60,7 +60,7 @@ public class Client extends Thread {
 					}
 					receivedPlayers.add(playerID);
 				}
-				
+
 				checkForRemovedPlayers(receivedPlayers);
 
 				if (sendUpdateStatus() != -1) {
@@ -83,9 +83,9 @@ public class Client extends Thread {
 	}
 
 	private void checkForRemovedPlayers(ArrayList<Integer> receivedPlayers) {
-		for (Integer index : gameController.getPlayers().keySet()){
-			if(!receivedPlayers.contains(index)){
-				gameController.getPlayers().remove(index);
+		for (Integer index : gameController.getPlayers().keySet()) {
+			if (!receivedPlayers.contains(index)) {
+				gameController.removePlayer(index);
 			}
 		}
 	}
