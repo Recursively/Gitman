@@ -52,7 +52,7 @@ public class GameWorld {
 	public static final Vector3f OFFICE_SPAWN_POSITON = new Vector3f(128060, 100, -127930);
 
 	// need to update y position when initialised
-	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 0, -35);
+	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19, -35);
 	public static final int PORTAL_LOWER_BOUND_OUTSIDE_Z = -30;
 	public static final int PORTAL_UPPER_BOUND_OUTSIDE_Z = -40;
 	public static final int PORTAL_EDGE_BOUND_OUTSIDE_X = 12;
@@ -140,7 +140,7 @@ public class GameWorld {
 		// currentTerrain at some point.
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, currentTerrain, otherTerrain);
+		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
@@ -189,8 +189,8 @@ public class GameWorld {
 	 * Initialises all the terrains of the gameworld
 	 */
 	private void initTerrain() {
-		currentTerrain = terrainFactory.makeOutsideTerrain(0, -1);
-		otherTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
+		otherTerrain = terrainFactory.makeOutsideTerrain(0, -1);
+		currentTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
 	}
 
 	/**

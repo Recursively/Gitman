@@ -5,6 +5,7 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
@@ -159,6 +160,15 @@ public class GameController {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
 
+
+			//TODO remove this !!
+			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+				if (!compiled) {
+					gameWorld.compileProgram();
+					compiled = true;
+				}
+			}
+
 			if(gameWorld.isGameLost()) {
 				guiRenderer.render(gameWorld.loseGame());
 				//TODO add keypress window change
@@ -192,12 +202,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITON, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITON, uid);
 		playerCount++;
 	}
 
