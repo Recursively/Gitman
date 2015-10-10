@@ -236,7 +236,7 @@ public class GameController {
 	}
 	
 	public void setNetworkUpdate(int status, MovableEntity entity){
-
+		return;
 		//TODO FIX ME
 		//clientController.setNetworkUpdate(status, entity);
 	}

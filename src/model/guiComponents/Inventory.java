@@ -168,7 +168,7 @@ public class Inventory {
 		}
 		else {
 			if(this.selected != null){
-				this.itemDisplayed = guiFactory.makeItemTexture("swipeCardBlue", CENTER_POS, IMAGE_SCALE);
+				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
 			}
 		}
@@ -220,9 +220,10 @@ public class Inventory {
 				}
 				
 				this.selected = laptopDisplay[xPos][yPos];
-				if(this.selected != null){
-					updateLaptopDisplay();
-				}
+			}
+			
+			if(this.selected != null){
+				updateLaptopDisplay();
 			}
 		}
 	}

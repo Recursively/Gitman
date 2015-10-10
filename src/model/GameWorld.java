@@ -396,7 +396,9 @@ public class GameWorld {
 	 */
 	public void removeFromInventory(LaptopItem item) {
 		if (item != null) {
-			item.setPosition(player.getPosition());
+			Vector3f playerPos = player.getPosition();
+			float y = player.getCurrentTerrain().getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			item.setPosition(new Vector3f(playerPos.getX(), y + 10, playerPos.getZ()));
 			this.movableEntities.put(item.getUID(), item);
 		}
 	}
