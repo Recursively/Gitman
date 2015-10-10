@@ -5,7 +5,6 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
@@ -25,6 +24,8 @@ import java.util.Map;
  * @author Marcel van Workum
  */
 public class GameController {
+
+	private boolean compiled = false;
 
 	public static boolean READY;
 	public boolean networkRunning;
@@ -154,15 +155,11 @@ public class GameController {
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 
-			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-				gameWorld.swapTerrains();
-			}
-
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
-			
-			if(gameWorld.isGameLost()){
+
+			if(gameWorld.isGameLost()) {
 				guiRenderer.render(gameWorld.loseGame());
 				//TODO add keypress window change
 			}
