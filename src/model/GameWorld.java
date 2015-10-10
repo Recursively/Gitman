@@ -20,8 +20,8 @@ import model.toolbox.OBJLoader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
-import view.renderEngine.MasterRenderer;
 
+import view.renderEngine.MasterRenderer;
 import view.renderEngine.GuiRenderer;
 import controller.GameController;
 
@@ -40,8 +40,7 @@ public class GameWorld {
 	private static final double PATCH_DECREASE = 0.1; 
 	private static final double PATCH_TIMER = 100000; 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
-	private static final int CODE_VALUE = 20; // value to increment code
-												// progress by 
+	private static final int CODE_VALUE = 25; // 4 bits of code to clone
 	private static final int INTERACT_DISTANCE = 15; // max distance player can
 														// be from entity and
 														// still interact with
@@ -109,6 +108,7 @@ public class GameWorld {
 	private int score; // overall score
 	private boolean inProgram;
 	private boolean canApplyPatch;
+	private int commitIndex;
 	private long timer;
 	private TexturedModel playerModel;
 	private boolean gameLost = false;
@@ -158,6 +158,7 @@ public class GameWorld {
 		this.cards = new HashSet<>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
+		this.commitIndex = 0;
 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
@@ -378,8 +379,12 @@ public class GameWorld {
 	}
 
 	public void addCommit() {
-		// TODO creates and adds a new commit to the array list of movable
-		// entities
+		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
+		EntityFactory.createCommit(commitPos.get(commitIndex));
+		commitIndex++;
+		if(commitIndex >= commitPos.size()){
+			commitIndex = 0;
+		}
 
 	}
 
@@ -453,7 +458,6 @@ public class GameWorld {
 			// if patch progress reaches zero, players lose
 			if (this.patchProgress <= 0) {
 				gameLost = true;
-				// TODO REUBEN -> 
 			}
 
 			// update new time
@@ -514,9 +518,7 @@ public class GameWorld {
 		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
 
-		// TODO display message to show that player has collected all bits of
-		// code
-		// move player into different terrian
+		// TODO display message to show that player
 		
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));

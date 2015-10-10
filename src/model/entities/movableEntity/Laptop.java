@@ -43,6 +43,7 @@ public class Laptop extends Item {
 	public int interact(GameWorld game) {
 		// useful interaction requires locked laptop that has code on it	
 		if(locked && hasCode){
+			System.out.println("locked laptop:" + cardID);
 			Set<SwipeCard> cards = game.getSwipeCards();
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){

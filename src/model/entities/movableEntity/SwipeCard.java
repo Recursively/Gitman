@@ -36,6 +36,7 @@ public class SwipeCard extends Item {
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
+		System.out.println("collected card:" + cardID);
 		return 16;
 	}
 

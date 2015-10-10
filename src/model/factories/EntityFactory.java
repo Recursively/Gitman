@@ -273,7 +273,7 @@ public class EntityFactory {
         else if (entityName.equals("laptop")) {
             y += 6.5;
             movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
+                    270f, 0, 1f,  EntityFactory.movableItemID++, true, EntityFactory.laptopItemID++));
         } else if (entityName.equals("bug")) {
             y += 15;
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
