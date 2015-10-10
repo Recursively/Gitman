@@ -24,7 +24,6 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import view.renderEngine.MasterRenderer;
-import view.renderEngine.GuiRenderer;
 import controller.GameController;
 
 import java.util.*;
@@ -37,17 +36,19 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
+	public static final int GAME_WIN = 1;
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
 	private static final double PATCH_TIMER = 100000; 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
-	private static final int CODE_VALUE = 25; // 4 bits of code to clone
-	private static final int INTERACT_DISTANCE = 15; // max distance player can
-														// be from entity and
-														// still interact with
-														// it
+	private static final int CODE_VALUE = 25; 
+	
+	
+	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
+	
+	
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
 
@@ -73,7 +74,6 @@ public class GameWorld {
 
 	// Collection of guiImages to render to the screen
 	private List<GuiTexture> guiImages;
-	private GuiRenderer guiRenderer;
 	private GuiMessages guiMessages;
 
 	// collection of entities in the game
@@ -87,6 +87,7 @@ public class GameWorld {
 
 	// The actual player
 	private static Player player;
+	private TexturedModel playerModel;
 
 	// Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -113,8 +114,9 @@ public class GameWorld {
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
-	private TexturedModel playerModel;
-	private boolean gameLost = false;
+	
+	// game state
+	private int gameState; // -1 is playing. 0 is lost. 1 is won
 
 	/**
 	 * Creates the game world and passes in the loader
@@ -122,10 +124,9 @@ public class GameWorld {
 	 * @param loader
 	 *            loader
 	 */
-	public GameWorld(Loader loader, GameController gameController, GuiRenderer guiRender) {
+	public GameWorld(Loader loader, GameController gameController) {
 		this.loader = loader;
 		this.gameController = gameController;
-		this.guiRenderer = guiRender;
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the currentTerrain //TODO this will need to support multi
+		// initialises the currentTerrain 
 		// currentTerrain at some point.
 		initTerrain();
 
@@ -162,6 +163,7 @@ public class GameWorld {
 		this.inProgram = false;  
 		this.canApplyPatch = false;
 		this.commitIndex = 0;
+		this.gameState = -1;
 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
@@ -290,10 +292,10 @@ public class GameWorld {
 		return this.cards;
 	}
 
-	public boolean isGameLost() {
-		return gameLost;
+	public int getGameState() {
+		return this.gameState;
 	}
-
+	
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
 	}
@@ -458,7 +460,7 @@ public class GameWorld {
 
 			// if patch progress reaches zero, players lose
 			if (this.patchProgress <= 0) {
-				gameLost = true;
+				gameState = 0;
 			}
 
 			// update new time
@@ -525,28 +527,14 @@ public class GameWorld {
 		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
 		GameWorld.isProgramCompiled = true;
 	}
-
-	/*
-	 * Display message to player when they have lost the game
-	 * 
-	 * @return
-	 */
-	public List<GuiTexture> loseGame() {
-		List<GuiTexture> lostScreen = guiFactory.makeLostScreen();
-		guiRenderer.render(guiFactory.makeLostScreen());
-		return lostScreen;
-
-	}
-
-	/**
-	 * Display message to player when they have won the game
-	 */
-	public void winGame() {
-		// TODO display win game message
-		// ungrab mouse and message is end of game.
-		// can you make it so that pressing enter takes you back to the
-		// play/options screen
-
+	
+	public List<GuiTexture> getEndStateScreen() {
+		if(this.gameState == GAME_WIN){
+			return guiFactory.makeWinScreen();
+		}
+		else{
+			return guiFactory.makeLostScreen();
+		}
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
@@ -596,10 +584,6 @@ public class GameWorld {
 		player.getCamera().changeYaw(180f);
 		MasterRenderer.setRenderSkybox(false);
 	}
-	
-	public void setGameLost(boolean lost){
-		gameLost = lost;
-	}
 
 	public void displayHelp() {
 		// TODO
@@ -624,6 +608,10 @@ public class GameWorld {
 	
 	public void setGuiMessage(String msg, long time) {
 		this.guiMessages.setMessage(msg, time);
+	}
+
+	public void setGameState(int state) {
+		this.gameState = state;
 	}
 }
 

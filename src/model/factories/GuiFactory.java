@@ -29,7 +29,8 @@ public class GuiFactory {
 	private GuiTexture interactMessage;
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
-	private GuiTexture codeCompiled;
+	private GuiTexture winScreen;
+	private GuiTexture codeCompiled; //FIXME
 
 	/**
 	 * Create the Gui factory passing in the object loader
@@ -48,7 +49,8 @@ public class GuiFactory {
 		interactMessage = makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f));
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
 		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-		codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+		winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
+		//FIXME codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
 	}
 
 
@@ -108,6 +110,12 @@ public class GuiFactory {
 		lostScreens.add(lostScreen);
 		return lostScreens;
 	}
+	
+	public List<GuiTexture> makeWinScreen() {
+		List<GuiTexture> winScreens = new ArrayList<GuiTexture>();
+		winScreens.add(winScreen);
+		return winScreens;
+	}
 
 	public GuiTexture getProgress(int progress) {
 		// TODO Auto-generated method stub
@@ -131,9 +139,9 @@ public class GuiFactory {
 		return infoPanels;
 	}
 	
-	public List<GuiTexture> getCodeCompiledMessage(){
-		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();
-		ccMessage.add(codeCompiled);
-		return ccMessage;
-	}
+//	public List<GuiTexture> getCodeCompiledMessage(){
+//		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();
+//		ccMessage.add(codeCompiled);
+//		return ccMessage;
+//	}
 }

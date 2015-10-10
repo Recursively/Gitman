@@ -70,7 +70,7 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader, this, guiRenderer);
+		gameWorld = new GameWorld(loader, this);
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
@@ -172,18 +172,13 @@ public class GameController {
 				}
 			}
 			
-
-			
-			
-
-			if(gameWorld.isGameLost()) {
-				guiRenderer.render(gameWorld.loseGame());
-			}
-			
 			guiRenderer.render(gameWorld.displayMessages());
 
-			// update the Display window
+			if(gameWorld.getGameState() > -1) {
+				guiRenderer.render(gameWorld.getEndStateScreen());
+			}
 			
+			// update the Display window			
 			DisplayManager.updateDisplay();
 		}
 

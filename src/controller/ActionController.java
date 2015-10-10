@@ -93,7 +93,7 @@ public class ActionController {
     				Save.saveGame(gameWorld);
     			}
     			
-    			if(gameWorld.isGameLost()){
+    			if(gameWorld.getGameState() > -1){
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 						DisplayManager.closeDisplay();
 						//TODO networking idk what to put here help
