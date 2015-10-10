@@ -31,6 +31,8 @@ import java.util.Map;
  */
 public class GameController {
 
+	private boolean compiled = false;
+
 	public static boolean READY;
 	public boolean networkRunning;
 
@@ -159,10 +161,6 @@ public class GameController {
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 
-			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-				gameWorld.swapTerrains();
-			}
-
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
@@ -172,8 +170,17 @@ public class GameController {
 					guiRenderer.render(gameWorld.eInteractMessage(e));
 				}
 			}
-			
-			if(gameWorld.isGameLost()){
+
+
+			//TODO remove this !!
+			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+				if (!compiled) {
+					gameWorld.compileProgram();
+					compiled = true;
+				}
+			}
+
+			if(gameWorld.isGameLost()) {
 				guiRenderer.render(gameWorld.loseGame());
 			}
 			
@@ -206,12 +213,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
@@ -236,7 +243,6 @@ public class GameController {
 	}
 	
 	public void setNetworkUpdate(int status, MovableEntity entity){
-		return;
 		//TODO FIX ME
 		//clientController.setNetworkUpdate(status, entity);
 	}
