@@ -101,6 +101,7 @@ public class EntityFactory {
                 pineData.getNormals(), pineData.getIndices());
         pineTexturedModel = new TexturedModel(pineRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "pine")));
+        pineTexturedModel.getTexture().setReflectivity(0);
 
 
         lampData = OBJFileLoader.loadOBJ(MODEL_PATH + "lamp");
@@ -114,12 +115,15 @@ public class EntityFactory {
                 wallData.getNormals(), wallData.getIndices());
         wallTexturedModel = new TexturedModel(wallRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
+        wallTexturedModel.getTexture().setReflectivity(0);
+        wallTexturedModel.getTexture().setShineDamper(0);
 
         whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
         RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
                 whiteboardData.getNormals(), whiteboardData.getIndices());
         whiteboardTexturedModel = new TexturedModel(whiteboardRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
+        whiteboardTexturedModel.getTexture().setReflectivity(0);
 
         tableData = OBJFileLoader.loadOBJ(MODEL_PATH + "table_with_drawer");
         RawModel tableRawModel = loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
@@ -171,6 +175,7 @@ public class EntityFactory {
                 portalData.getNormals(), portalData.getIndices());
         portalTexturedModel = new TexturedModel(portalRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "portal")));
+        portalTexturedModel.getTexture().setReflectivity(0);
     }
 
     // HELPER METHOD

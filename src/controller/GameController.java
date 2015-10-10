@@ -202,12 +202,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITON, uid);
+		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITON, uid);
+		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 

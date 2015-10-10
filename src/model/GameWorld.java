@@ -50,7 +50,7 @@ public class GameWorld {
 														// it
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
-	public static final Vector3f OFFICE_SPAWN_POSITON = new Vector3f(128060, 100, -127930);
+	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
 
 	// need to update y position when initialised
 	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19, -35);
@@ -92,6 +92,7 @@ public class GameWorld {
 
 	// Constant sun light-source
 	private Light sun;
+	private Light officeLight;
 
 	// Collection of attenuating light-sources
 	private ArrayList<Light> lights;
@@ -167,11 +168,8 @@ public class GameWorld {
 	private void setupLighting() {
 		sun = lightFactory.createSun();
 		lights.add(sun);
-
-		// TODO remove
-		for (Light l : lightFactory.getLights()) {
-			lights.add(l);
-		}
+		officeLight = lightFactory.createOfficeLight();
+		lights.add(officeLight);
 
 		lights.addAll(LightFactory.getStaticEntityLights());
 
@@ -222,7 +220,11 @@ public class GameWorld {
 	 * @return the lights
 	 */
 	public ArrayList<Light> getLights() {
-		return lights;
+		ArrayList<Light> collectionOfLights = new ArrayList<>();
+		collectionOfLights.add(sun);
+		collectionOfLights.add(officeLight);
+		collectionOfLights.addAll(lights);
+		return collectionOfLights;
 	}
 
 	/**
@@ -510,6 +512,7 @@ public class GameWorld {
 		// time (look at title screen as example)
 
 		// adds the portal to the game
+		officeLight.setColour(new Vector3f(6, 1, 1));
 		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
 		GameWorld.isProgramCompiled = true;
 	}
@@ -591,8 +594,8 @@ public class GameWorld {
 		currentTerrain = otherTerrain;
 		otherTerrain = temp;
 		player.setCurrentTerrain(currentTerrain);
-		player.getPosition().x = OFFICE_SPAWN_POSITON.getX();
-		player.getPosition().z = OFFICE_SPAWN_POSITON.getZ();
+		player.getPosition().x = OFFICE_SPAWN_POSITION.getX();
+		player.getPosition().z = OFFICE_SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(180f);
 		MasterRenderer.setRenderSkybox(false);
 	}
