@@ -297,6 +297,9 @@ public class GameWorld {
 		// TODO like init gui, but with current score, progress and cards
 		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
+		guiImages = new ArrayList<GuiTexture>();
+		guiImages.add(guiFactory.getProgress(progress));
+		//TODO
 	}
 
 	/**
