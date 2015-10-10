@@ -31,6 +31,8 @@ import java.util.Map;
  */
 public class GameController {
 
+	private boolean compiled = false;
+
 	public static boolean READY;
 	public boolean networkRunning;
 
@@ -143,7 +145,6 @@ public class GameController {
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
 
-
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
 			if (!gameWorld.getInventory().isVisible()) {
@@ -159,20 +160,24 @@ public class GameController {
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 
-			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-				gameWorld.swapTerrains();
-			}
-
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
 
-			if(gameWorld.isGameLost()){
+			// TODO remove this !!
+			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+				if (!compiled) {
+					gameWorld.compileProgram();
+					compiled = true;
+				}
+			}
+
+			if (gameWorld.isGameLost()) {
 				guiRenderer.render(gameWorld.loseGame());
 			}
 
 			// TODO pick up e to interact
-			for(MovableEntity e : gameWorld.withinDistance().values()){
+			for (MovableEntity e : gameWorld.withinDistance().values()) {
 				guiRenderer.render(gameWorld.eInteractMessage(e));
 			}
 
@@ -204,12 +209,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITON, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITON, uid);
 		playerCount++;
 	}
 
@@ -233,12 +238,11 @@ public class GameController {
 		gameWorld.getAllPlayers().remove(uid);
 	}
 
-	public void setNetworkUpdate(int status, MovableEntity entity){
+	public void setNetworkUpdate(int status, MovableEntity entity) {
 
-		if(!isHost()){
+		if (!isHost()) {
 			clientController.setNetworkUpdate(status, entity);
-		}
-		else{
+		} else {
 			serverController.setNetworkUpdate(status, entity);
 		}
 	}

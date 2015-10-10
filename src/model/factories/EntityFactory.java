@@ -7,6 +7,7 @@ import model.entities.movableEntity.*;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
+import model.entities.staticEntity.StaticEntity;
 import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
@@ -79,6 +80,8 @@ public class EntityFactory {
     private static int swipecardItemID = 0;
     private static int readmeItemID = 0;
     private static int flashdriveItemID = 0;
+    private ModelData portalData;
+    private TexturedModel portalTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -163,6 +166,13 @@ public class EntityFactory {
             swipecardTexturedModel[i] = new TexturedModel(swipecardRawModel,
                     new ModelTexture(loader.loadTexture(TEXTURES_PATH + "swipe_card" + i)));
         }
+
+
+        portalData = OBJFileLoader.loadOBJ(MODEL_PATH + "portal");
+        RawModel portalRawModel = loader.loadToVAO(portalData.getVertices(), portalData.getTextureCoords(),
+                portalData.getNormals(), portalData.getIndices());
+        portalTexturedModel = new TexturedModel(portalRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "portal")));
     }
 
     // HELPER METHOD
@@ -283,6 +293,16 @@ public class EntityFactory {
         }
     }
 
+    public StaticEntity makePortal(Vector3f position, Terrain terrain) {
+        position.y += terrain.getTerrainHeight(position.getX(), position.getZ()) + 10;
+        return new CollidableEntity(portalTexturedModel, position, 0, 0, 0, 10f, 0, portalData);
+    }
+
+
+    public static Commit createCommit(Vector3f position) {
+        position.y += 10;
+        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
+    }
 
     public ArrayList<Entity> getEntities() {
         return entities;
@@ -294,11 +314,6 @@ public class EntityFactory {
 
     public Map<Integer, MovableEntity> getMovableEntities() {
         return movableEntities;
-    }
-
-    public static Commit createCommit(Vector3f position) {
-        position.y += 10;
-        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
     }
 
     public TexturedModel getFlashdriveTexturedModel() {

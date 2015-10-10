@@ -54,6 +54,20 @@ public class GameWorld {
 														// it
 
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
+	public static final Vector3f OFFICE_SPAWN_POSITON = new Vector3f(128060, 100, -127930);
+
+	// need to update y position when initialised
+	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19, -35);
+	public static final int PORTAL_LOWER_BOUND_OUTSIDE_Z = -30;
+	public static final int PORTAL_UPPER_BOUND_OUTSIDE_Z = -40;
+	public static final int PORTAL_EDGE_BOUND_OUTSIDE_X = 12;
+
+	private static final Vector3f OFFICE_PORTAL_POSITION = new Vector3f(128011f, 0, -127930);
+	public static final int PORTAL_LOWER_BOUND_OFFICE_Z = -127920;
+	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
+	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
+
+	private static boolean isProgramCompiled = false;
 
 
 	// Object creation factories
@@ -73,11 +87,12 @@ public class GameWorld {
 	private Set<SwipeCard> cards;
 
 	// Terrain the world is on
-	private Terrain terrain;
-	private Terrain officeTerrain;
+
+	private static Terrain currentTerrain;
+	private static Terrain otherTerrain;
 
 	// The actual player
-	private Player player;
+	private static Player player;
 
 	// Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -119,7 +134,7 @@ public class GameWorld {
 	}
 
 	/**
-	 * Initialises the game by setting up the lighting, factories and terrain
+	 * Initialises the game by setting up the lighting, factories and currentTerrain
 	 * 
 	 * @param isHost
 	 */
@@ -131,11 +146,11 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the terrain //TODO this will need to support multi
-		// terrain at some point.
+		// initialises the currentTerrain //TODO this will need to support multi
+		// currentTerrain at some point.
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, terrain, officeTerrain);
+		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
@@ -149,8 +164,12 @@ public class GameWorld {
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
 		this.cards = new HashSet<>();
-		this.inProgram = false;  
-		this.canApplyPatch = true;
+
+		this.inProgram = false;
+		this.canApplyPatch = false;
+
+		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+
 	}
 
 	/**
@@ -182,8 +201,8 @@ public class GameWorld {
 	 * Initialises all the terrains of the gameworld
 	 */
 	private void initTerrain() {
-		terrain = terrainFactory.makeOutsideTerrain(0, -1);
-		officeTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
+		otherTerrain = terrainFactory.makeOutsideTerrain(0, -1);
+		currentTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
 	}
 
 	/**
@@ -237,12 +256,12 @@ public class GameWorld {
 	}
 
 	/**
-	 * Gets terrain.
+	 * Gets currentTerrain.
 	 *
-	 * @return the terrain
+	 * @return the currentTerrain
 	 */
 	public Terrain getTerrain() {
-		return terrain;
+		return currentTerrain;
 	}
 
 	/**
@@ -502,7 +521,7 @@ public class GameWorld {
 	 * given the option of multiplayer or single player, and the environment
 	 * they are displayed in changes in
 	 */
-	private void compileProgram() {
+	public void compileProgram() {
 		this.inProgram = true;
 		this.timer = System.currentTimeMillis(); // start timer
 
@@ -512,6 +531,10 @@ public class GameWorld {
 		// move player into different terrian
 		// should create method that deals with decreasing patch progress over
 		// time (look at title screen as example)
+
+		// adds the portal to the game
+		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
+		GameWorld.isProgramCompiled = true;
 	}
 
 	/*
@@ -570,12 +593,24 @@ public class GameWorld {
 	/**
 	 * Swaps out the terrains for the players game world
 	 */
-	public void swapTerrains() {
-		Terrain temp = terrain;
-		terrain = officeTerrain;
-		officeTerrain = temp;
+	public static void teleportToOutside() {
+		Terrain temp = currentTerrain;
+		currentTerrain = otherTerrain;
+		otherTerrain = temp;
+		player.setCurrentTerrain(currentTerrain);
 		player.getPosition().x = SPAWN_POSITION.getX();
 		player.getPosition().z = SPAWN_POSITION.getZ();
+		player.getCamera().changeYaw(160f);
+	}
+
+	public static void telportToOffice() {
+		Terrain temp = currentTerrain;
+		currentTerrain = otherTerrain;
+		otherTerrain = temp;
+		player.setCurrentTerrain(currentTerrain);
+		player.getPosition().x = OFFICE_SPAWN_POSITON.getX();
+		player.getPosition().z = OFFICE_SPAWN_POSITON.getZ();
+		player.getCamera().changeYaw(180f);
 	}
 
 
@@ -631,6 +666,14 @@ public class GameWorld {
 	
 	public void setPatchProgress(int size){
 		this.patchProgress = size;
+	}
+
+	public static boolean isProgramCompiled() {
+		return isProgramCompiled;
+	}
+
+	public static void setIsProgramCompiled(boolean isProgramCompiled) {
+		GameWorld.isProgramCompiled = isProgramCompiled;
 	}
 }
 
