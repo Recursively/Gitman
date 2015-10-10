@@ -47,4 +47,8 @@ public abstract class LaptopItem extends Item {
 	public String getName(){
 		return this.name;
 	}
+
+	public String getImgName() {
+		return this.name + "Info";
+	}
 }

@@ -7,6 +7,7 @@ import model.entities.movableEntity.Player;
 import model.factories.GuiFactory;
 import model.toolbox.Loader;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -30,6 +31,8 @@ import java.util.Map;
  * @author Marcel van Workum
  */
 public class GameController {
+
+	private boolean compiled = false;
 
 	public static boolean READY;
 	public boolean networkRunning;
@@ -107,7 +110,6 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
-
 		while (!Display.isCloseRequested() && networkRunning) {
 
 			// process the terrains
@@ -159,22 +161,29 @@ public class GameController {
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
 
-			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-				gameWorld.swapTerrains();
-			}
-
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
-			
-			if(gameWorld.isGameLost()){
+			else {
+				// only show e to interact message if inventory is not open
+				for(MovableEntity e : gameWorld.withinDistance().values()){
+					guiRenderer.render(gameWorld.eInteractMessage(e));
+				}
+			}
+
+
+			//TODO remove this !!
+			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+				if (!compiled) {
+					gameWorld.compileProgram();
+					compiled = true;
+				}
+			}
+
+			if(gameWorld.isGameLost()) {
 				guiRenderer.render(gameWorld.loseGame());
 			}
 			
-			// TODO pick up e to interact
-			for(MovableEntity e : gameWorld.withinDistance().values()){
-				guiRenderer.render(gameWorld.eInteractMessage(e));
-			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
@@ -204,12 +213,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(GameWorld.SPAWN_POSITION, uid);
+		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
@@ -234,7 +243,6 @@ public class GameController {
 	}
 	
 	public void setNetworkUpdate(int status, MovableEntity entity){
-
 		//TODO FIX ME
 		//clientController.setNetworkUpdate(status, entity);
 	}

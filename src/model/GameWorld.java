@@ -20,6 +20,7 @@ import model.toolbox.OBJLoader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
+import view.renderEngine.MasterRenderer;
 
 import view.renderEngine.GuiRenderer;
 import controller.GameController;
@@ -35,25 +36,32 @@ import java.util.*;
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
-
-	private static final int START_PATCH = 10; // starting progress value for
-												// patch
-	private static final double PATCH_DECREASE = 0.1; // percent to decrease
-														// patch progress
-	private static final double PATCH_TIMER = 1000; // FIXME currently is 10
-														// seconds
-	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
-														// player should collect
-														// on average...
+	private static final int START_PATCH = 10; // starting patch progress value												
+	private static final double PATCH_DECREASE = 0.1; 
+	private static final double PATCH_TIMER = 100000; 
+	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
 	private static final int CODE_VALUE = 20; // value to increment code
-												// progress by (5 clones
-												// required)
-	private static final int INTERACT_DISTANCE = 10; // max distance player can
+												// progress by 
+	private static final int INTERACT_DISTANCE = 15; // max distance player can
 														// be from entity and
 														// still interact with
 														// it
-
+	private static final float Y_OFFSET = 2; // y offset to place deleted items
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
+	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
+
+	// need to update y position when initialised
+	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19, -35);
+	public static final int PORTAL_LOWER_BOUND_OUTSIDE_Z = -30;
+	public static final int PORTAL_UPPER_BOUND_OUTSIDE_Z = -40;
+	public static final int PORTAL_EDGE_BOUND_OUTSIDE_X = 12;
+
+	private static final Vector3f OFFICE_PORTAL_POSITION = new Vector3f(128011f, 0, -127930);
+	public static final int PORTAL_LOWER_BOUND_OFFICE_Z = -127920;
+	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
+	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
+
+	private static boolean isProgramCompiled = false;
 
 	// Object creation factories
 	private EntityFactory entityFactory;
@@ -72,17 +80,18 @@ public class GameWorld {
 	private Set<SwipeCard> cards;
 
 	// Terrain the world is on
-	private Terrain terrain;
-	private Terrain officeTerrain;
+	private static Terrain currentTerrain;
+	private static Terrain otherTerrain;
 
 	// The actual player
-	private Player player;
+	private static Player player;
 
 	// Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
 
 	// Constant sun light-source
 	private Light sun;
+	private Light officeLight;
 
 	// Collection of attenuating light-sources
 	private ArrayList<Light> lights;
@@ -117,7 +126,7 @@ public class GameWorld {
 	}
 
 	/**
-	 * Initialises the game by setting up the lighting, factories and terrain
+	 * Initialises the game by setting up the lighting, factories and currentTerrain
 	 * 
 	 * @param isHost
 	 */
@@ -129,11 +138,11 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the terrain //TODO this will need to support multi
-		// terrain at some point.
+		// initialises the currentTerrain //TODO this will need to support multi
+		// currentTerrain at some point.
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, terrain, officeTerrain);
+		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
@@ -149,6 +158,8 @@ public class GameWorld {
 		this.cards = new HashSet<>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
+
+		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
 
 	/**
@@ -157,11 +168,8 @@ public class GameWorld {
 	private void setupLighting() {
 		sun = lightFactory.createSun();
 		lights.add(sun);
-
-		// TODO remove
-		for (Light l : lightFactory.getLights()) {
-			lights.add(l);
-		}
+		officeLight = lightFactory.createOfficeLight();
+		lights.add(officeLight);
 
 		lights.addAll(LightFactory.getStaticEntityLights());
 
@@ -171,6 +179,7 @@ public class GameWorld {
 	 * initialises the Gui to be rendered to the display
 	 */
 	private void initGui() {
+		guiImages = new ArrayList<GuiTexture>();
 		// TODO should init some gui here maybe?
 		//guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
 		//Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
@@ -180,8 +189,8 @@ public class GameWorld {
 	 * Initialises all the terrains of the gameworld
 	 */
 	private void initTerrain() {
-		terrain = terrainFactory.makeOutsideTerrain(0, -1);
-		officeTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
+		otherTerrain = terrainFactory.makeOutsideTerrain(0, -1);
+		currentTerrain = terrainFactory.makeOfficeTerrain(1000, -1000);
 	}
 
 	/**
@@ -212,7 +221,11 @@ public class GameWorld {
 	 * @return the lights
 	 */
 	public ArrayList<Light> getLights() {
-		return lights;
+		ArrayList<Light> collectionOfLights = new ArrayList<>();
+		collectionOfLights.add(sun);
+		collectionOfLights.add(officeLight);
+		collectionOfLights.addAll(lights);
+		return collectionOfLights;
 	}
 
 	/**
@@ -235,12 +248,12 @@ public class GameWorld {
 	}
 
 	/**
-	 * Gets terrain.
+	 * Gets currentTerrain.
 	 *
-	 * @return the terrain
+	 * @return the currentTerrain
 	 */
 	public Terrain getTerrain() {
-		return terrain;
+		return currentTerrain;
 	}
 
 	/**
@@ -286,7 +299,7 @@ public class GameWorld {
 		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
 		guiImages = new ArrayList<GuiTexture>();
-		guiImages.add(guiFactory.getProgress(progress));
+		//FIXME guiImages.add(guiFactory.getProgress(progress));
 		//TODO
 	}
 
@@ -302,15 +315,6 @@ public class GameWorld {
 			int type = entity.interact(this);
 			sendInteraction(type, entity);
 		}
-		// TODO for reuben! :)
-		// at end of this method there are changes to:
-		// storageUsed in Inventory
-		// movableEnities map in GameWorld
-		// inLaptop list in Inventory
-		// swipeCards list in GameWorld
-		// codeProgress in GameWorld
-		// patchProgress in GameWOrld
-		// score in GameWorld
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
@@ -408,7 +412,11 @@ public class GameWorld {
 	 */
 	public void removeFromInventory(LaptopItem item) {
 		if (item != null) {
-			item.setPosition(player.getPosition());
+			Vector3f playerPos = player.getPosition();
+			float y = currentTerrain.getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			float scale = item.getScale();
+			item.setScale(scale);
+			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET, playerPos.getZ()));
 			this.movableEntities.put(item.getUID(), item);
 		}
 	}
@@ -478,7 +486,7 @@ public class GameWorld {
 	 */
 	public void updateScore(int score) {
 		this.score += score;
-		System.out.println("Game Score:" + score);
+		System.out.println("Game Score:" + this.score);
 	}
 
 	/**
@@ -502,16 +510,18 @@ public class GameWorld {
 	 * given the option of multiplayer or single player, and the environment
 	 * they are displayed in changes in
 	 */
-	private void compileProgram() {
-		this.inProgram = true;
+	public void compileProgram() {
+		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
 
 		// TODO display message to show that player has collected all bits of
 		// code
-		// and what they have to do now (e.g. press enter to continue)
 		// move player into different terrian
-		// should create method that deals with decreasing patch progress over
-		// time (look at title screen as example)
+		
+		// adds the portal to the game
+		officeLight.setColour(new Vector3f(6, 1, 1));
+		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
+		GameWorld.isProgramCompiled = true;
 	}
 
 	/*
@@ -570,42 +580,26 @@ public class GameWorld {
 	/**
 	 * Swaps out the terrains for the players game world
 	 */
-	public void swapTerrains() {
-		Terrain temp = terrain;
-		terrain = officeTerrain;
-		officeTerrain = temp;
+	public static void teleportToOutside() {
+		Terrain temp = currentTerrain;
+		currentTerrain = otherTerrain;
+		otherTerrain = temp;
+		player.setCurrentTerrain(currentTerrain);
 		player.getPosition().x = SPAWN_POSITION.getX();
 		player.getPosition().z = SPAWN_POSITION.getZ();
+		player.getCamera().changeYaw(160f);
+		MasterRenderer.setRenderSkybox(true);
 	}
 
-	public void interactBug() {
-		// win games???
-	}
-
-	public void interactCommit() {
-		// update score 
-		incrementPatch();
-
-	}
-
-	public void interactLaptopItem() {
-		// removes uid from movables map
-		// adds that item to inlaptop array in inventory
-		// updates score by .getScore()
-
-	}
-
-	public void interactSwipeCard() {
-		// remove from movables
-		// add to swipe cards array
-
-	}
-
-	public void dropLaptopItem() {
-		System.out.println("DROPPED");
-		// remove uid from inventory laptop
-		// item.setPosition(x,y,z)
-		// add to movable maps...
+	public static void telportToOffice() {
+		Terrain temp = currentTerrain;
+		currentTerrain = otherTerrain;
+		otherTerrain = temp;
+		player.setCurrentTerrain(currentTerrain);
+		player.getPosition().x = OFFICE_SPAWN_POSITION.getX();
+		player.getPosition().z = OFFICE_SPAWN_POSITION.getZ();
+		player.getCamera().changeYaw(180f);
+		MasterRenderer.setRenderSkybox(false);
 	}
 	
 	public void setGameLost(boolean lost){
@@ -620,5 +614,13 @@ public class GameWorld {
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
 		return guiFactory.makePopUpInteract(e.getPosition());
 	}	
+
+	public static boolean isProgramCompiled() {
+		return isProgramCompiled;
+	}
+
+	public static void setIsProgramCompiled(boolean isProgramCompiled) {
+		GameWorld.isProgramCompiled = isProgramCompiled;
+	}
 }
 

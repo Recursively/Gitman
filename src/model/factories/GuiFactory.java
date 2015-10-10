@@ -21,6 +21,8 @@ import java.util.List;
 public class GuiFactory {
 
 	private static final String GUI_PATH = "gui/";
+	private static final String ITEM_PATH = "itemImages/";
+	
 	private final Loader loader;
 	private ArrayList<GuiTexture> progressBars;
 
@@ -59,6 +61,10 @@ public class GuiFactory {
 	public GuiTexture makeGuiTexture(String textureName, Vector2f position, Vector2f scale) {
 		return new GuiTexture(loader.loadTexture(GUI_PATH + textureName), position, scale);
 	}
+	
+	public GuiTexture makeItemTexture(String textureName, Vector2f position, Vector2f scale) {
+		return new GuiTexture(loader.loadTexture(ITEM_PATH + textureName), position, scale);
+	}
 
 	public ArrayList<GuiTexture> makeInventory(Inventory inventory) {
 		ArrayList<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
@@ -68,9 +74,17 @@ public class GuiFactory {
 			for(int x = 0; x < items.length; x++){
 				for(int y = 0; y < items[0].length; y++){
 					if(items[x][y] != null){
-						// TODO fix vector calulations depending on x y values
-						GuiTexture img = makeGuiTexture(items[x][y].getName(), new Vector2f(0f + 100 * x, 0f), new Vector2f(1f, 1f));
+						float xPos = Inventory.START_X + y*Inventory.ICON_SCALE.getX()*2f;
+						float yPos = Inventory.START_Y - x*Inventory.ICON_SCALE.getY()*1.5f;
+						Vector2f pos = new Vector2f(xPos, yPos);
+						GuiTexture img = makeItemTexture(items[x][y].getName(), pos, Inventory.ICON_SCALE);
 						inventoryImages.add(img);
+						
+						// highlight selected image
+						if(items[x][y] == inventory.getSelected()){
+							GuiTexture select = makeItemTexture("selectBox", pos, Inventory.ICON_SCALE);
+							inventoryImages.add(select);
+						}
 					}
 				}
 			}

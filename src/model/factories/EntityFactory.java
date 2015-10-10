@@ -7,6 +7,7 @@ import model.entities.movableEntity.*;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
+import model.entities.staticEntity.StaticEntity;
 import model.models.ModelData;
 import model.models.RawModel;
 import model.models.TexturedModel;
@@ -79,6 +80,8 @@ public class EntityFactory {
     private static int swipecardItemID = 0;
     private static int readmeItemID = 0;
     private static int flashdriveItemID = 0;
+    private ModelData portalData;
+    private TexturedModel portalTexturedModel;
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -100,6 +103,7 @@ public class EntityFactory {
                 pineData.getNormals(), pineData.getIndices());
         pineTexturedModel = new TexturedModel(pineRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "pine")));
+        pineTexturedModel.getTexture().setReflectivity(0);
 
 
         lampData = OBJFileLoader.loadOBJ(MODEL_PATH + "lamp");
@@ -113,12 +117,15 @@ public class EntityFactory {
                 wallData.getNormals(), wallData.getIndices());
         wallTexturedModel = new TexturedModel(wallRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
+        wallTexturedModel.getTexture().setReflectivity(0);
+        wallTexturedModel.getTexture().setShineDamper(0);
 
         whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
         RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
                 whiteboardData.getNormals(), whiteboardData.getIndices());
         whiteboardTexturedModel = new TexturedModel(whiteboardRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
+        whiteboardTexturedModel.getTexture().setReflectivity(0);
 
         tableData = OBJFileLoader.loadOBJ(MODEL_PATH + "table_with_drawer");
         RawModel tableRawModel = loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
@@ -157,12 +164,20 @@ public class EntityFactory {
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "flash_drive")));
 
         swipecardData = OBJFileLoader.loadOBJ(MODEL_PATH + "swipe_card");
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             RawModel swipecardRawModel = loader.loadToVAO(swipecardData.getVertices(), swipecardData.getTextureCoords(),
                     swipecardData.getNormals(), swipecardData.getIndices());
             swipecardTexturedModel[i] = new TexturedModel(swipecardRawModel,
                     new ModelTexture(loader.loadTexture(TEXTURES_PATH + "swipe_card" + i)));
         }
+
+
+        portalData = OBJFileLoader.loadOBJ(MODEL_PATH + "portal");
+        RawModel portalRawModel = loader.loadToVAO(portalData.getVertices(), portalData.getTextureCoords(),
+                portalData.getNormals(), portalData.getIndices());
+        portalTexturedModel = new TexturedModel(portalRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "portal")));
+        portalTexturedModel.getTexture().setReflectivity(0);
     }
 
     // HELPER METHOD
@@ -208,7 +223,7 @@ public class EntityFactory {
                 } else if (color == -28672) {
                     makeEntity(terrain, i, j, "bug", false);
                 } else if (color == -16747777) {
-                    //makeEntity(terrain, i, j, "swipe_card", false);
+                    makeEntity(terrain, i, j, "swipe_card", false);
                 } else if (color == -16711810) {
                     makeEntity(terrain, i, j, "tablet", false);
                 } else if (color == -4980481) {
@@ -257,7 +272,7 @@ public class EntityFactory {
         // Movable entities
 
         else if (entityName.equals("laptop")) {
-            y += 7;
+            y += 6.5;
             movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
         } else if (entityName.equals("bug")) {
@@ -265,12 +280,14 @@ public class EntityFactory {
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 10f, 0));
         } else if (entityName.equals("swipe_card")) {
-            y += 7;
+            y += 3.5;
+            z += 4.5;
+            x -= 2.5;
             movableEntities.put(EntityFactory.movableItemID, new SwipeCard(
-                    swipecardTexturedModel[EntityFactory.swipecardItemID], new Vector3f(x, y, z), 0, 270f, 0, 1f,
+                    swipecardTexturedModel[EntityFactory.swipecardItemID], new Vector3f(x, y, z), 0, 180, 0, 0.4f,
                     EntityFactory.movableItemID++, EntityFactory.swipecardItemID++));
         } else if (entityName.equals("tablet")) {
-            y += 7;
+            y += 6.5;
             movableEntities.put(EntityFactory.movableItemID, new ReadMe(tabletTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1f, EntityFactory.movableItemID++, "readme1" + EntityFactory.readmeItemID++));
         } else if (entityName.equals("flash_drive")) {
@@ -282,6 +299,16 @@ public class EntityFactory {
         }
     }
 
+    public StaticEntity makePortal(Vector3f position, Terrain terrain) {
+        position.y += terrain.getTerrainHeight(position.getX(), position.getZ()) + 10;
+        return new CollidableEntity(portalTexturedModel, position, 0, 0, 0, 10f, 0, portalData);
+    }
+
+
+    public static Commit createCommit(Vector3f position) {
+        position.y += 10;
+        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
+    }
 
     public ArrayList<Entity> getEntities() {
         return entities;
@@ -293,11 +320,6 @@ public class EntityFactory {
 
     public Map<Integer, MovableEntity> getMovableEntities() {
         return movableEntities;
-    }
-
-    public static Commit createCommit(Vector3f position) {
-        position.y += 10;
-        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
     }
 
     public TexturedModel getFlashdriveTexturedModel() {
