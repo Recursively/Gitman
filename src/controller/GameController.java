@@ -160,6 +160,7 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
+			
 
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
@@ -170,15 +171,10 @@ public class GameController {
 					guiRenderer.render(gameWorld.eInteractMessage(e));
 				}
 			}
+			
 
-
-			//TODO remove this !!
-			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-				if (!compiled) {
-					gameWorld.compileProgram();
-					compiled = true;
-				}
-			}
+			
+			
 
 			if(gameWorld.isGameLost()) {
 				guiRenderer.render(gameWorld.loseGame());
@@ -186,7 +182,7 @@ public class GameController {
 			
 
 			// update the Display window
-			gameWorld.updateGui();
+			
 			DisplayManager.updateDisplay();
 		}
 
@@ -254,6 +250,14 @@ public class GameController {
 
 	public GameWorld getGameWorld() {
 		return gameWorld;
+	}
+
+	public boolean isCompiled() {
+		return compiled;
+	}
+
+	public void setCompiled(boolean compiled) {
+		this.compiled = compiled;
 	}
 
 }

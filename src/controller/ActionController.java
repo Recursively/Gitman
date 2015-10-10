@@ -1,6 +1,5 @@
 package controller;
 
-import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -49,6 +48,16 @@ public class ActionController {
         		if(Keyboard.getEventKey() == Keyboard.KEY_I){
         			gameWorld.getInventory().displayInventory();
             	} 
+        		
+
+    			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+    				if (!gameController.isCompiled()) {
+    					gameWorld.compileProgram();
+    					gameController.setCompiled(true);
+    					
+    					
+    				}
+    			}
         		
         		// deal with opening and closing viewing things in the inventory
         		if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
