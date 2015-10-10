@@ -9,6 +9,7 @@ import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
+import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
@@ -72,6 +73,7 @@ public class GameWorld {
 	// Collection of guiImages to render to the screen
 	private List<GuiTexture> guiImages;
 	private GuiRenderer guiRenderer;
+	private GuiMessages guiMessages;
 
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
@@ -182,6 +184,7 @@ public class GameWorld {
 	private void initGui() {
 		guiImages = new ArrayList<GuiTexture>();
 		guiImages = guiFactory.getInfoPanel();
+		guiMessages = new GuiMessages(guiFactory);
 		
 	}
 
@@ -623,6 +626,14 @@ public class GameWorld {
 
 	public static void setIsProgramCompiled(boolean isProgramCompiled) {
 		GameWorld.isProgramCompiled = isProgramCompiled;
+	}
+
+	public List<GuiTexture> displayMessages() {
+		return guiMessages.getMessages();
+	}
+	
+	public void setGuiMessage(String msg, long time) {
+		this.guiMessages.setMessage(msg, time);
 	}
 }
 

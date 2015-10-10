@@ -15,7 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class ReadMe extends LaptopItem{
-	public static final int README_SCORE = 10;
+	public static final int README_SCORE = 0;
 	private static final int README_SIZE = 60;
 
 	public ReadMe(TexturedModel model, Vector3f position, float rotX,

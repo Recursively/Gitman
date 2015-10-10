@@ -180,6 +180,7 @@ public class GameController {
 				guiRenderer.render(gameWorld.loseGame());
 			}
 			
+			guiRenderer.render(gameWorld.displayMessages());
 
 			// update the Display window
 			

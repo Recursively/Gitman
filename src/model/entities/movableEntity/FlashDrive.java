@@ -13,7 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class FlashDrive extends LaptopItem {
-	public static final int FLASH_DRIVE_SCORE = 20;
+	public static final int FLASH_DRIVE_SCORE = 0;
 	private static final int FLASH_DRIVE_SIZE = 30;
 	
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
