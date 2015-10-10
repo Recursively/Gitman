@@ -148,7 +148,7 @@ public class GameController {
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
-			if (!gameWorld.getInventory().isVisible()) {
+			if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
 				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 			}
 			
@@ -173,6 +173,10 @@ public class GameController {
 			}
 			
 			guiRenderer.render(gameWorld.displayMessages());
+			
+			if(gameWorld.isHelpVisible()){
+				guiRenderer.render(gameWorld.helpMessage());
+			}
 
 			if(gameWorld.getGameState() > -1) {
 				guiRenderer.render(gameWorld.getEndStateScreen());

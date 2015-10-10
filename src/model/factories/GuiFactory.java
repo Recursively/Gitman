@@ -138,6 +138,12 @@ public class GuiFactory {
 		infoPanels.add(infoPanel);
 		return infoPanels;
 	}
+
+	public List<GuiTexture> makeHelpScreen() {
+		List<GuiTexture> help = new ArrayList<GuiTexture>();
+		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));
+		return help;
+	}
 	
 //	public List<GuiTexture> getCodeCompiledMessage(){
 //		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();

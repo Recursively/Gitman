@@ -17,8 +17,7 @@ import model.textures.GuiTexture;
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
  * files and README txt documents).
  * 
- * @author Divya 
- * @author Ellie
+ * @author Divya
  *
  */
 public class Inventory {	
@@ -128,17 +127,15 @@ public class Inventory {
 
 	public void displayInventory() {
 		if(this.isVisible){
-			closeInventory();
+			this.isVisible = false;
+			Mouse.setGrabbed(true);
+			this.selected = null;
 		}
 		else {
-			openInventory();
+			this.isVisible = true;
+			Mouse.setGrabbed(false);
+			updateLaptopDisplay();
 		}
-	}
-	
-	private void openInventory(){
-		this.isVisible = true;
-		Mouse.setGrabbed(false);
-		updateLaptopDisplay();
 	}
 	
 	private void updateLaptopDisplay() {
@@ -156,12 +153,6 @@ public class Inventory {
 		this.textureList = this.guiFactory.makeInventory(this);
 	}
 
-	private void closeInventory(){
-		this.isVisible = false;
-		Mouse.setGrabbed(true);
-		this.selected = null;
-	}
-	
 	public void displayLaptopItem() {
 		if(itemDisplayed != null){
 			this.textureList.remove(this.itemDisplayed);

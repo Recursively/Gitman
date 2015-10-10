@@ -20,11 +20,9 @@ import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 
 import view.renderEngine.MasterRenderer;
-import controller.GameController;
 
 import java.util.*;
 
@@ -117,6 +115,7 @@ public class GameWorld {
 	
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
+	private boolean helpVisible;
 
 	/**
 	 * Creates the game world and passes in the loader
@@ -162,6 +161,7 @@ public class GameWorld {
 		this.cards = new HashSet<>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
+		this.helpVisible = false;
 		this.commitIndex = 0;
 		this.gameState = -1;
 
@@ -298,6 +298,10 @@ public class GameWorld {
 	
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
+	}
+	
+	public boolean isHelpVisible() {
+		return this.helpVisible;
 	}
 
 	public void updateGui() {
@@ -586,8 +590,14 @@ public class GameWorld {
 	}
 
 	public void displayHelp() {
-		// TODO
-		
+		if(this.helpVisible){
+			this.helpVisible = false;
+			Mouse.setGrabbed(true);
+		}
+		else {
+			this.helpVisible = true;
+			Mouse.setGrabbed(false);
+		}		
 	}
 
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
@@ -612,6 +622,10 @@ public class GameWorld {
 
 	public void setGameState(int state) {
 		this.gameState = state;
+	}
+
+	public List<GuiTexture> helpMessage() {
+		return guiFactory.makeHelpScreen();
 	}
 }
 

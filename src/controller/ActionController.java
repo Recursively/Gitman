@@ -50,6 +50,7 @@ public class ActionController {
             	} 
         		
 
+        		// TODO remove!!!!
     			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
     				if (!gameController.isCompiled()) {
     					gameWorld.compileProgram();
