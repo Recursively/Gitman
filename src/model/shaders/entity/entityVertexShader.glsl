@@ -18,13 +18,12 @@ uniform mat4 viewMatrix;
 // Maximum number of lights that can affect an entity
 // is set to 4 to keep performance consistent
 uniform vec3 lightPosition[5];
-
 uniform float numberOfRows;
 uniform vec2 offset;
 
 uniform float useFakeLighting;
 
-const float density = 0.02;
+const float density = 0.01;
 const float gradient = 2.5;
 
 void main(void){

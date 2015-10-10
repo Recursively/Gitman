@@ -216,6 +216,7 @@ public class EntityFactory {
                 } else if (color == -28672) {
                     makeEntity(terrain, i, j, "bug", false);
                 } else if (color == -16747777) {
+                    //TODO fix me
                     //makeEntity(terrain, i, j, "swipe_card", false);
                 } else if (color == -16711810) {
                     makeEntity(terrain, i, j, "tablet", false);

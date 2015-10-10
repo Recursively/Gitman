@@ -18,6 +18,7 @@ import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+import view.renderEngine.MasterRenderer;
 
 import java.util.*;
 
@@ -582,6 +583,7 @@ public class GameWorld {
 		player.getPosition().x = SPAWN_POSITION.getX();
 		player.getPosition().z = SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(160f);
+		MasterRenderer.setRenderSkybox(true);
 	}
 
 	public static void telportToOffice() {
@@ -592,6 +594,7 @@ public class GameWorld {
 		player.getPosition().x = OFFICE_SPAWN_POSITON.getX();
 		player.getPosition().z = OFFICE_SPAWN_POSITON.getZ();
 		player.getCamera().changeYaw(180f);
+		MasterRenderer.setRenderSkybox(false);
 	}
 
 	public void interactBug() {

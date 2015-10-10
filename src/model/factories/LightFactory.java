@@ -1,5 +1,6 @@
 package model.factories;
 
+import model.GameWorld;
 import model.entities.Light;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -15,8 +16,8 @@ import java.util.ArrayList;
  */
 public class LightFactory {
 
-    private static final Vector3f INITIAL_SUN_POSITION = new Vector3f(500, 500, -500);
-    private static final Vector3f INITIAL_SUN_COLOUR = new Vector3f(1f, 1f, 1f);
+    private static final Vector3f INITIAL_SUN_POSITION = new Vector3f(GameWorld.SPAWN_POSITION.getX(), 1000, GameWorld.SPAWN_POSITION.getZ());
+    private static final Vector3f INITIAL_SUN_COLOUR = new Vector3f(0, 0, 0);
 
     // This can be override, but this gives a nice gradual fadeout
     private static final Vector3f DEFAULT_ATTENUATION_FACTOR = new Vector3f(1, 0.01f, 0.002f);
