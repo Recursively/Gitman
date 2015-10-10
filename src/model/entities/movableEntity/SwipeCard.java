@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class SwipeCard extends Item {
-	public static final int SWIPE_CARD_SCORE = 15;
+	public static final int SWIPE_CARD_SCORE = 5;
 	
 	private final int cardID;
 
@@ -36,7 +36,6 @@ public class SwipeCard extends Item {
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
-		System.out.println("collected card:" + cardID);
 		return 16;
 	}
 

@@ -4,6 +4,7 @@ import controller.GameController;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
@@ -383,12 +384,12 @@ public class GameWorld {
 
 	public void addCommit() {
 		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
-		EntityFactory.createCommit(commitPos.get(commitIndex));
+		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
+		this.movableEntities.put(newCommit.getUID(), newCommit);
 		commitIndex++;
 		if(commitIndex >= commitPos.size()){
 			commitIndex = 0;
 		}
-
 	}
 
 	/**
@@ -403,10 +404,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		// TODO display message that inventory is too full and player must
-		// delete an item first
-		// TODO (Message on how to delete: right click to select and X to
-		// delete)
+		this.setGuiMessage("deleteMessage", 3000);  //TODO
 		return false;
 	}
 
@@ -480,7 +478,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			findBugMessage();
+			this.setGuiMessage("findBugMessage", 5000);  //TODO
 		}
 	}
 
@@ -520,8 +518,7 @@ public class GameWorld {
 	public void compileProgram() {
 		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
-
-		// TODO display message to show that player
+		this.setGuiMessage("codeCompiledMessage", 5000);  //TODO
 		
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
@@ -549,13 +546,6 @@ public class GameWorld {
 		// ungrab mouse and message is end of game.
 		// can you make it so that pressing enter takes you back to the
 		// play/options screen
-
-	}
-
-	private void findBugMessage() {
-		// TODO display message to inform user that they
-		// now have to find bug and apply patch
-		// maybe press enter to remove message
 
 	}
 

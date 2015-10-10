@@ -14,7 +14,7 @@ import model.textures.GuiTexture;
  *
  */
 public class GuiMessages {
-	private static final Vector2f MESSAGE_POS = new Vector2f(0f, -0.5f);
+	private static final Vector2f MESSAGE_POS = new Vector2f(0f, 0.5f);
 	private static final Vector2f MESSAGE_SCALE = new Vector2f(1f,1f); 
 	
 	private GuiFactory guiFactory;
