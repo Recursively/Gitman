@@ -116,7 +116,6 @@ public class EntityFactory {
         wallTexturedModel = new TexturedModel(wallRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
         wallTexturedModel.getTexture().setReflectivity(0);
-        wallTexturedModel.getTexture().setShineDamper(0);
 
         whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
         RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
