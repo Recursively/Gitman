@@ -298,7 +298,7 @@ public class GameWorld {
 		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
 		guiImages = guiFactory.getInfoPanel();
-		guiRenderer.render(guiImages);
+		//guiRenderer.render(guiImages);
 		//FIXME guiImages.add(guiFactory.getProgress(progress));
 		//TODO
 	}

@@ -160,6 +160,7 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
+			
 
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
@@ -186,7 +187,7 @@ public class GameController {
 			
 
 			// update the Display window
-			gameWorld.updateGui();
+			
 			DisplayManager.updateDisplay();
 		}
 
