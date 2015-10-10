@@ -35,24 +35,17 @@ import java.util.*;
  */
 public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
-
-	private static final int START_PATCH = 10; // starting progress value for
-												// patch
-	private static final double PATCH_DECREASE = 0.1; // percent to decrease
-														// patch progress
-	private static final double PATCH_TIMER = 1000; // FIXME currently is 10
-														// seconds
-	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
-														// player should collect
-														// on average...
+	private static final int START_PATCH = 10; // starting patch progress value												
+	private static final double PATCH_DECREASE = 0.1; 
+	private static final double PATCH_TIMER = 100000; 
+	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
 	private static final int CODE_VALUE = 20; // value to increment code
-												// progress by (5 clones
-												// required)
-	private static final int INTERACT_DISTANCE = 10; // max distance player can
+												// progress by 
+	private static final int INTERACT_DISTANCE = 15; // max distance player can
 														// be from entity and
 														// still interact with
 														// it
-
+	private static final float Y_OFFSET = 2; // y offset to place deleted items
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 
 	// Object creation factories
@@ -397,8 +390,10 @@ public class GameWorld {
 	public void removeFromInventory(LaptopItem item) {
 		if (item != null) {
 			Vector3f playerPos = player.getPosition();
-			float y = player.getCurrentTerrain().getTerrainHeight(playerPos.getX(), playerPos.getZ());
-			item.setPosition(new Vector3f(playerPos.getX(), y + 10, playerPos.getZ()));
+			float y = terrain.getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			float scale = item.getScale();
+			item.setScale(scale);
+			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET, playerPos.getZ()));
 			this.movableEntities.put(item.getUID(), item);
 		}
 	}
