@@ -3,6 +3,7 @@ package model.guiComponents;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 
 import model.GameWorld;
 import model.entities.Entity;
@@ -19,14 +20,16 @@ import model.textures.GuiTexture;
  * @author Ellie
  *
  */
-public class Inventory {
+public class Inventory {	
 	private static final int MAX_STORAGE_SIZE = 512;   // FIXME laptop has 512MB available for storage
 	
-	// final fields for image display //FIXME
-	private static final int NUM_ACROSS = 7;
-	private static final int NUM_DOWN = 4;
-	private static final int X_SIZE = 20;
-	private static final int Y_SIZE = 30;
+	// final fields for image display
+	public static final int NUM_ACROSS = 2;
+	public static final int NUM_DOWN = 7;
+	public static final float START_X = -0.6f;
+	public static final float START_Y = 0.35f;
+	public static final Vector2f ICON_SCALE = new Vector2f(0.1f, 0.2f);
+
 	
 	private LaptopItem[][] laptopDisplay;
 	private ArrayList<LaptopItem> inLaptop;
@@ -37,8 +40,6 @@ public class Inventory {
 	private GuiFactory guiFactory;
 	private ArrayList<GuiTexture> textureList;
 
-	
-	
 	public Inventory (GuiFactory guiFactory){
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
@@ -208,10 +209,6 @@ public class Inventory {
 	public void showSelected(int x, int y) {		
 		LaptopItem item = findItem(x, y);
 		if(item != null){
-			// if something else was selected before, reset its selected image, 
-			if(this.selected != null){
-				// TODO maybe item.setSelectedImage(false);
-			}
 			this.selected = item;
 			// update textures to show the clicked on item's 'selected' image, not normal one
 			
@@ -222,6 +219,10 @@ public class Inventory {
 
 	public LaptopItem[][] getLaptopDisplay() {
 		return this.laptopDisplay;
+	}
+	
+	public LaptopItem getSelected(){
+		return this.selected;
 	}
 
 }

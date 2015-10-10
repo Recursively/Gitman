@@ -166,15 +166,17 @@ public class GameController {
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
 			}
+			else {
+				// only show e to interact message if inventory is not open
+				for(MovableEntity e : gameWorld.withinDistance().values()){
+					guiRenderer.render(gameWorld.eInteractMessage(e));
+				}
+			}
 			
 			if(gameWorld.isGameLost()){
 				guiRenderer.render(gameWorld.loseGame());
 			}
 			
-			// TODO pick up e to interact
-			for(MovableEntity e : gameWorld.withinDistance().values()){
-				guiRenderer.render(gameWorld.eInteractMessage(e));
-			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();

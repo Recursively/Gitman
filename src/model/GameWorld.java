@@ -505,10 +505,8 @@ public class GameWorld {
 
 		// TODO display message to show that player has collected all bits of
 		// code
-		// and what they have to do now (e.g. press enter to continue)
 		// move player into different terrian
-		// should create method that deals with decreasing patch progress over
-		// time (look at title screen as example)
+		
 	}
 
 	/*
