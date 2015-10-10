@@ -19,6 +19,7 @@ public class GuiFactory {
 
 	private static final String GUI_PATH = "gui/";
 	private final Loader loader;
+	private ArrayList<GuiTexture> progressBars;
 
 	/**
 	 * Create the Gui factory passing in the object loader
@@ -28,6 +29,14 @@ public class GuiFactory {
 	 */
 	public GuiFactory(Loader loader) {
 		this.loader = loader;
+		makeProgressBars();
+	}
+
+	private void makeProgressBars() {
+//		progressBars = new ArrayList<GuiTexture>();
+//		for(int i = 0 ; i < 100; i++){
+//		progressBars.add(makeGuiTexture("progress"+i, new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
+//		}
 	}
 
 	/**
@@ -72,5 +81,10 @@ public class GuiFactory {
 		ArrayList<GuiTexture> lostScreen = new ArrayList<GuiTexture>();
 		lostScreen.add(makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)));
 		return lostScreen;
+	}
+
+	public GuiTexture getProgress(int progress) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
