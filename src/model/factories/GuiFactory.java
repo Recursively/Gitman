@@ -43,8 +43,6 @@ public class GuiFactory {
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
-	private GuiTexture laptopMemoryFull;
-	private GuiTexture codeCompiled; //FIXME
 	
 	// gui panel
 	private int oldCardsSize;
@@ -74,11 +72,6 @@ public class GuiFactory {
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
 		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
 		// FIXME winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
-		//FIXME codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-
-		laptopMemoryFull = makeGuiTexture("laptopMemoryFull", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-		//TODO give the right dimentions
-
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -194,7 +187,7 @@ public class GuiFactory {
 		return this.scoreNum;
 	}
 	
-	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  //TODO
+	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  
 		if(this.oldCardsSize != collected.size()){
 			this.oldCardsSize = collected.size();
 			String name = collected.get(this.oldCardsSize-1).getImgName();	
@@ -224,18 +217,4 @@ public class GuiFactory {
 		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));
 		return help;
 	}
-
-	
-//	public List<GuiTexture> getCodeCompiledMessage(){
-//		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();
-//		ccMessage.add(codeCompiled);
-//		return ccMessage;
-//	}
-	
-	public List<GuiTexture> getMemoryFull(){
-		List<GuiTexture> memFull = new ArrayList<GuiTexture>();
-		memFull.add(laptopMemoryFull);
-		return memFull;
-	}
-
 }

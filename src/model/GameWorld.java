@@ -408,7 +408,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		this.setGuiMessage("deleteMessage", 3000);  //TODO
+		this.setGuiMessage("laptopMemoryFull", 3000);  
 		return false;
 	}
 
@@ -495,7 +495,6 @@ public class GameWorld {
 	 */
 	public void updateScore(int score) {
 		this.score += score;
-		System.out.println("Game Score:" + this.score);
 	}
 
 	/**
@@ -522,7 +521,7 @@ public class GameWorld {
 	public void compileProgram() {
 		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
-		this.setGuiMessage("codeCompiledMessage", 5000);  //TODO
+		this.setGuiMessage("codeCompiledMessage", 5000); 
 		
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
