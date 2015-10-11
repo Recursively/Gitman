@@ -230,5 +230,14 @@ public class Inventory {
 		}
 		return num;
 	}
+	
+	public LaptopItem getItem(int uid){
+		for(LaptopItem l : this.inLaptop){
+			if(l.getUID() == uid){
+				return l;
+			}
+		}
+		return null;
+	}
 
 }
