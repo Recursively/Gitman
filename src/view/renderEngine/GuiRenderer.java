@@ -1,6 +1,5 @@
 package view.renderEngine;
 
-import model.entities.movableEntity.MovableEntity;
 import model.models.RawModel;
 import model.shaders.gui.GuiShader;
 import model.textures.GuiTexture;
@@ -14,7 +13,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import model.toolbox.Loader;
 import model.toolbox.Maths;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
