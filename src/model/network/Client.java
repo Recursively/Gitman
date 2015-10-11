@@ -56,10 +56,10 @@ public class Client extends Thread {
 					receivedPlayers.add(playerID);
 				}
 
-				// checkForRemovedPlayers(receivedPlayers);
+				checkForRemovedPlayers(receivedPlayers);
 
 				sendUpdateEntity();
-				
+
 				readUpdateEntitiy();
 
 			}
@@ -78,7 +78,7 @@ public class Client extends Thread {
 	}
 
 	private void readUpdateEntitiy() throws IOException {
-		
+
 		int update = inputStream.readInt();
 		int id = inputStream.readInt();
 
@@ -174,12 +174,19 @@ public class Client extends Thread {
 		int inventorySize = inputStream.readInt();
 
 		for (int i = 0; i < inventorySize; i++) {
-			gameController.getGameWorld().getMoveableEntities().get(inputStream.readInt())
-					.interact(gameController.getGameWorld());
+			int id = inputStream.readInt();
+			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
+		}
+
+		int swipeSize = inputStream.readInt();
+		for (int i = 0; i < swipeSize; i++) {
+			int id = inputStream.readInt();
+			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}
 
 		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
-	}
 
+		System.out.println("Patch: " + gameController.getGameWorld().getPatchProgress() + " ");
+	}
 
 }

@@ -1,6 +1,5 @@
 package model.network;
 
-
 import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.SwipeCard;
@@ -32,7 +31,7 @@ public class NetworkHandler {
 			interactBug();
 			break;
 		case 11:
-			interactCommit();
+			interactCommit(id);
 			break;
 		case 13:
 			interactLaptopItem(id);
@@ -51,7 +50,6 @@ public class NetworkHandler {
 
 	private void interactLaptop(int id) {
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
-
 	}
 
 	public void interactBug() {
@@ -60,12 +58,11 @@ public class NetworkHandler {
 		// win games???
 	}
 
-	public void interactCommit() {
+	public void interactCommit(int id) {
 		System.out.println("INTERACTED WITH COMMIT");
-
-		// update score
-		gameWorld.incrementPatch();
-
+		
+		// interact with commit
+		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 	}
 
 	public void interactLaptopItem(int id) {

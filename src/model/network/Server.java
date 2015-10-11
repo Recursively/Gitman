@@ -11,6 +11,7 @@ import controller.GameController;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
+import model.entities.movableEntity.SwipeCard;
 
 public class Server extends Thread {
 
@@ -168,6 +169,11 @@ public class Server extends Thread {
 		outputStream.writeInt(inventorySize);
 		for (LaptopItem entity : gameController.getGameWorld().getInventory().getItems()) {
 			outputStream.writeInt(entity.getUID());
+		}
+
+		int swipeSize = gameController.getGameWorld().getSwipeCards().size();
+		for (SwipeCard swipeCard : gameController.getGameWorld().getSwipeCards()) {
+			outputStream.writeInt(swipeCard.getUID());
 		}
 
 		outputStream.writeInt(gameController.getGameWorld().getPatchProgress());
