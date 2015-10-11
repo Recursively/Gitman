@@ -7,9 +7,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
 import model.GameWorld;
-import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.MovableEntity;
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
 

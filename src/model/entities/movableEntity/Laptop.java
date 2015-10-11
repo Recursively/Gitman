@@ -1,13 +1,10 @@
 package model.entities.movableEntity;
 
 import java.util.ArrayList;
-import java.util.Set;
-
 import model.GameWorld;
 import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**

@@ -215,7 +215,7 @@ public class GameWorld {
 	 * initialises the factories
 	 */
 	private void initFactories() {
-		playerFactory = new PlayerFactory(this, loader);
+		playerFactory = new PlayerFactory(this);
 		lightFactory = new LightFactory();
 		terrainFactory = new TerrainFactory(loader);
 		guiFactory = new GuiFactory(loader);
@@ -274,7 +274,7 @@ public class GameWorld {
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player;
+		GameWorld.player = player;
 	}
 
 	/**

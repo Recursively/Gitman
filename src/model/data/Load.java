@@ -25,8 +25,6 @@ public class Load {
 	// player position elements
 	private String rotX = null;
 	private String rotY = null;
-	private String rotZ = null;
-	
 	private ArrayList<String> states;
 
 	public boolean readXML(String xml) {
