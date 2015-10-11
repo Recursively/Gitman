@@ -60,7 +60,7 @@ public class EntityFactory {
     private ModelData laptopData;
     private TexturedModel laptopTexturedModel;
     private ModelData bugData;
-    private TexturedModel bugTexturedModel;
+    private static TexturedModel bugTexturedModel;
     private ModelData tabletData;
     private static TexturedModel tabletTexturedModel;
 
@@ -335,7 +335,7 @@ public class EntityFactory {
         return tabletTexturedModel;
     }
 
-    public TexturedModel getBugTexturedModel() {
+    public static TexturedModel getBugTexturedModel() {
         return bugTexturedModel;
     }
 
