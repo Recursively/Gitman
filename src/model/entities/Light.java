@@ -121,4 +121,16 @@ public class Light implements Comparator<Light>, Comparable<Light> {
         else if (distance == distance2) return 0;
         else return 1;
     }
+
+    public void increaseColour(float r, float g, float b) {
+        colour.x += r;
+        colour.y += g;
+        colour.z += b;
+    }
+
+    public void decreaseColour(float r, float g, float b) {
+        colour.x -= r;
+        colour.y -= g;
+        colour.z -= b;
+    }
 }

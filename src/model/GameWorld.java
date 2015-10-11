@@ -64,6 +64,8 @@ public class GameWorld {
 
 	private static boolean isProgramCompiled = false;
 
+	private static boolean isOutside = false;
+
 	// Object creation factories
 	private EntityFactory entityFactory;
 	private TerrainFactory terrainFactory;
@@ -645,6 +647,7 @@ public class GameWorld {
 		player.getPosition().z = SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(160f);
 		MasterRenderer.setRenderSkybox(true);
+		isOutside = true;
 	}
 
 	public static void telportToOffice() {
@@ -656,6 +659,7 @@ public class GameWorld {
 		player.getPosition().z = OFFICE_SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(180f);
 		MasterRenderer.setRenderSkybox(false);
+		isOutside = false;
 	}
 
 
@@ -746,6 +750,10 @@ public class GameWorld {
 	public static void increaseTime(float worldTime) {
 		WORLD_TIME += worldTime;
 		WORLD_TIME %= 24000;
+	}
+
+	public static boolean isOutside() {
+		return isOutside;
 	}
 }
 
