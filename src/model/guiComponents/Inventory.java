@@ -206,7 +206,9 @@ public class Inventory {
 					yPos = selectDownOrRight(yPos, laptopDisplay[0].length-1);
 				}
 				
-				this.selected = laptopDisplay[xPos][yPos];
+				if(laptopDisplay[xPos][yPos] != null){
+					this.selected = laptopDisplay[xPos][yPos];
+				}
 			}
 			
 			if(this.selected != null){
