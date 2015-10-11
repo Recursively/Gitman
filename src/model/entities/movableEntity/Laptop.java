@@ -25,9 +25,9 @@ public class Laptop extends Item {
 	private int cardID;
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
-				  float rotY, float rotZ, float scale, int id, boolean code, int cardID) {
+				  float rotY, float rotZ, float scale, int id, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.hasCode = code;  // to make it so that not all laptops have clonable clode
+		this.hasCode = true;  
 		this.locked = true;
 		this.cardID = cardID;
 	}
