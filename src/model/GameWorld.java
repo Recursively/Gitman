@@ -38,8 +38,8 @@ import java.util.*;
 public class GameWorld {
 	public static final int GAME_WIN = 1;
 	public static final int CODE_VALUE = 20;
-	
-	private static final int MAX_PROGRESS = 100;
+	public static final int MAX_PROGRESS = 100;
+
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
 	private static final double PATCH_TIMER = 100000;  // time before decrease 
@@ -60,8 +60,8 @@ public class GameWorld {
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
 
-	private static float WORLD_TIME = 0;
 
+	private static float WORLD_TIME = 0;
 	private static boolean isProgramCompiled = false;
 
 	// Object creation factories
@@ -73,7 +73,7 @@ public class GameWorld {
 
 	// Collection of guiImages to render to the screen
 	private List<GuiTexture> guiImages;
-	private GuiMessages guiMessages;
+	private static GuiMessages guiMessages;
 
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
@@ -163,8 +163,8 @@ public class GameWorld {
 
 			// game state
 			inventory = new Inventory(guiFactory);
-			this.patchProgress = START_PATCH;
-			this.codeProgress = 0;
+			this.patchProgress = 110;
+			this.codeProgress = 90;
 			this.cards = new ArrayList<SwipeCard>();
 			this.inProgram = false;
 			this.canApplyPatch = false;			
@@ -420,7 +420,6 @@ public class GameWorld {
 			// if within interactable distance, add to map
 			if (diff <= (interactDistance*interactDistance)
 					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
-				System.out.println(interactDistance);
 				interactable.put(diff, e);
 			}
 		}
@@ -687,8 +686,8 @@ public class GameWorld {
 		return guiMessages.getMessages();
 	}
 
-	public void setGuiMessage(String msg, long time) {
-		this.guiMessages.setMessage(msg, time);
+	public static void setGuiMessage(String msg, long time) {
+		guiMessages.setMessage(msg, time);
 	}
 
 	public void setGameState(int state) {
