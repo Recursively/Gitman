@@ -35,6 +35,9 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
   - solaris
   - windows
   
+   **Alternately, if you are using eclipse**
+   - You can simply add the corresponding native as a native for the lwjgl.jar in your libraries build path
+  
   
 *Game created by:*
 - *Ellie Coyle*

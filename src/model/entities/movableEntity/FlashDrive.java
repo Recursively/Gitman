@@ -14,17 +14,16 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class FlashDrive extends LaptopItem {
 	private static final int FLASH_DRIVE_SCORE = 20;
-	
-	//TODO field to store image?
+	private static final int FLASH_DRIVE_SIZE = 40;
 	
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int id, String name, int size) {
-		super(model, position, rotX, rotY, rotZ, scale, id, name, size);
+			float rotZ, float scale, int id, String name) {
+		super(model, position, rotX, rotY, rotZ, scale, id, name);
 	}
 	
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
-			float rotZ, float scale, int textureIndex, int id, String name, int size) {
-		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name, size);
+			float rotZ, float scale, int textureIndex, int id, String name) {
+		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id, name);
 	}
 	
 	@Override
@@ -35,5 +34,10 @@ public class FlashDrive extends LaptopItem {
 	@Override
 	public String viewInfo() {
 		return "Flash Drives store special items. Interact with them and see what happens.";
+	}
+
+	@Override
+	public int getSize() {
+		return FLASH_DRIVE_SIZE;
 	}
 }

@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
@@ -12,6 +13,11 @@ import view.DisplayManager;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marcel van Workum
+ *
+ *
+ */
 public class Player extends MovableEntity {
 
     private static final float RUN_SPEED = 1f;
@@ -21,6 +27,8 @@ public class Player extends MovableEntity {
     private Camera camera;
 
     private float verticalVelocity = 0;
+
+    private float edgeBound = 12;
 
     private Terrain currentTerrain;
 
@@ -99,7 +107,7 @@ public class Player extends MovableEntity {
 
     private void checkBounds(Terrain terrain) {
         Vector3f position = super.getPosition();
-        float terrainSize = Terrain.getSIZE();
+        float terrainSize = terrain.getSIZE();
 
         float terrainOriginX = terrain.getGridX();
         float terrainOriginZ = terrain.getGridZ();
@@ -110,16 +118,31 @@ public class Player extends MovableEntity {
         float xPos = position.getX();
         float zPos = position.getZ();
 
-        if (xPos < terrainOriginX) {
-            position.x = terrainOriginX;
-        } else if (xPos > terrainBoundX) {
-            position.x = terrainBoundX;
+        if (xPos < terrainOriginX + edgeBound) {
+            position.x = terrainOriginX + edgeBound;
+        } else if (xPos > terrainBoundX - edgeBound) {
+            position.x = terrainBoundX - edgeBound;
         }
 
-        if (zPos < terrainOriginZ) {
-            position.z = terrainOriginZ;
-        } else if (zPos > terrainBoundZ) {
-            position.z = terrainBoundZ;
+        if (zPos < terrainOriginZ + edgeBound) {
+            position.z = terrainOriginZ + edgeBound;
+        } else if (zPos > terrainBoundZ - edgeBound) {
+            position.z = terrainBoundZ - edgeBound;
+        }
+
+        // Now check for portal collision
+
+        if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OUTSIDE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OUTSIDE_Z
+                && zPos >= GameWorld.PORTAL_UPPER_BOUND_OUTSIDE_Z) {
+            // swap terrain
+            GameWorld.telportToOffice();
+        }
+
+        if (GameWorld.isProgramCompiled()){
+            if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OFFICE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OFFICE_Z
+                    && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
+                GameWorld.teleportToOutside();
+            }
         }
     }
 
@@ -226,4 +249,14 @@ public class Player extends MovableEntity {
     public void setCurrentTerrain(Terrain currentTerrain) {
         this.currentTerrain = currentTerrain;
     }
+
+	@Override
+	public int interact(GameWorld game) {
+		return 15;
+	}
+
+	@Override
+	public boolean canInteract() {
+		return true;
+	}
 }

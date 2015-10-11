@@ -29,15 +29,28 @@ import java.util.Map;
  */
 public class MasterRenderer {
 
+    private static boolean RENDER_SKYBOX = false;
+
+    public static final int NUMBER_OF_LIGHTS = 5;
+
     // Display Parameters
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 2000;
 
+    /**
+     * Used in the calculate as to which entities need to be rendered to the screen
+     */
+    public static final int RENDER_DISTANCE = 200;
+
     // Fog colour values
-    private static final float RED = 0.5444f;
-    private static final float GREEN = 0.62f;
-    private static final float BLUE = 0.69f;
+//    private static final float RED = 0.5444f;
+//    private static final float GREEN = 0.62f;
+//    private static final float BLUE = 0.69f;
+
+    private static final float RED = 0;
+    private static final float GREEN = 0;
+    private static final float BLUE = 0;
 
     private Matrix4f projectionMatrix;
 
@@ -121,7 +134,10 @@ public class MasterRenderer {
         terrainShader.stop();
 
         // Needs to render the skybox last otherwise you get some funky results
-        skyboxRenderer.render(camera, RED, GREEN, BLUE);
+        if (RENDER_SKYBOX) {
+            skyboxRenderer.render(camera, RED, GREEN, BLUE);
+        }
+
 
         // Flush the terrains and entities, ready for the next frame
         terrains.clear();
@@ -198,5 +214,13 @@ public class MasterRenderer {
         projectionMatrix.m23 = -1;
         projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
         projectionMatrix.m33 = 0;
+    }
+    
+    public static float getFOV(){
+    	return FOV;
+    }
+
+    public static void setRenderSkybox(boolean renderSkybox) {
+        RENDER_SKYBOX = renderSkybox;
     }
 }

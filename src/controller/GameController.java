@@ -2,10 +2,12 @@ package controller;
 
 import model.GameWorld;
 import model.entities.Entity;
+import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -24,7 +26,10 @@ import java.util.Map;
  */
 public class GameController {
 
+	private boolean compiled = false;
+
 	public static boolean READY;
+	public boolean networkRunning;
 
 	// Model
 	private final Loader loader;
@@ -40,10 +45,12 @@ public class GameController {
 	private ActionController actionController;
 
 	private final boolean isHost;
+	private final String ipAddress;
 	private int playerCount;
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
+	 * 
 	 * @throws IOException
 	 */
 	public GameController(boolean isHost, String ipAddress) {
@@ -57,14 +64,15 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader);
+		gameWorld = new GameWorld(loader, this);
 		gameWorld.initGame(isHost);
-		
+
 		// initialise controller for actions
-		actionController = new ActionController(loader, gameWorld);
+		actionController = new ActionController(loader, gameWorld, this);
 
 		// setup client
 		this.isHost = isHost;
+		this.ipAddress = ipAddress;
 		if (isHost) {
 			serverController = new ServerController(this);
 			serverController.start();
@@ -73,8 +81,10 @@ public class GameController {
 			clientController.start();
 		}
 
+		this.networkRunning = true;
+
 		// hook the mouse
-		//Mouse.setGrabbed(true);
+		Mouse.setGrabbed(true);
 
 		try {
 			while (!READY) {
@@ -95,7 +105,7 @@ public class GameController {
 	 */
 	private void doGame() {
 
-		while (!Display.isCloseRequested()) {
+		while (!Display.isCloseRequested() && networkRunning) {
 
 			// process the terrains
 
@@ -110,26 +120,59 @@ public class GameController {
 			}
 
 			// TODO Should only get static entities
-			ArrayList<Entity> statics = gameWorld.getTestEntity();
+			ArrayList<Entity> statics = gameWorld.getStaticEntities();
+			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
+			Player player = gameWorld.getPlayer();
 
 			// PROCESS ENTITIES// PROCESS ENTITIES
 			for (Entity e : statics) {
-				renderer.processEntity(e);
+				if (e.isWithinRange(player)) {
+					renderer.processEntity(e);
+				}
 			}
-			
+
+			for (MovableEntity e : movables.values()) {
+				if (e.isWithinRange(player)) {
+					renderer.processEntity(e);
+				}
+			}
+
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
 
+
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
-
-			gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+			if (!gameWorld.getInventory().isVisible()) {
+				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+			}
+			
+			// decrease patch progress as time passes
+			gameWorld.decreasePatch();
 
 			// Render the player's view
 			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
+
+			if (gameWorld.getInventory().isVisible()) {
+				guiRenderer.render(gameWorld.getInventory().getTextureList());
+			}
+
+
+			//TODO remove this !!
+			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+				if (!compiled) {
+					gameWorld.compileProgram();
+					compiled = true;
+				}
+			}
+
+			if(gameWorld.isGameLost()) {
+				guiRenderer.render(gameWorld.loseGame());
+				//TODO add keypress window change
+			}
 
 			// update the Display window
 			DisplayManager.updateDisplay();
@@ -142,11 +185,16 @@ public class GameController {
 	/**
 	 * Cleans up the game when it is closed
 	 */
-	private void cleanUp() {
+	public void cleanUp() {
 		guiRenderer.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
+		if (isHost) {
+			serverController.terminate();
+		} else {
+			clientController.terminate();
+		}
 	}
 
 	public boolean isHost() {
@@ -154,12 +202,12 @@ public class GameController {
 	}
 
 	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(new Vector3f(50, 100, -50), uid);
+		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
 	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(new Vector3f(252, 100, -10), uid);
+		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
 		playerCount++;
 	}
 
@@ -175,8 +223,18 @@ public class GameController {
 		return gameWorld.getPlayer();
 	}
 
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
+	}
+	
+	public void setNetworkUpdate(int status, MovableEntity entity){
+
+		//TODO FIX ME
+		//clientController.setNetworkUpdate(status, entity);
 	}
 
 	public int gameSize() {
@@ -186,4 +244,5 @@ public class GameController {
 	public GameWorld getGameWorld() {
 		return gameWorld;
 	}
+
 }

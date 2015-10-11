@@ -145,8 +145,8 @@ public class TerrainShader extends ShaderProgram {
             // TODO slows performance
             else {
                 super.loadVector(locationLightPosition[i], new Vector3f(0, 0, 0));
-                super.loadVector(locationLightColour[i], new Vector3f(0, 0, 0));
-                super.loadVector(locationAttenuation[i], new Vector3f(0, 0, 0));
+                super.loadVector(locationLightColour[i], new Vector3f(0f, 0f, 0f));
+                super.loadVector(locationAttenuation[i], new Vector3f(1, 0.01f, 0.002f));
             }
         }
     }
