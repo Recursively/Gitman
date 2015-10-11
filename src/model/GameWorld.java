@@ -184,7 +184,9 @@ public class GameWorld {
 		this.gameState = -1;
 		this.interactDistance = 15;
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
-
+		
+		// create commits
+		initCommits();
 	}
 	
 	public void initLoadGame(Data load) {
@@ -207,6 +209,16 @@ public class GameWorld {
 		this.canApplyPatch = load.isCanApplyPatch();
 		this.commitIndex = load.getCommitIndex();
 		inventory.setStorageUsed(load.getStorageUsed());
+	}
+
+	private void initCommits() {
+		int count = 0;
+		for (Vector3f position : entityFactory.getCommitPositions()) {
+			if (count == 10) break;
+			movableEntities.put(entityFactory.getMovableEntitiesID(), EntityFactory.createCommit(position));
+			entityFactory.increaseMovableEntitiesID();
+			count++;
+		}
 	}
 
 	/**

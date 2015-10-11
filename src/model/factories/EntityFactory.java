@@ -345,4 +345,12 @@ public class EntityFactory {
     public static TexturedModel getLaptopTexturedModel() {
         return laptopTexturedModel;
     }
+
+    public int getMovableEntitiesID() {
+        return EntityFactory.movableItemID;
+    }
+
+    public void increaseMovableEntitiesID() {
+        EntityFactory.movableItemID++;
+    }
 }
