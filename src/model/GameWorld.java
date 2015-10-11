@@ -482,7 +482,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			this.setGuiMessage("findBugMessage", 5000);  //TODO
+			this.setGuiMessage("patchComplete", 3000);  
 		}
 	}
 
