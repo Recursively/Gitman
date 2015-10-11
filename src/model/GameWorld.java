@@ -63,6 +63,7 @@ public class GameWorld {
 
 	private static float WORLD_TIME = 0;
 	private static boolean isProgramCompiled = false;
+	private static boolean isOutside = false;
 
 	// Object creation factories
 	private EntityFactory entityFactory;
@@ -94,6 +95,7 @@ public class GameWorld {
 
 	// Constant sun light-source
 	private static Light sun;
+	private static Light blackHoleSun;
 	private Light officeLight;
 
 	// Collection of attenuating light-sources
@@ -214,7 +216,7 @@ public class GameWorld {
 	 */
 	private void setupLighting() {
 		sun = lightFactory.createSun();
-		lights.add(sun);
+		blackHoleSun = lightFactory.createSun();
 		officeLight = lightFactory.createOfficeLight();
 		lights.add(officeLight);
 
@@ -268,7 +270,12 @@ public class GameWorld {
 	 */
 	public ArrayList<Light> getLights() {
 		ArrayList<Light> collectionOfLights = new ArrayList<>();
-		collectionOfLights.add(sun);
+		if (isOutside) {
+			collectionOfLights.add(sun);
+		} else {
+			collectionOfLights.add(blackHoleSun);
+		}
+
 
 		ArrayList<Light> possibleLights = new ArrayList<>();
 		possibleLights.add(officeLight);
@@ -644,6 +651,7 @@ public class GameWorld {
 		player.getPosition().z = SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(160f);
 		MasterRenderer.setRenderSkybox(true);
+		isOutside = true;
 	}
 
 	public static void telportToOffice() {
@@ -655,6 +663,7 @@ public class GameWorld {
 		player.getPosition().z = OFFICE_SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(180f);
 		MasterRenderer.setRenderSkybox(false);
+		isOutside = false;
 	}
 
 
@@ -745,6 +754,21 @@ public class GameWorld {
 	public static void increaseTime(float worldTime) {
 		WORLD_TIME += worldTime;
 		WORLD_TIME %= 24000;
+	}
+
+	public static boolean isOutside() {
+		return isOutside;
+	}
+
+	public static void updateSun() {
+		if (GameWorld.getWorldTime() < 5000) {
+			sun.setColour(new Vector3f(0, 0, 0));
+		} else if (GameWorld.getWorldTime() < 8000) {
+			sun.increaseColour(0.0001f, 0.0001f, 0.0001f);
+		} else if (GameWorld.getWorldTime() > 21000) {
+			sun.decreaseColour(0.0001f, 0.0001f, 0.0001f);
+		}
+
 	}
 }
 
