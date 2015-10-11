@@ -98,8 +98,9 @@ public class Inventory {
 	 * @return Item if successfully removed, null if not
 	 */
 	public int deleteItem(GameWorld game){
-		int item = this.selected.getUID();
+		int item = -1;   //TODO REUBEN -> is returning -1 in case of null delete fine?
 		if(this.selected != null){
+			item = this.selected.getUID();
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
 			game.removeFromInventory(this.selected);
@@ -107,7 +108,6 @@ public class Inventory {
 			// redraw inventory gui as item has been deleted 
 			updateLaptopDisplay();
 		}
-		System.out.println(item);
 		//Networking
 		return item;
 	}

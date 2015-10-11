@@ -4,6 +4,7 @@ import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
+import model.guiComponents.GuiMessages;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
 
@@ -36,6 +37,8 @@ public class Player extends MovableEntity {
 
     // bad?
     private Vector3f oldPosition;
+    
+    private boolean firstTimeOutside = true;
 
     public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int uid, Camera camera) {
         super(model, position, rotX, rotY, rotZ, scale, uid);
@@ -144,6 +147,11 @@ public class Player extends MovableEntity {
             if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OFFICE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OFFICE_Z
                     && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
                 GameWorld.teleportToOutside();
+                
+                if(firstTimeOutside){
+        			firstTimeOutside = false;
+        			//TODO GameWorld.setGuiMessage("findCommitsMessage", 5000);
+        		}
             }
         }
     }
