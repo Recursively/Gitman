@@ -10,9 +10,14 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import model.entities.Camera;
 import model.entities.Entity;
+import model.entities.movableEntity.Bug;
+import model.entities.movableEntity.Commit;
+import model.entities.movableEntity.FlashDrive;
+import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
+import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.EntityFactory;
 import model.guiComponents.Inventory;
@@ -118,9 +123,10 @@ public class Load {
 
 				// get the inventoryItem element
 				Element e = (Element) inventoryNodes.item(i);
+				
+				String type = getTextValue(e, "type");
 
-				// textured model
-				TexturedModel model; // TODO get the model getting working
+				TexturedModel model = ModelFromString(type);
 
 				// item position
 				int x = Integer.parseInt(getTextValue(e, "itemPosX"));
@@ -134,16 +140,21 @@ public class Load {
 				Float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
 
 				// item scale
-				int scale = Integer.parseInt(getTextValue(e, "scale"));
+				float scale = Float.parseFloat(getTextValue(e, "scale"));
 
 				// item id
 				int id = Integer.parseInt(getTextValue(e, "id"));
 
 				// item name
 				String name = getTextValue(e, "name");
+				
+				// placeholder to make EntityFromType() work
+				int cardNum = 0;
 
-				// TODO inventory.add(new LaptopItem(model, pos, rotX, rotY,
-				// rotZ, scale, id, name));
+				MovableEntity movableEntity = EntityFromType(type, model, pos,
+						rotX, rotY, rotZ, scale, id, name, cardNum);
+				
+				inventory.add((LaptopItem) movableEntity);
 			}
 		}
 	}
@@ -158,8 +169,10 @@ public class Load {
 				// get the inventoryItem element
 				Element e = (Element) entityNodes.item(i);
 
+				String type = getTextValue(e, "type");
+
 				// textured model
-				TexturedModel model; // TODO get the model getting working
+				TexturedModel model = ModelFromString(type);
 
 				// item position
 				int x = Integer.parseInt(getTextValue(e, "itemPosX"));
@@ -173,17 +186,34 @@ public class Load {
 				Float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
 
 				// item scale
-				int scale = Integer.parseInt(getTextValue(e, "scale"));
+				float scale = Float.parseFloat(getTextValue(e, "scale"));
 
 				// item id
 				int id = Integer.parseInt(getTextValue(e, "id"));
+
+				// item name
+				String name = getTextValue(e, "name");
+
+				// swipeCard cardNum
+				int cardNum = 0;
+
+				if (type == "SwipeCard") {
+					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
+				}
+
+				// construct the entity
+				MovableEntity movableEntity = EntityFromType(type, model, pos,
+						rotX, rotY, rotZ, scale, id, name, cardNum);
+
+				// add entity to entity list
+				movableEntities.add(movableEntity);
 
 			}
 		}
 	}
 
 	private static void parseCards(Element doc) {
-		
+
 		// swipe card items
 		NodeList cardNodes = doc.getElementsByTagName("swipeCard");
 		if (cardNodes != null && cardNodes.getLength() > 0) {
@@ -191,16 +221,79 @@ public class Load {
 
 				// get the inventoryItem element
 				Element e = (Element) cardNodes.item(i);
+				
+				String type = "SwipeCard";
+				
+				TexturedModel model = null; // TODO = EntityFactory.getSwipecardTexturedModel();
+				
+				// item position
+				int x = Integer.parseInt(getTextValue(e, "cardPosX"));
+				int y = Integer.parseInt(getTextValue(e, "cardPosY"));
+				int z = Integer.parseInt(getTextValue(e, "cardPosZ"));
+				Vector3f pos = new Vector3f(x, y, z);
 
+				// item rotation
+				Float rotX = Float.parseFloat(getTextValue(e, "rotX"));
+				Float rotY = Float.parseFloat(getTextValue(e, "rotY"));
+				Float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
+
+				// item scale
+				float scale = Float.parseFloat(getTextValue(e, "scale"));
+
+				// item id
+				int id = Integer.parseInt(getTextValue(e, "id"));
+
+				// item name
+				String name = getTextValue(e, "name");
+
+				// swipeCard cardNum
+				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
+				
+				// construct the entity
+				MovableEntity movableEntity = EntityFromType(type, model, pos,
+						rotX, rotY, rotZ, scale, id, name, cardNum);
+				
+				swipeCards.add((SwipeCard) movableEntity);
 			}
 		}
 	}
-	
-	private static TexturedModel ModelFromString(String type){
-		if (type == "bug"){
+
+	private static TexturedModel ModelFromString(String type) {
+		if (type == "Bug") {
 			return EntityFactory.getBugTexturedModel();
+		} else if (type == "Commit") {
+			return EntityFactory.getCommitTexturedModel();
+		} else if (type == "FlashDrive") {
+			return EntityFactory.getFlashdriveTexturedModel();
+		} else if (type == "Laptop") {
+			return EntityFactory.getLaptopTexturedModel();
+		} else if (type == "ReadMe") {
+			return EntityFactory.getTabletTexturedModel();
+		} else if (type == "SwipeCard") {
+			// TODO return EntityFactory.getSwipecardTexturedModel();
 		}
-		
+
+		return null;
+	}
+
+	private static MovableEntity EntityFromType(String type,
+			TexturedModel model, Vector3f pos, float rotX, float rotY,
+			float rotZ, float scale, int id, String name, int cardNum) {
+		if (type == "Bug") {
+			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
+		} else if (type == "Commit") {
+			return new Commit(model, pos, rotX, rotY, rotZ, scale, id);
+		} else if (type == "FlashDrive") {
+			return new FlashDrive(model, pos, rotX, rotY, rotZ, scale, id, name);
+		} else if (type == "Laptop") {
+			// return new Laptop(model, pos, rotX, rotY, rotZ, scale, id);
+		} else if (type == "ReadMe") {
+			return new ReadMe(model, pos, rotX, rotY, rotZ, scale, id, name);
+		} else if (type == "SwipeCard") {
+			return new SwipeCard(model, pos, rotX, rotY, rotZ, scale, id,
+					cardNum);
+		}
+
 		return null;
 	}
 }

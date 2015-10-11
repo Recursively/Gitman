@@ -60,7 +60,7 @@ public class EntityFactory {
     private ModelData tableData;
     private TexturedModel tableTexturedModel;
     private ModelData laptopData;
-    private TexturedModel laptopTexturedModel;
+    private static TexturedModel laptopTexturedModel;
     private ModelData bugData;
     private static TexturedModel bugTexturedModel;
     private ModelData tabletData;
@@ -71,7 +71,7 @@ public class EntityFactory {
     private ModelData commitData;
     private static TexturedModel commitTexturedModel;
     private ModelData flashdriveData;
-    private TexturedModel flashdriveTexturedModel;
+    private static TexturedModel flashdriveTexturedModel;
 
     private ArrayList<Entity> entities = new ArrayList<>();
     private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
@@ -321,7 +321,7 @@ public class EntityFactory {
         return movableEntities;
     }
 
-    public TexturedModel getFlashdriveTexturedModel() {
+    public static TexturedModel getFlashdriveTexturedModel() {
         return flashdriveTexturedModel;
     }
 
@@ -341,7 +341,7 @@ public class EntityFactory {
         return bugTexturedModel;
     }
 
-    public TexturedModel getLaptopTexturedModel() {
+    public static TexturedModel getLaptopTexturedModel() {
         return laptopTexturedModel;
     }
 }

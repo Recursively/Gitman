@@ -138,6 +138,10 @@ public class Save {
 			name.appendChild(doc.createTextNode(item.getName()));
 			inventoryItem.appendChild(name);
 			
+			Element type = doc.createElement("type");
+			type.appendChild(doc.createTextNode(String.valueOf(item.getType())));
+			inventoryItem.appendChild(type);
+			
 			
 		}
 		
@@ -184,10 +188,20 @@ public class Save {
 			movableEntity.appendChild(id);
 			
 			/*
+			Element name = doc.createElement("name");
+			name.appendChild(doc.createTextNode(String.valueOf(e.getName())));
+			movableEntity.appendChild(id);
+			*/
+			
 			Element type = doc.createElement("type");
 			movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getType())));
 			movableEntity.appendChild(type);
-			*/
+			
+			if (e.getType() == "SwipeCard"){
+				Element cardNum = doc.createElement("cardNum");
+				//movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getCardNum())));
+				movableEntity.appendChild(cardNum);
+			}
 			
 		}
 		
@@ -200,9 +214,6 @@ public class Save {
 			
 			Element swipeCard = doc.createElement("swipeCard");
 			swipeCard.appendChild(swipeCards);
-			
-			Element cardPos = doc.createElement("cardPos");
-			swipeCard.appendChild(cardPos);
 			
 			Element cardPosX = doc.createElement("cardPosX");
 			cardPosX.appendChild(doc.createTextNode(String.valueOf(card.getPosition().x)));
@@ -235,8 +246,11 @@ public class Save {
 			Element id = doc.createElement("id");
 			rotZ.appendChild(doc.createTextNode(String.valueOf(card.getUID())));
 			swipeCard.appendChild(id);
-			
-			// TODO Add cardNum?
+			/*
+			Element cardNum = doc.createElement("cardNum");
+			swipeCard.appendChild(doc.createTextNode(String.valueOf(card.getCardNum())));
+			swipeCard.appendChild(cardNum);
+			*/
 		}
 		
 
