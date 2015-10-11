@@ -75,10 +75,10 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
 		// FIXME winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
 		//FIXME codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-<<<<<<< HEAD
+
 		laptopMemoryFull = makeGuiTexture("laptopMemoryFull", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
 		//TODO give the right dimentions
-=======
+
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -87,7 +87,7 @@ public class GuiFactory {
 		this.oldProgress = 0;
 		this.scoreNum = new ArrayList<GuiTexture>();
 		this.oldScore = 0;
->>>>>>> branch 'gameLogic' of https://github.com/Recursively/redmf.git
+
 	}
 
 
