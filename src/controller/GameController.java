@@ -56,7 +56,7 @@ public class GameController {
 	 *
 	 * @throws IOException
 	 */
-	public GameController(boolean isHost, String ipAddress, boolean load) {
+	public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
 
 		RUNNING = true;
 
@@ -64,7 +64,7 @@ public class GameController {
 		loader = new Loader();
 
 		// initialise view
-		DisplayManager.createDisplay();
+		DisplayManager.createDisplay(fullscreen);
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 

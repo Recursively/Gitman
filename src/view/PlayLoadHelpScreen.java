@@ -17,18 +17,18 @@ public class PlayLoadHelpScreen {
 
 	
 
-	public PlayLoadHelpScreen(boolean isHost, String hostname) {
+	public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
 		this.hostname = hostname;
 		this.isHost = isHost;
 
-		DisplayManager.createDisplay();
+		DisplayManager.createDisplay(fullscreen);
 		Keyboard.enableRepeatEvents(false);
-		blinkTitle();
+		blinkTitle(fullscreen);
 	}
 
 
 
-	private void blinkTitle() {
+	private void blinkTitle(boolean fullscreen) {
 
 			Loader loader = new Loader();
 			GuiRenderer guiRenderer = new GuiRenderer(loader);
@@ -74,7 +74,7 @@ public class PlayLoadHelpScreen {
 				}
 			}
 
-			new GameController(isHost, hostname, load);
+			new GameController(isHost, hostname, load, fullscreen);
 			// change to make new window
 			// TODO
 		}
