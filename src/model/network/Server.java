@@ -5,15 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
-
 import org.lwjgl.util.vector.Vector3f;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
 import controller.GameController;
-import controller.ServerController;
-import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
@@ -32,7 +26,6 @@ public class Server extends Thread {
 	private int uid;
 
 	private int mostRecentUpdate = -1;
-	private int update;
 
 	private boolean isRunning;
 
@@ -59,12 +52,10 @@ public class Server extends Thread {
 				}
 
 				int check = checkUpdate();
-				this.update = check;
 				if (!networkHandler.serverUpdate) {
 					networkHandler.setUpdate(check);
 				}
 
-				System.out.println(uid + " " + networkHandler.getUpdate());
 
 				if (networkHandler.getUpdate() != -1 && networkHandler.getUpdate() != 0
 						&& check == networkHandler.getUpdate()) {
@@ -72,7 +63,6 @@ public class Server extends Thread {
 				}
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
 				if (sendUpdateStatus(networkHandler.getUpdate()) != -1 && networkHandler.getUpdate() != 0) {
-					System.out.println("INTERACTION SERVER");
 					sendUpdateEntity(networkHandler.getUpdate(), networkHandler.getMostRecentEntity());
 					networkHandler.setUpdate(-1);
 				}
@@ -87,8 +77,6 @@ public class Server extends Thread {
 	private void sendUpdateEntity(int mostRecentUpdate, MovableEntity mostRecentEntity) throws IOException {
 		outputStream.writeInt(mostRecentEntity.getUID());
 
-		// so update doesn't happen again
-		// networkHandler.setUpdate(-1);
 		networkHandler.sentDone(uid);
 
 	}
@@ -142,11 +130,13 @@ public class Server extends Thread {
 	private void sendPlayerPosition(Player player) throws IOException {
 		outputStream.writeInt(player.getUID());
 		outputStream.writeFloat(player.getPosition().x);
+		
 		if (player.getUID() == gameController.getPlayer().getUID()) {
 			outputStream.writeFloat(player.getPosition().y + 10);
 		} else {
 			outputStream.writeFloat(player.getPosition().y);
 		}
+		
 		outputStream.writeFloat(player.getPosition().z);
 	}
 
@@ -160,7 +150,6 @@ public class Server extends Thread {
 
 	private void checkExistingPlayer() {
 		if (!gameController.getPlayers().containsKey(uid) && uid != -1) {
-			System.out.println("CREATED NEW PLAYER ID: " + uid);
 			gameController.createPlayer(uid);
 		}
 	}

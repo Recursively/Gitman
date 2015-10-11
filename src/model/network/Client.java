@@ -1,7 +1,6 @@
 package model.network;
 
 import controller.GameController;
-import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import org.lwjgl.util.vector.Vector3f;
@@ -64,14 +63,12 @@ public class Client extends Thread {
 				checkForRemovedPlayers(receivedPlayers);
 
 				if (sendUpdateStatus() != -1) {
-					System.out.println("INTERACTION CLIENT");
 					sendUpdateEntity();
 				}
 
 				int updateType = checkUpdate();
 
 				if (updateType != -1) {
-					System.out.println("RECEIVED AN UPDATE");
 					updateEntitiy(updateType);
 				}
 
@@ -123,7 +120,6 @@ public class Client extends Thread {
 	}
 
 	private void sendUpdateEntity() throws IOException {
-		System.out.println("SENT UPDATE: " + mostRecentUpdate);
 		outputStream.writeInt(mostRecentEntity.getUID());
 		// make sure we don't send the update again
 		this.mostRecentUpdate = -1;
