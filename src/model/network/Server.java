@@ -140,7 +140,7 @@ public class Server extends Thread {
 
 		}
 		else{
-			temp = gameController.getGameWorld().getInventory().getItems().getItem(updateType);
+			temp = gameController.getGameWorld().getInventory().getItem(updateType);
 		}
 
 		networkHandler.dealWithUpdate(updateType, id, x, y, z);

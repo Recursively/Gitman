@@ -39,7 +39,7 @@ public class ServerController extends Thread {
 	public void run() {
 
 		createHostPlayer();
-		gameController.READY = true;
+		GameController.READY = true;
 
 		while (isRunning) {
 

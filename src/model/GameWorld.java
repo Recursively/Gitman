@@ -41,7 +41,7 @@ public class GameWorld {
 	private static final double PATCH_DECREASE = 0.1; 
 	private static final double PATCH_TIMER = 100000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
-	private static final int CODE_VALUE = 20; 
+	public static final int CODE_VALUE = 20; 
 	
 	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
@@ -162,7 +162,7 @@ public class GameWorld {
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
 
-		this.codeProgress = 0;  
+		this.codeProgress = 0; 
 		this.cards = new ArrayList<SwipeCard>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
