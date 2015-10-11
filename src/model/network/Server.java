@@ -49,11 +49,15 @@ public class Server extends Thread {
 					sendPlayerPosition(player);
 				}
 
-				networkHandler.setClientUpdate(readEntityUpdate());
+				Update update = readEntityUpdate();
+
+				if (update != null) {
+					networkHandler.setClientUpdate(update);
+				}
 
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
 				sendUpdateEntity(networkHandler.getServerUpdate(), networkHandler.getClientUpdate());
-				
+
 				networkHandler.setServerUpdate(null);
 
 			}
@@ -78,13 +82,13 @@ public class Server extends Thread {
 
 	}
 
-	private void sendUpdateEntity(Update serverUpdate, Update update) throws IOException {
+	private void sendUpdateEntity(Update serverUpdate, Update clientUpdate) throws IOException {
 		if (serverUpdate != null) {
 			outputStream.writeInt(serverUpdate.update);
 			outputStream.writeInt(serverUpdate.id);
-		} else if (update != null) {
-			outputStream.writeInt(update.update);
-			outputStream.writeInt(update.id);
+		} else if (clientUpdate != null) {
+			outputStream.writeInt(clientUpdate.update);
+			outputStream.writeInt(clientUpdate.id);
 		} else {
 			outputStream.writeInt(-1);
 			outputStream.writeInt(-1);
@@ -140,7 +144,7 @@ public class Server extends Thread {
 
 	public void terminate() {
 		System.out.println("CONNECTION TERMINATED TO PLAYER WITH ID: " + uid);
-		//gameController.removePlayer(uid);
+		// gameController.removePlayer(uid);
 		isRunning = false;
 		try {
 			inputStream.close();
