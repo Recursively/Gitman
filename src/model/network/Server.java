@@ -78,8 +78,8 @@ public class Server extends Thread {
 
 	private void sendUpdateEntity(Update serverUpdate, Update update) throws IOException {
 		if (serverUpdate != null) {
-			
-			
+			outputStream.writeInt(serverUpdate.update);
+			outputStream.writeInt(serverUpdate.id);
 		} else if (update != null) {
 			outputStream.writeInt(update.update);
 			outputStream.writeInt(update.id);
