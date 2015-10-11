@@ -22,18 +22,19 @@ public class NetworkHandler {
 
 	// when an update is sent to the server about an entity update process it
 	// here
-	public void dealWithUpdate(int type, int id, float x, float y, float z) {
+	public void dealWithUpdate(int type, int id, int playerID) {
 
 		System.out.println("DECIDING WHETHER TO UPDATE");
 
-		if (gameWorld.getMoveableEntities().get(id) == null)
+
+		if (gameWorld.getMoveableEntities().get(id) == null && type != 8)
 			return;
 
 		System.out.println("UPDATING NOW");
 
 		switch (type) {
 		case 8:
-			dropLaptopItem(id, x, y, z);
+			dropLaptopItem(id, playerID);
 			break;
 		case 10:
 			interactBug();
@@ -89,7 +90,7 @@ public class NetworkHandler {
 		System.out.println("INTERACTED WITH SWIPE CARD");
 
 		SwipeCard entity = (SwipeCard) gameWorld.getMoveableEntities().get(id);
-		
+
 		entity.interact(gameWorld);
 
 		// remove from movables
@@ -99,23 +100,13 @@ public class NetworkHandler {
 
 	}
 
-	public void dropLaptopItem(int id, float x, float y, float z) {
+	public void dropLaptopItem(int id, int playerID) {
 		System.out.println("DROPPED ITEM");
 
-		LaptopItem entity = null;
-
-		for (LaptopItem laptopItem : gameWorld.getInventory().getItems()) {
-			if (laptopItem.getUID() == id) {
-				entity = laptopItem;
-			}
-		}
-
+		LaptopItem entity = gameWorld.getInventory().getItem(id);
 		// remove uid from inventory laptop
-		gameWorld.removeFromInventory(entity);
-		// item.setPosition(x,y,z)
-		entity.setPosition(new Vector3f(x, y, z));
-		// add to movable maps...
-		gameWorld.getMoveableEntities().put(id, entity);
+		gameWorld.removeFromInventory(entity, playerID);
+
 	}
 
 	/**

@@ -96,7 +96,7 @@ public class Client extends Thread {
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
-		networkHandler.dealWithUpdate(updateType, id, x, y, z);
+		networkHandler.dealWithUpdate(updateType, id, uid);
 
 		return id;
 

@@ -143,7 +143,7 @@ public class Server extends Thread {
 			temp = gameController.getGameWorld().getInventory().getItem(updateType);
 		}
 
-		networkHandler.dealWithUpdate(updateType, id, x, y, z);
+		networkHandler.dealWithUpdate(updateType, id, uid);
 
 		return temp;
 
