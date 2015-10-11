@@ -31,7 +31,7 @@ public class Bug extends NonPlayerCharacters {
 			return 10;
 		}
 		
-		return -1;
+		return 10;
 	}
 	
 	@Override

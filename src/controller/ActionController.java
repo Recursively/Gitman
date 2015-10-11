@@ -76,10 +76,10 @@ public class ActionController {
         		        		
         		if (Keyboard.getEventKey() == Keyboard.KEY_X){
         			
-    				MovableEntity entity = gameWorld.getInventory().deleteItem(gameWorld);
+    				int entity = gameWorld.getInventory().deleteItem(gameWorld);
     				
-    				if(entity != null){
-    					gameController.setNetworkUpdate(8, entity);
+    				if(entity != 0){
+    					gameController.setNetworkUpdate(8, gameWorld.getMoveableEntities().get(entity));
     				}
     				
     			}

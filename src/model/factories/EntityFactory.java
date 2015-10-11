@@ -29,12 +29,13 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Entity factory which abstracts the creation of an entity. It loads the entity map for a given terrain or
- * randomly generates entities for testing.
+ * Entity factory which abstracts the creation of an entity. It loads the entity
+ * map for a given terrain or randomly generates entities for testing.
  *
  * @author Marcel van Workum
  */
 public class EntityFactory {
+
 
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
