@@ -10,10 +10,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Factory Game for creating Gui Components
@@ -43,9 +40,6 @@ public class GuiFactory {
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
-	private GuiTexture laptopMemoryFull;
-	private GuiTexture codeCompiled; //FIXME
-	
 	// gui panel
 	private int oldCardsSize;
 	private List<GuiTexture> cards;
@@ -73,11 +67,10 @@ public class GuiFactory {
 		interactMessage = makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f));
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
 		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-		// FIXME winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
-		//FIXME codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+		winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); 
+		
 
-		laptopMemoryFull = makeGuiTexture("laptopMemoryFull", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-		//TODO give the right dimentions
+		
 
 		
 		// info panel
@@ -226,16 +219,8 @@ public class GuiFactory {
 	}
 
 	
-//	public List<GuiTexture> getCodeCompiledMessage(){
-//		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();
-//		ccMessage.add(codeCompiled);
-//		return ccMessage;
-//	}
+
 	
-	public List<GuiTexture> getMemoryFull(){
-		List<GuiTexture> memFull = new ArrayList<GuiTexture>();
-		memFull.add(laptopMemoryFull);
-		return memFull;
-	}
+
 
 }
