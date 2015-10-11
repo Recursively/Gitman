@@ -5,7 +5,6 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
@@ -23,9 +22,13 @@ import java.util.Map;
  * Deals with Game logic
  *
  * @author Marcel van Workum
+ * @author Reuben
+ * @author Divya
+ * @author Ellie
  */
 public class GameController {
 
+	public static boolean RUNNING;
 	private boolean compiled = false;
 
 	public static boolean READY;
@@ -53,20 +56,22 @@ public class GameController {
 	 *
 	 * @throws IOException
 	 */
-	public GameController(boolean isHost, String ipAddress) {
+	public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
+
+		RUNNING = true;
 
 		// initialise model
 		loader = new Loader();
 
 		// initialise view
-		DisplayManager.createDisplay();
+		DisplayManager.createDisplay(fullscreen);
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
 		gameWorld = new GameWorld(loader, this);
-		gameWorld.initGame(isHost);
-
+		gameWorld.initGame(isHost, load);
+		
 		// initialise controller for actions
 		actionController = new ActionController(loader, gameWorld, this);
 
@@ -91,7 +96,6 @@ public class GameController {
 				Thread.sleep(50);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
@@ -104,7 +108,7 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
-		while (!Display.isCloseRequested() && networkRunning) {
+		while (!Display.isCloseRequested() && networkRunning && RUNNING) {
 
 			// process the terrains
 
@@ -123,7 +127,7 @@ public class GameController {
 			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
 			Player player = gameWorld.getPlayer();
 
-			// PROCESS ENTITIES// PROCESS ENTITIES
+			// PROCESS ENTITIES
 			for (Entity e : statics) {
 				if (e.isWithinRange(player)) {
 					renderer.processEntity(e);
@@ -173,6 +177,8 @@ public class GameController {
 			if (gameWorld.getGameState() > -1) {
 				guiRenderer.render(gameWorld.getEndStateScreen());
 			}
+
+			TimeController.tickTock();
 
 			// update the Display window
 			DisplayManager.updateDisplay();

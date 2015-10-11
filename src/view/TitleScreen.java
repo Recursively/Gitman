@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
@@ -25,18 +24,18 @@ public class TitleScreen {
 	/**
 	 * Instantiates a new Title screen.
 	 */
-	public TitleScreen(boolean isHost, String hostname) {
+	public TitleScreen(boolean isHost, String hostname, boolean fullscreen) {
 		this.hostname = hostname;
 		this.isHost = isHost;
-		DisplayManager.createDisplay();
+		DisplayManager.createDisplay(fullscreen);
 		Keyboard.enableRepeatEvents(false);
-		blinkTitle();
+		blinkTitle(fullscreen);
 	}
 
 	/**
 	 * Cycles through the title screens making the _ blink
 	 */
-	private void blinkTitle() {
+	private void blinkTitle(boolean fullscreen) {
 
 		Loader loader = new Loader();
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
@@ -69,7 +68,7 @@ public class TitleScreen {
 		}
 
 		// create the game now
-		new PlayLoadHelpScreen(isHost,hostname);
+		new PlayLoadHelpScreen(isHost,hostname, fullscreen);
 		
 	}
 

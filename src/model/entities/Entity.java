@@ -22,8 +22,6 @@ public class Entity {
     private float rotX = 0, rotY = 0, rotZ = 0;
     private float scale;
 
-    private boolean collidable = true;
-
     // used for atlassing
     private int textureIndex = 0;
 

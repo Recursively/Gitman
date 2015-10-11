@@ -1,13 +1,12 @@
 package controller;
 
+import model.entities.movableEntity.MovableEntity;
+import model.network.NetworkHandler;
+import model.network.Server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import model.GameWorld;
-import model.entities.movableEntity.MovableEntity;
-import model.network.Server;
-import model.network.NetworkHandler;
 
 /**
  * Controller class to handle the delegations between the Model and View

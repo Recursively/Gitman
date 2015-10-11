@@ -1,16 +1,15 @@
 package view;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector2f;
-
 import controller.GameController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector2f;
 import view.renderEngine.GuiRenderer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayLoadHelpScreen {
 	private String hostname;
@@ -18,18 +17,18 @@ public class PlayLoadHelpScreen {
 
 	
 
-	public PlayLoadHelpScreen(boolean isHost, String hostname) {
+	public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
 		this.hostname = hostname;
 		this.isHost = isHost;
 
-		DisplayManager.createDisplay();
+		DisplayManager.createDisplay(fullscreen);
 		Keyboard.enableRepeatEvents(false);
-		blinkTitle();
+		blinkTitle(fullscreen);
 	}
 
 
 
-	private void blinkTitle() {
+	private void blinkTitle(boolean fullscreen) {
 
 			Loader loader = new Loader();
 			GuiRenderer guiRenderer = new GuiRenderer(loader);
@@ -38,6 +37,8 @@ public class PlayLoadHelpScreen {
 			int index = 0;
 
 			GuiTexture[] images = initTitleScreens(loader);
+			
+			boolean load = false;
 
 			while (true) {
 
@@ -62,7 +63,7 @@ public class PlayLoadHelpScreen {
 				}
 				else if(Keyboard.isKeyDown(Keyboard.KEY_L)){
 					DisplayManager.closeDisplay();
-					//TODO
+					load = true;
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
@@ -73,16 +74,10 @@ public class PlayLoadHelpScreen {
 				}
 			}
 
-			// create the game now
-			//new PlayLoadHelpScreen()
-			new GameController(isHost, hostname);
+			new GameController(isHost, hostname, load, fullscreen);
 			// change to make new window
 			// TODO
 		}
-
-
-
-
 
 
 	/**

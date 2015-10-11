@@ -1,5 +1,6 @@
 package model.guiComponents;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class GuiMessages {
 	private static final Vector2f MESSAGE_SCALE = new Vector2f(1f,1f); 
 	
 	private GuiFactory guiFactory;
-	private ArrayList<GuiTexture> messages;
+	private List<GuiTexture> messages;
 	private long timer;
 	private double messageTime;
 	
@@ -42,7 +43,7 @@ public class GuiMessages {
 		}
 	}
 	
-	public ArrayList<GuiTexture> getMessages(){
+	public List<GuiTexture> getMessages(){
 		updateMessages();
 		return this.messages;
 	}

@@ -1,17 +1,14 @@
 package model.guiComponents;
 
-import java.util.ArrayList;
-
+import model.GameWorld;
+import model.entities.movableEntity.LaptopItem;
+import model.factories.GuiFactory;
+import model.textures.GuiTexture;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
-import model.GameWorld;
-import model.entities.Entity;
-import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.MovableEntity;
-import model.factories.GuiFactory;
-import model.textures.GuiTexture;
+import java.util.ArrayList;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g. files and
@@ -105,6 +102,7 @@ public class Inventory {
 	public int deleteItem(GameWorld game) {
 		int item = this.selected.getUID();
 		if (this.selected != null) {
+
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
 			game.removeFromInventory(this.selected);
@@ -112,8 +110,6 @@ public class Inventory {
 			// redraw inventory gui as item has been deleted
 			updateLaptopDisplay();
 		}
-		System.out.println(item);
-		// Networking
 		return item;
 	}
 
@@ -241,6 +237,10 @@ public class Inventory {
 			}
 		}
 		return null;
+	}
+	
+	public void setStorageUsed(int used){
+		this.storageUsed = used;
 	}
 
 	public void serverDelete(LaptopItem entity) {

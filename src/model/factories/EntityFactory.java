@@ -1,11 +1,7 @@
 package model.factories;
 
 import model.entities.Entity;
-import model.entities.movableEntity.Bug;
-import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.*;
-import model.entities.movableEntity.Laptop;
-import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.ModelData;
@@ -15,11 +11,9 @@ import model.terrains.Terrain;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.objParser.OBJFileLoader;
-
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.imageio.ImageIO;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +38,7 @@ public class EntityFactory {
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
 
 
+
     private Loader loader;
 
     private ArrayList<Vector3f> commitPositions = new ArrayList<>();
@@ -61,9 +56,9 @@ public class EntityFactory {
     private ModelData tableData;
     private TexturedModel tableTexturedModel;
     private ModelData laptopData;
-    private TexturedModel laptopTexturedModel;
+    private static TexturedModel laptopTexturedModel;
     private ModelData bugData;
-    private TexturedModel bugTexturedModel;
+    private static TexturedModel bugTexturedModel;
     private ModelData tabletData;
     private static TexturedModel tabletTexturedModel;
 
@@ -72,7 +67,10 @@ public class EntityFactory {
     private ModelData commitData;
     private static TexturedModel commitTexturedModel;
     private ModelData flashdriveData;
-    private TexturedModel flashdriveTexturedModel;
+    private static TexturedModel flashdriveTexturedModel;
+
+    private static TexturedModel playerTexturedModel;
+    private static ModelData playerData;
 
     private ArrayList<Entity> entities = new ArrayList<>();
     private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
@@ -247,6 +245,7 @@ public class EntityFactory {
         } else if (entityName.equals("lamp")) {
             entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, 1f, 0, lampData));
+            LightFactory.createEntityLight(new Vector3f(x, y + 12, z + 2));
         } else if (entityName.equals("pine")) {
             y -= 2;
             entities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
@@ -322,7 +321,7 @@ public class EntityFactory {
         return movableEntities;
     }
 
-    public TexturedModel getFlashdriveTexturedModel() {
+    public static TexturedModel getFlashdriveTexturedModel() {
         return flashdriveTexturedModel;
     }
 
@@ -338,11 +337,32 @@ public class EntityFactory {
         return tabletTexturedModel;
     }
 
-    public TexturedModel getBugTexturedModel() {
+    public static TexturedModel getBugTexturedModel() {
         return bugTexturedModel;
     }
 
-    public TexturedModel getLaptopTexturedModel() {
+    public static TexturedModel getLaptopTexturedModel() {
         return laptopTexturedModel;
+    }
+
+    public int getMovableEntitiesID() {
+        return EntityFactory.movableItemID;
+    }
+
+    public void increaseMovableEntitiesID() {
+        EntityFactory.movableItemID++;
+    }
+
+    public static void initPayerModel(Loader loader) {
+        playerData = OBJFileLoader.loadOBJ(MODEL_PATH + "orb");
+        RawModel playerRawModel = loader.loadToVAO(playerData.getVertices(), playerData.getTextureCoords(),
+                playerData.getNormals(), playerData.getIndices());
+        playerTexturedModel = new TexturedModel(playerRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "orb")));
+        playerTexturedModel.getTexture().setReflectivity(0.4f);
+    }
+
+    public static TexturedModel getPlayerTexturedModel() {
+        return playerTexturedModel;
     }
 }

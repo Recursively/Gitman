@@ -3,8 +3,6 @@ package model.entities.movableEntity;
 import model.GameWorld;
 import model.models.TexturedModel;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.lwjgl.util.vector.Vector3f;
 
 /**

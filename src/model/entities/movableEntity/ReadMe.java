@@ -1,6 +1,5 @@
 package model.entities.movableEntity;
 
-import model.GameWorld;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -15,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class ReadMe extends LaptopItem{
-	public static final int README_SCORE = 0;
+	public static final int README_SCORE = 1;
 	private static final int README_SIZE = 60;
 
 	public ReadMe(TexturedModel model, Vector3f position, float rotX,
