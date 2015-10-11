@@ -60,7 +60,7 @@ public class GameWorld {
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
 
-	private static boolean isProgramCompiled = false;
+	private static boolean isProgramCompiled = true;  // TODO
 
 
 	// Object creation factories
@@ -218,7 +218,6 @@ public class GameWorld {
 		lights.add(officeLight);
 
 		lights.addAll(LightFactory.getStaticEntityLights());
-
 	}
 
 	/**
@@ -269,8 +268,17 @@ public class GameWorld {
 	public ArrayList<Light> getLights() {
 		ArrayList<Light> collectionOfLights = new ArrayList<>();
 		collectionOfLights.add(sun);
-		collectionOfLights.add(officeLight);
-		collectionOfLights.addAll(lights);
+
+		ArrayList<Light> possibleLights = new ArrayList<>();
+		possibleLights.add(officeLight);
+		possibleLights.addAll(lights);
+
+		Collections.sort(possibleLights);
+
+		for (int i = 0; i < 4; i++) {
+			collectionOfLights.add(possibleLights.get(i));
+		}
+
 		return collectionOfLights;
 	}
 
@@ -543,7 +551,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			interactDistance = 30;
+			this.interactDistance = 40;
 			this.setGuiMessage("patchComplete", 3000);
 		}
 	}
@@ -583,6 +591,7 @@ public class GameWorld {
 	public void compileProgram() {
 		this.inProgram = true;  
 		this.timer = System.currentTimeMillis(); // start timer
+		this.interactDistance = 20;
 		this.setGuiMessage("codeCompiledMessage", 5000);
 
 		// adds the portal to the game
@@ -725,5 +734,8 @@ public class GameWorld {
 		return timer;
 	}
 
+	public static Vector3f getPlayerPosition() {
+		return player.getPosition();
+	}
 }
 
