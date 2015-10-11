@@ -86,15 +86,6 @@ public class Server extends Thread {
 
 	private void sendUpdateEntity(int mostRecentUpdate, MovableEntity mostRecentEntity) throws IOException {
 		outputStream.writeInt(mostRecentEntity.getUID());
-		if (mostRecentUpdate != 8) {
-			outputStream.writeFloat(mostRecentEntity.getPosition().getX());
-			outputStream.writeFloat(mostRecentEntity.getPosition().getY());
-			outputStream.writeFloat(mostRecentEntity.getPosition().getZ());
-		} else {
-			outputStream.writeFloat(gameController.getPlayer().getPosition().getX());
-			outputStream.writeFloat(gameController.getPlayer().getPosition().getY());
-			outputStream.writeFloat(gameController.getPlayer().getPosition().getZ());
-		}
 
 		// so update doesn't happen again
 		// networkHandler.setUpdate(-1);
@@ -133,9 +124,6 @@ public class Server extends Thread {
 	private MovableEntity updateEntitiy(int updateType) throws IOException {
 
 		int id = inputStream.readInt();
-		float x = inputStream.readFloat();
-		float y = inputStream.readFloat();
-		float z = inputStream.readFloat();
 
 		MovableEntity temp = null;
 		if (updateType != 8) {
