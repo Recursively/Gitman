@@ -1,6 +1,7 @@
 package model.factories;
 
 import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.SwipeCard;
 import model.guiComponents.Inventory;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
@@ -9,8 +10,10 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Factory Game for creating Gui Components
@@ -31,6 +34,16 @@ public class GuiFactory {
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
 	private GuiTexture codeCompiled; //FIXME
+	
+	// gui panel
+	private int oldCardsSize;
+	private List<GuiTexture> cards;
+	
+	private int oldProgress;
+	private List<GuiTexture> progressBar;
+	
+	private int oldScore;
+	private List<GuiTexture> scoreNum;
 
 	/**
 	 * Create the Gui factory passing in the object loader
@@ -49,8 +62,16 @@ public class GuiFactory {
 		interactMessage = makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f));
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
 		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-		winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
+		// FIXME winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
 		//FIXME codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+		
+		// info panel
+		this.cards = new ArrayList<GuiTexture>();
+		this.oldCardsSize = 0;
+		this.progressBar = new ArrayList<GuiTexture>();
+		this.oldProgress = 0;
+		this.scoreNum = new ArrayList<GuiTexture>();
+		this.oldScore = 0;
 	}
 
 
@@ -117,13 +138,44 @@ public class GuiFactory {
 		return winScreens;
 	}
 
-	public GuiTexture getProgress(int progress) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GuiTexture> getProgress(int progress) {  
+		if(oldProgress != progress){
+			// if progress has decreased, remove how many blocks it has decreased by
+			if(progress < this.oldProgress){
+				for(int i = this.progressBar.size() - 1; i > progress; i--){
+					this.progressBar.remove(i);
+				}
+			}
+			// else add how many blocks it has increased by
+			else {
+				for(int i = this.oldProgress; i < progress; i++){
+					
+				}
+			}
+			this.oldProgress = progress;
+		}
+		return progressBar;
 	}
 	
-	public GuiTexture getScore(int score){
-		return null;
+	public List<GuiTexture> getScore(int score){  
+		if(this.oldScore != score){
+			this.oldScore = score;
+			this.scoreNum = new ArrayList<GuiTexture>();
+			// TODO create new score
+		}
+		return this.scoreNum;
+	}
+	
+	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  //TODO
+		if(this.oldCardsSize != collected.size()){
+			this.oldCardsSize = collected.size();
+			String name = collected.get(this.oldCardsSize-1).getImgName();	
+			float xPos = SwipeCard.START_X + (this.oldCardsSize-1)*SwipeCard.CARD_SCALE.getX()*2f;
+			Vector2f pos = new Vector2f(xPos, SwipeCard.CARD_YPOS);
+			GuiTexture img = makeItemTexture(name, pos, SwipeCard.CARD_SCALE);
+			this.cards.add(img);
+		}
+		return this.cards;
 	}
 
 	public List<GuiTexture> makePopUpInteract(Vector3f position) {
@@ -144,10 +196,4 @@ public class GuiFactory {
 		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));
 		return help;
 	}
-	
-//	public List<GuiTexture> getCodeCompiledMessage(){
-//		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();
-//		ccMessage.add(codeCompiled);
-//		return ccMessage;
-//	}
 }

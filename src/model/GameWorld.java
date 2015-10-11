@@ -38,7 +38,7 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
-	private static final double PATCH_TIMER = 100000; 
+	private static final double PATCH_TIMER = 1000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
 	private static final int CODE_VALUE = 25; 
 	
@@ -77,7 +77,7 @@ public class GameWorld {
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
 	private Map<Integer, MovableEntity> movableEntities;
-	private Set<SwipeCard> cards;
+	private ArrayList<SwipeCard> cards;
 
 	// Terrain the world is on
 	private static Terrain currentTerrain;
@@ -158,7 +158,7 @@ public class GameWorld {
 		// game state
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
-		this.cards = new HashSet<>();
+		this.cards = new ArrayList<SwipeCard>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
 		this.helpVisible = false;
@@ -288,7 +288,7 @@ public class GameWorld {
 		return movableEntities;
 	}
 
-	public Set<SwipeCard> getSwipeCards() {
+	public ArrayList<SwipeCard> getSwipeCards() {
 		return this.cards;
 	}
 
@@ -305,13 +305,11 @@ public class GameWorld {
 	}
 
 	public void updateGui() {
-		// TODO like init gui, but with current score, progress and cards
-		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
-		guiImages = guiFactory.getInfoPanel();
-		//guiRenderer.render(guiImages);
-		//FIXME guiImages.add(guiFactory.getProgress(progress));
-		//TODO
+		this.guiImages = this.guiFactory.getInfoPanel();
+		this.guiImages.addAll(this.guiFactory.getProgress(progress));
+		this.guiImages.addAll(this.guiFactory.getScore(this.score));
+		this.guiImages.addAll(this.guiFactory.getSwipeCards(this.cards));
 	}
 
 	/**
