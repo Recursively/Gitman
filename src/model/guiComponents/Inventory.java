@@ -21,7 +21,7 @@ import model.textures.GuiTexture;
  *
  */
 public class Inventory {	
-	private static final int MAX_STORAGE_SIZE = 200;   // FIXME laptop has 512MB available for storage
+	public static final int MAX_STORAGE_SIZE = 200;   
 	
 	// final fields for image display
 	public static final int NUM_ACROSS = 2;
