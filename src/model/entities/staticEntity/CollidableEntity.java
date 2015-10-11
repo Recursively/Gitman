@@ -18,8 +18,6 @@ public class CollidableEntity extends StaticEntity {
         float diffX = Math.abs(position.getX() - origin.getX());
         float diffZ = Math.abs(position.getZ() - origin.getZ());
 
-        float diffY = Math.abs(position.getY() - origin.getY());
-
         // Ascending if statements to help terminate early
         if (diffX < radiusX) {
             if (diffZ < radiusZ) {

@@ -1,9 +1,6 @@
 package model.data;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,7 +19,7 @@ import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.SwipeCard;
-import model.guiComponents.Inventory;
+
 
 public class Save {
 	

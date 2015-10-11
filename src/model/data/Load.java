@@ -54,6 +54,7 @@ public class Load {
 
 	public static Data loadGame() {
 
+
 		Document dom;
 		// Make an instance of the DocumentBuilderFactory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
