@@ -129,6 +129,21 @@ public class Player extends MovableEntity {
         } else if (zPos > terrainBoundZ - edgeBound) {
             position.z = terrainBoundZ - edgeBound;
         }
+
+        // Now check for portal collision
+
+        if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OUTSIDE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OUTSIDE_Z
+                && zPos >= GameWorld.PORTAL_UPPER_BOUND_OUTSIDE_Z) {
+            // swap terrain
+            GameWorld.telportToOffice();
+        }
+
+        if (GameWorld.isProgramCompiled()){
+            if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OFFICE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OFFICE_Z
+                    && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
+                GameWorld.teleportToOutside();
+            }
+        }
     }
 
     private boolean moveFromLook(float dx, float dy, float dz, ArrayList<Entity> statics) {
