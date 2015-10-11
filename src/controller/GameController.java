@@ -178,6 +178,8 @@ public class GameController {
 				guiRenderer.render(gameWorld.getEndStateScreen());
 			}
 
+			TimeController.tickTock();
+
 			// update the Display window
 			DisplayManager.updateDisplay();
 		}

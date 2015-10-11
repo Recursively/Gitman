@@ -1,15 +1,14 @@
 package model.guiComponents;
 
-import java.util.ArrayList;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.util.vector.Vector2f;
-
 import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
+
+import java.util.ArrayList;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
@@ -95,8 +94,7 @@ public class Inventory {
 	/**
 	 * Remove item from inventory. Update storage space
 	 * used. 
-	 * 
-	 * @param item to remove
+	 *
 	 * @return Item if successfully removed, null if not
 	 */
 	public int deleteItem(GameWorld game){

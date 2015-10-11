@@ -39,7 +39,7 @@ public class GameWorld {
 	public static final int GAME_WIN = 1;
 	public static final int CODE_VALUE = 20;
 	public static final int MAX_PROGRESS = 100;
-	
+
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
 	private static final double PATCH_TIMER = 100000;  // time before decrease 
@@ -60,7 +60,9 @@ public class GameWorld {
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
 
-	private static boolean isProgramCompiled = false;  
+
+	private static float WORLD_TIME = 0;
+	private static boolean isProgramCompiled = false;
 
 	// Object creation factories
 	private EntityFactory entityFactory;
@@ -91,7 +93,7 @@ public class GameWorld {
 	private Map<Integer, Player> allPlayers;
 
 	// Constant sun light-source
-	private Light sun;
+	private static Light sun;
 	private Light officeLight;
 
 	// Collection of attenuating light-sources
@@ -161,9 +163,9 @@ public class GameWorld {
 
 			// game state
 			inventory = new Inventory(guiFactory);
-			this.patchProgress = START_PATCH;  
-			this.codeProgress = 0;  
- 			this.cards = new ArrayList<SwipeCard>();
+			this.patchProgress = START_PATCH;
+			this.codeProgress = 0;
+			this.cards = new ArrayList<SwipeCard>();
 			this.inProgram = false;
 			this.canApplyPatch = false;			
 		}
@@ -734,6 +736,15 @@ public class GameWorld {
 
 	public static Vector3f getPlayerPosition() {
 		return player.getPosition();
+	}
+
+	public static float getWorldTime() {
+		return WORLD_TIME;
+	}
+
+	public static void increaseTime(float worldTime) {
+		WORLD_TIME += worldTime;
+		WORLD_TIME %= 24000;
 	}
 }
 
