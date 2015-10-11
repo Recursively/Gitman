@@ -163,7 +163,7 @@ public class GuiFactory {
 			// else add how many blocks it has increased by
 			else {
 				for(int i = this.oldProgress; i < progress; i++){
-					if(progress <= GameWorld.MAX_PROGRESS){
+					if(i <= GameWorld.MAX_PROGRESS){
 						float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.01f;
 						Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
 						GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);

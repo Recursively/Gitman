@@ -163,8 +163,8 @@ public class GameWorld {
 
 			// game state
 			inventory = new Inventory(guiFactory);
-			this.patchProgress = 110;
-			this.codeProgress = 90;
+			this.patchProgress = START_PATCH;
+			this.codeProgress = 0;
 			this.cards = new ArrayList<SwipeCard>();
 			this.inProgram = false;
 			this.canApplyPatch = false;			
@@ -458,7 +458,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		this.setGuiMessage("laptopMemoryFull", 3000);
+		setGuiMessage("laptopMemoryFull", 3000);
 		return false;
 	}
 
@@ -552,7 +552,7 @@ public class GameWorld {
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
 			this.interactDistance = 40;
-			this.setGuiMessage("patchComplete", 3000);
+			setGuiMessage("patchComplete", 3000);
 		}
 	}
 
@@ -592,7 +592,7 @@ public class GameWorld {
 		this.inProgram = true;  
 		this.timer = System.currentTimeMillis(); // start timer
 		this.interactDistance = 20;
-		this.setGuiMessage("codeCompiledMessage", 5000);
+		setGuiMessage("codeCompiledMessage", 5000);
 
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
