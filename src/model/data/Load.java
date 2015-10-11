@@ -8,42 +8,37 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import model.entities.Camera;
-import model.entities.Entity;
 import model.entities.movableEntity.Bug;
 import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.FlashDrive;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
 import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.EntityFactory;
-import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Class used to load all data from the xml save file. The data is read, then
+ * used to construct appropriate objects, which are then passed into a data
+ * object.
+ *
+ * @author Finn Kinnear
+ */
+
 public class Load {
 
-	// player element
-	private static Player player;
-
-	// inventory elements
-	private static ArrayList<LaptopItem> inventory;
-
-	// movable entity elements
-	private static ArrayList<MovableEntity> movableEntities;
-
-	// swipeCard elements
-	private static ArrayList<SwipeCard> swipeCards;
-	
 	// gamestate elements
+	private static boolean isCodeCompiled;
+	private static boolean isOutside;
 	private static int codeProgress;
 	private static int patchProgress;
 	private static int score;
@@ -52,8 +47,31 @@ public class Load {
 	private static int commitIndex;
 	private static long timer;
 
-	public static Data loadGame() {
+	// player element
+	private static Vector3f playerPos;
+	private static float pitch;
+	private static float roll;
+	private static float yaw;
+	private static int uid;
 
+	// inventory elements
+	private static ArrayList<LaptopItem> inventory;
+	private static int storageUsed;
+
+	// movable entity elements
+	private static ArrayList<MovableEntity> movableEntities;
+
+	// swipeCard elements
+	private static ArrayList<SwipeCard> swipeCards;
+
+	/**
+	 * Loads gamestate fields, and delegates loading player, inventory, movable
+	 * entities, and swipe cards to helper methods.
+	 * 
+	 * @return data object storing all gamestate information
+	 */
+
+	public static Data loadGame() {
 
 		Document dom;
 		// Make an instance of the DocumentBuilderFactory
@@ -68,21 +86,33 @@ public class Load {
 					+ "save.xml");
 
 			Element doc = dom.getDocumentElement();
-			
+
+			// various gamestate fields
+			isCodeCompiled = Boolean.parseBoolean(getTextValue(doc, "isCodeCompiled"));
+			isOutside = Boolean.parseBoolean(getTextValue(doc, "isOutside"));
 			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
-			patchProgress = Integer.parseInt(getTextValue(doc, "patchProgress"));
+			patchProgress = Integer
+					.parseInt(getTextValue(doc, "patchProgress"));
 			score = Integer.parseInt(getTextValue(doc, "score"));
 			inProgram = Boolean.parseBoolean(getTextValue(doc, "inProgram"));
-			canApplyPatch = Boolean.parseBoolean(getTextValue(doc, "canApplyPatch"));;
-			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));;
+			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
+					"canApplyPatch"));
+			;
+			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));
+			;
 			timer = Long.parseLong(getTextValue(doc, "timer"));
+			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
 
+			// delegation of large groupings of loading to smaller, helper methods
 			parsePlayer(doc);
 			parseInventory(doc);
 			parseEntities(doc);
 			parseCards(doc);
 
-			return new Data(player, inventory, movableEntities, swipeCards, codeProgress, patchProgress, score, inProgram, canApplyPatch, commitIndex, timer);
+			// returns a new Data object with all necessary information
+			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
+					isCodeCompiled, isOutside, codeProgress, patchProgress, score, inProgram,
+					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());
@@ -91,46 +121,70 @@ public class Load {
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
 		}
-
+		
+		// loading was unsuccessful
+		System.out.println("Loading failed");
 		return null;
 	}
+
+	/**
+	 * Helper methods that gets the text value associated with any given tag.
+	 * 
+	 * @param e
+	 *            the element being searched
+	 * @param tagName
+	 *            the identifying text tag
+	 * 
+	 * @return the String associated with the given tag
+	 */
 
 	private static String getTextValue(Element e, String tagName) {
 		String value = null;
 		NodeList nl = e.getElementsByTagName(tagName);
 		if (nl != null && nl.getLength() > 0) {
 			Element el = (Element) nl.item(0);
-			value = el.getFirstChild().getNodeValue();
+			Node firstChild = el.getFirstChild();
+			if (firstChild != null) {
+				value = firstChild.getNodeValue();
+			}
 		}
 
 		return value;
 	}
 
+	/**
+	 * Helper methods that parses all player data and sets the class variable
+	 * player.
+	 * 
+	 * @param e
+	 *            the element being searched
+	 */
+
 	private static void parsePlayer(Element doc) {
 
-		TexturedModel model = null; // TODO =
-									// EntityFactory.getPlayerTexturedModel();
-
 		// player position
-		float x = Float.parseFloat(getTextValue(doc, "posX"));
-		float y = Float.parseFloat(getTextValue(doc, "posY"));
-		float z = Float.parseFloat(getTextValue(doc, "posZ"));
-		Vector3f pos = new Vector3f(x, y, z);
+		float x = Float.parseFloat(getTextValue(doc, "playerPosX"));
+		float y = Float.parseFloat(getTextValue(doc, "playerPosY"));
+		float z = Float.parseFloat(getTextValue(doc, "playerPosZ"));
+		playerPos = new Vector3f(x, y, z);
 
 		// player camera elements
-		float pitch = Float.parseFloat(getTextValue(doc, "pitch"));
-		float roll = Float.parseFloat(getTextValue(doc, "roll"));
-		float yaw = Float.parseFloat(getTextValue(doc, "yaw"));
+		pitch = Float.parseFloat(getTextValue(doc, "pitch"));
+		roll = Float.parseFloat(getTextValue(doc, "roll"));
+		yaw = Float.parseFloat(getTextValue(doc, "yaw"));
 
 		// player id element
-		int uid = Integer.parseInt(getTextValue(doc, "uid"));
+		uid = Integer.parseInt(getTextValue(doc, "uid"));
 
-		Camera camera = new Camera(0, pos);
-		camera.changePitch(pitch);
-		camera.changeYaw(yaw);
-		// TODO change roll?
-		player = new Player(model, pos, 0, 0, 0, 0, uid, camera);
 	}
+
+	/**
+	 * Helper methods that parses all inventory data and sets the class variable
+	 * inventory.
+	 * 
+	 * @param e
+	 *            the element being searched
+	 */
 
 	private static void parseInventory(Element doc) {
 
@@ -141,21 +195,21 @@ public class Load {
 
 				// get the inventoryItem element
 				Element e = (Element) inventoryNodes.item(i);
-				
+
 				String type = getTextValue(e, "type");
 
-				TexturedModel model = ModelFromString(type);
+				TexturedModel model = ModelFromString(type, 0);
 
 				// item position
-				int x = Integer.parseInt(getTextValue(e, "itemPosX"));
-				int y = Integer.parseInt(getTextValue(e, "itemPosY"));
-				int z = Integer.parseInt(getTextValue(e, "itemPosZ"));
+				float x = Float.parseFloat(getTextValue(e, "posX"));
+				float y = Float.parseFloat(getTextValue(e, "posY"));
+				float z = Float.parseFloat(getTextValue(e, "posZ"));
 				Vector3f pos = new Vector3f(x, y, z);
 
 				// item rotation
-				Float rotX = Float.parseFloat(getTextValue(e, "rotX"));
-				Float rotY = Float.parseFloat(getTextValue(e, "rotY"));
-				Float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
+				float rotX = Float.parseFloat(getTextValue(e, "rotX"));
+				float rotY = Float.parseFloat(getTextValue(e, "rotY"));
+				float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
 
 				// item scale
 				float scale = Float.parseFloat(getTextValue(e, "scale"));
@@ -165,18 +219,22 @@ public class Load {
 
 				// item name
 				String name = getTextValue(e, "name");
-				
-				// placeholders to make EntityFromType() work
-				int cardNum = 0;
-				int cardID = 0;
 
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
-				
+						rotX, rotY, rotZ, scale, id, name, 0, 0);
+
 				inventory.add((LaptopItem) movableEntity);
 			}
 		}
 	}
+
+	/**
+	 * Helper methods that parses all entity data and sets the class variable
+	 * movableEntities.
+	 * 
+	 * @param e
+	 *            the element being searched
+	 */
 
 	private static void parseEntities(Element doc) {
 
@@ -191,18 +249,18 @@ public class Load {
 				String type = getTextValue(e, "type");
 
 				// textured model
-				TexturedModel model = ModelFromString(type);
+				TexturedModel model = ModelFromString(type, 0);
 
 				// item position
-				int x = Integer.parseInt(getTextValue(e, "itemPosX"));
-				int y = Integer.parseInt(getTextValue(e, "itemPosY"));
-				int z = Integer.parseInt(getTextValue(e, "itemPosZ"));
+				float x = Float.parseFloat(getTextValue(e, "posX"));
+				float y = Float.parseFloat(getTextValue(e, "posY"));
+				float z = Float.parseFloat(getTextValue(e, "posZ"));
 				Vector3f pos = new Vector3f(x, y, z);
 
 				// item rotation
-				Float rotX = Float.parseFloat(getTextValue(e, "rotX"));
-				Float rotY = Float.parseFloat(getTextValue(e, "rotY"));
-				Float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
+				float rotX = Float.parseFloat(getTextValue(e, "rotX"));
+				float rotY = Float.parseFloat(getTextValue(e, "rotY"));
+				float rotZ = Float.parseFloat(getTextValue(e, "rotZ"));
 
 				// item scale
 				float scale = Float.parseFloat(getTextValue(e, "scale"));
@@ -216,12 +274,15 @@ public class Load {
 				// swipeCard cardNum
 				int cardNum = 0;
 
+				// if swipeCard - set its cardNum
 				if (type == "SwipeCard") {
 					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				}
 				
+				// laptop cardID
 				int cardID = 0;
-				
+
+				// if laptop - set its cardID
 				if (type == "Laptop") {
 					cardID = Integer.parseInt(getTextValue(e, "cardID"));
 				}
@@ -237,6 +298,14 @@ public class Load {
 		}
 	}
 
+	/**
+	 * Helper methods that parses all swipeCard data and sets the class variable
+	 * swipeCards.
+	 * 
+	 * @param e
+	 *            the element being searched
+	 */
+
 	private static void parseCards(Element doc) {
 
 		// swipe card items
@@ -246,15 +315,19 @@ public class Load {
 
 				// get the inventoryItem element
 				Element e = (Element) cardNodes.item(i);
-				
+
 				String type = "SwipeCard";
-				
-				TexturedModel model = null; // TODO = EntityFactory.getSwipecardTexturedModel();
-				
+
+				// swipeCard cardNum
+				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
+
+				TexturedModel model = null; // TODO =
+											// EntityFactory.getSwipecardTexturedModel();
+
 				// item position
-				int x = Integer.parseInt(getTextValue(e, "cardPosX"));
-				int y = Integer.parseInt(getTextValue(e, "cardPosY"));
-				int z = Integer.parseInt(getTextValue(e, "cardPosZ"));
+				int x = Integer.parseInt(getTextValue(e, "posX"));
+				int y = Integer.parseInt(getTextValue(e, "posY"));
+				int z = Integer.parseInt(getTextValue(e, "posZ"));
 				Vector3f pos = new Vector3f(x, y, z);
 
 				// item rotation
@@ -271,21 +344,29 @@ public class Load {
 				// item name
 				String name = getTextValue(e, "name");
 
-				// swipeCard cardNum
-				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
-				
 				int cardID = 0;
-				
+
 				// construct the entity
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
 						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
-				
+
 				swipeCards.add((SwipeCard) movableEntity);
 			}
 		}
 	}
 
-	private static TexturedModel ModelFromString(String type) {
+	/**
+	 * Helper methods that gets the appropriate model for the given entity type.
+	 * 
+	 * @param type
+	 *            the type of entity
+	 * @param cardNum
+	 *            identifier for swipeCard models
+	 *            
+	 * @return the model for given entity type
+	 */
+
+	private static TexturedModel ModelFromString(String type, int cardNum) {
 		if (type == "Bug") {
 			return EntityFactory.getBugTexturedModel();
 		} else if (type == "Commit") {
@@ -297,15 +378,23 @@ public class Load {
 		} else if (type == "ReadMe") {
 			return EntityFactory.getTabletTexturedModel();
 		} else if (type == "SwipeCard") {
-			// TODO return EntityFactory.getSwipecardTexturedModel();
+			return EntityFactory.getSwipecardTexturedModel()[cardNum - 1];
 		}
-
+		System.out.println("Model not found for given type");
 		return null;
 	}
 
+	/**
+	 * Helper methods that get creates the appropriate entity for the given
+	 * entity type.
+	 * 
+	 * @return a MovableEntity constructed from the method parameters
+	 */
+
 	private static MovableEntity EntityFromType(String type,
 			TexturedModel model, Vector3f pos, float rotX, float rotY,
-			float rotZ, float scale, int id, String name, int cardNum, int cardID) {
+			float rotZ, float scale, int id, String name, int cardNum,
+			int cardID) {
 		if (type == "Bug") {
 			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
 		} else if (type == "Commit") {
@@ -320,7 +409,7 @@ public class Load {
 			return new SwipeCard(model, pos, rotX, rotY, rotZ, scale, id,
 					cardNum);
 		}
-
+		System.out.println("Entity construction unsuccessful");
 		return null;
 	}
 }
