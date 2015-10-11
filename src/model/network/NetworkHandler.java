@@ -3,9 +3,11 @@ package model.network;
 import org.lwjgl.util.vector.Vector3f;
 
 import model.GameWorld;
+import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.SwipeCard;
+import model.entities.staticEntity.StaticEntity;
 
 public class NetworkHandler {
 
@@ -13,7 +15,7 @@ public class NetworkHandler {
 
 	private int update = -1;
 	private int completedUpdateProgress;
-	
+
 	public boolean serverUpdate;
 
 	private MovableEntity mostRecentEntity;
@@ -27,7 +29,6 @@ public class NetworkHandler {
 	public void dealWithUpdate(int type, int id, int playerID) {
 
 		System.out.println("DECIDING WHETHER TO UPDATE");
-
 
 		if (gameWorld.getMoveableEntities().get(id) == null && type != 8)
 			return;
@@ -51,11 +52,16 @@ public class NetworkHandler {
 			interactSwipeCard(id);
 			break;
 		case 17:
-
+			interactLaptop(id);
 			break;
 		default:
 			break;
 		}
+
+	}
+
+	private void interactLaptop(int id) {
+		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 
 	}
 
@@ -76,8 +82,7 @@ public class NetworkHandler {
 	public void interactLaptopItem(int id) {
 		System.out.println("INTERACTED WITH LAPTOP ITEM");
 
-		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities()
-				.get(id);
+		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities().get(id);
 
 		// removes uid from movables map
 		gameWorld.removeMovableEntity(entity);
@@ -96,9 +101,9 @@ public class NetworkHandler {
 		entity.interact(gameWorld);
 
 		// remove from movables
-		//gameWorld.removeMovableEntity(entity);
+		// gameWorld.removeMovableEntity(entity);
 		// add to swipe cards array
-		//gameWorld.getSwipeCards().add(entity);
+		// gameWorld.getSwipeCards().add(entity);
 
 	}
 
@@ -106,7 +111,7 @@ public class NetworkHandler {
 		System.out.println("DROPPED ITEM");
 
 		LaptopItem entity = gameWorld.getInventory().getItem(id);
-		
+
 		gameWorld.getInventory().serverDelete(entity);
 		// remove uid from inventory laptop
 		gameWorld.removeFromInventory(entity, playerID);
@@ -133,7 +138,7 @@ public class NetworkHandler {
 	public void sentDone(int uid) {
 		System.out.println("SENT DONE ID: " + uid);
 		completedUpdateProgress++;
-		if(completedUpdateProgress == gameWorld.getAllPlayers().size()){
+		if (completedUpdateProgress == gameWorld.getAllPlayers().size()) {
 			this.update = -1;
 		}
 	}

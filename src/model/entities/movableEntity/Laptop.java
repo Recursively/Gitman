@@ -52,7 +52,7 @@ public class Laptop extends Item {
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
-					return 18;
+					return 17;
 				}
 			}
 			
