@@ -28,9 +28,9 @@ public class GuiFactory {
 	private static final String ITEM_PATH = "itemImages/";
 	
 	// progress block positions
-	private static final float PROGRESS_START_X = -0.95f;
-	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.05f, 0.03f);
-	private static final float PROGRESS_YPOS = 0.95f;
+	private static final float PROGRESS_START_X = -0.955f;
+	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.35f, 0.03f);
+	private static final float PROGRESS_YPOS = 0.94f;
 	
 	// score scale and positions
 	private static final float SCORE_START_X = -0.56f;
@@ -159,7 +159,7 @@ public class GuiFactory {
 			// else add how many blocks it has increased by
 			else {
 				for(int i = this.oldProgress; i < progress; i++){
-					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.2f;
+					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.01f;
 					Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
 					GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
 					this.progressBar.add(img);

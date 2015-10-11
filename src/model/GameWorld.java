@@ -157,6 +157,7 @@ public class GameWorld {
 		// game state
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
+		this.codeProgress = 0;  
 		this.cards = new ArrayList<SwipeCard>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
