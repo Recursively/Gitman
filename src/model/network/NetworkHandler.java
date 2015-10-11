@@ -104,6 +104,8 @@ public class NetworkHandler {
 		System.out.println("DROPPED ITEM");
 
 		LaptopItem entity = gameWorld.getInventory().getItem(id);
+		
+		gameWorld.getInventory().serverDelete(entity);
 		// remove uid from inventory laptop
 		gameWorld.removeFromInventory(entity, playerID);
 

@@ -72,6 +72,7 @@ public class Server extends Thread {
 				if (sendUpdateStatus(networkHandler.getUpdate()) != -1 && networkHandler.getUpdate() != 0) {
 					System.out.println("INTERACTION SERVER");
 					sendUpdateEntity(networkHandler.getUpdate(), networkHandler.getMostRecentEntity());
+					networkHandler.setUpdate(-1);
 				}
 
 			}

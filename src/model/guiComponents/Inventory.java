@@ -242,4 +242,11 @@ public class Inventory {
 		return null;
 	}
 
+	public void serverDelete(LaptopItem entity) {
+		this.storageUsed = this.storageUsed - entity.getSize();
+		inLaptop.remove(entity);
+		updateLaptopDisplay();
+		
+	}
+
 }
