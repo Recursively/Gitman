@@ -151,20 +151,20 @@ public class GuiFactory {
 	public List<GuiTexture> getProgress(int progress) {  
 		if(oldProgress != progress){
 			// if progress has decreased, remove how many blocks it has decreased by
-//			if(progress < this.oldProgress){
-//				for(int i = this.progressBar.size() - 1; i > progress; i--){
-//					this.progressBar.remove(i);
-//				}
-//			}
-//			// else add how many blocks it has increased by
-//			else {
-//				for(int i = this.oldProgress; i < progress; i++){
-//					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX();
-//					Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
-//					GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
-//					this.progressBar.add(img);
-//				}
-//			}
+			if(progress < this.oldProgress){
+				for(int i = this.progressBar.size() - 1; i > progress; i--){
+					this.progressBar.remove(i);
+				}
+			}
+			// else add how many blocks it has increased by
+			else {
+				for(int i = this.oldProgress; i < progress; i++){
+					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.2f;
+					Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
+					GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
+					this.progressBar.add(img);
+				}
+			}
 			this.oldProgress = progress;
 		}
 		return progressBar;
