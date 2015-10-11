@@ -4,10 +4,6 @@ import model.GameWorld;
 import model.entities.Camera;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
-import model.textures.ModelTexture;
-import model.toolbox.Loader;
-import model.toolbox.OBJLoader;
-
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -21,17 +17,14 @@ public class PlayerFactory {
 
 	// Reference to parent
 	private final GameWorld gameWorld;
-	private final Loader loader;
-
 	/**
 	 * Construct the factory and set the game world
 	 *
 	 * @param gameWorld
 	 *            Game world
 	 */
-	public PlayerFactory(GameWorld gameWorld, Loader loader) {
+	public PlayerFactory(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
-		this.loader = loader;
 
 	}
 

@@ -52,4 +52,18 @@ public abstract class MovableEntity extends Entity {
 	 * @return true if entity can be interacted with
 	 */
 	public abstract boolean canInteract();
+	
+	public abstract String getType();
+	
+	public String getName(){
+		return null;
+	}
+	
+	public int getCardID(){
+		return -1;
+	}
+	
+	public int getCardNum(){
+		return -1;
+	}
 }
