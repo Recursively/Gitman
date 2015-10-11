@@ -244,6 +244,7 @@ public class EntityFactory {
         } else if (entityName.equals("lamp")) {
             entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, 1f, 0, lampData));
+            LightFactory.createEntityLight(new Vector3f(x, y + 12, z + 2));
         } else if (entityName.equals("pine")) {
             y -= 2;
             entities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,

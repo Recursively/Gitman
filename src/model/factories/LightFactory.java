@@ -22,12 +22,10 @@ public class LightFactory {
     private static final Vector3f OFFICE_LIGHT_COLOUR = new Vector3f(5, 4, 2.5f);
 
     // This can be override, but this gives a nice gradual fadeout
-    private static final Vector3f DEFAULT_ATTENUATION_FACTOR = new Vector3f(1, 0.01f, 0.002f);
-    private static final Vector3f DEFAULT_LIGHT_COLOUR = new Vector3f(1f, 1f, 1f);
+    private static final Vector3f DEFAULT_ATTENUATION_FACTOR = new Vector3f(1f, 0.005f, 0.001f);
+    private static final Vector3f DEFAULT_LIGHT_COLOUR = new Vector3f(2.2f, 2f, 1.5f);
 
     private static ArrayList<Light> staticEntityLights = new ArrayList<>();
-
-    private static ArrayList<Light> entityLights = new ArrayList<>();
 
     /**
      * Constructs the light factory and initialises the data structure to hold the collection of lights
@@ -52,17 +50,17 @@ public class LightFactory {
     }
 
     public static void createEntityLight(Vector3f position) {
-        entityLights.add(new Light(position, DEFAULT_LIGHT_COLOUR, DEFAULT_ATTENUATION_FACTOR));
+        staticEntityLights.add(new Light(position, DEFAULT_LIGHT_COLOUR, DEFAULT_ATTENUATION_FACTOR));
     }
 
     public static void createEntityLight(Vector3f position, Vector3f colour) {
-        entityLights.add(new Light(position, colour, DEFAULT_ATTENUATION_FACTOR));
+        staticEntityLights.add(new Light(position, colour, DEFAULT_ATTENUATION_FACTOR));
     }
 
     public static void removeEntityLight(Vector3f position) {
-        for (Light light : entityLights) {
+        for (Light light : staticEntityLights) {
             if (light.getPosition().equals(position)) {
-                entityLights.remove(light);
+                staticEntityLights.remove(light);
                 break;
             }
         }

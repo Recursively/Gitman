@@ -184,7 +184,6 @@ public class GameWorld {
 		lights.add(officeLight);
 
 		lights.addAll(LightFactory.getStaticEntityLights());
-
 	}
 
 	/**
@@ -234,8 +233,17 @@ public class GameWorld {
 	public ArrayList<Light> getLights() {
 		ArrayList<Light> collectionOfLights = new ArrayList<>();
 		collectionOfLights.add(sun);
-		collectionOfLights.add(officeLight);
-		collectionOfLights.addAll(lights);
+
+		ArrayList<Light> possibleLights = new ArrayList<>();
+		possibleLights.add(officeLight);
+		possibleLights.addAll(lights);
+
+		Collections.sort(possibleLights);
+
+		for (int i = 0; i < 4; i++) {
+			collectionOfLights.add(possibleLights.get(i));
+		}
+
 		return collectionOfLights;
 	}
 
@@ -667,6 +675,10 @@ public class GameWorld {
 
 	public static void setIsProgramCompiled(boolean isProgramCompiled) {
 		GameWorld.isProgramCompiled = isProgramCompiled;
+	}
+
+	public static Vector3f getPlayerPosition() {
+		return player.getPosition();
 	}
 }
 
