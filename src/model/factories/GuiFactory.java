@@ -24,10 +24,14 @@ public class GuiFactory {
 	private static final String GUI_PATH = "gui/";
 	private static final String ITEM_PATH = "itemImages/";
 	
+	// basic positions
+	private static final Vector2f CENTER_POS = new Vector2f(0f, 0f);
+	private static final Vector2f FULL_SCALE = new Vector2f(1f, 1f);
+	
 	// progress block positions
-	private static final float PROGRESS_START_X = -0.95f;
-	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.05f, 0.03f);
-	private static final float PROGRESS_YPOS = 0.95f;
+	private static final float PROGRESS_START_X = -0.955f;
+	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.35f, 0.03f);
+	private static final float PROGRESS_YPOS = 0.94f;
 	
 	// score scale and positions
 	private static final float SCORE_START_X = -0.56f;
@@ -40,6 +44,7 @@ public class GuiFactory {
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
+
 	// gui panel
 	private int oldCardsSize;
 	private List<GuiTexture> cards;
@@ -63,15 +68,11 @@ public class GuiFactory {
 	}
 
 	private void loadImages() {
-		inventoryScreen = makeGuiTexture("blankInventoryScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f));
+		inventoryScreen = makeGuiTexture("blankInventoryScreen", CENTER_POS, new Vector2f(0.8f, 1f));
 		interactMessage = makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f));
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
-		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
-		winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); 
-		
-
-		
-
+		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
+		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -160,7 +161,7 @@ public class GuiFactory {
 			// else add how many blocks it has increased by
 			else {
 				for(int i = this.oldProgress; i < progress; i++){
-					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.2f;
+					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.01f;
 					Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
 					GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
 					this.progressBar.add(img);
@@ -187,7 +188,7 @@ public class GuiFactory {
 		return this.scoreNum;
 	}
 	
-	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  //TODO
+	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  
 		if(this.oldCardsSize != collected.size()){
 			this.oldCardsSize = collected.size();
 			String name = collected.get(this.oldCardsSize-1).getImgName();	
@@ -217,10 +218,4 @@ public class GuiFactory {
 		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));
 		return help;
 	}
-
-	
-
-	
-
-
 }

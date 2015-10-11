@@ -122,7 +122,6 @@ public class Inventory {
 	 */
 	public void increaseStorageUsed(int size){
 		this.storageUsed = this.storageUsed + size;
-		System.out.println("Inventory Storage:" + storageUsed + "/" + MAX_STORAGE_SIZE);
 	}
 
 	public void displayInventory() {

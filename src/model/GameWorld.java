@@ -157,6 +157,7 @@ public class GameWorld {
 		// game state
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
+		this.codeProgress = 0;  
 		this.cards = new ArrayList<SwipeCard>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
@@ -407,7 +408,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		this.setGuiMessage("deleteMessage", 3000);  //TODO
+		this.setGuiMessage("laptopMemoryFull", 3000);  
 		return false;
 	}
 
@@ -481,7 +482,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			this.setGuiMessage("findBugMessage", 5000);  //TODO
+			this.setGuiMessage("patchComplete", 3000);  
 		}
 	}
 
@@ -494,7 +495,6 @@ public class GameWorld {
 	 */
 	public void updateScore(int score) {
 		this.score += score;
-		System.out.println("Game Score:" + this.score);
 	}
 
 	/**
@@ -521,7 +521,7 @@ public class GameWorld {
 	public void compileProgram() {
 		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
-		this.setGuiMessage("codeCompiledMessage", 5000);  //TODO
+		this.setGuiMessage("codeCompiledMessage", 5000); 
 		
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
