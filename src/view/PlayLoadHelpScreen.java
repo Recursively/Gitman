@@ -1,16 +1,15 @@
 package view;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.util.vector.Vector2f;
-
 import controller.GameController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.util.vector.Vector2f;
 import view.renderEngine.GuiRenderer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayLoadHelpScreen {
 	private String hostname;
