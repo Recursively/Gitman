@@ -1,6 +1,5 @@
 package view;
 
-import controller.GameController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;

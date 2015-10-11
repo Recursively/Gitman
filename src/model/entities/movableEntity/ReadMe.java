@@ -1,6 +1,5 @@
 package model.entities.movableEntity;
 
-import model.GameWorld;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -15,8 +14,8 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class ReadMe extends LaptopItem{
-	private static final int README_SCORE = 10;
-	private static final int README_SIZE = 20;
+	public static final int README_SCORE = 1;
+	private static final int README_SIZE = 60;
 
 	public ReadMe(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id, String name) {
@@ -41,5 +40,10 @@ public class ReadMe extends LaptopItem{
 	@Override
 	public int getSize() {
 		return README_SIZE;
+	}
+	
+	@Override
+	public String getType(){
+		return "ReadMe";
 	}
 }

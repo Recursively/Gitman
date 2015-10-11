@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import model.GameWorld;
+import model.entities.movableEntity.MovableEntity;
 import model.network.Server;
+import model.network.NetworkHandler;
 
 /**
  * Controller class to handle the delegations between the Model and View
@@ -17,6 +20,7 @@ import model.network.Server;
 public class ServerController extends Thread {
 
 	private GameController gameController;
+	private NetworkHandler networkHandler;
 
 	private ServerSocket serverSocket;
 	private Server server;
@@ -28,21 +32,24 @@ public class ServerController extends Thread {
 		this.gameController = gameController;
 		this.isRunning = true;
 		initServerSocket();
+		initNetworkHandler();
+
 	}
 
 	public void run() {
 
 		createHostPlayer();
-		gameController.READY = true;
+		GameController.READY = true;
 
 		while (isRunning) {
 
 			try {
 				socket = serverSocket.accept();
-				server = new Server(socket, gameController, this);
+				server = new Server(socket, gameController, networkHandler);
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
+				server.initNewPlayer();
 				server.start();
 
 			} catch (IOException e) {
@@ -58,6 +65,10 @@ public class ServerController extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void initNetworkHandler() {
+		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
 	}
 
 	public void terminate() {
@@ -83,41 +94,11 @@ public class ServerController extends Thread {
 		gameController.createPlayer(uid);
 		return uid;
 	}
-	
 
-	// when an update is sent to the server about an entity update process it here
-	public void dealWithUpdate(int type, int id, float x, float y, float z) {
-		switch (type) {
-		case 8:
-			gameController.getGameWorld().dropLaptopItem();
-			break;
-		case 10:
-			gameController.getGameWorld().interactBug();
-			break;
-		case 11:
-			gameController.getGameWorld().interactCommit();
-			break;
-//		case 12:
-//			gameController.getGameWorld().interactDoor();
-//			break;
-		case 13:
-			gameController.getGameWorld().interactLaptopItem();
-			break;
-//		case 14:
-//			gameController.getGameWorld().interactNPCCharacter();
-//			break;
-//		case 15:
-//			gameController.getGameWorld().interactPlayer();
-//			break;
-		case 16:
-			gameController.getGameWorld().interactSwipeCard();
-			break;
-		case 17:
-			break;
-		default:
-			break;
+	public void setNetworkUpdate(int status, MovableEntity entity) {
+		if (gameController.getPlayers().size() != 1) {
+			server.setUpdate(status, entity);
 		}
-		
 	}
 
 }
