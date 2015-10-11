@@ -44,6 +44,7 @@ public abstract class LaptopItem extends Item {
 	
 	public abstract int getScore();
 	
+	@Override
 	public String getName(){
 		return this.name;
 	}
