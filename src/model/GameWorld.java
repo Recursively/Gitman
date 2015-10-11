@@ -534,10 +534,10 @@ public class GameWorld {
 	
 	public List<GuiTexture> getEndStateScreen() {
 		if(this.gameState == GAME_WIN){
-			return guiFactory.makeWinScreen();
+			return guiFactory.getWinScreen();
 		}
 		else{
-			return guiFactory.makeLostScreen();
+			return guiFactory.getLostScreen();
 		}
 	}
 
@@ -601,7 +601,7 @@ public class GameWorld {
 	}
 
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
-		return guiFactory.makePopUpInteract(e.getPosition());
+		return guiFactory.getPopUpInteract(e.getPosition());
 	}	
 
 	public static boolean isProgramCompiled() {
@@ -625,7 +625,7 @@ public class GameWorld {
 	}
 
 	public List<GuiTexture> helpMessage() {
-		return guiFactory.makeHelpScreen();
+		return guiFactory.getHelpScreen();
 	}
 }
 
