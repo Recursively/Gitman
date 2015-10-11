@@ -17,7 +17,7 @@ public class TimeController {
     }
 
     private static void update() {
-        //GameWorld.updateSun();
+        GameWorld.updateSun();
         MasterRenderer.updateFog();
     }
 }
