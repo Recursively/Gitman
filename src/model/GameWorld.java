@@ -160,6 +160,18 @@ public class GameWorld {
 		this.canApplyPatch = false;
 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+
+		initCommits();
+	}
+
+	private void initCommits() {
+		int count = 0;
+		for (Vector3f position : entityFactory.getCommitPositions()) {
+			if (count == 10) break;
+			movableEntities.put(entityFactory.getMovableEntitiesID(), EntityFactory.createCommit(position));
+			entityFactory.increaseMovableEntitiesID();
+			count++;
+		}
 	}
 
 	/**
