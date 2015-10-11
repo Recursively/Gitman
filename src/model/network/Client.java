@@ -23,15 +23,11 @@ public class Client extends Thread {
 	private int uid;
 
 	public boolean running;
-	private MovableEntity mostRecentEntity;
-	private int mostRecentUpdate;
 
 	public Client(Socket socket, GameController gameController) {
 		this.socket = socket;
 		this.gameController = gameController;
 		this.running = true;
-		this.mostRecentUpdate = -1;
-		this.mostRecentEntity = null;
 		initNetworkHandler();
 		initStreams();
 
@@ -60,17 +56,11 @@ public class Client extends Thread {
 					receivedPlayers.add(playerID);
 				}
 
-				checkForRemovedPlayers(receivedPlayers);
+				// checkForRemovedPlayers(receivedPlayers);
 
-				if (sendUpdateStatus() != -1) {
-					sendUpdateEntity();
-				}
-
-				int updateType = checkUpdate();
-
-				if (updateType != -1) {
-					updateEntitiy(updateType);
-				}
+				sendUpdateEntity();
+				
+				readUpdateEntitiy();
 
 			}
 		} catch (IOException e) {
@@ -87,17 +77,15 @@ public class Client extends Thread {
 		}
 	}
 
-	private int updateEntitiy(int updateType) throws IOException {
+	private void readUpdateEntitiy() throws IOException {
+		
+		int update = inputStream.readInt();
 		int id = inputStream.readInt();
 
-		networkHandler.dealWithUpdate(updateType, id, uid);
+		if (update != -1 && id != -1) {
+			networkHandler.dealWithUpdate(update, id, uid);
+		}
 
-		return id;
-
-	}
-
-	private int checkUpdate() throws IOException {
-		return inputStream.readInt();
 	}
 
 	public void terminate() {
@@ -113,16 +101,16 @@ public class Client extends Thread {
 
 	}
 
-	private int sendUpdateStatus() throws IOException {
-		// send that there is an update to be made
-		outputStream.writeInt(mostRecentUpdate);
-		return mostRecentUpdate;
-	}
-
 	private void sendUpdateEntity() throws IOException {
-		outputStream.writeInt(mostRecentEntity.getUID());
+		if (networkHandler.getClientUpdate() != null) {
+			outputStream.writeInt(networkHandler.getClientUpdate().update);
+			outputStream.writeInt(networkHandler.getClientUpdate().id);
+			this.networkHandler.setClientUpdate(null);
+		} else {
+			outputStream.writeInt(-1);
+			outputStream.writeInt(-1);
+		}
 		// make sure we don't send the update again
-		this.mostRecentUpdate = -1;
 	}
 
 	private int readNumberOfPlayers() throws IOException {
@@ -179,8 +167,7 @@ public class Client extends Thread {
 	}
 
 	public void setUpdate(int updateType, MovableEntity entity) {
-		this.mostRecentUpdate = updateType;
-		this.mostRecentEntity = entity;
+		networkHandler.setClientUpdate(new Update(updateType, entity.getUID()));
 	}
 
 	public void updateGameInformation() throws IOException {

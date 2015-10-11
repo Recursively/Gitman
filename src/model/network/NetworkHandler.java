@@ -1,24 +1,16 @@
 package model.network;
 
-import org.lwjgl.util.vector.Vector3f;
 
 import model.GameWorld;
-import model.entities.Entity;
 import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.SwipeCard;
-import model.entities.staticEntity.StaticEntity;
 
 public class NetworkHandler {
 
 	private GameWorld gameWorld;
 
-	private int update = -1;
-	private int completedUpdateProgress;
-
-	public boolean serverUpdate;
-
-	private MovableEntity mostRecentEntity;
+	private Update lastServerUpdate;
+	private Update lastClientUpdate;
 
 	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
@@ -106,7 +98,6 @@ public class NetworkHandler {
 	}
 
 	public void dropLaptopItem(int id, int playerID) {
-		System.out.println("DROPPED ITEM");
 
 		LaptopItem entity = gameWorld.getInventory().getItem(id);
 
@@ -116,36 +107,20 @@ public class NetworkHandler {
 
 	}
 
-	/**
-	 * @return the update
-	 */
-	public int getUpdate() {
-		return update;
+	public Update getServerUpdate(){
+		return lastServerUpdate;
+	}
+	
+	public void setServerUpdate(Update update){
+		this.lastServerUpdate = update;
+	}
+	
+	public Update getClientUpdate(){
+		return lastServerUpdate;
+	}
+	
+	public void setClientUpdate(Update update){
+		this.lastClientUpdate = update;
 	}
 
-	/**
-	 * @param update
-	 *            the update to set
-	 */
-	public void setUpdate(int update) {
-		if (update != -1) {
-			this.update = update;
-		}
-	}
-
-	public void sentDone(int uid) {
-		System.out.println("SENT DONE ID: " + uid);
-		completedUpdateProgress++;
-		if (completedUpdateProgress == gameWorld.getAllPlayers().size()) {
-			this.update = -1;
-		}
-	}
-
-	public MovableEntity getMostRecentEntity() {
-		return mostRecentEntity;
-	}
-
-	public void setMostRecentEntity(MovableEntity mostRecentEntity) {
-		this.mostRecentEntity = mostRecentEntity;
-	}
 }

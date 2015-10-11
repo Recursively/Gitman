@@ -25,8 +25,6 @@ public class Server extends Thread {
 
 	private int uid;
 
-	private int mostRecentUpdate = -1;
-
 	private boolean isRunning;
 
 	public Server(Socket socket, GameController gameController, NetworkHandler networkHandler) {
@@ -51,21 +49,10 @@ public class Server extends Thread {
 					sendPlayerPosition(player);
 				}
 
-				int check = checkUpdate();
-				if (!networkHandler.serverUpdate) {
-					networkHandler.setUpdate(check);
-				}
+				Update update = readEntityUpdate();
 
-
-				if (networkHandler.getUpdate() != -1 && networkHandler.getUpdate() != 0
-						&& check == networkHandler.getUpdate()) {
-					networkHandler.setMostRecentEntity(updateEntitiy(networkHandler.getUpdate()));
-				}
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
-				if (sendUpdateStatus(networkHandler.getUpdate()) != -1 && networkHandler.getUpdate() != 0) {
-					sendUpdateEntity(networkHandler.getUpdate(), networkHandler.getMostRecentEntity());
-					networkHandler.setUpdate(-1);
-				}
+				sendUpdateEntity(networkHandler.getServerUpdate(), update);
 
 			}
 		} catch (IOException e) {
@@ -74,21 +61,31 @@ public class Server extends Thread {
 
 	}
 
-	private void sendUpdateEntity(int mostRecentUpdate, MovableEntity mostRecentEntity) throws IOException {
-		outputStream.writeInt(mostRecentEntity.getUID());
+	private Update readEntityUpdate() throws IOException {
+		int update = inputStream.readInt();
+		int id = inputStream.readInt();
 
-		networkHandler.sentDone(uid);
+		if (update != -1 && id != -1) {
+			networkHandler.dealWithUpdate(update, id, uid);
+			return new Update(update, id);
+
+		} else {
+			System.out.println("Nothing to update");
+			return null;
+		}
 
 	}
 
-	private int sendUpdateStatus(int status) throws IOException {
-		// send that there is an update to be made
-		if (status != -1) {
-			outputStream.writeInt(status);
-			return status;
+	private void sendUpdateEntity(Update serverUpdate, Update update) throws IOException {
+		if (serverUpdate != null) {
+			
+			
+		} else if (update != null) {
+			outputStream.writeInt(update.update);
+			outputStream.writeInt(update.id);
 		} else {
-			outputStream.writeInt(mostRecentUpdate);
-			return mostRecentUpdate;
+			outputStream.writeInt(-1);
+			outputStream.writeInt(-1);
 		}
 	}
 
@@ -105,38 +102,16 @@ public class Server extends Thread {
 		outputStream.writeInt(id);
 	}
 
-	private int checkUpdate() throws IOException {
-		return inputStream.readInt();
-	}
-
-	private MovableEntity updateEntitiy(int updateType) throws IOException {
-
-		int id = inputStream.readInt();
-
-		MovableEntity temp = null;
-		if (updateType != 8) {
-			temp = gameController.getGameWorld().getMoveableEntities().get(id);
-
-		} else {
-			temp = gameController.getGameWorld().getInventory().getItem(id);
-		}
-
-		networkHandler.dealWithUpdate(updateType, id, uid);
-
-		return temp;
-
-	}
-
 	private void sendPlayerPosition(Player player) throws IOException {
 		outputStream.writeInt(player.getUID());
 		outputStream.writeFloat(player.getPosition().x);
-		
+
 		if (player.getUID() == gameController.getPlayer().getUID()) {
 			outputStream.writeFloat(player.getPosition().y + 10);
 		} else {
 			outputStream.writeFloat(player.getPosition().y);
 		}
-		
+
 		outputStream.writeFloat(player.getPosition().z);
 	}
 
@@ -178,10 +153,7 @@ public class Server extends Thread {
 	}
 
 	public void setUpdate(int status, MovableEntity entity) {
-		this.networkHandler.serverUpdate = true;
-		this.mostRecentUpdate = status;
-		this.networkHandler.setMostRecentEntity(entity);
-
+		this.networkHandler.setServerUpdate(new Update(status, entity.getUID()));
 	}
 
 	public void initNewPlayer() throws IOException {

@@ -328,7 +328,6 @@ public class GameWorld {
 		MovableEntity entity = findMovEntity(player.getCamera());
 		if (entity != null) {
 			int type = entity.interact(this);
-			System.out.println("BUG");
 			sendInteraction(type, entity);
 		}
 	}
