@@ -1,6 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
+import model.entities.movableEntity.Bug;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.*;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
@@ -115,7 +117,7 @@ public class EntityFactory {
                 wallData.getNormals(), wallData.getIndices());
         wallTexturedModel = new TexturedModel(wallRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
-        wallTexturedModel.getTexture().setReflectivity(0);
+       wallTexturedModel.getTexture().setReflectivity(0.1f);
 
         whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
         RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
@@ -271,7 +273,7 @@ public class EntityFactory {
         else if (entityName.equals("laptop")) {
             y += 6.5;
             movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
+                    270f, 0, 1f,  EntityFactory.movableItemID++, true, EntityFactory.laptopItemID++));
         } else if (entityName.equals("bug")) {
             y += 15;
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,

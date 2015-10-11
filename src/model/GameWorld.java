@@ -4,11 +4,13 @@ import controller.GameController;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.*;
+import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
@@ -16,8 +18,10 @@ import model.textures.GuiTexture;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.OBJLoader;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.renderEngine.MasterRenderer;
 
 import java.util.*;
@@ -30,25 +34,19 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
+	public static final int GAME_WIN = 1;
 	private static final int MAX_PROGRESS = 100;
-
-	private static final int START_PATCH = 10; // starting progress value for
-												// patch
-	private static final double PATCH_DECREASE = 0.1; // percent to decrease
-														// patch progress
-	private static final double PATCH_TIMER = 10000; // FIXME currently is 10
-														// seconds
-	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
-														// player should collect
-														// on average...
-	private static final int CODE_VALUE = 20; // value to increment code
-												// progress by (5 clones
-												// required)
-	private static final int INTERACT_DISTANCE = 10; // max distance player can
-														// be from entity and
-														// still interact with
-														// it
-
+	private static final int START_PATCH = 10; // starting patch progress value												
+	private static final double PATCH_DECREASE = 0.1; 
+	private static final double PATCH_TIMER = 100000; 
+	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
+	private static final int CODE_VALUE = 25; 
+	
+	
+	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
+	private static final float Y_OFFSET = 2; // y offset to place deleted items
+	
+	
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
 
@@ -73,7 +71,8 @@ public class GameWorld {
 	private PlayerFactory playerFactory;
 
 	// Collection of guiImages to render to the screen
-	private ArrayList<GuiTexture> guiImages;
+	private List<GuiTexture> guiImages;
+	private GuiMessages guiMessages;
 
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
@@ -86,6 +85,7 @@ public class GameWorld {
 
 	// The actual player
 	private static Player player;
+	private TexturedModel playerModel;
 
 	// Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -110,9 +110,12 @@ public class GameWorld {
 	private int score; // overall score
 	private boolean inProgram;
 	private boolean canApplyPatch;
+	private int commitIndex;
 	private long timer;
-	private TexturedModel playerModel;
-	private boolean gameLost = false;
+	
+	// game state
+	private int gameState; // -1 is playing. 0 is lost. 1 is won
+	private boolean helpVisible;
 
 	/**
 	 * Creates the game world and passes in the loader
@@ -138,7 +141,7 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the currentTerrain //TODO this will need to support multi
+		// initialises the currentTerrain 
 		// currentTerrain at some point.
 		initTerrain();
 
@@ -156,8 +159,11 @@ public class GameWorld {
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
 		this.cards = new HashSet<>();
-		this.inProgram = false;
+		this.inProgram = false;  
 		this.canApplyPatch = false;
+		this.helpVisible = false;
+		this.commitIndex = 0;
+		this.gameState = -1;
 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
@@ -179,9 +185,10 @@ public class GameWorld {
 	 * initialises the Gui to be rendered to the display
 	 */
 	private void initGui() {
-		// TODO should init some gui here maybe?
-		// guiImages.add(guiFactory.makeGuiTexture("panel_brown", new
-		// Vector2f(-0.75f, 0.75f), new Vector2f(0.25f, 0.25f)));
+		guiImages = new ArrayList<GuiTexture>();
+		guiImages = guiFactory.getInfoPanel();
+		guiMessages = new GuiMessages(guiFactory);
+		
 	}
 
 	/**
@@ -241,7 +248,7 @@ public class GameWorld {
 	 *
 	 * @return the gui images
 	 */
-	public ArrayList<GuiTexture> getGuiImages() {
+	public List<GuiTexture> getGuiImages() {
 		updateGui();
 		return guiImages;
 	}
@@ -285,18 +292,26 @@ public class GameWorld {
 		return this.cards;
 	}
 
-	public boolean isGameLost() {
-		return gameLost;
+	public int getGameState() {
+		return this.gameState;
 	}
-
+	
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
 	}
+	
+	public boolean isHelpVisible() {
+		return this.helpVisible;
+	}
 
-	private void updateGui() {
+	public void updateGui() {
 		// TODO like init gui, but with current score, progress and cards
 		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
+		guiImages = guiFactory.getInfoPanel();
+		//guiRenderer.render(guiImages);
+		//FIXME guiImages.add(guiFactory.getProgress(progress));
+		//TODO
 	}
 
 	/**
@@ -311,15 +326,6 @@ public class GameWorld {
 			int type = entity.interact(this);
 			sendInteraction(type, entity);
 		}
-		// TODO for reuben! :)
-		// at end of this method there are changes to:
-		// storageUsed in Inventory
-		// movableEnities map in GameWorld
-		// inLaptop list in Inventory
-		// swipeCards list in GameWorld
-		// codeProgress in GameWorld
-		// patchProgress in GameWOrld
-		// score in GameWorld
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
@@ -335,8 +341,21 @@ public class GameWorld {
 	public MovableEntity findMovEntity(Camera camera) {
 		MovableEntity closest = null;
 		double closestDiff = INTERACT_DISTANCE * INTERACT_DISTANCE;
-
+		
+		for(Map.Entry<Double, MovableEntity> e : this.withinDistance().entrySet()){
+			if(e.getKey() <= closestDiff){
+				closestDiff = e.getKey();
+				closest = e.getValue();
+			}
+		}
+		return closest;
+	}
+	
+	public Map<Double, MovableEntity> withinDistance(){
+		HashMap<Double, MovableEntity> interactable = new HashMap<Double, MovableEntity>();
+		
 		// get position of player
+		Camera camera = player.getCamera();
 		float px = camera.getPosition().getX();
 		float pz = camera.getPosition().getZ();
 
@@ -349,15 +368,14 @@ public class GameWorld {
 			float ex = e.getPosition().getX();
 			float ez = e.getPosition().getZ();
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);
-
-			// update closest entity if e is within max interacting distance
-			// and in front of the player (within view of player)
-			if (diff <= closestDiff && Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
-				closest = e;
-				closestDiff = diff;
+			
+			// if within interactable distance, add to map
+			if (diff <= (INTERACT_DISTANCE*INTERACT_DISTANCE) 
+					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
+				interactable.put(diff, e);
 			}
 		}
-		return closest;
+		return interactable;
 	}
 
 	/**
@@ -371,9 +389,13 @@ public class GameWorld {
 	}
 
 	public void addCommit() {
-		// TODO creates and adds a new commit to the array list of movable
-		// entities
-
+		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
+		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
+		this.movableEntities.put(newCommit.getUID(), newCommit);
+		commitIndex++;
+		if(commitIndex >= commitPos.size()){
+			commitIndex = 0;
+		}
 	}
 
 	/**
@@ -388,10 +410,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		// TODO display message that inventory is too full and player must
-		// delete an item first
-		// TODO (Message on how to delete: right click to select and X to
-		// delete)
+		this.setGuiMessage("deleteMessage", 3000);  //TODO
 		return false;
 	}
 
@@ -405,7 +424,11 @@ public class GameWorld {
 	 */
 	public void removeFromInventory(LaptopItem item) {
 		if (item != null) {
-			item.setPosition(player.getPosition());
+			Vector3f playerPos = player.getPosition();
+			float y = currentTerrain.getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			float scale = item.getScale();
+			item.setScale(scale);
+			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET, playerPos.getZ()));
 			this.movableEntities.put(item.getUID(), item);
 		}
 	}
@@ -441,8 +464,7 @@ public class GameWorld {
 
 			// if patch progress reaches zero, players lose
 			if (this.patchProgress <= 0) {
-				gameLost = true;
-				// TODO REUBEN -> 
+				gameState = 0;
 			}
 
 			// update new time
@@ -462,7 +484,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			findBugMessage();
+			this.setGuiMessage("findBugMessage", 5000);  //TODO
 		}
 	}
 
@@ -475,7 +497,7 @@ public class GameWorld {
 	 */
 	public void updateScore(int score) {
 		this.score += score;
-		System.out.println("Game Score:" + score);
+		System.out.println("Game Score:" + this.score);
 	}
 
 	/**
@@ -500,56 +522,23 @@ public class GameWorld {
 	 * they are displayed in changes in
 	 */
 	public void compileProgram() {
-		this.inProgram = true;
+		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
-
-		// TODO display message to show that player has collected all bits of
-		// code
-		// and what they have to do now (e.g. press enter to continue)
-		// move player into different terrian
-		// show single vs multiplayer option
-		// should create method that deals with decreasing patch progress over
-		// time (look at title screen as example)
-
+		this.setGuiMessage("codeCompiledMessage", 5000);  //TODO
+		
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
 		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
 		GameWorld.isProgramCompiled = true;
 	}
-
-	/*
-	 * Display message to player when they have lost the game
-	 * 
-	 * @return
-	 */
-	public List<GuiTexture> loseGame() {
-		ArrayList<GuiTexture> lostScreen = guiFactory.makeLostScreen();
-		Mouse.setGrabbed(false);
-
-		return lostScreen;
-		// TODO display lose game message
-		// ungrab mouse and message is end of game.
-		// can you make it so that pressing enter takes you back to the
-		// play/options screen
-
-	}
-
-	/**
-	 * Display message to player when they have won the game
-	 */
-	public void winGame() {
-		// TODO display win game message
-		// ungrab mouse and message is end of game.
-		// can you make it so that pressing enter takes you back to the
-		// play/options screen
-
-	}
-
-	private void findBugMessage() {
-		// TODO display message to inform user that they
-		// now have to find bug and apply patch
-		// maybe press enter to remove message
-
+	
+	public List<GuiTexture> getEndStateScreen() {
+		if(this.gameState == GAME_WIN){
+			return guiFactory.makeWinScreen();
+		}
+		else{
+			return guiFactory.makeLostScreen();
+		}
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
@@ -600,54 +589,20 @@ public class GameWorld {
 		MasterRenderer.setRenderSkybox(false);
 	}
 
-	public void interactBug() {
-		// win games???
-	}
-
-	public void interactCommit() {
-		// update score 
-		incrementPatch();
-
-	}
-
-	public void interactLaptopItem() {
-		// removes uid from movables map
-		// adds that item to inlaptop array in inventory
-		// updates score by .getScore()
-
-	}
-
-//	public void interactNPCCharacter() {
-//		// TODO Auto-generated method stub
-//
-//	}
-//
-//	public void interactPlayer() {
-//		// TODO Auto-generated method stub
-//
-//	}
-
-	public void interactSwipeCard() {
-		// remove from movables
-		// add to swipe cards array
-
-	}
-
-	public void dropLaptopItem() {
-		System.out.println("DROPPED");
-		// remove uid from inventory laptop
-		// item.setPosition(x,y,z)
-		// add to movable maps...
-	}
-	
-	public void setGameLost(boolean lost){
-		gameLost = lost;
-	}
-
 	public void displayHelp() {
-		
-		
+		if(this.helpVisible){
+			this.helpVisible = false;
+			Mouse.setGrabbed(true);
+		}
+		else {
+			this.helpVisible = true;
+			Mouse.setGrabbed(false);
+		}		
 	}
+
+	public List<GuiTexture> eInteractMessage(MovableEntity e) {
+		return guiFactory.makePopUpInteract(e.getPosition());
+	}	
 
 	public static boolean isProgramCompiled() {
 		return isProgramCompiled;
@@ -655,6 +610,22 @@ public class GameWorld {
 
 	public static void setIsProgramCompiled(boolean isProgramCompiled) {
 		GameWorld.isProgramCompiled = isProgramCompiled;
+	}
+
+	public List<GuiTexture> displayMessages() {
+		return guiMessages.getMessages();
+	}
+	
+	public void setGuiMessage(String msg, long time) {
+		this.guiMessages.setMessage(msg, time);
+	}
+
+	public void setGameState(int state) {
+		this.gameState = state;
+	}
+
+	public List<GuiTexture> helpMessage() {
+		return guiFactory.makeHelpScreen();
 	}
 }
 

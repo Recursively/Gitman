@@ -17,8 +17,8 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Laptop extends Item {
-	private static final int LAPTOP_SCORE = 50;
-
+	public static final int LAPTOP_SCORE = 10;
+	
 	private boolean hasCode;
 	private boolean locked;
 	private int cardID;
@@ -47,7 +47,6 @@ public class Laptop extends Item {
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){
 					this.locked = false;
-					System.out.println("Collecting code");
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
@@ -55,25 +54,19 @@ public class Laptop extends Item {
 				}
 			}
 			// no card found that can unlock door. display message
-			unsuccessfulUnlockMessage();
+			game.setGuiMessage("unsuccessfulUnlock", 2500);
 		}
 		return -1;
-	}
-
-	private void unsuccessfulUnlockMessage() {
-		// TODO display message about unsuccesful unlock.
-		// maybe have enter key to make message disappear
-		// call to update display here
-		while(true){
-			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-				break;
-			}
-		}
 	}
 
 	@Override
 	public String viewInfo() {
 		return "Clone code from laptops to help complete the program";
+	}
+	
+	@Override
+	public String getType(){
+		return "Laptop";
 	}
 
 }

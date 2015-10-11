@@ -68,7 +68,7 @@ public class PlayLoadHelpScreen {
 					//TODO
 					break;
 					
-				}else if(Keyboard.isKeyDown(Keyboard.KEY_O)){
+				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
 					DisplayManager.closeDisplay();
 					//TODO
 					break;

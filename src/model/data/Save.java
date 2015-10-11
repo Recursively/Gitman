@@ -97,7 +97,7 @@ public class Save {
 		rootElement.appendChild(inventory);
 		
 		// laptop item elements
-		for (LaptopItem item : gameWorld.getInventory().getInventory()){
+		for (LaptopItem item : gameWorld.getInventory().getItems()){
 			
 			Element inventoryItem = doc.createElement("inventoryItem");
 			inventory.appendChild(inventoryItem);

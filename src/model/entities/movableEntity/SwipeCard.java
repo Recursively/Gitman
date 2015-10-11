@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class SwipeCard extends Item {
-	private static final int SWIPE_CARD_SCORE = 15;
+	public static final int SWIPE_CARD_SCORE = 5;
 	
 	private final int cardID;
 
@@ -57,5 +57,10 @@ public class SwipeCard extends Item {
 	 */
 	public boolean matchID(int id){
 		return this.cardID == id;
+	}
+	
+	@Override
+	public String getType(){
+		return "SwipeCard";
 	}
 }
