@@ -60,7 +60,9 @@ public class Server extends Thread {
 
 				int check = checkUpdate();
 				this.update = check;
-				networkHandler.setUpdate(check);
+				if (!networkHandler.serverUpdate) {
+					networkHandler.setUpdate(check);
+				}
 
 				System.out.println(uid + " " + networkHandler.getUpdate());
 
@@ -139,8 +141,7 @@ public class Server extends Thread {
 		if (updateType != 8) {
 			temp = gameController.getGameWorld().getMoveableEntities().get(id);
 
-		}
-		else{
+		} else {
 			temp = gameController.getGameWorld().getInventory().getItem(updateType);
 		}
 
@@ -200,6 +201,7 @@ public class Server extends Thread {
 	}
 
 	public void setUpdate(int status, MovableEntity entity) {
+		this.networkHandler.serverUpdate = true;
 		this.mostRecentUpdate = status;
 		this.networkHandler.setMostRecentEntity(entity);
 

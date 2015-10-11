@@ -13,6 +13,8 @@ public class NetworkHandler {
 
 	private int update = -1;
 	private int completedUpdateProgress;
+	
+	public boolean serverUpdate;
 
 	private MovableEntity mostRecentEntity;
 
