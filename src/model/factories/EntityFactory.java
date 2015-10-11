@@ -1,6 +1,8 @@
 package model.factories;
 
 import model.entities.Entity;
+import model.entities.movableEntity.Bug;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.*;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
@@ -27,12 +29,13 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Entity factory which abstracts the creation of an entity. It loads the entity map for a given terrain or
- * randomly generates entities for testing.
+ * Entity factory which abstracts the creation of an entity. It loads the entity
+ * map for a given terrain or randomly generates entities for testing.
  *
  * @author Marcel van Workum
  */
 public class EntityFactory {
+
 
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
@@ -58,9 +61,9 @@ public class EntityFactory {
     private ModelData tableData;
     private TexturedModel tableTexturedModel;
     private ModelData laptopData;
-    private TexturedModel laptopTexturedModel;
+    private static TexturedModel laptopTexturedModel;
     private ModelData bugData;
-    private TexturedModel bugTexturedModel;
+    private static TexturedModel bugTexturedModel;
     private ModelData tabletData;
     private static TexturedModel tabletTexturedModel;
 
@@ -69,7 +72,7 @@ public class EntityFactory {
     private ModelData commitData;
     private static TexturedModel commitTexturedModel;
     private ModelData flashdriveData;
-    private TexturedModel flashdriveTexturedModel;
+    private static TexturedModel flashdriveTexturedModel;
 
     private ArrayList<Entity> entities = new ArrayList<>();
     private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
@@ -115,7 +118,7 @@ public class EntityFactory {
                 wallData.getNormals(), wallData.getIndices());
         wallTexturedModel = new TexturedModel(wallRawModel,
                 new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
-        wallTexturedModel.getTexture().setReflectivity(0);
+       wallTexturedModel.getTexture().setReflectivity(0.1f);
 
         whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
         RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
@@ -272,7 +275,7 @@ public class EntityFactory {
         else if (entityName.equals("laptop")) {
             y += 6.5;
             movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID++, false, EntityFactory.laptopItemID++));
+                    270f, 0, 1f,  EntityFactory.movableItemID++, EntityFactory.laptopItemID++));
         } else if (entityName.equals("bug")) {
             y += 15;
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
@@ -320,7 +323,7 @@ public class EntityFactory {
         return movableEntities;
     }
 
-    public TexturedModel getFlashdriveTexturedModel() {
+    public static TexturedModel getFlashdriveTexturedModel() {
         return flashdriveTexturedModel;
     }
 
@@ -336,11 +339,11 @@ public class EntityFactory {
         return tabletTexturedModel;
     }
 
-    public TexturedModel getBugTexturedModel() {
+    public static TexturedModel getBugTexturedModel() {
         return bugTexturedModel;
     }
 
-    public TexturedModel getLaptopTexturedModel() {
+    public static TexturedModel getLaptopTexturedModel() {
         return laptopTexturedModel;
     }
 

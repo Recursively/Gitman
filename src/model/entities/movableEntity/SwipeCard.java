@@ -3,6 +3,7 @@ package model.entities.movableEntity;
 import model.GameWorld;
 import model.models.TexturedModel;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -14,7 +15,11 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class SwipeCard extends Item {
-	private static final int SWIPE_CARD_SCORE = 15;
+	public static final int SWIPE_CARD_SCORE = 5;
+	public static final float START_X = -0.915f;
+	public static final Vector2f CARD_SCALE = new Vector2f(0.06f, 0.06f);
+	public static final float CARD_YPOS = 0.7f;
+	
 	
 	private final int cardID;
 
@@ -57,5 +62,19 @@ public class SwipeCard extends Item {
 	 */
 	public boolean matchID(int id){
 		return this.cardID == id;
+	}
+	
+	@Override
+	public String getType(){
+		return "SwipeCard";
+	}
+	
+	@Override
+	public int getCardNum(){
+		return cardID;
+	}
+	
+	public String getImgName(){
+		return "swipeCard" + this.cardID;
 	}
 }

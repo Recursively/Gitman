@@ -1,11 +1,10 @@
 package model.entities.movableEntity;
 
-import java.util.Set;
-
+import java.util.ArrayList;
 import model.GameWorld;
+import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -17,16 +16,16 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Laptop extends Item {
-	private static final int LAPTOP_SCORE = 50;
-
+	public static final int LAPTOP_SCORE = 10;
+	
 	private boolean hasCode;
 	private boolean locked;
 	private int cardID;
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
-				  float rotY, float rotZ, float scale, int id, boolean code, int cardID) {
+				  float rotY, float rotZ, float scale, int id, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.hasCode = code;  // to make it so that not all laptops have clonable clode
+		this.hasCode = true;  
 		this.locked = true;
 		this.cardID = cardID;
 	}
@@ -43,37 +42,42 @@ public class Laptop extends Item {
 	public int interact(GameWorld game) {
 		// useful interaction requires locked laptop that has code on it	
 		if(locked && hasCode){
-			Set<SwipeCard> cards = game.getSwipeCards();
+			ArrayList<SwipeCard> cards = game.getSwipeCards();
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){
 					this.locked = false;
-					System.out.println("Collecting code");
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
 					return 18;
 				}
 			}
-			// no card found that can unlock door. display message
-			unsuccessfulUnlockMessage();
-		}
-		return -1;
-	}
-
-	private void unsuccessfulUnlockMessage() {
-		// TODO display message about unsuccesful unlock.
-		// maybe have enter key to make message disappear
-		// call to update display here
-		while(true){
-			if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-				break;
+			
+			// only show one message. If laptop full, prioritise that message
+			if(game.getInventory().getStorageUsed() + GameWorld.CODE_VALUE > Inventory.MAX_STORAGE_SIZE){
+				game.setGuiMessage("laptopMemoryFull", 2500);
+			}
+			else {
+				// no card found that can unlock door. display message
+				game.setGuiMessage("unsuccessfulUnlock", 2500);
 			}
 		}
+		return -1;
 	}
 
 	@Override
 	public String viewInfo() {
 		return "Clone code from laptops to help complete the program";
+	}
+	
+	@Override
+	public String getType(){
+		return "Laptop";
+	}
+	
+	@Override
+	public int getCardID(){
+		return cardID;
 	}
 
 }
