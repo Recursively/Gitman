@@ -148,7 +148,6 @@ public class Player extends MovableEntity {
                     && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
                 GameWorld.teleportToOutside();
                 
-                // show message to player if it is their first time outside
                 if(firstTimeOutside){
         			firstTimeOutside = false;
         			GameWorld.setGuiMessage("findCommitsMessage", 5000);
