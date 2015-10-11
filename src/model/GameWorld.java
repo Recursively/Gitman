@@ -196,7 +196,10 @@ public class GameWorld {
 		initPlayerModel();
 
 		staticEntities = entityFactory.getEntities();
-		movableEntities = entityFactory.getMovableEntities();
+		movableEntities = new HashMap<Integer, MovableEntity>();
+		for(MovableEntity e : load.getMovableEntities()){
+			this.movableEntities.put(e.getUID(), e);
+		} 
 		
 		// create commits in outside world
 		for(int i = 0; i < 10; i++){
@@ -205,14 +208,16 @@ public class GameWorld {
 
 		// game state
 		inventory = new Inventory(guiFactory);
-		this.patchProgress = START_PATCH;
-		this.codeProgress = 0; 
-		this.cards = new ArrayList<SwipeCard>();
-		this.inProgram = false;  
-		this.canApplyPatch = false;
+		this.patchProgress = load.getPatchProgress();
+		this.codeProgress = load.getCodeProgress(); 
+		this.cards = load.getSwipeCards();
+		this.inProgram = load.isInProgram();  
+		this.canApplyPatch = load.isCanApplyPatch();
 		this.helpVisible = false;
-		this.commitIndex = 0;
+		this.commitIndex = load.getCommitIndex();
 		this.gameState = -1;
+		
+		inventory.setStorageUsed(load.getStorageUsed());
 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}

@@ -241,5 +241,9 @@ public class Inventory {
 		}
 		return null;
 	}
+	
+	public void setStorageUsed(int used){
+		this.storageUsed = used;
+	}
 
 }
