@@ -160,21 +160,13 @@ public class GameWorld {
 		if(!load){
 			movableEntities = entityFactory.getMovableEntities();
 
-			// create commits in outside world
-			for(int i = 0; i < 10; i++){
-				this.addCommit();
-			}
-
 			// game state
 			inventory = new Inventory(guiFactory);
 			this.patchProgress = START_PATCH;
-
 			this.codeProgress = 0;
 			this.cards = new ArrayList<SwipeCard>();
 			this.inProgram = false;
-			this.canApplyPatch = false;
-			this.helpVisible = false;
-			this.commitIndex = 0;
+			this.canApplyPatch = false;			
 		}
 		else {
 			initLoadGame(Load.loadGame());
@@ -183,6 +175,7 @@ public class GameWorld {
 		this.helpVisible = false;
 		this.gameState = -1;
 		this.interactDistance = 15;
+		this.commitIndex = 10;   // start with 10 commits
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 		
 		// create commits
@@ -194,11 +187,6 @@ public class GameWorld {
 		for(MovableEntity e : load.getMovableEntities()){
 			this.movableEntities.put(e.getUID(), e);
 		} 
-		
-		// create commits in outside world
-		for(int i = 0; i < 10; i++){
-			this.addCommit();
-		}
 
 		// game state
 		inventory = new Inventory(guiFactory);
@@ -207,7 +195,6 @@ public class GameWorld {
 		this.cards = load.getSwipeCards();
 		this.inProgram = load.isInProgram();  
 		this.canApplyPatch = load.isCanApplyPatch();
-		this.commitIndex = load.getCommitIndex();
 		inventory.setStorageUsed(load.getStorageUsed());
 	}
 
@@ -215,8 +202,8 @@ public class GameWorld {
 		int count = 0;
 		for (Vector3f position : entityFactory.getCommitPositions()) {
 			if (count == 10) break;
-			movableEntities.put(entityFactory.getMovableEntitiesID(), EntityFactory.createCommit(position));
-			entityFactory.increaseMovableEntitiesID();
+			Commit newCommit = EntityFactory.createCommit(position);
+			this.movableEntities.put(newCommit.getUID(), newCommit);
 			count++;
 		}
 	}
@@ -424,6 +411,7 @@ public class GameWorld {
 			// if within interactable distance, add to map
 			if (diff <= (interactDistance*interactDistance)
 					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
+				System.out.println(interactDistance);
 				interactable.put(diff, e);
 			}
 		}
@@ -555,7 +543,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			interactDistance = 20;
+			interactDistance = 30;
 			this.setGuiMessage("patchComplete", 3000);
 		}
 	}
