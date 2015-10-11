@@ -63,6 +63,8 @@ public class GameWorld {
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
 
+	private static float WORLD_TIME = 0;
+
 	private static boolean isProgramCompiled = false;
 
 	// Object creation factories
@@ -91,7 +93,7 @@ public class GameWorld {
 	private Map<Integer, Player> allPlayers;
 
 	// Constant sun light-source
-	private Light sun;
+	private static Light sun;
 	private Light officeLight;
 
 	// Collection of attenuating light-sources
@@ -679,6 +681,15 @@ public class GameWorld {
 
 	public static Vector3f getPlayerPosition() {
 		return player.getPosition();
+	}
+
+	public static float getWorldTime() {
+		return WORLD_TIME;
+	}
+
+	public static void increaseTime(float worldTime) {
+		WORLD_TIME += worldTime;
+		WORLD_TIME %= 24000;
 	}
 }
 

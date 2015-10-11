@@ -174,6 +174,8 @@ public class GameController {
 				//TODO add keypress window change
 			}
 
+			TimeController.tickTock();
+
 			// update the Display window
 			DisplayManager.updateDisplay();
 		}

@@ -1,6 +1,5 @@
 package model.factories;
 
-import model.GameWorld;
 import model.entities.Light;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
  */
 public class LightFactory {
 
-    private static final Vector3f INITIAL_SUN_POSITION = new Vector3f(GameWorld.SPAWN_POSITION.getX(), 1000, GameWorld.SPAWN_POSITION.getZ());
+    private static final Vector3f INITIAL_SUN_POSITION = new Vector3f(256, 1000, 256);
     private static final Vector3f INITIAL_SUN_COLOUR = new Vector3f(0, 0, 0);
 
     private static final Vector3f OFFICE_LIGHT_COLOUR = new Vector3f(5, 4, 2.5f);
