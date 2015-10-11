@@ -19,7 +19,7 @@ import java.util.Set;
  * Factory Game for creating Gui Components
  *
  * @author Marcel van Workum
- * @author Ellie
+ * @author Ellie Coyle
  * @author Divya
  */
 public class GuiFactory {
@@ -43,6 +43,7 @@ public class GuiFactory {
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
+	private GuiTexture laptopMemoryFull;
 	private GuiTexture codeCompiled; //FIXME
 	
 	// gui panel
@@ -74,6 +75,10 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
 		// FIXME winScreen = makeGuiTexture("youWinScreen", new Vector2f(0f, 0f), new Vector2f(1f, 1f)); //TODO create
 		//FIXME codeCompiled = makeGuiTexture("codeCompiledMessage", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+
+		laptopMemoryFull = makeGuiTexture("laptopMemoryFull", new Vector2f(0f, 0f), new Vector2f(1f, 1f));
+		//TODO give the right dimentions
+
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -82,6 +87,7 @@ public class GuiFactory {
 		this.oldProgress = 0;
 		this.scoreNum = new ArrayList<GuiTexture>();
 		this.oldScore = 0;
+
 	}
 
 
@@ -131,18 +137,20 @@ public class GuiFactory {
 				}
 			}
 		}
+		
 
 		return inventoryImages;
 
 	}
 	
-	public List<GuiTexture> makeLostScreen(){
+	public List<GuiTexture> getLostScreen(){
 		List<GuiTexture> lostScreens = new ArrayList<GuiTexture>();
 		lostScreens.add(lostScreen);
 		return lostScreens;
+		
 	}
 	
-	public List<GuiTexture> makeWinScreen() {
+	public List<GuiTexture> getWinScreen() {
 		List<GuiTexture> winScreens = new ArrayList<GuiTexture>();
 		winScreens.add(winScreen);
 		return winScreens;
@@ -197,8 +205,8 @@ public class GuiFactory {
 		}
 		return this.cards;
 	}
-
-	public List<GuiTexture> makePopUpInteract(Vector3f position) {
+	
+	public List<GuiTexture> getPopUpInteract(Vector3f position) {
 		List<GuiTexture> message = new ArrayList<GuiTexture>();
 		message.add(interactMessage);
 		return message;
@@ -211,9 +219,23 @@ public class GuiFactory {
 		return infoPanels;
 	}
 
-	public List<GuiTexture> makeHelpScreen() {
+	public List<GuiTexture> getHelpScreen() {
 		List<GuiTexture> help = new ArrayList<GuiTexture>();
 		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));
 		return help;
 	}
+
+	
+//	public List<GuiTexture> getCodeCompiledMessage(){
+//		List<GuiTexture> ccMessage = new ArrayList<GuiTexture>();
+//		ccMessage.add(codeCompiled);
+//		return ccMessage;
+//	}
+	
+	public List<GuiTexture> getMemoryFull(){
+		List<GuiTexture> memFull = new ArrayList<GuiTexture>();
+		memFull.add(laptopMemoryFull);
+		return memFull;
+	}
+
 }
