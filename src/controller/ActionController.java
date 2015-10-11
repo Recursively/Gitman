@@ -1,12 +1,10 @@
 package controller;
 
-import main.ServerMain;
 import model.GameWorld;
 import model.data.Save;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import view.DisplayManager;
 
 /**
  * Controller to handle mouse and key input by the player. The class identifies
@@ -40,7 +38,7 @@ public class ActionController {
 			}
 		}
 
-		while(Keyboard.next()){
+		while(GameController.RUNNING && Keyboard.next()){
         	// carry out methods when key is pressed (not released)
         	if(Keyboard.getEventKeyState()){
         		
@@ -84,16 +82,13 @@ public class ActionController {
     			
     			if(gameWorld.getGameState() > -1){
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
-						DisplayManager.closeDisplay();
-						//TODO networking idk what to put here help
-						//is currently testing mode
-						new ServerMain();
+						GameController.RUNNING = false;
 					}
 				}    			
     			
     			// escape closes screen
     			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
-    				DisplayManager.closeDisplay();
+					GameController.RUNNING = false;
     			}
         	}
 		}

@@ -1,15 +1,12 @@
 package controller;
 
 import model.GameWorld;
-import model.data.Load;
 import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -31,6 +28,7 @@ import java.util.Map;
  */
 public class GameController {
 
+	public static boolean RUNNING;
 	private boolean compiled = false;
 
 	public static boolean READY;
@@ -58,13 +56,15 @@ public class GameController {
 	 *
 	 * @throws IOException
 	 */
-	public GameController(boolean isHost, String ipAddress, boolean load) {
+	public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
+
+		RUNNING = true;
 
 		// initialise model
 		loader = new Loader();
 
 		// initialise view
-		DisplayManager.createDisplay();
+		DisplayManager.createDisplay(fullscreen);
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 
@@ -108,7 +108,7 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
-		while (!Display.isCloseRequested() && networkRunning) {
+		while (!Display.isCloseRequested() && networkRunning && RUNNING) {
 
 			// process the terrains
 

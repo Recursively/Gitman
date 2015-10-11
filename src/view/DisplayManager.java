@@ -6,10 +6,10 @@ import org.lwjgl.opengl.*;
 
 /**
  * Display management class used to handle the resolution and FPS of the game.
- *
+ * <p/>
  * Arguably this class could be in the model, however it fits nicely here and the resolution
  * and fps values are static for the time being
- *
+ * <p/>
  * //TODO update this if it changes
  *
  * @author Marcel van Workum
@@ -33,30 +33,60 @@ public class DisplayManager {
 
     /**
      * Create a Display window with the specified resolution and fps cap
-     *
+     * <p/>
      * //TODO This will support full screen at some point
      */
-    public static void createDisplay() {
-        // Use OpenGL 3.2 and make it forward compatible so 3.2+ versions
-        // will work as well
-        ContextAttribs contextAttribs = new ContextAttribs(3,2)
+    public static void createDisplay(boolean fullscreen) {
+        ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true).withProfileCore(true);
 
-        try {
-            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-            Display.create(new PixelFormat(), contextAttribs);
-            Display.setTitle(GAME_TITLE);
 
-            // Enabled VSync by default to smooth vertical tearing
-            Display.setVSyncEnabled(VSYNC_ENABLED);
+//         Full screen code
+
+        DisplayMode[] modes = new DisplayMode[0];
+        try {
+            modes = Display.getAvailableDisplayModes();
         } catch (LWJGLException e) {
             e.printStackTrace();
         }
 
-        // Create the viewport and set first tick time
+        DisplayMode current = modes[0];
+
+        for (int i = 0; i < modes.length; i++) {
+            current = modes[i];
+            System.out.println(current.getWidth() + "x" + current.getHeight() + "x" +
+                    current.getBitsPerPixel() + " " + current.getFrequency() + "Hz");
+        }
+
+        for (DisplayMode d : modes) {
+            if (d.getWidth() > current.getWidth()) {
+                current = d;
+            }
+        }
+
+        WIDTH = current.getWidth();
+        HEIGHT = current.getHeight();
+
+        try {
+            if (fullscreen) {
+                Display.setDisplayMode(current);
+                Display.setFullscreen(true);
+                Display.create(new PixelFormat(), attribs);
+            } else {
+                Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+                Display.create(new PixelFormat(), attribs);
+            }
+            Display.setTitle("Our first display");
+
+            Display.setVSyncEnabled(true);
+        } catch (LWJGLException e) {
+            e.printStackTrace();
+        }
+
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
         lastFrameTime = getCurrentTime();
     }
+
 
     /**
      * Tick method for the display which updates the content of the Display window
@@ -74,13 +104,13 @@ public class DisplayManager {
 
     /**
      * Attempts to set the resolution of the game to the specified parameters
-     *
+     * <p/>
      * This will not always succeed, as the resolution might not be support full screen for this machine
-     *
+     * <p/>
      * //TODO create a more dynamic way of showing full screen options?
      *
-     * @param width Width of Display
-     * @param height Height of Display
+     * @param width      Width of Display
+     * @param height     Height of Display
      * @param fullscreen Whether to attempt to make the Display full screen
      */
     public static void setDisplayMode(int width, int height, boolean fullscreen) {
@@ -100,7 +130,7 @@ public class DisplayManager {
                 DisplayMode[] modes = Display.getAvailableDisplayModes();
                 int freq = 0;
 
-                for (int i=0;i<modes.length;i++) {
+                for (int i = 0; i < modes.length; i++) {
                     DisplayMode current = modes[i];
 
                     if ((current.getWidth() == width) && (current.getHeight() == height)) {
@@ -122,11 +152,11 @@ public class DisplayManager {
                     }
                 }
             } else {
-                targetDisplayMode = new DisplayMode(width,height);
+                targetDisplayMode = new DisplayMode(width, height);
             }
 
             if (targetDisplayMode == null) {
-                System.out.println("Failed to find value mode: "+width+"x"+height+" fs="+fullscreen);
+                System.out.println("Failed to find value mode: " + width + "x" + height + " fs=" + fullscreen);
                 return;
             }
 
@@ -134,7 +164,7 @@ public class DisplayManager {
             Display.setFullscreen(fullscreen);
 
         } catch (LWJGLException e) {
-            System.out.println("Unable to setup mode "+width+"x"+height+" fullscreen="+fullscreen + e);
+            System.out.println("Unable to setup mode " + width + "x" + height + " fullscreen=" + fullscreen + e);
         }
     }
 
