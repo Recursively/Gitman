@@ -83,6 +83,7 @@ public class ActionController {
     			if(gameWorld.getGameState() > -1){
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 						GameController.RUNNING = false;
+						AudioController.stopGameWonLoop();
 					}
 				}    			
     			

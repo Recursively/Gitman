@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
 import model.GameWorld;
 import model.models.TexturedModel;
 
@@ -33,6 +34,7 @@ public abstract class LaptopItem extends Item {
 		// if add to inventory is successful, update score
 		if(game.addToInventory(this)){
 			game.updateScore(this.getScore());
+			AudioController.playPickupSound();
 			return 13;
 		}
 		return -1;

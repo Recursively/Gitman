@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
 import model.GameWorld;
 import model.models.TexturedModel;
 
@@ -41,6 +42,8 @@ public class SwipeCard extends Item {
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
+
+		AudioController.playPickupSound();
 		return 16;
 	}
 
