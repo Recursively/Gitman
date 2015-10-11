@@ -38,10 +38,9 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
-	private static final double PATCH_TIMER = 100000; 
+	private static final double PATCH_TIMER = 100000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
-	private static final int CODE_VALUE = 25; 
-	
+	private static final int CODE_VALUE = 20; 
 	
 	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
@@ -77,7 +76,7 @@ public class GameWorld {
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
 	private Map<Integer, MovableEntity> movableEntities;
-	private Set<SwipeCard> cards;
+	private ArrayList<SwipeCard> cards;
 
 	// Terrain the world is on
 	private static Terrain currentTerrain;
@@ -158,7 +157,8 @@ public class GameWorld {
 		// game state
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = START_PATCH;
-		this.cards = new HashSet<>();
+		this.codeProgress = 0;  
+		this.cards = new ArrayList<SwipeCard>();
 		this.inProgram = false;  
 		this.canApplyPatch = false;
 		this.helpVisible = false;
@@ -288,7 +288,7 @@ public class GameWorld {
 		return movableEntities;
 	}
 
-	public Set<SwipeCard> getSwipeCards() {
+	public ArrayList<SwipeCard> getSwipeCards() {
 		return this.cards;
 	}
 
@@ -305,13 +305,11 @@ public class GameWorld {
 	}
 
 	public void updateGui() {
-		// TODO like init gui, but with current score, progress and cards
-		// collected
 		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
-		guiImages = guiFactory.getInfoPanel();
-		//guiRenderer.render(guiImages);
-		//FIXME guiImages.add(guiFactory.getProgress(progress));
-		//TODO
+		this.guiImages = this.guiFactory.getInfoPanel();
+		this.guiImages.addAll(this.guiFactory.getProgress(progress));
+		this.guiImages.addAll(this.guiFactory.getScore(this.score));
+		this.guiImages.addAll(this.guiFactory.getSwipeCards(this.cards));
 	}
 
 	/**
@@ -410,7 +408,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		this.setGuiMessage("deleteMessage", 3000);  //TODO
+		this.setGuiMessage("laptopMemoryFull", 3000);  
 		return false;
 	}
 
@@ -484,7 +482,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			this.setGuiMessage("findBugMessage", 5000);  //TODO
+			this.setGuiMessage("patchComplete", 3000);  
 		}
 	}
 
@@ -497,7 +495,6 @@ public class GameWorld {
 	 */
 	public void updateScore(int score) {
 		this.score += score;
-		System.out.println("Game Score:" + this.score);
 	}
 
 	/**
@@ -524,7 +521,7 @@ public class GameWorld {
 	public void compileProgram() {
 		this.inProgram = true;  // FIXME can probably remove this now
 		this.timer = System.currentTimeMillis(); // start timer
-		this.setGuiMessage("codeCompiledMessage", 5000);  //TODO
+		this.setGuiMessage("codeCompiledMessage", 5000); 
 		
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
@@ -534,10 +531,10 @@ public class GameWorld {
 	
 	public List<GuiTexture> getEndStateScreen() {
 		if(this.gameState == GAME_WIN){
-			return guiFactory.makeWinScreen();
+			return guiFactory.getWinScreen();
 		}
 		else{
-			return guiFactory.makeLostScreen();
+			return guiFactory.getLostScreen();
 		}
 	}
 
@@ -601,7 +598,7 @@ public class GameWorld {
 	}
 
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
-		return guiFactory.makePopUpInteract(e.getPosition());
+		return guiFactory.getPopUpInteract(e.getPosition());
 	}	
 
 	public static boolean isProgramCompiled() {
@@ -625,7 +622,7 @@ public class GameWorld {
 	}
 
 	public List<GuiTexture> helpMessage() {
-		return guiFactory.makeHelpScreen();
+		return guiFactory.getHelpScreen();
 	}
 }
 

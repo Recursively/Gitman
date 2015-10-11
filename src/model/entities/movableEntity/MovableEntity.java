@@ -54,4 +54,8 @@ public abstract class MovableEntity extends Entity {
 	public abstract boolean canInteract();
 	
 	public abstract String getType();
+	
+	public String getName(){
+		return null;
+	}
 }

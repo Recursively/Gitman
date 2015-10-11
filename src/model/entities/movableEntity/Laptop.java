@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import model.GameWorld;
@@ -24,9 +25,9 @@ public class Laptop extends Item {
 	private int cardID;
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
-				  float rotY, float rotZ, float scale, int id, boolean code, int cardID) {
+				  float rotY, float rotZ, float scale, int id, int cardID) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.hasCode = code;  // to make it so that not all laptops have clonable clode
+		this.hasCode = true;  
 		this.locked = true;
 		this.cardID = cardID;
 	}
@@ -43,7 +44,7 @@ public class Laptop extends Item {
 	public int interact(GameWorld game) {
 		// useful interaction requires locked laptop that has code on it	
 		if(locked && hasCode){
-			Set<SwipeCard> cards = game.getSwipeCards();
+			ArrayList<SwipeCard> cards = game.getSwipeCards();
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){
 					this.locked = false;
