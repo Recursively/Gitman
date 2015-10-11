@@ -247,7 +247,7 @@ public class Inventory {
 		if (entity != null) {
 			this.storageUsed = this.storageUsed - entity.getSize();
 			inLaptop.remove(entity);
-			updateLaptopDisplay();
+//			updateLaptopDisplay();
 		}
 
 	}

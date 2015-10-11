@@ -130,7 +130,7 @@ public class Server extends Thread {
 			temp = gameController.getGameWorld().getMoveableEntities().get(id);
 
 		} else {
-			temp = gameController.getGameWorld().getInventory().getItem(updateType);
+			temp = gameController.getGameWorld().getInventory().getItem(id);
 		}
 
 		networkHandler.dealWithUpdate(updateType, id, uid);
