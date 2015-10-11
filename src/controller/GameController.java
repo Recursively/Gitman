@@ -7,6 +7,7 @@ import model.entities.movableEntity.Player;
 import model.factories.GuiFactory;
 import model.toolbox.Loader;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
@@ -69,7 +70,7 @@ public class GameController {
 		guiRenderer = new GuiRenderer(loader);
 
 		// initialise the game world
-		gameWorld = new GameWorld(loader, this, guiRenderer);
+		gameWorld = new GameWorld(loader, this);
 		gameWorld.initGame(isHost);
 
 		// initialise controller for actions
@@ -109,7 +110,6 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
-
 		while (!Display.isCloseRequested() && networkRunning) {
 
 			// process the terrains
@@ -147,7 +147,7 @@ public class GameController {
 
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
-			if (!gameWorld.getInventory().isVisible()) {
+			if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
 				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 			}
 
@@ -162,23 +162,22 @@ public class GameController {
 
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
-			}
 
-			// TODO remove this !!
-			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-				if (!compiled) {
-					gameWorld.compileProgram();
-					compiled = true;
+			} else {
+				// only show e to interact message if inventory is not open
+				for (MovableEntity e : gameWorld.withinDistance().values()) {
+					guiRenderer.render(gameWorld.eInteractMessage(e));
 				}
 			}
 
-			if (gameWorld.isGameLost()) {
-				guiRenderer.render(gameWorld.loseGame());
+			guiRenderer.render(gameWorld.displayMessages());
+
+			if (gameWorld.isHelpVisible()) {
+				guiRenderer.render(gameWorld.helpMessage());
 			}
 
-			// TODO pick up e to interact
-			for (MovableEntity e : gameWorld.withinDistance().values()) {
-				guiRenderer.render(gameWorld.eInteractMessage(e));
+			if (gameWorld.getGameState() > -1) {
+				guiRenderer.render(gameWorld.getEndStateScreen());
 			}
 
 			// update the Display window
@@ -245,6 +244,7 @@ public class GameController {
 		} else {
 			serverController.setNetworkUpdate(status, entity);
 		}
+
 	}
 
 	public int gameSize() {
@@ -253,6 +253,14 @@ public class GameController {
 
 	public GameWorld getGameWorld() {
 		return gameWorld;
+	}
+
+	public boolean isCompiled() {
+		return compiled;
+	}
+
+	public void setCompiled(boolean compiled) {
+		this.compiled = compiled;
 	}
 
 }

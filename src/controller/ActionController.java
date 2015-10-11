@@ -28,27 +28,14 @@ public class ActionController {
 		this.gameController = gameController;
 	}
 
-	public void processActions(){
-		// react to the mouse if it is not grabbed
-		if(!Mouse.isGrabbed()){
-			
+	public void processActions(){		
+		// react to the mouse click if it is not grabbed
+		if(Mouse.isGrabbed()){
 			// ensure single reaction to mouse event
 			while(Mouse.next()){
 				// carry out methods when mouse is pressed (not released)
 				if(Mouse.getEventButtonState()){
-					int x = Mouse.getX();
-					int y = Mouse.getY();
-
-					// TODO Note: point (0,0) is at the bottom, left corner of the display
-					System.out.println("Mouse pressed:" + x + ", " + y);
-
-					if(Mouse.isButtonDown(0)){  // left click
-						gameWorld.getInventory().displayLaptopItem(x, y);
-					}
-
-					if(Mouse.isButtonDown(1)){  // right click
-						gameWorld.getInventory().showSelected(x, y);
-					}
+					gameWorld.interactWithMovEntity();
 				}
 			}
 		}
@@ -62,6 +49,29 @@ public class ActionController {
         			gameWorld.getInventory().displayInventory();
             	} 
         		
+
+        		// TODO remove!!!!
+    			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
+    				if (!gameController.isCompiled()) {
+    					gameWorld.compileProgram();
+    					gameController.setCompiled(true);
+    					
+    					
+    				}
+    			}
+        		
+        		// deal with opening and closing viewing things in the inventory
+        		if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
+					gameWorld.getInventory().displayLaptopItem();
+				}
+        		
+        		if(Keyboard.getEventKey() == Keyboard.KEY_UP ||
+        			Keyboard.getEventKey() == Keyboard.KEY_DOWN ||
+        			Keyboard.getEventKey() == Keyboard.KEY_RIGHT ||
+        			Keyboard.getEventKey() == Keyboard.KEY_LEFT){
+					gameWorld.getInventory().selectItem(Keyboard.getEventKey());
+				}
+        		        		
         		if (Keyboard.getEventKey() == Keyboard.KEY_X){
         			
     				MovableEntity entity = gameWorld.getInventory().deleteItem(gameWorld);
@@ -77,7 +87,6 @@ public class ActionController {
         		}
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_E){
-        			System.out.println("Interact");
         			gameWorld.interactWithMovEntity();
         		}
         		
@@ -85,14 +94,14 @@ public class ActionController {
     				Save.saveGame(gameWorld);
     			}
     			
-    			if(gameWorld.isGameLost()){
+    			if(gameWorld.getGameState() > -1){
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 						DisplayManager.closeDisplay();
 						//TODO networking idk what to put here help
 						//is currently testing mode
 						new ServerMain();
 					}
-				}
+				}    			
     			
     			// escape closes screen
     			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){

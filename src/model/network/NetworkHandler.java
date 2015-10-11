@@ -102,7 +102,7 @@ public class NetworkHandler {
 
 		LaptopItem entity = null;
 
-		for (LaptopItem laptopItem : gameWorld.getInventory().getInventory()) {
+		for (LaptopItem laptopItem : gameWorld.getInventory().getItems()) {
 			if (laptopItem.getUID() == id) {
 				entity = laptopItem;
 			}

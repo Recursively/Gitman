@@ -66,12 +66,10 @@ public class ServerController extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void initNetworkHandler() {
 		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
 	}
-
-
 
 	public void terminate() {
 
@@ -101,10 +99,6 @@ public class ServerController extends Thread {
 		if (gameController.getPlayers().size() != 1) {
 			server.setUpdate(status, entity);
 		}
-
 	}
-
-
-
 
 }

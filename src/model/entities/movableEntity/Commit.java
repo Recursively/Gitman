@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Commit extends Item {
-	public static final int COMMIT_SCORE = 10;
+	public static final int COMMIT_SCORE = 2;
 
 	public Commit(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id) {

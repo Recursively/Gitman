@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import model.GameWorld;
@@ -17,7 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class Laptop extends Item {
-	public static final int LAPTOP_SCORE = 50;
+	public static final int LAPTOP_SCORE = 10;
 	
 	private boolean hasCode;
 	private boolean locked;
@@ -43,11 +44,10 @@ public class Laptop extends Item {
 	public int interact(GameWorld game) {
 		// useful interaction requires locked laptop that has code on it	
 		if(locked && hasCode){
-			Set<SwipeCard> cards = game.getSwipeCards();
+			ArrayList<SwipeCard> cards = game.getSwipeCards();
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){
 					this.locked = false;
-					System.out.println("Collecting code");
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
@@ -55,16 +55,9 @@ public class Laptop extends Item {
 				}
 			}
 			// no card found that can unlock door. display message
-			unsuccessfulUnlockMessage();
+			game.setGuiMessage("unsuccessfulUnlock", 2500);
 		}
 		return -1;
-	}
-
-	private void unsuccessfulUnlockMessage() {
-		// TODO display message about unsuccesful unlock.
-		// maybe have enter key to make message disappear
-		// call to update display here
-		
 	}
 
 	@Override

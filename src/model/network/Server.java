@@ -198,10 +198,10 @@ public class Server extends Thread {
 	}
 
 	public void initNewPlayer() throws IOException {
-		int inventorySize = gameController.getGameWorld().getInventory().getInventory().size();
+		int inventorySize = gameController.getGameWorld().getInventory().getItems().size();
 
 		outputStream.writeInt(inventorySize);
-		for (LaptopItem entity : gameController.getGameWorld().getInventory().getInventory()) {
+		for (LaptopItem entity : gameController.getGameWorld().getInventory().getItems()) {
 			outputStream.writeInt(entity.getUID());
 		}
 
