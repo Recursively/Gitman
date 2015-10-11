@@ -11,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
+import model.entities.movableEntity.SwipeCard;
 import model.guiComponents.Inventory;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -40,6 +41,8 @@ public class Load {
 	// movable entity elements
 	private static ArrayList<MovableEntity> movableEntities;
 	
+	// swipeCard elements
+	private static ArrayList<SwipeCard> swipeCards;
 
 	public static Data loadGame() {
 		
@@ -55,7 +58,26 @@ public class Load {
 
 			Element doc = dom.getDocumentElement();
 			
-			// TODO iterate through saved elements
+			posX = getTextValue(posX, doc, "posX");
+			posY = getTextValue(posY, doc, "posY");
+			posZ = getTextValue(posZ, doc, "posZ");
+			
+			// player camera elements
+			pitch = getTextValue(pitch, doc, "pitch");
+			roll = getTextValue(roll, doc, "roll");
+			yaw = getTextValue(yaw, doc, "yaw");
+			
+			// player id element
+			uid = getTextValue(uid, doc, "uid");
+			
+			NodeList inventoryNodes = doc.getElementsByTagName("inventoryItem");
+			if(inventoryNodes != null && inventoryNodes.getLength() > 0) {
+				for(int i = 0; i < inventoryNodes.getLength(); i++) {
+
+					//get the inventoryItem element
+					Element e = (Element)inventoryNodes.item(i);
+				}
+			}
 			
 			Vector3f playerVec = new Vector3f(Integer.parseInt(posX), Integer.parseInt(posY), Integer.parseInt(posZ));
 			

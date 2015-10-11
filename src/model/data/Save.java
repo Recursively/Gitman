@@ -21,6 +21,7 @@ import org.w3c.dom.Element;
 import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.SwipeCard;
 import model.guiComponents.Inventory;
 
 public class Save {
@@ -138,20 +139,20 @@ public class Save {
 			Element movableEntity = doc.createElement("movableEntity");
 			movableEntities.appendChild(movableEntity);
 			
-			Element entPosition = doc.createElement("entPosition");
-			movableEntity.appendChild(entPosition);
+			Element entityPos = doc.createElement("entityPos");
+			movableEntity.appendChild(entityPos);
 			
-			Element entPosX = doc.createElement("entPosX");
-			entPosX.appendChild(doc.createTextNode(String.valueOf(e.getPosition().x)));
-			entPosition.appendChild(entPosX);
+			Element entityPosX = doc.createElement("entityPosX");
+			entityPosX.appendChild(doc.createTextNode(String.valueOf(e.getPosition().x)));
+			entityPos.appendChild(entityPosX);
 			
-			Element entPosY = doc.createElement("entPosY");
-			entPosY.appendChild(doc.createTextNode(String.valueOf(e.getPosition().y)));
-			entPosition.appendChild(entPosY);
+			Element entityPosY = doc.createElement("entityPosY");
+			entityPosY.appendChild(doc.createTextNode(String.valueOf(e.getPosition().y)));
+			entityPos.appendChild(entityPosY);
 			
-			Element entPosZ = doc.createElement("entPosZ");
-			entPosZ.appendChild(doc.createTextNode(String.valueOf(e.getPosition().z)));
-			entPosition.appendChild(entPosZ);
+			Element entityPosZ = doc.createElement("entityPosZ");
+			entityPosZ.appendChild(doc.createTextNode(String.valueOf(e.getPosition().z)));
+			entityPos.appendChild(entityPosZ);
 			
 			Element rotX = doc.createElement("rotX");
 			rotX.appendChild(doc.createTextNode(String.valueOf(e.getRotX())));
@@ -173,8 +174,61 @@ public class Save {
 			rotZ.appendChild(doc.createTextNode(String.valueOf(e.getUID())));
 			movableEntity.appendChild(id);
 			
+			/*
+			Element type = doc.createElement("type");
+			movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getType())));
+			movableEntity.appendChild(type);
+			*/
+			
 		}
 		
+		// swipe card elements
+		Element swipeCards = doc.createElement("swipeCards");
+		rootElement.appendChild(swipeCards);
+		
+		// swipe card elements
+		for (SwipeCard card : gameWorld.getSwipeCards()){
+			
+			Element swipeCard = doc.createElement("swipeCard");
+			swipeCard.appendChild(swipeCards);
+			
+			Element cardPos = doc.createElement("cardPos");
+			swipeCard.appendChild(cardPos);
+			
+			Element cardPosX = doc.createElement("cardPosX");
+			cardPosX.appendChild(doc.createTextNode(String.valueOf(card.getPosition().x)));
+			swipeCard.appendChild(cardPosX);
+			
+			Element cardPosY = doc.createElement("cardPosY");
+			cardPosY.appendChild(doc.createTextNode(String.valueOf(card.getPosition().y)));
+			swipeCard.appendChild(cardPosY);
+			
+			Element cardPosZ = doc.createElement("cardPosZ");
+			cardPosZ.appendChild(doc.createTextNode(String.valueOf(card.getPosition().z)));
+			swipeCard.appendChild(cardPosZ);
+			
+			Element rotX = doc.createElement("rotX");
+			rotX.appendChild(doc.createTextNode(String.valueOf(card.getRotX())));
+			swipeCard.appendChild(rotX);
+			
+			Element rotY = doc.createElement("rotY");
+			rotY.appendChild(doc.createTextNode(String.valueOf(card.getRotY())));
+			swipeCard.appendChild(rotY);
+			
+			Element rotZ = doc.createElement("rotZ");
+			rotZ.appendChild(doc.createTextNode(String.valueOf(card.getRotZ())));
+			swipeCard.appendChild(rotZ);
+			
+			Element scale = doc.createElement("scale");
+			scale.appendChild(doc.createTextNode(String.valueOf(card.getScale())));
+			swipeCard.appendChild(scale);
+			
+			Element id = doc.createElement("id");
+			rotZ.appendChild(doc.createTextNode(String.valueOf(card.getUID())));
+			swipeCard.appendChild(id);
+			
+			// TODO Add cardNum?
+		}
 		
 
 		// write the content into xml file
