@@ -53,6 +53,8 @@ public class Server extends Thread {
 
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
 				sendUpdateEntity(networkHandler.getServerUpdate(), update);
+				
+				networkHandler.setServerUpdate(null);
 
 			}
 		} catch (IOException e) {

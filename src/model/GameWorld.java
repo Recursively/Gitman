@@ -333,6 +333,7 @@ public class GameWorld {
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
+		System.out.println("SENT UPDATE");
 		gameController.setNetworkUpdate(type, entity);
 	}
 

@@ -116,7 +116,7 @@ public class NetworkHandler {
 	}
 	
 	public Update getClientUpdate(){
-		return lastServerUpdate;
+		return lastClientUpdate;
 	}
 	
 	public void setClientUpdate(Update update){
