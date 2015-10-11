@@ -58,4 +58,12 @@ public abstract class MovableEntity extends Entity {
 	public String getName(){
 		return null;
 	}
+	
+	public int getCardID(){
+		return -1;
+	}
+	
+	public int getCardNum(){
+		return -1;
+	}
 }

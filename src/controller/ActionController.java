@@ -5,16 +5,16 @@ import org.lwjgl.input.Mouse;
 
 import main.ServerMain;
 import model.GameWorld;
+import model.data.Load;
 import model.data.Save;
 import model.entities.movableEntity.MovableEntity;
 import model.toolbox.Loader;
 import view.DisplayManager;
 
 /**
- * Controller to handle mouse and key input by the player. The
- * class identifies what action has been carried out and 
- * calls the appropriate methods to make updates to the game
- * accordingly
+ * Controller to handle mouse and key input by the player. The class identifies
+ * what action has been carried out and calls the appropriate methods to make
+ * updates to the game accordingly
  * 
  * @author Divya
  *
@@ -22,25 +22,27 @@ import view.DisplayManager;
 public class ActionController {
 	private GameWorld gameWorld;
 	private GameController gameController;
-	
-	public ActionController(Loader loader, GameWorld gameWorld, GameController gameController) {
+
+	public ActionController(Loader loader, GameWorld gameWorld,
+			GameController gameController) {
 		this.gameWorld = gameWorld;
 		this.gameController = gameController;
 	}
+
 
 	public void processActions(){		
 		// react to the mouse click if it is not grabbed
 		if(Mouse.isGrabbed()){
 			// ensure single reaction to mouse event
-			while(Mouse.next()){
+			while (Mouse.next()) {
 				// carry out methods when mouse is pressed (not released)
+
 				if(Mouse.getEventButtonState()){
 					gameWorld.interactWithMovEntity();
 				}
 			}
 		}
-		
-		// ensures single reaction to a key event
+
 		while(Keyboard.next()){
         	// carry out methods when key is pressed (not released)
         	if(Keyboard.getEventKeyState()){

@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameController;
+import model.data.Data;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
@@ -112,6 +113,8 @@ public class GameWorld {
 	private int commitIndex;
 	private long timer;
 	
+	
+
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
@@ -669,6 +672,62 @@ public class GameWorld {
 
 	public List<GuiTexture> helpMessage() {
 		return guiFactory.getHelpScreen();
+	}
+	
+	public int getCodeProgress() {
+		return codeProgress;
+	}
+
+	public void setCodeProgress(int codeProgress) {
+		this.codeProgress = codeProgress;
+	}
+
+	public int getPatchProgress() {
+		return patchProgress;
+	}
+
+	public void setPatchProgress(int patchProgress) {
+		this.patchProgress = patchProgress;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public boolean isInProgram() {
+		return inProgram;
+	}
+
+	public void setInProgram(boolean inProgram) {
+		this.inProgram = inProgram;
+	}
+
+	public boolean isCanApplyPatch() {
+		return canApplyPatch;
+	}
+
+	public void setCanApplyPatch(boolean canApplyPatch) {
+		this.canApplyPatch = canApplyPatch;
+	}
+
+	public int getCommitIndex() {
+		return commitIndex;
+	}
+
+	public void setCommitIndex(int commitIndex) {
+		this.commitIndex = commitIndex;
+	}
+
+	public long getTimer() {
+		return timer;
+	}
+
+	public void setTimer(long timer) {
+		this.timer = timer;
 	}
 }
 

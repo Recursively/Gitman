@@ -69,6 +69,11 @@ public class SwipeCard extends Item {
 		return "SwipeCard";
 	}
 	
+	@Override
+	public int getCardNum(){
+		return cardID;
+	}
+	
 	public String getImgName(){
 		return "swipeCard" + this.cardID;
 	}

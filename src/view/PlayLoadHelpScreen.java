@@ -75,16 +75,10 @@ public class PlayLoadHelpScreen {
 				}
 			}
 
-			// create the game now
-			//new PlayLoadHelpScreen()
 			new GameController(isHost, hostname, load);
 			// change to make new window
 			// TODO
 		}
-
-
-
-
 
 
 	/**
