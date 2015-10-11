@@ -124,12 +124,16 @@ public class Inventory {
 		if(this.isVisible){
 			this.isVisible = false;
 			Mouse.setGrabbed(true);
-			this.selected = null;
+			this.selected = null;			
 		}
 		else {
 			this.isVisible = true;
 			Mouse.setGrabbed(false);
-			updateLaptopDisplay();
+			// if not empty, show first item as selected
+			if(!this.inLaptop.isEmpty()){
+				this.selected = this.inLaptop.get(0);
+				updateLaptopDisplay();
+			}
 		}
 	}
 	
