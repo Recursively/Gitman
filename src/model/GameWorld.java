@@ -576,12 +576,12 @@ public class GameWorld {
 	}
 
 	/**
-	 * Code progess reached 100 means all bits of code collected. Player is
+	 * Code progress reached 100 means all bits of code collected. Player is
 	 * given the option of multiplayer or single player, and the environment
 	 * they are displayed in changes in
 	 */
 	public void compileProgram() {
-		this.inProgram = true;  // FIXME can probably remove this now
+		this.inProgram = true;  
 		this.timer = System.currentTimeMillis(); // start timer
 		this.setGuiMessage("codeCompiledMessage", 5000);
 

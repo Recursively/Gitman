@@ -25,6 +25,9 @@ import java.util.Map;
  * Deals with Game logic
  *
  * @author Marcel van Workum
+ * @author Reuben
+ * @author Divya
+ * @author Ellie
  */
 public class GameController {
 
@@ -93,7 +96,6 @@ public class GameController {
 				Thread.sleep(50);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
@@ -125,7 +127,7 @@ public class GameController {
 			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
 			Player player = gameWorld.getPlayer();
 
-			// PROCESS ENTITIES// PROCESS ENTITIES
+			// PROCESS ENTITIES
 			for (Entity e : statics) {
 				if (e.isWithinRange(player)) {
 					renderer.processEntity(e);

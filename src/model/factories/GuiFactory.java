@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Factory Game for creating Gui Components
+ * Factory for creating Gui Components
  *
  * @author Marcel van Workum
  * @author Ellie Coyle
@@ -28,7 +28,7 @@ public class GuiFactory {
 	private static final Vector2f CENTER_POS = new Vector2f(0f, 0f);
 	private static final Vector2f FULL_SCALE = new Vector2f(1f, 1f);
 	
-	// progress block positions
+	// progress block positions and scale
 	private static final float PROGRESS_START_X = -0.955f;
 	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.35f, 0.03f);
 	private static final float PROGRESS_YPOS = 0.94f;
@@ -38,6 +38,7 @@ public class GuiFactory {
 	private static final Vector2f SCORE_SCALE = new Vector2f(0.05f, 0.05f);
 	private static final float SCORE_YPOS = 0.95f;
 	
+	// common textures (whose scale/position does not change)
 	private final Loader loader;
 	private GuiTexture inventoryScreen;
 	private GuiTexture interactMessage;

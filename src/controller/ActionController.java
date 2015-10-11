@@ -51,17 +51,6 @@ public class ActionController {
         			gameWorld.getInventory().displayInventory();
             	} 
         		
-
-        		// TODO remove!!!!
-    			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-    				if (!gameController.isCompiled()) {
-    					gameWorld.compileProgram();
-    					gameController.setCompiled(true);
-    					
-    					
-    				}
-    			}
-        		
         		// deal with opening and closing viewing things in the inventory
         		if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
 					gameWorld.getInventory().displayLaptopItem();

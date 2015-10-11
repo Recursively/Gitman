@@ -112,9 +112,9 @@ public class Load {
 									// EntityFactory.getPlayerTexturedModel();
 
 		// player position
-		int x = Integer.parseInt(getTextValue(doc, "posX"));
-		int y = Integer.parseInt(getTextValue(doc, "posY"));
-		int z = Integer.parseInt(getTextValue(doc, "posZ"));
+		float x = Float.parseFloat(getTextValue(doc, "posX"));
+		float y = Float.parseFloat(getTextValue(doc, "posY"));
+		float z = Float.parseFloat(getTextValue(doc, "posZ"));
 		Vector3f pos = new Vector3f(x, y, z);
 
 		// player camera elements
