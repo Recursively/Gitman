@@ -27,6 +27,16 @@ public class GuiFactory {
 	private static final String GUI_PATH = "gui/";
 	private static final String ITEM_PATH = "itemImages/";
 	
+	// progress block positions
+	private static final float PROGRESS_START_X = -0.95f;
+	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.05f, 0.03f);
+	private static final float PROGRESS_YPOS = 0.95f;
+	
+	// score scale and positions
+	private static final float SCORE_START_X = -0.56f;
+	private static final Vector2f SCORE_SCALE = new Vector2f(0.05f, 0.05f);
+	private static final float SCORE_YPOS = 0.95f;
+	
 	private final Loader loader;
 	private GuiTexture inventoryScreen;
 	private GuiTexture interactMessage;
@@ -141,17 +151,20 @@ public class GuiFactory {
 	public List<GuiTexture> getProgress(int progress) {  
 		if(oldProgress != progress){
 			// if progress has decreased, remove how many blocks it has decreased by
-			if(progress < this.oldProgress){
-				for(int i = this.progressBar.size() - 1; i > progress; i--){
-					this.progressBar.remove(i);
-				}
-			}
-			// else add how many blocks it has increased by
-			else {
-				for(int i = this.oldProgress; i < progress; i++){
-					
-				}
-			}
+//			if(progress < this.oldProgress){
+//				for(int i = this.progressBar.size() - 1; i > progress; i--){
+//					this.progressBar.remove(i);
+//				}
+//			}
+//			// else add how many blocks it has increased by
+//			else {
+//				for(int i = this.oldProgress; i < progress; i++){
+//					float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX();
+//					Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
+//					GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
+//					this.progressBar.add(img);
+//				}
+//			}
 			this.oldProgress = progress;
 		}
 		return progressBar;
@@ -161,7 +174,14 @@ public class GuiFactory {
 		if(this.oldScore != score){
 			this.oldScore = score;
 			this.scoreNum = new ArrayList<GuiTexture>();
-			// TODO create new score
+			String num = this.oldScore + "";
+			for(int i = 0; i < num.length(); i++){
+				String charNum = num.substring(i, i+1);	
+				float xPos = SCORE_START_X + i*SCORE_SCALE.getX()*0.8f;
+				Vector2f pos = new Vector2f(xPos, SCORE_YPOS);
+				GuiTexture img = makeGuiTexture(charNum, pos, SCORE_SCALE);
+				this.scoreNum.add(img);
+			}
 		}
 		return this.scoreNum;
 	}

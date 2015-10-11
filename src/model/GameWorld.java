@@ -38,10 +38,9 @@ public class GameWorld {
 	private static final int MAX_PROGRESS = 100;
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
-	private static final double PATCH_TIMER = 1000;  // time before decrease 
+	private static final double PATCH_TIMER = 100000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
-	private static final int CODE_VALUE = 25; 
-	
+	private static final int CODE_VALUE = 20; 
 	
 	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
