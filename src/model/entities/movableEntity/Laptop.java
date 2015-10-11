@@ -49,22 +49,22 @@ public class Laptop extends Item {
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
-					GameWorld.setGuiMessage("codeCopied", 2500);  //TODO
+					GameWorld.setGuiMessage("codeCopied", 1500);  
 					return 18;
 				}
 			}
 		}
 		// only show one message.
 		if(!hasCode){
-			GameWorld.setGuiMessage("noCodeToCollect", 2500);   // TODO
+			GameWorld.setGuiMessage("laptopEmpty", 1500);   
 		}
 	    // If laptop full, prioritize that message over unsuccessful unlock
 		else if(game.getInventory().getStorageUsed() + GameWorld.CODE_VALUE > Inventory.MAX_STORAGE_SIZE){
-			GameWorld.setGuiMessage("laptopMemoryFull", 2500);
+			GameWorld.setGuiMessage("laptopMemoryFull", 2000);
 		}
 		else {
 			// no card found that can unlock door. display message
-			GameWorld.setGuiMessage("unsuccessfulUnlock", 2500);
+			GameWorld.setGuiMessage("unsuccessfulUnlock", 1500);
 		}
 		
 		return -1;
