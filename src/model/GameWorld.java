@@ -42,7 +42,7 @@ public class GameWorld {
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
 	public static final int CODE_VALUE = 20; 
 	
-	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
+	private static int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
 	
 	
@@ -153,6 +153,52 @@ public class GameWorld {
 
 		staticEntities = entityFactory.getEntities();
 		movableEntities = entityFactory.getMovableEntities();
+		
+		// create commits in outside world
+		for(int i = 0; i < 10; i++){
+			this.addCommit();
+		}
+
+		// game state
+		inventory = new Inventory(guiFactory);
+		this.patchProgress = START_PATCH;
+		this.codeProgress = 0; 
+		this.cards = new ArrayList<SwipeCard>();
+		this.inProgram = false;  
+		this.canApplyPatch = false;
+		this.helpVisible = false;
+		this.commitIndex = 0;
+		this.gameState = -1;
+
+		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+	}
+	
+	public void initGame(boolean isHost, Data load) {
+		// initialise factories and data structures
+		initFactories();
+		initDataStructures();
+
+		// creates the gui to be displayed on the display
+		initGui();
+
+		// initialises the currentTerrain 
+		// currentTerrain at some point.
+		initTerrain();
+
+		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
+
+		// Adds lighting to game world
+		setupLighting();
+
+		initPlayerModel();
+
+		staticEntities = entityFactory.getEntities();
+		movableEntities = entityFactory.getMovableEntities();
+		
+		// create commits in outside world
+		for(int i = 0; i < 10; i++){
+			this.addCommit();
+		}
 
 		// game state
 		inventory = new Inventory(guiFactory);

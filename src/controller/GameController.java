@@ -1,6 +1,7 @@
 package controller;
 
 import model.GameWorld;
+import model.data.Load;
 import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
@@ -8,6 +9,7 @@ import model.toolbox.Loader;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -53,7 +55,7 @@ public class GameController {
 	 * 
 	 * @throws IOException
 	 */
-	public GameController(boolean isHost, String ipAddress) {
+	public GameController(boolean isHost, String ipAddress, boolean load) {
 
 		// initialise model
 		loader = new Loader();
@@ -65,7 +67,12 @@ public class GameController {
 
 		// initialise the game world
 		gameWorld = new GameWorld(loader, this);
-		gameWorld.initGame(isHost);
+		if(load){
+			gameWorld.initGame(isHost, Load.loadGame());
+		}
+		else {
+			gameWorld.initGame(isHost);
+		}
 
 		// initialise controller for actions
 		actionController = new ActionController(loader, gameWorld, this);

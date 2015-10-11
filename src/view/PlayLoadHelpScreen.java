@@ -38,6 +38,8 @@ public class PlayLoadHelpScreen {
 			int index = 0;
 
 			GuiTexture[] images = initTitleScreens(loader);
+			
+			boolean load = false;
 
 			while (true) {
 
@@ -62,7 +64,7 @@ public class PlayLoadHelpScreen {
 				}
 				else if(Keyboard.isKeyDown(Keyboard.KEY_L)){
 					DisplayManager.closeDisplay();
-					//TODO
+					load = true;
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
@@ -75,7 +77,7 @@ public class PlayLoadHelpScreen {
 
 			// create the game now
 			//new PlayLoadHelpScreen()
-			new GameController(isHost, hostname);
+			new GameController(isHost, hostname, load);
 			// change to make new window
 			// TODO
 		}
