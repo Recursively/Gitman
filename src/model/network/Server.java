@@ -134,7 +134,14 @@ public class Server extends Thread {
 		float y = inputStream.readFloat();
 		float z = inputStream.readFloat();
 
-		MovableEntity temp = gameController.getGameWorld().getMoveableEntities().get(id);
+		MovableEntity temp = null;
+		if (updateType != 8) {
+			temp = gameController.getGameWorld().getMoveableEntities().get(id);
+
+		}
+		else{
+			temp = gameController.getGameWorld().getInventory().getItems().getItem(updateType);
+		}
 
 		networkHandler.dealWithUpdate(updateType, id, x, y, z);
 
