@@ -102,6 +102,18 @@ public class Save {
 			Element inventoryItem = doc.createElement("inventoryItem");
 			inventory.appendChild(inventoryItem);
 			
+			Element itemPosX = doc.createElement("itemPosX");
+			itemPosX.appendChild(doc.createTextNode(String.valueOf(item.getPosition().x)));
+			inventoryItem.appendChild(itemPosX);
+			
+			Element itemPosY = doc.createElement("itemPosY");
+			itemPosY.appendChild(doc.createTextNode(String.valueOf(item.getPosition().y)));
+			inventoryItem.appendChild(itemPosY);
+			
+			Element itemPosZ = doc.createElement("itemPosZ");
+			itemPosZ.appendChild(doc.createTextNode(String.valueOf(item.getPosition().z)));
+			inventoryItem.appendChild(itemPosZ);
+			
 			Element rotX = doc.createElement("rotX");
 			rotX.appendChild(doc.createTextNode(String.valueOf(item.getRotX())));
 			inventoryItem.appendChild(rotX);
@@ -139,20 +151,17 @@ public class Save {
 			Element movableEntity = doc.createElement("movableEntity");
 			movableEntities.appendChild(movableEntity);
 			
-			Element entityPos = doc.createElement("entityPos");
-			movableEntity.appendChild(entityPos);
-			
 			Element entityPosX = doc.createElement("entityPosX");
 			entityPosX.appendChild(doc.createTextNode(String.valueOf(e.getPosition().x)));
-			entityPos.appendChild(entityPosX);
+			movableEntity.appendChild(entityPosX);
 			
 			Element entityPosY = doc.createElement("entityPosY");
 			entityPosY.appendChild(doc.createTextNode(String.valueOf(e.getPosition().y)));
-			entityPos.appendChild(entityPosY);
+			movableEntity.appendChild(entityPosY);
 			
 			Element entityPosZ = doc.createElement("entityPosZ");
 			entityPosZ.appendChild(doc.createTextNode(String.valueOf(e.getPosition().z)));
-			entityPos.appendChild(entityPosZ);
+			movableEntity.appendChild(entityPosZ);
 			
 			Element rotX = doc.createElement("rotX");
 			rotX.appendChild(doc.createTextNode(String.valueOf(e.getRotX())));
