@@ -6,24 +6,15 @@ import model.data.Load;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
-import model.entities.movableEntity.Commit;
-import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
-import model.entities.movableEntity.SwipeCard;
+import model.entities.movableEntity.*;
 import model.factories.*;
 import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
-import model.models.TexturedModel;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
-import model.textures.ModelTexture;
 import model.toolbox.Loader;
-import model.toolbox.OBJLoader;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.renderEngine.MasterRenderer;
 
 import java.util.*;
@@ -88,7 +79,6 @@ public class GameWorld {
 
 	// The actual player
 	private static Player player;
-	private TexturedModel playerModel;
 
 	// Collection of other players stored separately
 	private Map<Integer, Player> allPlayers;
@@ -617,26 +607,21 @@ public class GameWorld {
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
-		Player player = playerFactory.makeNewPlayer(position, playerModel, uid);
+		Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid);
 		allPlayers.put(uid, player);
 
 		System.out.println("ADDED NEW PLAYER, ID: " + uid);
 	}
 
 	public void addPlayer(Vector3f position, int uid) {
-		player = playerFactory.makeNewPlayer(position, playerModel, uid);
+		player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid);
 		allPlayers.put(uid, player);
 
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 
 	private void initPlayerModel() {
-		this.playerModel = new TexturedModel(OBJLoader.loadObjModel("models/orb", loader),
-				new ModelTexture(loader.loadTexture("textures/orb")));
-		ModelTexture playerTexture = playerModel.getTexture();
-		playerTexture.setShineDamper(10);
-		playerTexture.setReflectivity(1);
-
+		EntityFactory.initPayerModel(loader);
 	}
 
 	/**
