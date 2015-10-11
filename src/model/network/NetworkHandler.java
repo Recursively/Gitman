@@ -24,7 +24,6 @@ public class NetworkHandler {
 		if (gameWorld.getMoveableEntities().get(id) == null && type != 8)
 			return;
 
-
 		switch (type) {
 		case 8:
 			dropLaptopItem(id, playerID);
