@@ -49,7 +49,7 @@ public class Laptop extends Item {
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
-					GameWorld.setGuiMessage("cloneSuccessful", 2500);  //TODO
+					GameWorld.setGuiMessage("codeCopied", 2500);  //TODO
 					return 18;
 				}
 			}
