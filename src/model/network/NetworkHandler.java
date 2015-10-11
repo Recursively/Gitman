@@ -89,11 +89,13 @@ public class NetworkHandler {
 		System.out.println("INTERACTED WITH SWIPE CARD");
 
 		SwipeCard entity = (SwipeCard) gameWorld.getMoveableEntities().get(id);
+		
+		entity.interact(gameWorld);
 
 		// remove from movables
-		gameWorld.removeMovableEntity(entity);
+		//gameWorld.removeMovableEntity(entity);
 		// add to swipe cards array
-		gameWorld.getSwipeCards().add(entity);
+		//gameWorld.getSwipeCards().add(entity);
 
 	}
 

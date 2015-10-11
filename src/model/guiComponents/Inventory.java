@@ -101,8 +101,8 @@ public class Inventory {
 	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
-	public LaptopItem deleteItem(GameWorld game){
-		LaptopItem item = this.selected;
+	public int deleteItem(GameWorld game){
+		int item = this.selected.getUID();
 		if(this.selected != null){
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
@@ -111,7 +111,7 @@ public class Inventory {
 			// redraw inventory gui as item has been deleted 
 			updateLaptopDisplay();
 		}
-		
+		System.out.println(item);
 		//Networking
 		return item;
 	}
