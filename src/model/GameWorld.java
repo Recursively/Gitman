@@ -40,7 +40,7 @@ public class GameWorld {
 												// patch
 	private static final double PATCH_DECREASE = 0.1; // percent to decrease
 														// patch progress
-	private static final double PATCH_TIMER = 1000; // FIXME currently is 10
+	private static final double PATCH_TIMER = 100000; // FIXME currently is 10
 														// seconds
 	private static final int AVG_COMMIT_COLLECT = 5; // number of commits each
 														// player should collect
