@@ -112,7 +112,10 @@ public class GameWorld {
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
-
+	
+	// information from saved file, if game loaded in
+	private Data load;  //TODO
+ 
 	/**
 	 * Creates the game world and passes in the loader
 	 *
@@ -158,23 +161,23 @@ public class GameWorld {
 			this.patchProgress = START_PATCH;
 			this.codeProgress = 0;
 			this.cards = new ArrayList<SwipeCard>();
-			this.canApplyPatch = false;			
+			this.canApplyPatch = false;		
+			
+			// create commits
+			initCommits();
 		}
 		else {
-			initLoadGame(Load.loadGame());
+			initLoadGame();
 		}
 
 		this.helpVisible = false;
 		this.gameState = -1;
-		this.interactDistance = 15;
-		this.commitIndex = 10;   // start with 10 commits
+		this.interactDistance = 15;  // TODO need to save???
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
-		
-		// create commits
-		initCommits();
 	}
 	
-	public void initLoadGame(Data load) {
+	public void initLoadGame() {
+		this.load = Load.loadGame();
 		// load in movable entities and their saved positions
 		movableEntities = new HashMap<Integer, MovableEntity>();
 		for(MovableEntity e : load.getMovableEntities()){
@@ -197,8 +200,6 @@ public class GameWorld {
 		this.score = load.getScore();
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
-		
-		// player state //TODO 
 	}
 
 	private void initCommits() {
@@ -619,16 +620,20 @@ public class GameWorld {
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
-		Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid);
+		Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);
 		allPlayers.put(uid, player);
 
 		System.out.println("ADDED NEW PLAYER, ID: " + uid);
 	}
 
 	public void addPlayer(Vector3f position, int uid) {
-		player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid);
+		if(load != null){
+			player = playerFactory.makeNewPlayer(load.getPlayerPos(), EntityFactory.getPlayerTexturedModel(), uid, load);
+		}
+		else {
+			player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);	
+		}
 		allPlayers.put(uid, player);
-
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 
