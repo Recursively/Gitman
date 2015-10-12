@@ -108,6 +108,8 @@ public class Inventory {
 			this.selected = null;
 			// redraw inventory gui as item has been deleted 
 			updateLaptopDisplay();
+
+			AudioController.playDeleteSound();
 		}
 		//Networking
 		return item;
@@ -256,7 +258,6 @@ public class Inventory {
 		this.storageUsed = this.storageUsed - entity.getSize();
 		inLaptop.remove(entity);
 		updateLaptopDisplay();
-		
 	}
 
 }

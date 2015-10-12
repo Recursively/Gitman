@@ -27,6 +27,7 @@ public class AudioController {
     private static Audio pickupSound;
 
     private static Audio jumpSound;
+    private static Audio deleteSound;
 
     private static Audio easterEggLoop;
 
@@ -47,7 +48,6 @@ public class AudioController {
             officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "officeLoop" + ".ogg"));
             gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
 
-
             gameOverSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameOverSound" + ".ogg"));
             successfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "successfulUnlockSound" + ".ogg"));
             unsuccessfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "unsuccessfulUnlockSound" + ".ogg"));
@@ -58,6 +58,7 @@ public class AudioController {
             easterEggLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
 
             jumpSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "jumpSound" + ".ogg"));
+            deleteSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "deleteSound" + ".ogg"));
 
             for (int i = 1; i < 6; i++) {
                 commitSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "commitSound" + i + ".ogg")));
@@ -143,5 +144,9 @@ public class AudioController {
 
     public static void playJumpSound() {
         jumpSound.playAsSoundEffect(1f, 1f, false);
+    }
+
+    public static void playDeleteSound() {
+        deleteSound.playAsSoundEffect(1f, 1f, false);
     }
 }
