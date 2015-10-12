@@ -1,11 +1,7 @@
 package model.factories;
 
 import model.entities.Entity;
-import model.entities.movableEntity.Bug;
-import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.*;
-import model.entities.movableEntity.Laptop;
-import model.entities.movableEntity.MovableEntity;
 import model.entities.staticEntity.CollidableEntity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.ModelData;
@@ -15,11 +11,9 @@ import model.terrains.Terrain;
 import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.objParser.OBJFileLoader;
-
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.imageio.ImageIO;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +36,7 @@ public class EntityFactory {
     private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
+
 
 
     private Loader loader;
@@ -73,6 +68,9 @@ public class EntityFactory {
     private static TexturedModel commitTexturedModel;
     private ModelData flashdriveData;
     private static TexturedModel flashdriveTexturedModel;
+
+    private static TexturedModel playerTexturedModel;
+    private static ModelData playerData;
 
     private ArrayList<Entity> entities = new ArrayList<>();
     private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
@@ -353,5 +351,18 @@ public class EntityFactory {
 
     public void increaseMovableEntitiesID() {
         EntityFactory.movableItemID++;
+    }
+
+    public static void initPayerModel(Loader loader) {
+        playerData = OBJFileLoader.loadOBJ(MODEL_PATH + "orb");
+        RawModel playerRawModel = loader.loadToVAO(playerData.getVertices(), playerData.getTextureCoords(),
+                playerData.getNormals(), playerData.getIndices());
+        playerTexturedModel = new TexturedModel(playerRawModel,
+                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "orb")));
+        playerTexturedModel.getTexture().setReflectivity(0.4f);
+    }
+
+    public static TexturedModel getPlayerTexturedModel() {
+        return playerTexturedModel;
     }
 }

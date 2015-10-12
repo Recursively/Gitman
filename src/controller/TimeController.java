@@ -2,6 +2,7 @@ package controller;
 
 import model.GameWorld;
 import view.DisplayManager;
+import view.renderEngine.MasterRenderer;
 
 /**
  * Class to handle the lighting and shading timing the game
@@ -16,6 +17,7 @@ public class TimeController {
     }
 
     private static void update() {
-
+        GameWorld.updateSun();
+        MasterRenderer.updateFog();
     }
 }
