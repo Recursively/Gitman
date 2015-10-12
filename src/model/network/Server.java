@@ -172,6 +172,7 @@ public class Server extends Thread {
 		}
 
 		int swipeSize = gameController.getGameWorld().getSwipeCards().size();
+		outputStream.writeInt(swipeSize);
 		for (SwipeCard swipeCard : gameController.getGameWorld().getSwipeCards()) {
 			outputStream.writeInt(swipeCard.getUID());
 		}

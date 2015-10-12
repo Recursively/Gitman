@@ -185,6 +185,8 @@ public class Client extends Thread {
 		}
 
 		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
+		
+		System.out.println("INITIALISED");
 	}
 
 }

@@ -28,7 +28,7 @@ public class NetworkHandler {
 			dropLaptopItem(id, playerID);
 			break;
 		case 10:
-			interactBug();
+			interactBug(id);
 			break;
 		case 11:
 			interactCommit(id);
@@ -52,10 +52,12 @@ public class NetworkHandler {
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 	}
 
-	public void interactBug() {
+	public void interactBug(int id) {
 		System.out.println("INTERACTED WITH BUG");
 
 		// win games???
+		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
+		
 	}
 
 	public void interactCommit(int id) {
