@@ -60,7 +60,6 @@ public class Server extends Thread {
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
 				sendUpdateEntity(networkHandler.getServerUpdate(), networkHandler.getClientUpdate());
 
-				networkHandler.setServerUpdate(null);
 
 			}
 		} catch (IOException e) {
@@ -99,6 +98,7 @@ public class Server extends Thread {
 			outputStream.writeInt(-1);
 			outputStream.writeInt(-1);
 		}
+		networkHandler.setServerUpdate(null);
 	}
 
 	public void initStreams() {
@@ -150,7 +150,7 @@ public class Server extends Thread {
 
 	public void terminate() {
 		System.out.println("CONNECTION TERMINATED TO PLAYER WITH ID: " + uid);
-		// gameController.removePlayer(uid);
+		//gameController.removePlayer(uid);
 		isRunning = false;
 		try {
 			inputStream.close();
