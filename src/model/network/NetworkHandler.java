@@ -19,7 +19,6 @@ public class NetworkHandler {
 	// here
 	public void dealWithUpdate(int type, int id, int playerID) {
 
-
 		if (gameWorld.getMoveableEntities().get(id) == null && type != 8)
 			return;
 

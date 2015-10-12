@@ -161,7 +161,7 @@ public class Server extends Thread {
 	}
 
 	public void setUpdate(int status, MovableEntity entity) {
-		this.networkHandler.setServerUpdate(new Update(status, entity.getUID(), uid));
+		this.networkHandler.setServerUpdate(new Update(status, entity.getUID(), 0));
 	}
 
 	public void initNewPlayer() throws IOException {
