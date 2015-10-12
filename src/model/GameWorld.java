@@ -188,7 +188,7 @@ public class GameWorld {
 	public boolean initLoadGame() {
 		this.load = Load.loadGame();
 		
-		// loading failed. Don't load game, just return
+		// loading failed. Don't load game, just return false
 		if(load == null){
 			return false;
 		}
