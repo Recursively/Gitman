@@ -216,8 +216,6 @@ public class GameWorld {
 		else {
 			this.interactDistance = MIN_INTERACT;
 		}
-		
-		//updateGui();  //TODO
 	}
 
 	private void initCommits() {
@@ -228,6 +226,7 @@ public class GameWorld {
 			this.movableEntities.put(newCommit.getUID(), newCommit);
 			count++;
 		}
+		this.commitIndex = count;
 	}
 
 	/**
