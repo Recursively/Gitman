@@ -13,91 +13,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayLoadHelpScreen {
-	private String hostname;
-	private boolean isHost;
-
-	
-
-	public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
-		this.hostname = hostname;
-		this.isHost = isHost;
-
-		Keyboard.enableRepeatEvents(false);
-		blinkTitle(fullscreen);
-	}
+    private String hostname;
+    private boolean isHost;
+    private String PATH = "titleScreen";
 
 
+    public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
+        this.hostname = hostname;
+        this.isHost = isHost;
 
-	private void blinkTitle(boolean fullscreen) {
-
-			Loader loader = new Loader();
-			GuiRenderer guiRenderer = new GuiRenderer(loader);
-
-			long timer = System.currentTimeMillis();
-			int index = 0;
-
-			GuiTexture[] images = initTitleScreens(loader);
-			
-			boolean load = false;
-			boolean closed = false;
+        Keyboard.enableRepeatEvents(false);
+        blinkTitle(fullscreen);
+    }
 
 
-			while (!closed) {
-				
-				// ticks time every half second
-				long currentTime = System.currentTimeMillis();
-				if (currentTime - timer > 500) {
-					index++;
-					timer += 500;
-				}
+    private void blinkTitle(boolean fullscreen) {
 
-				// converts to list and renders
-				List<GuiTexture> guiList = new ArrayList<>();
-				guiList.add(images[index % 2]);
-				guiRenderer.render(guiList);
-				DisplayManager.updateDisplay();
-				
-				// user begins game
-				
-				if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-					break;
-				}
-				else if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-					load = true;
-					break;
-					
-				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
-					HelpScreen helpScreen = new HelpScreen(isHost, hostname, fullscreen);
-					closed = helpScreen.wasClosed();
-					break;
-				}
-				else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-					DisplayManager.closeDisplay();
-					closed = true;
+        Loader loader = new Loader();
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
 
-				}
-			}
-			if(!closed){
-			new GameController(isHost, hostname, load, fullscreen);
-			}else{
-				AL.destroy();
-			}
-		}
+        long timer = System.currentTimeMillis();
+        int index = 0;
+
+        int selectionPointer = 0;
+        GuiTexture[] selections = initTitleScreens(loader);
+        GuiTexture blankTitleImage = initBlankTitleScreen(loader);
+
+        boolean load = false;
+        boolean closed = false;
+
+        while (Keyboard.next()) {
+            // polls
+        }
+
+        boolean pollOffReturn = false;
+
+        while (!closed) {
+
+            if (pollOffReturn) {
+                while (Keyboard.next()){
+
+                }
+                pollOffReturn = false;
+            }
+
+            // ticks time every half second
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - timer > 500) {
+                index++;
+                timer += 500;
+            }
+
+            // converts to list and renders
+            List<GuiTexture> guiList = new ArrayList<>();
+            if (index % 2 == 0) {
+                guiList.add(blankTitleImage);
+            } else {
+                guiList.add(selections[selectionPointer]);
+            }
+            guiRenderer.render(guiList);
+            DisplayManager.updateDisplay();
+
+            // user begins game
+            if (Keyboard.next()) {
+                if (Keyboard.getEventKeyState()) {
+                    if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
+                        DisplayManager.closeDisplay();
+                        closed = true;
+                    }
+
+                    // check arrow keys
+
+                    else if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
+                        if (selectionPointer == 0) {
+                            selectionPointer = 2;
+                        } else {
+                            selectionPointer -= 1;
+                            selectionPointer %= 3;
+                        }
+                    } else if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
+                        selectionPointer += 1;
+                        selectionPointer %= 3;
+                    }
+
+                    if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+                        if (selectionPointer == 0) {
+                            break;
+                        } else if (selectionPointer == 1) {
+                            load = true;
+                            break;
+                        } else if (selectionPointer == 2) {
+                            HelpScreen helpScreen = new HelpScreen(isHost, hostname, fullscreen);
+                            closed = helpScreen.wasClosed();
+                            pollOffReturn = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!closed) {
+            new GameController(isHost, hostname, load, fullscreen);
+        } else {
+            AL.destroy();
+        }
+    }
+
+    private GuiTexture initBlankTitleScreen(Loader loader) {
+        return new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
+                new Vector2f(1, 1));
+    }
 
 
-	/**
-	 * @return an Array of title screen images to render
-	 */
-	private GuiTexture[] initTitleScreens(Loader loader) {
-		GuiTexture[] images = new GuiTexture[2];
-		String PATH = "titleScreen";
-		images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
-				new Vector2f(1, 1));
-
-		images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
-				new Vector2f(1, 1));
-		return images;
-	}
+    /**
+     * @return an Array of title screen images to render
+     */
+    private GuiTexture[] initTitleScreens(Loader loader) {
+        GuiTexture[] images = new GuiTexture[3];
+        images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
+                new Vector2f(1, 1));
+        images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
+                new Vector2f(1, 1));
+        images[2] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
+                new Vector2f(1, 1));
+        return images;
+    }
 
 }
 
