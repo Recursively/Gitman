@@ -88,7 +88,7 @@ public class Inventory {
 		if (this.storageUsed + item.getSize() <= MAX_STORAGE_SIZE) {
 			inLaptop.add(item);
 			increaseStorageUsed(item.getSize());
-			//updateLaptopDisplay(); //TODO
+			// updateLaptopDisplay(); //TODO
 			return true;
 		}
 		return false;
@@ -114,7 +114,7 @@ public class Inventory {
 
 			AudioController.playDeleteSound();
 		}
-		//Networking
+		// Networking
 		return item;
 	}
 
@@ -140,12 +140,11 @@ public class Inventory {
 				AudioController.playOfficeLoop();
 			}
 			this.selected = null;
-		}
-		else {
+		} else {
 			this.isVisible = true;
 			Mouse.setGrabbed(false);
 			// if not empty, show first item as selected
-			if(!this.inLaptop.isEmpty()){
+			if (!this.inLaptop.isEmpty()) {
 				this.selected = this.inLaptop.get(0);
 			}
 			updateLaptopDisplay();
@@ -172,9 +171,8 @@ public class Inventory {
 			this.textureList.remove(this.itemDisplayed);
 			this.itemDisplayed = null;
 
-		}
-		else {
-			if(this.selected != null){
+		} else {
+			if (this.selected != null) {
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
 				if (this.selected.getImgName().equals("extImg1Info")) {
@@ -228,9 +226,9 @@ public class Inventory {
 				}
 				if (Keyboard.KEY_RIGHT == keyEvent) {
 					yPos = selectDownOrRight(yPos, laptopDisplay[0].length - 1);
-				}				
-				
-				if(laptopDisplay[xPos][yPos] != null){
+				}
+
+				if (laptopDisplay[xPos][yPos] != null) {
 					this.selected = laptopDisplay[xPos][yPos];
 				}
 			}
@@ -263,16 +261,17 @@ public class Inventory {
 		}
 		return null;
 	}
-	
-	public void setStorageUsed(int used){
+
+	public void setStorageUsed(int used) {
 		this.storageUsed = used;
 	}
 
 	public void serverDelete(LaptopItem entity) {
-
-		this.storageUsed = this.storageUsed - entity.getSize();
-		inLaptop.remove(entity);
-		updateLaptopDisplay();
+		if (entity != null) {
+			this.storageUsed = this.storageUsed - entity.getSize();
+			inLaptop.remove(entity);
+			updateLaptopDisplay();
+		}
 	}
 
 	public void setInLaptop(ArrayList<LaptopItem> inventory) {

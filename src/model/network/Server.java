@@ -90,7 +90,7 @@ public class Server extends Thread {
 			outputStream.writeInt(serverUpdate.update);
 			outputStream.writeInt(serverUpdate.id);
 			outputStream.writeInt(0);
-		} else if (clientUpdate != null) {
+		} else if (clientUpdate != null && clientUpdate.uid != this.uid) {
 			outputStream.writeInt(clientUpdate.update);
 			outputStream.writeInt(clientUpdate.id);
 			outputStream.writeInt(0);
