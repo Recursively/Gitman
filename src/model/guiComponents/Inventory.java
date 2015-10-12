@@ -47,6 +47,7 @@ public class Inventory {
 		this.itemDisplayed = null;
 		this.selected = null;
 		this.guiFactory = guiFactory;
+		this.textureList = new ArrayList<GuiTexture>();
 
 	}
 	
