@@ -105,8 +105,10 @@ public class Client extends Thread {
 		if (networkHandler.getClientUpdate() != null) {
 			outputStream.writeInt(networkHandler.getClientUpdate().update);
 			outputStream.writeInt(networkHandler.getClientUpdate().id);
+			outputStream.writeInt(uid);
 			this.networkHandler.setClientUpdate(null);
 		} else {
+			outputStream.writeInt(-1);
 			outputStream.writeInt(-1);
 			outputStream.writeInt(-1);
 		}
@@ -167,7 +169,7 @@ public class Client extends Thread {
 	}
 
 	public void setUpdate(int updateType, MovableEntity entity) {
-		networkHandler.setClientUpdate(new Update(updateType, entity.getUID()));
+		networkHandler.setClientUpdate(new Update(updateType, entity.getUID(), uid));
 	}
 
 	public void updateGameInformation() throws IOException {
@@ -185,7 +187,7 @@ public class Client extends Thread {
 		}
 
 		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
-		
+
 		System.out.println("INITIALISED");
 	}
 

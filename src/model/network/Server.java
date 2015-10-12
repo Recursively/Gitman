@@ -71,10 +71,11 @@ public class Server extends Thread {
 	private Update readEntityUpdate() throws IOException {
 		int update = inputStream.readInt();
 		int id = inputStream.readInt();
+		int uid = inputStream.readInt();
 
 		if (update != -1 && id != -1) {
 			networkHandler.dealWithUpdate(update, id, uid);
-			return new Update(update, id);
+			return new Update(update, id, uid);
 
 		} else {
 			System.out.println("Nothing to update");
@@ -160,7 +161,7 @@ public class Server extends Thread {
 	}
 
 	public void setUpdate(int status, MovableEntity entity) {
-		this.networkHandler.setServerUpdate(new Update(status, entity.getUID()));
+		this.networkHandler.setServerUpdate(new Update(status, entity.getUID(), uid));
 	}
 
 	public void initNewPlayer() throws IOException {
