@@ -35,7 +35,6 @@ public class Data {
 	private boolean isOutside;
 	private int patchProgress;
 	private int score;
-	private boolean inProgram;
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
@@ -46,7 +45,7 @@ public class Data {
 			ArrayList<MovableEntity> movableEntities,
 			ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
 			boolean isOutside, int codeProgress, int patchProgress, int score,
-			boolean inProgram, boolean canApplyPatch, int commitIndex,
+			boolean canApplyPatch, int commitIndex,
 			long timer, int storageUsed) {
 
 		this.playerPos = playerPos;
@@ -62,7 +61,6 @@ public class Data {
 		this.codeProgress = codeProgress;
 		this.patchProgress = patchProgress;
 		this.score = score;
-		this.inProgram = inProgram;
 		this.canApplyPatch = canApplyPatch;
 		this.commitIndex = commitIndex;
 		this.timer = timer;
@@ -108,10 +106,6 @@ public class Data {
 
 	public int getScore() {
 		return score;
-	}
-
-	public boolean isInProgram() {
-		return inProgram;
 	}
 
 	public boolean isCanApplyPatch() {

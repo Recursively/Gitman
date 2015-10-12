@@ -48,6 +48,7 @@ public class Inventory {
 		this.itemDisplayed = null;
 		this.selected = null;
 		this.guiFactory = guiFactory;
+		this.textureList = new ArrayList<GuiTexture>();
 
 	}
 	
@@ -125,11 +126,15 @@ public class Inventory {
 		if(this.isVisible){
 			this.isVisible = false;
 			Mouse.setGrabbed(true);
-			this.selected = null;
+			this.selected = null;			
 		}
 		else {
 			this.isVisible = true;
 			Mouse.setGrabbed(false);
+			// if not empty, show first item as selected
+			if(!this.inLaptop.isEmpty()){
+				this.selected = this.inLaptop.get(0);
+			}
 			updateLaptopDisplay();
 		}
 	}
@@ -211,7 +216,9 @@ public class Inventory {
 					yPos = selectDownOrRight(yPos, laptopDisplay[0].length-1);
 				}
 				
-				this.selected = laptopDisplay[xPos][yPos];
+				if(laptopDisplay[xPos][yPos] != null){
+					this.selected = laptopDisplay[xPos][yPos];
+				}
 			}
 			
 			if(this.selected != null){
@@ -252,6 +259,10 @@ public class Inventory {
 		inLaptop.remove(entity);
 		updateLaptopDisplay();
 		
+	}
+
+	public void setInLaptop(ArrayList<LaptopItem> inventory) {
+		this.inLaptop = inventory;
 	}
 
 }

@@ -78,6 +78,7 @@ public class ActionController {
         		
     			if (Keyboard.getEventKey() == Keyboard.KEY_F){
     				Save.saveGame(gameWorld);
+    				GameWorld.setGuiMessage("gameSaved", 1500);
     			}
     			
     			if(gameWorld.getGameState() > -1){
