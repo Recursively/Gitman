@@ -257,6 +257,7 @@ public class GameController {
 
     public void removePlayer(int uid) {
         gameWorld.getAllPlayers().remove(uid);
+        playerCount--;
     }
 
     public void setNetworkUpdate(int status, MovableEntity entity) {

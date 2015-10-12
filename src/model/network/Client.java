@@ -99,7 +99,6 @@ public class Client extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void sendUpdateEntity() throws IOException {

@@ -41,7 +41,7 @@ public class Server extends Thread {
 		try {
 			while (isRunning) {
 				// receive player information
-				uid = readPlayerID();
+				this.uid = readPlayerID();
 				checkExistingPlayer();
 				updatePlayerPosition(uid);
 
