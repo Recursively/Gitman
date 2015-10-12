@@ -111,7 +111,10 @@ public class Inventory {
 			this.selected = null;
 			// redraw inventory gui as item has been deleted
 			updateLaptopDisplay();
+
+			AudioController.playDeleteSound();
 		}
+		//Networking
 		return item;
 	}
 
@@ -127,8 +130,16 @@ public class Inventory {
 	public void displayInventory() {
 		if (this.isVisible) {
 			this.isVisible = false;
+
 			Mouse.setGrabbed(true);
-			this.selected = null;			
+			this.selected = null;
+			AudioController.stopEasterEggLoop();
+			if (GameWorld.isOutside()) {
+				AudioController.playGameWorldLoop();
+			} else {
+				AudioController.playOfficeLoop();
+			}
+			this.selected = null;
 		}
 		else {
 			this.isVisible = true;
@@ -161,13 +172,11 @@ public class Inventory {
 			this.textureList.remove(this.itemDisplayed);
 			this.itemDisplayed = null;
 
-			AudioController.stopEasterEggLoop();
 		}
 		else {
 			if(this.selected != null){
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
-
 				if (this.selected.getImgName().equals("extImg1Info")) {
 					AudioController.playEasterEggLoop();
 				}
@@ -260,12 +269,10 @@ public class Inventory {
 	}
 
 	public void serverDelete(LaptopItem entity) {
-		if (entity != null) {
-			this.storageUsed = this.storageUsed - entity.getSize();
-			inLaptop.remove(entity);
-//			updateLaptopDisplay();
-		}
 
+		this.storageUsed = this.storageUsed - entity.getSize();
+		inLaptop.remove(entity);
+		updateLaptopDisplay();
 	}
 
 	public void setInLaptop(ArrayList<LaptopItem> inventory) {

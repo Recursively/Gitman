@@ -1,17 +1,18 @@
 package model.network;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
-
-import org.lwjgl.util.vector.Vector3f;
 
 import controller.GameController;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
+
+import org.lwjgl.util.vector.Vector3f;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Server extends Thread {
 
