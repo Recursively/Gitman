@@ -1,10 +1,10 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
 import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
-import model.guiComponents.GuiMessages;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
 
@@ -140,7 +140,7 @@ public class Player extends MovableEntity {
         if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OUTSIDE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OUTSIDE_Z
                 && zPos >= GameWorld.PORTAL_UPPER_BOUND_OUTSIDE_Z) {
             // swap terrain
-            GameWorld.telportToOffice();
+            GameWorld.teleportToOffice();
         }
 
         if (GameWorld.isProgramCompiled()){
@@ -202,6 +202,7 @@ public class Player extends MovableEntity {
 
     private void jump() {
         verticalVelocity += JUMP_POWER;
+        AudioController.playJumpSound();
     }
 
     // TODO does this still need to be here
@@ -249,11 +250,6 @@ public class Player extends MovableEntity {
 
     public Camera getCamera() {
         return camera;
-    }
-
-    //TODO implement terrain specification
-    public Terrain getCurrentTerrain() {
-        return currentTerrain;
     }
 
     public void setCurrentTerrain(Terrain currentTerrain) {
