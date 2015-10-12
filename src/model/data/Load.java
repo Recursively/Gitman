@@ -39,8 +39,7 @@ public class Load {
 	// gamestate elements
 	private static boolean isProgramCompiled;
 	private static boolean isOutside;
-	private static int codeProgress;
-	private static int patchProgress;
+	private static int progress;
 	private static int score;
 	private static boolean canApplyPatch;
 	private static int commitIndex;
@@ -89,15 +88,10 @@ public class Load {
 			// various gamestate fields
 			isProgramCompiled = Boolean.parseBoolean(getTextValue(doc, "isProgramCompiled"));
 			isOutside = Boolean.parseBoolean(getTextValue(doc, "isOutside"));
-			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
-			patchProgress = Integer
-					.parseInt(getTextValue(doc, "patchProgress"));
+			progress = Integer.parseInt(getTextValue(doc, "progress"));
 			score = Integer.parseInt(getTextValue(doc, "score"));
-			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
-					"canApplyPatch"));
-			
-			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));
-			
+			canApplyPatch = Boolean.parseBoolean(getTextValue(doc, "canApplyPatch"));			
+			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));			
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
 			
@@ -114,7 +108,7 @@ public class Load {
 
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
-					isProgramCompiled, isOutside, codeProgress, patchProgress, score,
+					isProgramCompiled, isOutside, progress, score,
 					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
@@ -123,8 +117,8 @@ public class Load {
 			System.out.println(se.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
-		} catch (NullPointerException ne){
-			System.err.println(ne.getMessage());
+		} catch (Exception e){
+			System.err.println(e.getMessage());
 		}
 		
 		// loading was unsuccessful
