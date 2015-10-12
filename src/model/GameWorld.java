@@ -166,7 +166,7 @@ public class GameWorld {
 
 			// game state
 			this.patchProgress = START_PATCH;
-			this.codeProgress = 0; 
+			this.codeProgress = 0;  
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
 			this.interactDistance = MIN_INTERACT;  
