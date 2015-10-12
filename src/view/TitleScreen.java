@@ -1,5 +1,6 @@
 package view;
 
+import controller.AudioController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
@@ -29,6 +30,11 @@ public class TitleScreen {
 		this.isHost = isHost;
 		DisplayManager.createDisplay(fullscreen);
 		Keyboard.enableRepeatEvents(false);
+
+		// TODO Static controller?
+		new AudioController();
+		AudioController.playMenuLoop();
+
 		blinkTitle(fullscreen);
 	}
 

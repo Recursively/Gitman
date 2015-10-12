@@ -1,11 +1,12 @@
 package model.entities.movableEntity;
 
-import java.util.ArrayList;
+import controller.AudioController;
 import model.GameWorld;
 import model.guiComponents.Inventory;
 import model.models.TexturedModel;
-
 import org.lwjgl.util.vector.Vector3f;
+
+import java.util.ArrayList;
 
 /**
  * Represent the characters in the game that will be found in 
@@ -49,6 +50,7 @@ public class Laptop extends Item {
 					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 					this.hasCode = false;
+					AudioController.playSuccessfulUnlockSound();
 					return 18;
 				}
 			}
@@ -60,6 +62,7 @@ public class Laptop extends Item {
 			else {
 				// no card found that can unlock door. display message
 				game.setGuiMessage("unsuccessfulUnlock", 2500);
+				AudioController.playUnsuccessfulUnlockSound();
 			}
 		}
 		return -1;

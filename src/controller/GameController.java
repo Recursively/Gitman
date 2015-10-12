@@ -108,8 +108,8 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
+		AudioController.stopMenuLoop();
 		while (!Display.isCloseRequested() && networkRunning && RUNNING) {
-
 			// process the terrains
 
 			renderer.processTerrain(gameWorld.getTerrain());
@@ -183,6 +183,8 @@ public class GameController {
 			// update the Display window
 			DisplayManager.updateDisplay();
 		}
+
+		AudioController.stopMenuLoop();
 
 		// Finally clean up resources
 		cleanUp();
