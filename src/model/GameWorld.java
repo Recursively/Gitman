@@ -37,6 +37,11 @@ public class GameWorld {
 	private static final double PATCH_TIMER = 100000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player  
 	
+	// interaction distances
+	private static final int MIN_INTERACT = 15;
+	private static final int COMMIT_INTERACT = 20;
+	private static final int BUG_INTERACT = 40;
+	
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
@@ -165,6 +170,7 @@ public class GameWorld {
 			this.codeProgress = 0;
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
+			this.interactDistance = MIN_INTERACT;  
 			
 			// create commits
 			initCommits();
@@ -174,8 +180,7 @@ public class GameWorld {
 		}
 
 		this.helpVisible = false;
-		this.gameState = -1;
-		this.interactDistance = 15;  // TODO need to save???
+		this.gameState = -1; 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
 	
@@ -203,6 +208,16 @@ public class GameWorld {
 		this.score = load.getScore();
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
+		
+		if(this.canApplyPatch){
+			this.interactDistance = BUG_INTERACT;
+		}
+		else if (GameWorld.isProgramCompiled){
+			this.interactDistance = COMMIT_INTERACT;
+		}
+		else {
+			this.interactDistance = MIN_INTERACT;
+		}
 	}
 
 	private void initCommits() {
@@ -562,7 +577,7 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			this.interactDistance = 40;
+			this.interactDistance = BUG_INTERACT;
 			setGuiMessage("patchComplete", 3000);
 			AudioController.playGameWonLoop();
 		}
@@ -603,7 +618,7 @@ public class GameWorld {
 	public void compileProgram() { 
 		setGuiMessage("codeCompiledMessage", 5000);
 		this.timer = System.currentTimeMillis(); // start timer
-		this.interactDistance = 20;
+		this.interactDistance = COMMIT_INTERACT;
 
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
