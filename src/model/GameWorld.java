@@ -34,7 +34,7 @@ public class GameWorld {
 
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
-	private static final double PATCH_TIMER = 100000;  // time before decrease 
+	private static final double PATCH_TIMER = 30000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player  
 	
 	// interaction distances
@@ -167,7 +167,7 @@ public class GameWorld {
 			// game state
 			inventory = new Inventory(guiFactory);
 			this.patchProgress = START_PATCH;
-			this.codeProgress = 0;
+			this.codeProgress = 90; //TODO
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
 			this.interactDistance = MIN_INTERACT;  
@@ -465,6 +465,7 @@ public class GameWorld {
 		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
 		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
 		this.movableEntities.put(newCommit.getUID(), newCommit);
+		System.out.println(newCommit.getPosition().y);   // TODO
 		commitIndex++;
 		if(commitIndex >= commitPos.size()){
 			commitIndex = 0;
