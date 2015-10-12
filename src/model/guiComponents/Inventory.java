@@ -136,8 +136,8 @@ public class Inventory {
 			// if not empty, show first item as selected
 			if(!this.inLaptop.isEmpty()){
 				this.selected = this.inLaptop.get(0);
-				updateLaptopDisplay();
 			}
+			updateLaptopDisplay();
 		}
 	}
 
@@ -167,6 +167,7 @@ public class Inventory {
 			if(this.selected != null){
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
+
 				if (this.selected.getImgName().equals("extImg1Info")) {
 					AudioController.playEasterEggLoop();
 				}
@@ -265,6 +266,10 @@ public class Inventory {
 //			updateLaptopDisplay();
 		}
 
+	}
+
+	public void setInLaptop(ArrayList<LaptopItem> inventory) {
+		this.inLaptop = inventory;
 	}
 
 }

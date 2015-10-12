@@ -42,7 +42,6 @@ public class Load {
 	private static int codeProgress;
 	private static int patchProgress;
 	private static int score;
-	private static boolean inProgram;
 	private static boolean canApplyPatch;
 	private static int commitIndex;
 	private static long timer;
@@ -94,14 +93,18 @@ public class Load {
 			patchProgress = Integer
 					.parseInt(getTextValue(doc, "patchProgress"));
 			score = Integer.parseInt(getTextValue(doc, "score"));
-			inProgram = Boolean.parseBoolean(getTextValue(doc, "inProgram"));
 			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
 					"canApplyPatch"));
-			;
+			
 			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));
-			;
+			
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
+			
+			// create collections
+			inventory = new ArrayList<LaptopItem>();
+			movableEntities = new ArrayList<MovableEntity>();
+			swipeCards = new ArrayList<SwipeCard>();
 
 			// delegation of large groupings of loading to smaller, helper methods
 			parsePlayer(doc);
@@ -111,7 +114,7 @@ public class Load {
 
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
-					isCodeCompiled, isOutside, codeProgress, patchProgress, score, inProgram,
+					isCodeCompiled, isOutside, codeProgress, patchProgress, score,
 					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
@@ -221,7 +224,7 @@ public class Load {
 				String name = getTextValue(e, "name");
 
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, 0, 0);
+						rotX, rotY, rotZ, scale, id, name, 0, 0, false);
 
 				inventory.add((LaptopItem) movableEntity);
 			}
@@ -248,9 +251,6 @@ public class Load {
 
 				String type = getTextValue(e, "type");
 
-				// textured model
-				TexturedModel model = ModelFromString(type, 0);
-
 				// item position
 				float x = Float.parseFloat(getTextValue(e, "posX"));
 				float y = Float.parseFloat(getTextValue(e, "posY"));
@@ -275,22 +275,26 @@ public class Load {
 				int cardNum = 0;
 
 				// if swipeCard - set its cardNum
-				if (type == "SwipeCard") {
+				if (type.equals("SwipeCard")) {
 					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				}
 				
 				// laptop cardID
 				int cardID = 0;
+				boolean hasCode = true;
 
 				// if laptop - set its cardID
-				if (type == "Laptop") {
-					cardID = Integer.parseInt(getTextValue(e, "cardID"));
+				if (type.equals("Laptop")) {
+					cardID = Integer.parseInt(getTextValue(e, "cardID"));					
+					hasCode = Boolean.parseBoolean(getTextValue(e, "hasCode"));
 				}
+				
+				// textured model
+				TexturedModel model = ModelFromString(type, cardNum);
 
 				// construct the entity
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
-
+						rotX, rotY, rotZ, scale, id, name, cardNum, cardID, hasCode);
 				// add entity to entity list
 				movableEntities.add(movableEntity);
 
@@ -321,13 +325,10 @@ public class Load {
 				// swipeCard cardNum
 				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 
-				TexturedModel model = null; // TODO =
-											// EntityFactory.getSwipecardTexturedModel();
-
 				// item position
-				int x = Integer.parseInt(getTextValue(e, "posX"));
-				int y = Integer.parseInt(getTextValue(e, "posY"));
-				int z = Integer.parseInt(getTextValue(e, "posZ"));
+				float x = Float.parseFloat(getTextValue(e, "posX"));
+				float y = Float.parseFloat(getTextValue(e, "posY"));
+				float z = Float.parseFloat(getTextValue(e, "posZ"));
 				Vector3f pos = new Vector3f(x, y, z);
 
 				// item rotation
@@ -344,11 +345,9 @@ public class Load {
 				// item name
 				String name = getTextValue(e, "name");
 
-				int cardID = 0;
-
 				// construct the entity
-				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
+				MovableEntity movableEntity = EntityFromType(type, null, pos,
+						rotX, rotY, rotZ, scale, id, name, cardNum, 0, false);
 
 				swipeCards.add((SwipeCard) movableEntity);
 			}
@@ -367,18 +366,19 @@ public class Load {
 	 */
 
 	private static TexturedModel ModelFromString(String type, int cardNum) {
-		if (type == "Bug") {
+		type = type.trim();
+		if (type.equals("Bug")) {
 			return EntityFactory.getBugTexturedModel();
-		} else if (type == "Commit") {
+		} else if (type.equals("Commit")) {
 			return EntityFactory.getCommitTexturedModel();
-		} else if (type == "FlashDrive") {
+		} else if (type.equals("FlashDrive")) {
 			return EntityFactory.getFlashdriveTexturedModel();
-		} else if (type == "Laptop") {
+		} else if (type.equals("Laptop")) {
 			return EntityFactory.getLaptopTexturedModel();
-		} else if (type == "ReadMe") {
+		} else if (type.equals("ReadMe")) {
 			return EntityFactory.getTabletTexturedModel();
-		} else if (type == "SwipeCard") {
-			return EntityFactory.getSwipecardTexturedModel()[cardNum - 1];
+		} else if (type.equals("SwipeCard")) {
+			return EntityFactory.getSwipecardTexturedModel()[cardNum];
 		}
 		System.out.println("Model not found for given type");
 		return null;
@@ -394,18 +394,19 @@ public class Load {
 	private static MovableEntity EntityFromType(String type,
 			TexturedModel model, Vector3f pos, float rotX, float rotY,
 			float rotZ, float scale, int id, String name, int cardNum,
-			int cardID) {
-		if (type == "Bug") {
+			int cardID, boolean hasCode) {
+		type = type.trim();
+		if (type.equals("Bug")) {
 			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
-		} else if (type == "Commit") {
+		} else if (type.equals("Commit")) {
 			return new Commit(model, pos, rotX, rotY, rotZ, scale, id);
-		} else if (type == "FlashDrive") {
+		} else if (type.equals("FlashDrive")) {
 			return new FlashDrive(model, pos, rotX, rotY, rotZ, scale, id, name);
-		} else if (type == "Laptop") {
-			return new Laptop(model, pos, rotX, rotY, rotZ, scale, id, cardID);
-		} else if (type == "ReadMe") {
+		} else if (type.equals("Laptop")) {
+			return new Laptop(model, pos, rotX, rotY, rotZ, scale, id, cardID, hasCode);
+		} else if (type.equals("ReadMe")) {
 			return new ReadMe(model, pos, rotX, rotY, rotZ, scale, id, name);
-		} else if (type == "SwipeCard") {
+		} else if (type.equals("SwipeCard")) {
 			return new SwipeCard(model, pos, rotX, rotY, rotZ, scale, id,
 					cardNum);
 		}

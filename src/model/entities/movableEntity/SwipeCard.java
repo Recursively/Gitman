@@ -22,18 +22,19 @@ public class SwipeCard extends Item {
 	public static final float CARD_YPOS = 0.7f;
 	
 	
-	private final int cardID;
+	private final int cardNum;
 
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.cardID = cardNum;
+		this.cardNum = cardNum;
+		System.out.println(cardNum);
 	}
 	
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
-		this.cardID = cardNum;
+		this.cardNum = cardNum;
 	}
 	
 	@Override
@@ -64,7 +65,7 @@ public class SwipeCard extends Item {
 	 * @return true if the given id number matches the card's id number
 	 */
 	public boolean matchID(int id){
-		return this.cardID == id;
+		return this.cardNum == id;
 	}
 	
 	@Override
@@ -74,10 +75,10 @@ public class SwipeCard extends Item {
 	
 	@Override
 	public int getCardNum(){
-		return cardID;
+		return cardNum;
 	}
 	
 	public String getImgName(){
-		return "swipeCard" + this.cardID;
+		return "swipeCard" + this.cardNum;
 	}
 }

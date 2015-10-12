@@ -66,4 +66,8 @@ public abstract class MovableEntity extends Entity {
 	public int getCardNum(){
 		return -1;
 	}
+
+	public boolean getHasCode() {
+		return false;
+	}
 }
