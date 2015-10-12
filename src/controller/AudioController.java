@@ -28,6 +28,9 @@ public class AudioController {
 
     private static Audio jumpSound;
     private static Audio deleteSound;
+    private static Audio codeCompiledSound;
+
+    private static ArrayList<Audio> inventorySounds = new ArrayList<>();
 
     private static Audio easterEggLoop;
 
@@ -47,18 +50,19 @@ public class AudioController {
 
             officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "officeLoop" + ".ogg"));
             gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
-
             gameOverSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameOverSound" + ".ogg"));
             successfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "successfulUnlockSound" + ".ogg"));
             unsuccessfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "unsuccessfulUnlockSound" + ".ogg"));
             portalSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "portalSound" + ".ogg"));
             portalHum = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "portalHumSound" + ".ogg"));
             pickupSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "pickupSound" + ".ogg"));
-
             easterEggLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
-
             jumpSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "jumpSound" + ".ogg"));
             deleteSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "deleteSound" + ".ogg"));
+
+            inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "helpSound" + ".ogg")));
+            inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "hmmmSound" + ".ogg")));
+            inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "interestingSound" + ".ogg")));
 
             for (int i = 1; i < 6; i++) {
                 commitSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "commitSound" + i + ".ogg")));
@@ -78,8 +82,13 @@ public class AudioController {
     }
 
     public static void playRandomCommitSound() {
-        int i = random.nextInt(5);
+        int i = random.nextInt(commitSounds.size());
         commitSounds.get(i).playAsSoundEffect(1f, 1f, false);
+    }
+
+    public static void playRandomInventorySound() {
+        int i = random.nextInt(inventorySounds.size());
+        inventorySounds.get(i).playAsSoundEffect(1f, 1f, false);
     }
 
     public static void playPortalSound() {
