@@ -1,5 +1,6 @@
 package model;
 
+import controller.AudioController;
 import controller.GameController;
 import model.data.Data;
 import model.data.Load;
@@ -529,6 +530,7 @@ public class GameWorld {
 			// if patch progress reaches zero, players lose
 			if (this.patchProgress <= 0) {
 				gameState = 0;
+				AudioController.playGameOverSound();
 			}
 
 			// update new time
@@ -550,6 +552,7 @@ public class GameWorld {
 			this.canApplyPatch = true;
 			this.interactDistance = 40;
 			this.setGuiMessage("patchComplete", 3000);
+			AudioController.playGameWonLoop();
 		}
 	}
 
@@ -595,6 +598,8 @@ public class GameWorld {
 		officeLight.setColour(new Vector3f(6, 1, 1));
 		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
 		GameWorld.isProgramCompiled = true;
+
+		AudioController.playPortalHum();
 	}
 
 	public List<GuiTexture> getEndStateScreen() {
@@ -637,6 +642,8 @@ public class GameWorld {
 		player.getCamera().changeYaw(160f);
 		MasterRenderer.setRenderSkybox(true);
 		isOutside = true;
+		AudioController.stopPortalHum();
+		AudioController.playPortalSound();
 	}
 
 	public static void telportToOffice() {
@@ -649,6 +656,8 @@ public class GameWorld {
 		player.getCamera().changeYaw(180f);
 		MasterRenderer.setRenderSkybox(false);
 		isOutside = false;
+		AudioController.playPortalHum();
+		AudioController.playPortalSound();
 	}
 
 
