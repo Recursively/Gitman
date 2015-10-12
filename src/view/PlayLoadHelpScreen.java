@@ -4,6 +4,7 @@ import controller.GameController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 import org.lwjgl.util.vector.Vector2f;
 import view.renderEngine.GuiRenderer;
 
@@ -38,9 +39,11 @@ public class PlayLoadHelpScreen {
 			GuiTexture[] images = initTitleScreens(loader);
 			
 			boolean load = false;
+			boolean closed = false;
 
-			while (true) {
 
+			while (!closed) {
+				
 				// ticks time every half second
 				long currentTime = System.currentTimeMillis();
 				if (currentTime - timer > 500) {
@@ -53,7 +56,7 @@ public class PlayLoadHelpScreen {
 				guiList.add(images[index % 2]);
 				guiRenderer.render(guiList);
 				DisplayManager.updateDisplay();
-
+				
 				// user begins game
 				
 				if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
@@ -64,14 +67,20 @@ public class PlayLoadHelpScreen {
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
-					break;
 					
+					HelpScreen helpScreen = new HelpScreen(isHost, hostname, fullscreen);
+					closed = helpScreen.wasClosed();
+				}
+				else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+					DisplayManager.closeDisplay();
+					closed = true;
 				}
 			}
-
+			if(!closed){
 			new GameController(isHost, hostname, load, fullscreen);
-			// change to make new window
-			// TODO
+			}else{
+				AL.destroy();
+			}
 		}
 
 
