@@ -31,7 +31,7 @@ import java.util.Random;
  */
 public class EntityFactory {
 	// commit position is 10 above the ground
-	private static final int COMMIT_OFFSET_Y = 10; 
+	private static final int COMMIT_OFFSET_Y = 0;
 	
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
@@ -306,7 +306,8 @@ public class EntityFactory {
 
 
     public static Commit createCommit(Vector3f position) {
-        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
+        position.y += 10;
+        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1.5f, EntityFactory.movableItemID++);
     }
 
     public ArrayList<Entity> getEntities() {

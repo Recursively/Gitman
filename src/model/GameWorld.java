@@ -224,7 +224,6 @@ public class GameWorld {
 		else {
 			this.interactDistance = MIN_INTERACT;
 		}
-		
 		return true;
 	}
 
@@ -819,6 +818,14 @@ public class GameWorld {
 
 	public ArrayList<Entity> getWallEntities() {
 		return wallEntities;
+	}
+
+	public void rotateCommits() {
+		for (MovableEntity e : movableEntities.values()) {
+			if (e instanceof Commit) {
+				e.increaseRotation(0.5f, 0.5f, 0.5f);
+			}
+		}
 	}
 }
 
