@@ -84,43 +84,35 @@ public class Save {
 		attr.setValue("1");
 		player.setAttributeNode(attr);
 		
-		// position elements
-		Element playerPosition = doc.createElement("playerPosition");
-		player.appendChild(playerPosition);
-		
 		// position x element
 		Element posX = doc.createElement("posX");
 		posX.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getPosition().getX())));
-		playerPosition.appendChild(posX);
+		player.appendChild(posX);
 		
 		// position x element
 		Element posY = doc.createElement("posY");
 		posY.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getPosition().getY())));
-		playerPosition.appendChild(posY);
+		player.appendChild(posY);
 		
 		// position x element
 		Element posZ = doc.createElement("posZ");
 		posZ.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getPosition().getZ())));
-		playerPosition.appendChild(posZ);
-
-		// camera elements
-		Element camera = doc.createElement("camera");
-		player.appendChild(camera);
+		player.appendChild(posZ);
 
 		// pitch element
 		Element pitch = doc.createElement("pitch");
 		pitch.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getPitch())));
-		camera.appendChild(pitch);
+		player.appendChild(pitch);
 
 		// roll element
 		Element roll = doc.createElement("roll");
 		roll.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getRoll())));
-		camera.appendChild(roll);
+		player.appendChild(roll);
 
 		// yaw element
 		Element yaw = doc.createElement("yaw");
 		yaw.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPlayer().getCamera().getYaw())));
-		camera.appendChild(yaw);
+		player.appendChild(yaw);
 		
 		// uid element
 		Element uid = doc.createElement("uid");
@@ -285,11 +277,11 @@ public class Save {
 			Element id = doc.createElement("id");
 			rotZ.appendChild(doc.createTextNode(String.valueOf(card.getUID())));
 			swipeCard.appendChild(id);
-			/*
+			
 			Element cardNum = doc.createElement("cardNum");
 			swipeCard.appendChild(doc.createTextNode(String.valueOf(card.getCardNum())));
 			swipeCard.appendChild(cardNum);
-			*/
+			
 		}
 		
 
