@@ -132,8 +132,12 @@ public class PlayLoadHelpScreen {
         GuiTexture[] images = new GuiTexture[3];
         images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
+
+        //TODO make load underscore
         images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
+
+        //TODO make help underscore
         images[2] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
         return images;
