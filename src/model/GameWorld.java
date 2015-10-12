@@ -649,9 +649,9 @@ public class GameWorld {
 			
 			// set player up in the outside world if they are outside
 			if(GameWorld.isOutside){
-				System.out.println("Is OUtside"); //TODO
 				setPlayerOutside();
 				MasterRenderer.setRenderSkybox(true);
+				AudioController.stopOfficeLoop();
 				AudioController.playGameWorldLoop();
 			}
 		}
