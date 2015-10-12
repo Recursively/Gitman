@@ -1,12 +1,10 @@
 package model.entities.movableEntity;
 
 import java.util.ArrayList;
-import java.util.Set;
-
 import model.GameWorld;
+import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -54,8 +52,15 @@ public class Laptop extends Item {
 					return 18;
 				}
 			}
-			// no card found that can unlock door. display message
-			game.setGuiMessage("unsuccessfulUnlock", 2500);
+			
+			// only show one message. If laptop full, prioritise that message
+			if(game.getInventory().getStorageUsed() + GameWorld.CODE_VALUE > Inventory.MAX_STORAGE_SIZE){
+				game.setGuiMessage("laptopMemoryFull", 2500);
+			}
+			else {
+				// no card found that can unlock door. display message
+				game.setGuiMessage("unsuccessfulUnlock", 2500);
+			}
 		}
 		return -1;
 	}
@@ -74,5 +79,5 @@ public class Laptop extends Item {
 	public int getCardID(){
 		return cardID;
 	}
-	 
+
 }

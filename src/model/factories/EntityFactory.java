@@ -29,12 +29,13 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * Entity factory which abstracts the creation of an entity. It loads the entity map for a given terrain or
- * randomly generates entities for testing.
+ * Entity factory which abstracts the creation of an entity. It loads the entity
+ * map for a given terrain or randomly generates entities for testing.
  *
  * @author Marcel van Workum
  */
 public class EntityFactory {
+
 
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
@@ -246,6 +247,7 @@ public class EntityFactory {
         } else if (entityName.equals("lamp")) {
             entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, 1f, 0, lampData));
+            LightFactory.createEntityLight(new Vector3f(x, y + 12, z + 2));
         } else if (entityName.equals("pine")) {
             y -= 2;
             entities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
@@ -343,5 +345,13 @@ public class EntityFactory {
 
     public static TexturedModel getLaptopTexturedModel() {
         return laptopTexturedModel;
+    }
+
+    public int getMovableEntitiesID() {
+        return EntityFactory.movableItemID;
+    }
+
+    public void increaseMovableEntitiesID() {
+        EntityFactory.movableItemID++;
     }
 }

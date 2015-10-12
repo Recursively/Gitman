@@ -1,15 +1,10 @@
 package controller;
 
+import model.GameWorld;
+import model.data.Save;
+import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-
-import main.ServerMain;
-import model.GameWorld;
-import model.data.Load;
-import model.data.Save;
-import model.entities.movableEntity.MovableEntity;
-import model.toolbox.Loader;
-import view.DisplayManager;
 
 /**
  * Controller to handle mouse and key input by the player. The class identifies
@@ -43,24 +38,13 @@ public class ActionController {
 			}
 		}
 
-		while(Keyboard.next()){
+		while(GameController.RUNNING && Keyboard.next()){
         	// carry out methods when key is pressed (not released)
         	if(Keyboard.getEventKeyState()){
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_I){
         			gameWorld.getInventory().displayInventory();
             	} 
-        		
-
-        		// TODO remove!!!!
-    			if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
-    				if (!gameController.isCompiled()) {
-    					gameWorld.compileProgram();
-    					gameController.setCompiled(true);
-    					
-    					
-    				}
-    			}
         		
         		// deal with opening and closing viewing things in the inventory
         		if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
@@ -76,10 +60,10 @@ public class ActionController {
         		        		
         		if (Keyboard.getEventKey() == Keyboard.KEY_X){
         			
-    				MovableEntity entity = gameWorld.getInventory().deleteItem(gameWorld);
+    				int entity = gameWorld.getInventory().deleteItem(gameWorld);
     				
-    				if(entity != null){
-    					gameController.setNetworkUpdate(8, entity);
+    				if(entity != 0){
+    					gameController.setNetworkUpdate(8, gameWorld.getMoveableEntities().get(entity));
     				}
     				
     			}
@@ -98,16 +82,13 @@ public class ActionController {
     			
     			if(gameWorld.getGameState() > -1){
 					if(Keyboard.getEventKey() == Keyboard.KEY_RETURN){
-						DisplayManager.closeDisplay();
-						//TODO networking idk what to put here help
-						//is currently testing mode
-						new ServerMain();
+						GameController.RUNNING = false;
 					}
 				}    			
     			
     			// escape closes screen
     			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
-    				DisplayManager.closeDisplay();
+					GameController.RUNNING = false;
     			}
         	}
 		}

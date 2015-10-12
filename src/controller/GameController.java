@@ -4,20 +4,13 @@ import model.GameWorld;
 import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
-import model.factories.GuiFactory;
 import model.toolbox.Loader;
-
-import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.TrueTypeFont;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
 
-import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
@@ -29,9 +22,13 @@ import java.util.Map;
  * Deals with Game logic
  *
  * @author Marcel van Workum
+ * @author Reuben
+ * @author Divya
+ * @author Ellie
  */
 public class GameController {
 
+	public static boolean RUNNING;
 	private boolean compiled = false;
 
 	public static boolean READY;
@@ -56,10 +53,12 @@ public class GameController {
 
 	/**
 	 * Delegates the creation of the MVC and then starts the game
-	 * 
+	 *
 	 * @throws IOException
 	 */
-	public GameController(boolean isHost, String ipAddress) {
+	public GameController(boolean isHost, String ipAddress, boolean load) {
+
+		RUNNING = true;
 
 		// initialise model
 		loader = new Loader();
@@ -71,8 +70,8 @@ public class GameController {
 
 		// initialise the game world
 		gameWorld = new GameWorld(loader, this);
-		gameWorld.initGame(isHost);
-
+		gameWorld.initGame(isHost, load);
+		
 		// initialise controller for actions
 		actionController = new ActionController(loader, gameWorld, this);
 
@@ -84,7 +83,7 @@ public class GameController {
 			serverController.start();
 		} else {
 			clientController = new ClientController(this, ipAddress);
-			clientController.start();
+			clientController.run();
 		}
 
 		this.networkRunning = true;
@@ -97,7 +96,6 @@ public class GameController {
 				Thread.sleep(50);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 
 		}
@@ -110,7 +108,7 @@ public class GameController {
 	 * Main game loop where all the goodness will happen
 	 */
 	private void doGame() {
-		while (!Display.isCloseRequested() && networkRunning) {
+		while (!Display.isCloseRequested() && networkRunning && RUNNING) {
 
 			// process the terrains
 
@@ -129,7 +127,7 @@ public class GameController {
 			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
 			Player player = gameWorld.getPlayer();
 
-			// PROCESS ENTITIES// PROCESS ENTITIES
+			// PROCESS ENTITIES
 			for (Entity e : statics) {
 				if (e.isWithinRange(player)) {
 					renderer.processEntity(e);
@@ -145,13 +143,12 @@ public class GameController {
 			// checks to see if inventory needs to be displayed
 			actionController.processActions();
 
-
 			// update the players position in the world
 			// gameWorld.getPlayer().move(gameWorld.getTerrain());
 			if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
 				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
 			}
-			
+
 			// decrease patch progress as time passes
 			gameWorld.decreasePatch();
 
@@ -160,29 +157,30 @@ public class GameController {
 
 			// render the gui
 			guiRenderer.render(gameWorld.getGuiImages());
-			
 
 			if (gameWorld.getInventory().isVisible()) {
 				guiRenderer.render(gameWorld.getInventory().getTextureList());
-			}
-			else {
+
+			} else {
 				// only show e to interact message if inventory is not open
-				for(MovableEntity e : gameWorld.withinDistance().values()){
+				for (MovableEntity e : gameWorld.withinDistance().values()) {
 					guiRenderer.render(gameWorld.eInteractMessage(e));
 				}
 			}
-			
+
 			guiRenderer.render(gameWorld.displayMessages());
-			
-			if(gameWorld.isHelpVisible()){
+
+			if (gameWorld.isHelpVisible()) {
 				guiRenderer.render(gameWorld.helpMessage());
 			}
 
-			if(gameWorld.getGameState() > -1) {
+			if (gameWorld.getGameState() > -1) {
 				guiRenderer.render(gameWorld.getEndStateScreen());
 			}
-			
-			// update the Display window			
+
+			TimeController.tickTock();
+
+			// update the Display window
 			DisplayManager.updateDisplay();
 		}
 
@@ -238,10 +236,15 @@ public class GameController {
 	public void removePlayer(int uid) {
 		gameWorld.getAllPlayers().remove(uid);
 	}
-	
-	public void setNetworkUpdate(int status, MovableEntity entity){
-		//TODO FIX ME
-		//clientController.setNetworkUpdate(status, entity);
+
+	public void setNetworkUpdate(int status, MovableEntity entity) {
+
+		if (!isHost()) {
+			clientController.setNetworkUpdate(status, entity);
+		} else {
+			serverController.setNetworkUpdate(status, entity);
+		}
+
 	}
 
 	public int gameSize() {

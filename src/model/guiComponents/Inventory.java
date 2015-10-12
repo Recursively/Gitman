@@ -1,17 +1,14 @@
 package model.guiComponents;
 
-import java.util.ArrayList;
-
+import model.GameWorld;
+import model.entities.movableEntity.LaptopItem;
+import model.factories.GuiFactory;
+import model.textures.GuiTexture;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
-import model.GameWorld;
-import model.entities.Entity;
-import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.MovableEntity;
-import model.factories.GuiFactory;
-import model.textures.GuiTexture;
+import java.util.ArrayList;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g.
@@ -21,7 +18,7 @@ import model.textures.GuiTexture;
  *
  */
 public class Inventory {	
-	private static final int MAX_STORAGE_SIZE = 200;   // FIXME laptop has 512MB available for storage
+	public static final int MAX_STORAGE_SIZE = 200;   
 	
 	// final fields for image display
 	public static final int NUM_ACROSS = 2;
@@ -97,13 +94,13 @@ public class Inventory {
 	/**
 	 * Remove item from inventory. Update storage space
 	 * used. 
-	 * 
-	 * @param item to remove
+	 *
 	 * @return Item if successfully removed, null if not
 	 */
-	public LaptopItem deleteItem(GameWorld game){
-		LaptopItem item = this.selected;
+	public int deleteItem(GameWorld game){
+		int item = -1;   //TODO REUBEN -> is returning -1 in case of null delete fine?
 		if(this.selected != null){
+			item = this.selected.getUID();
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
 			game.removeFromInventory(this.selected);
@@ -111,7 +108,6 @@ public class Inventory {
 			// redraw inventory gui as item has been deleted 
 			updateLaptopDisplay();
 		}
-		
 		//Networking
 		return item;
 	}
@@ -231,6 +227,26 @@ public class Inventory {
 			return num - 1;
 		}
 		return num;
+	}
+	
+	public LaptopItem getItem(int uid){
+		for(LaptopItem l : this.inLaptop){
+			if(l.getUID() == uid){
+				return l;
+			}
+		}
+		return null;
+	}
+	
+	public void setStorageUsed(int used){
+		this.storageUsed = used;
+	}
+
+	public void serverDelete(LaptopItem entity) {
+		this.storageUsed = this.storageUsed - entity.getSize();
+		inLaptop.remove(entity);
+		updateLaptopDisplay();
+		
 	}
 
 }

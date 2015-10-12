@@ -89,4 +89,8 @@ public class Data {
 	public ArrayList<SwipeCard> getSwipeCards() {
 		return swipeCards;
 	}
+
+	public int getStorageUsed() {
+		return storageUsed;
+	}
 }

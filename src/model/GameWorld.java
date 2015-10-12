@@ -1,6 +1,8 @@
 package model;
 
 import controller.GameController;
+import model.data.Data;
+import model.data.Load;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
@@ -35,17 +37,15 @@ import java.util.*;
  */
 public class GameWorld {
 	public static final int GAME_WIN = 1;
-	private static final int MAX_PROGRESS = 100;
+	public static final int CODE_VALUE = 20;
+	public static final int MAX_PROGRESS = 100;
+
 	private static final int START_PATCH = 10; // starting patch progress value												
 	private static final double PATCH_DECREASE = 0.1; 
 	private static final double PATCH_TIMER = 100000;  // time before decrease 
-	private static final int AVG_COMMIT_COLLECT = 5; // by each player 
-	private static final int CODE_VALUE = 20; 
+	private static final int AVG_COMMIT_COLLECT = 5; // by each player  
 	
-	private static final int INTERACT_DISTANCE = 15; // max distance between player/item for interactions
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
-	
-	
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
 
@@ -60,6 +60,8 @@ public class GameWorld {
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
 
+
+	private static float WORLD_TIME = 0;
 	private static boolean isProgramCompiled = false;
 
 	// Object creation factories
@@ -71,7 +73,7 @@ public class GameWorld {
 
 	// Collection of guiImages to render to the screen
 	private List<GuiTexture> guiImages;
-	private GuiMessages guiMessages;
+	private static GuiMessages guiMessages;
 
 	// collection of entities in the game
 	private ArrayList<Entity> staticEntities;
@@ -79,6 +81,7 @@ public class GameWorld {
 	private ArrayList<SwipeCard> cards;
 
 	// Terrain the world is on
+
 	private static Terrain currentTerrain;
 	private static Terrain otherTerrain;
 
@@ -90,7 +93,7 @@ public class GameWorld {
 	private Map<Integer, Player> allPlayers;
 
 	// Constant sun light-source
-	private Light sun;
+	private static Light sun;
 	private Light officeLight;
 
 	// Collection of attenuating light-sources
@@ -106,14 +109,14 @@ public class GameWorld {
 	private Inventory inventory;
 	private int codeProgress; // code collection progress
 	private int patchProgress; // commit collection progress
+
 	private int score; // overall score
 	private boolean inProgram;
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
+	private int interactDistance;
 	
-	
-
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
@@ -131,10 +134,10 @@ public class GameWorld {
 
 	/**
 	 * Initialises the game by setting up the lighting, factories and currentTerrain
-	 * 
+	 *
 	 * @param isHost
 	 */
-	public void initGame(boolean isHost) {
+	public void initGame(boolean isHost, boolean load) {
 		// initialise factories and data structures
 		initFactories();
 		initDataStructures();
@@ -142,7 +145,7 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the currentTerrain 
+		// initialises the currentTerrain
 		// currentTerrain at some point.
 		initTerrain();
 
@@ -154,20 +157,56 @@ public class GameWorld {
 		initPlayerModel();
 
 		staticEntities = entityFactory.getEntities();
-		movableEntities = entityFactory.getMovableEntities();
+		
+		if(!load){
+			movableEntities = entityFactory.getMovableEntities();
+
+			// game state
+			inventory = new Inventory(guiFactory);
+			this.patchProgress = START_PATCH;
+			this.codeProgress = 0;
+			this.cards = new ArrayList<SwipeCard>();
+			this.inProgram = false;
+			this.canApplyPatch = false;			
+		}
+		else {
+			initLoadGame(Load.loadGame());
+		}
+
+		this.helpVisible = false;
+		this.gameState = -1;
+		this.interactDistance = 15;
+		this.commitIndex = 10;   // start with 10 commits
+		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+		
+		// create commits
+		initCommits();
+	}
+	
+	public void initLoadGame(Data load) {
+		movableEntities = new HashMap<Integer, MovableEntity>();
+		for(MovableEntity e : load.getMovableEntities()){
+			this.movableEntities.put(e.getUID(), e);
+		} 
 
 		// game state
 		inventory = new Inventory(guiFactory);
-		this.patchProgress = START_PATCH;
-		this.codeProgress = 0;  
-		this.cards = new ArrayList<SwipeCard>();
-		this.inProgram = false;  
-		this.canApplyPatch = false;
-		this.helpVisible = false;
-		this.commitIndex = 0;
-		this.gameState = -1;
+		this.patchProgress = load.getPatchProgress();
+		this.codeProgress = load.getCodeProgress(); 
+		this.cards = load.getSwipeCards();
+		this.inProgram = load.isInProgram();  
+		this.canApplyPatch = load.isCanApplyPatch();
+		inventory.setStorageUsed(load.getStorageUsed());
+	}
 
-		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+	private void initCommits() {
+		int count = 0;
+		for (Vector3f position : entityFactory.getCommitPositions()) {
+			if (count == 10) break;
+			Commit newCommit = EntityFactory.createCommit(position);
+			this.movableEntities.put(newCommit.getUID(), newCommit);
+			count++;
+		}
 	}
 
 	/**
@@ -180,7 +219,6 @@ public class GameWorld {
 		lights.add(officeLight);
 
 		lights.addAll(LightFactory.getStaticEntityLights());
-
 	}
 
 	/**
@@ -190,7 +228,7 @@ public class GameWorld {
 		guiImages = new ArrayList<GuiTexture>();
 		guiImages = guiFactory.getInfoPanel();
 		guiMessages = new GuiMessages(guiFactory);
-		
+
 	}
 
 	/**
@@ -217,7 +255,7 @@ public class GameWorld {
 	 * initialises the factories
 	 */
 	private void initFactories() {
-		playerFactory = new PlayerFactory(this, loader);
+		playerFactory = new PlayerFactory(this);
 		lightFactory = new LightFactory();
 		terrainFactory = new TerrainFactory(loader);
 		guiFactory = new GuiFactory(loader);
@@ -231,8 +269,17 @@ public class GameWorld {
 	public ArrayList<Light> getLights() {
 		ArrayList<Light> collectionOfLights = new ArrayList<>();
 		collectionOfLights.add(sun);
-		collectionOfLights.add(officeLight);
-		collectionOfLights.addAll(lights);
+
+		ArrayList<Light> possibleLights = new ArrayList<>();
+		possibleLights.add(officeLight);
+		possibleLights.addAll(lights);
+
+		Collections.sort(possibleLights);
+
+		for (int i = 0; i < 4; i++) {
+			collectionOfLights.add(possibleLights.get(i));
+		}
+
 		return collectionOfLights;
 	}
 
@@ -276,7 +323,7 @@ public class GameWorld {
 	}
 
 	public void setPlayer(Player player) {
-		this.player = player;
+		GameWorld.player = player;
 	}
 
 	/**
@@ -297,11 +344,11 @@ public class GameWorld {
 	public int getGameState() {
 		return this.gameState;
 	}
-	
+
 	public boolean canApplyPatch() {
 		return this.canApplyPatch;
 	}
-	
+
 	public boolean isHelpVisible() {
 		return this.helpVisible;
 	}
@@ -324,6 +371,7 @@ public class GameWorld {
 		MovableEntity entity = findMovEntity(player.getCamera());
 		if (entity != null) {
 			int type = entity.interact(this);
+			System.out.println("BUG");
 			sendInteraction(type, entity);
 		}
 	}
@@ -340,8 +388,8 @@ public class GameWorld {
 	 */
 	public MovableEntity findMovEntity(Camera camera) {
 		MovableEntity closest = null;
-		double closestDiff = INTERACT_DISTANCE * INTERACT_DISTANCE;
-		
+		double closestDiff = interactDistance * interactDistance;
+
 		for(Map.Entry<Double, MovableEntity> e : this.withinDistance().entrySet()){
 			if(e.getKey() <= closestDiff){
 				closestDiff = e.getKey();
@@ -350,10 +398,10 @@ public class GameWorld {
 		}
 		return closest;
 	}
-	
+
 	public Map<Double, MovableEntity> withinDistance(){
 		HashMap<Double, MovableEntity> interactable = new HashMap<Double, MovableEntity>();
-		
+
 		// get position of player
 		Camera camera = player.getCamera();
 		float px = camera.getPosition().getX();
@@ -368,9 +416,9 @@ public class GameWorld {
 			float ex = e.getPosition().getX();
 			float ez = e.getPosition().getZ();
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);
-			
+
 			// if within interactable distance, add to map
-			if (diff <= (INTERACT_DISTANCE*INTERACT_DISTANCE) 
+			if (diff <= (interactDistance*interactDistance)
 					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
 				interactable.put(diff, e);
 			}
@@ -380,7 +428,7 @@ public class GameWorld {
 
 	/**
 	 * Remove a movable entity from the game
-	 * 
+	 *
 	 * @param entity
 	 *            to remove
 	 */
@@ -400,7 +448,7 @@ public class GameWorld {
 
 	/**
 	 * Add the given item to the inventory
-	 * 
+	 *
 	 * @param item
 	 *            to add
 	 * @return true if add is successful
@@ -410,14 +458,14 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		this.setGuiMessage("laptopMemoryFull", 3000);  
+		this.setGuiMessage("laptopMemoryFull", 3000);
 		return false;
 	}
 
 	/**
 	 * Remove the given item from the inventory, and drop the item at the player
 	 * position
-	 * 
+	 *
 	 * @param item
 	 *            to remove
 	 * @return true if remove was successful
@@ -434,8 +482,27 @@ public class GameWorld {
 	}
 
 	/**
+	 * Remove the given item from the inventory, and drop the item at the player
+	 * position
+	 *
+	 * @param item
+	 *            to remove
+	 * @return true if remove was successful
+	 */
+	public void removeFromInventory(LaptopItem item, int playerID) {
+		if (item != null) {
+			Vector3f playerPos = gameController.getPlayerWithID(playerID).getPosition();
+			float y = currentTerrain.getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			float scale = item.getScale();
+			item.setScale(scale);
+			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET, playerPos.getZ()));
+			this.movableEntities.put(item.getUID(), item);
+		}
+	}
+
+	/**
 	 * Add card to list of swipe cards
-	 * 
+	 *
 	 * @param swipeCard
 	 */
 	public void addCard(SwipeCard swipeCard) {
@@ -444,7 +511,7 @@ public class GameWorld {
 
 	/**
 	 * Decreases patch progress bar steadily by 10% of current progress
-	 * 
+	 *
 	 */
 	public void decreasePatch() {
 		// if not in outside area, do nothing
@@ -484,14 +551,15 @@ public class GameWorld {
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
-			this.setGuiMessage("patchComplete", 3000);  
+			this.interactDistance = 40;
+			this.setGuiMessage("patchComplete", 3000);
 		}
 	}
 
 
 	/**
 	 * Updates game score (players get points for interacting with items)
-	 * 
+	 *
 	 * @param score
 	 *            is score of item in game
 	 */
@@ -516,21 +584,22 @@ public class GameWorld {
 	}
 
 	/**
-	 * Code progess reached 100 means all bits of code collected. Player is
+	 * Code progress reached 100 means all bits of code collected. Player is
 	 * given the option of multiplayer or single player, and the environment
 	 * they are displayed in changes in
 	 */
 	public void compileProgram() {
-		this.inProgram = true;  // FIXME can probably remove this now
+		this.inProgram = true;  
 		this.timer = System.currentTimeMillis(); // start timer
-		this.setGuiMessage("codeCompiledMessage", 5000); 
-		
+		this.interactDistance = 20;
+		this.setGuiMessage("codeCompiledMessage", 5000);
+
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
 		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
 		GameWorld.isProgramCompiled = true;
 	}
-	
+
 	public List<GuiTexture> getEndStateScreen() {
 		if(this.gameState == GAME_WIN){
 			return guiFactory.getWinScreen();
@@ -588,6 +657,8 @@ public class GameWorld {
 		MasterRenderer.setRenderSkybox(false);
 	}
 
+
+
 	public void displayHelp() {
 		if(this.helpVisible){
 			this.helpVisible = false;
@@ -596,12 +667,11 @@ public class GameWorld {
 		else {
 			this.helpVisible = true;
 			Mouse.setGrabbed(false);
-		}		
+		}
 	}
-
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
 		return guiFactory.getPopUpInteract(e.getPosition());
-	}	
+	}
 
 	public static boolean isProgramCompiled() {
 		return isProgramCompiled;
@@ -611,12 +681,13 @@ public class GameWorld {
 		GameWorld.isProgramCompiled = isProgramCompiled;
 	}
 
+
 	public List<GuiTexture> displayMessages() {
 		return guiMessages.getMessages();
 	}
-	
-	public void setGuiMessage(String msg, long time) {
-		this.guiMessages.setMessage(msg, time);
+
+	public static void setGuiMessage(String msg, long time) {
+		guiMessages.setMessage(msg, time);
 	}
 
 	public void setGameState(int state) {
@@ -647,40 +718,33 @@ public class GameWorld {
 		return score;
 	}
 
-	public void setScore(int score) {
-		this.score = score;
-	}
-
 	public boolean isInProgram() {
 		return inProgram;
-	}
-
-	public void setInProgram(boolean inProgram) {
-		this.inProgram = inProgram;
 	}
 
 	public boolean isCanApplyPatch() {
 		return canApplyPatch;
 	}
 
-	public void setCanApplyPatch(boolean canApplyPatch) {
-		this.canApplyPatch = canApplyPatch;
-	}
-
 	public int getCommitIndex() {
 		return commitIndex;
-	}
-
-	public void setCommitIndex(int commitIndex) {
-		this.commitIndex = commitIndex;
 	}
 
 	public long getTimer() {
 		return timer;
 	}
 
-	public void setTimer(long timer) {
-		this.timer = timer;
+	public static Vector3f getPlayerPosition() {
+		return player.getPosition();
+	}
+
+	public static float getWorldTime() {
+		return WORLD_TIME;
+	}
+
+	public static void increaseTime(float worldTime) {
+		WORLD_TIME += worldTime;
+		WORLD_TIME %= 24000;
 	}
 }
 
