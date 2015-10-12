@@ -145,7 +145,7 @@ public class Load {
 				
 				String type = getTextValue(e, "type");
 
-				TexturedModel model = ModelFromString(type);
+				TexturedModel model = ModelFromString(type, 0);
 
 				// item position
 				int x = Integer.parseInt(getTextValue(e, "itemPosX"));
@@ -166,13 +166,9 @@ public class Load {
 
 				// item name
 				String name = getTextValue(e, "name");
-				
-				// placeholders to make EntityFromType() work
-				int cardNum = 0;
-				int cardID = 0;
 
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
+						rotX, rotY, rotZ, scale, id, name, 0, 0);
 				
 				inventory.add((LaptopItem) movableEntity);
 			}
@@ -192,7 +188,7 @@ public class Load {
 				String type = getTextValue(e, "type");
 
 				// textured model
-				TexturedModel model = ModelFromString(type);
+				TexturedModel model = ModelFromString(type, 0);
 
 				// item position
 				int x = Integer.parseInt(getTextValue(e, "itemPosX"));
@@ -250,6 +246,9 @@ public class Load {
 				
 				String type = "SwipeCard";
 				
+				// swipeCard cardNum
+				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
+				
 				TexturedModel model = null; // TODO = EntityFactory.getSwipecardTexturedModel();
 				
 				// item position
@@ -272,9 +271,6 @@ public class Load {
 				// item name
 				String name = getTextValue(e, "name");
 
-				// swipeCard cardNum
-				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
-				
 				int cardID = 0;
 				
 				// construct the entity
@@ -286,7 +282,7 @@ public class Load {
 		}
 	}
 
-	private static TexturedModel ModelFromString(String type) {
+	private static TexturedModel ModelFromString(String type, int cardNum) {
 		if (type == "Bug") {
 			return EntityFactory.getBugTexturedModel();
 		} else if (type == "Commit") {
@@ -298,7 +294,7 @@ public class Load {
 		} else if (type == "ReadMe") {
 			return EntityFactory.getTabletTexturedModel();
 		} else if (type == "SwipeCard") {
-			// TODO return EntityFactory.getSwipecardTexturedModel();
+			return EntityFactory.getSwipecardTexturedModel()[cardNum - 1];
 		}
 
 		return null;

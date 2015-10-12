@@ -67,7 +67,7 @@ public class EntityFactory {
     private static TexturedModel tabletTexturedModel;
 
     private ModelData swipecardData;
-    private TexturedModel[] swipecardTexturedModel = new TexturedModel[5];
+    private static TexturedModel[] swipecardTexturedModel = new TexturedModel[5];
     private ModelData commitData;
     private static TexturedModel commitTexturedModel;
     private ModelData flashdriveData;
@@ -329,7 +329,7 @@ public class EntityFactory {
         return commitTexturedModel;
     }
 
-    public TexturedModel[] getSwipecardTexturedModel() {
+    public static TexturedModel[] getSwipecardTexturedModel() {
         return swipecardTexturedModel;
     }
 
