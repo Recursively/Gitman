@@ -15,8 +15,8 @@ import model.textures.GuiTexture;
  *
  */
 public class GuiMessages {
-	private static final Vector2f MESSAGE_POS = new Vector2f(0f, 0.5f);
-	private static final Vector2f MESSAGE_SCALE = new Vector2f(1f,1f); 
+	public static final Vector2f MESSAGE_POS = new Vector2f(0f, 0.5f);
+	public static final Vector2f MESSAGE_SCALE = new Vector2f(1f,1f); 
 	
 	private GuiFactory guiFactory;
 	private List<GuiTexture> messages;
@@ -30,7 +30,15 @@ public class GuiMessages {
 	
 	public void setMessage(String msg, long time){
 		this.timer = System.currentTimeMillis();
-		this.messages.add(guiFactory.makeGuiTexture(msg, MESSAGE_POS, MESSAGE_SCALE));
+		if(msg.equals("codeCompiledMessage")){
+			this.messages.add(guiFactory.getCodeCompiledMessage());
+		}
+		else if (msg.equals("patchComplete")){
+			this.messages.add(guiFactory.getPatchComplete());
+		}
+		else {
+			this.messages.add(guiFactory.makeGuiTexture(msg, MESSAGE_POS, MESSAGE_SCALE));
+		}
 		this.messageTime = time;
 	}
 	

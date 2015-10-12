@@ -162,6 +162,7 @@ public class Inventory {
 			if(this.selected != null){
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
+				
 			}
 		}
 		
