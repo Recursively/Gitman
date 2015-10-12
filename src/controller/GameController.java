@@ -109,7 +109,7 @@ public class GameController {
      */
     private void doGame() {
         AudioController.stopMenuLoop();
-    
+
         // set up audio
         if(GameWorld.isOutside()){
         	AudioController.playGameWorldLoop();

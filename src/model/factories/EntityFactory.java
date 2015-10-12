@@ -30,15 +30,14 @@ import java.util.Random;
  * @author Marcel van Workum
  */
 public class EntityFactory {
-
-
+	// commit position is 10 above the ground
+	private static final int COMMIT_OFFSET_Y = 10; 
+	
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
     private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
-
-
 
     private Loader loader;
 
@@ -243,7 +242,7 @@ public class EntityFactory {
         float scale = random.nextFloat() + 1;
 
         if (entityName.equals("commit")) {
-            commitPositions.add(new Vector3f(x, y, z));
+            commitPositions.add(new Vector3f(x, y + COMMIT_OFFSET_Y, z));
         } else if (entityName.equals("lamp")) {
             entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, 1f, 0, lampData));

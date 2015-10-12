@@ -166,7 +166,7 @@ public class GameWorld {
 
 			// game state
 			this.patchProgress = START_PATCH;
-			this.codeProgress = 0; 
+			this.codeProgress = 0;  
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
 			this.interactDistance = MIN_INTERACT;  
@@ -218,10 +218,7 @@ public class GameWorld {
 			this.interactDistance = MIN_INTERACT;
 		}
 
-		if (isOutside) {
-			AudioController.playGameWorldLoop();
-		} else {
-			AudioController.playOfficeLoop();
+		if (!isOutside) {
 			if (isProgramCompiled) {
 				AudioController.playPortalHum();
 			}
@@ -238,6 +235,7 @@ public class GameWorld {
 			this.movableEntities.put(newCommit.getUID(), newCommit);
 			count++;
 		}
+		this.commitIndex = count;
 	}
 
 	/**
