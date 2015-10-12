@@ -19,13 +19,21 @@ import model.entities.movableEntity.SwipeCard;
 
 public class Data {
 
-	private Player player;
+	// player element
+	private Vector3f playerPos;
+	private float pitch;
+	private float roll;
+	private float yaw;
+	private int uid;
+
+	// entity elements
 	private ArrayList<LaptopItem> inventory;
 	private ArrayList<MovableEntity> movableEntities;
 	private ArrayList<SwipeCard> swipeCards;
 
 	// gamestate elements
 	private int codeProgress;
+
 	private int patchProgress;
 	private int score;
 	private boolean inProgram;
@@ -34,12 +42,18 @@ public class Data {
 	private long timer;
 	private int storageUsed;
 
-	public Data(Player player, ArrayList<LaptopItem> inventory,
+	public Data(Vector3f playerPos, float pitch, float roll, float yaw,
+			int uid, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities,
 			ArrayList<SwipeCard> swipeCards, int codeProgress,
 			int patchProgress, int score, boolean inProgram,
 			boolean canApplyPatch, int commitIndex, long timer, int storageUsed) {
-		this.player = player;
+
+		this.playerPos = playerPos;
+		this.pitch = pitch;
+		this.roll = roll;
+		this.yaw = yaw;
+		this.uid = uid;
 		this.inventory = inventory;
 		this.movableEntities = movableEntities;
 		this.swipeCards = swipeCards;
@@ -51,6 +65,27 @@ public class Data {
 		this.commitIndex = commitIndex;
 		this.timer = timer;
 		this.storageUsed = storageUsed;
+		
+	}
+
+	public Vector3f getPlayerPos() {
+		return playerPos;
+	}
+
+	public float getPitch() {
+		return pitch;
+	}
+
+	public float getRoll() {
+		return roll;
+	}
+
+	public float getYaw() {
+		return yaw;
+	}
+
+	public int getUid() {
+		return uid;
 	}
 
 	public int getCodeProgress() {
@@ -79,10 +114,6 @@ public class Data {
 
 	public long getTimer() {
 		return timer;
-	}
-
-	public Player getPlayer() {
-		return player;
 	}
 
 	public ArrayList<LaptopItem> getInventory() {
