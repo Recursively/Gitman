@@ -601,9 +601,9 @@ public class GameWorld {
 	 * they are displayed in changes in
 	 */
 	public void compileProgram() { 
+		setGuiMessage("codeCompiledMessage", 5000);
 		this.timer = System.currentTimeMillis(); // start timer
 		this.interactDistance = 20;
-		setGuiMessage("codeCompiledMessage", 5000);
 
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));

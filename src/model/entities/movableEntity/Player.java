@@ -151,6 +151,7 @@ public class Player extends MovableEntity {
                 if(firstTimeOutside){
         			firstTimeOutside = false;
         			GameWorld.setGuiMessage("inGameMessage", 5000);
+        			//TODO MARCEL: outside audio thing
         		}
             }
         }
