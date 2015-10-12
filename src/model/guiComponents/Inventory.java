@@ -133,8 +133,8 @@ public class Inventory {
 			// if not empty, show first item as selected
 			if(!this.inLaptop.isEmpty()){
 				this.selected = this.inLaptop.get(0);
-				updateLaptopDisplay();
 			}
+			updateLaptopDisplay();
 		}
 	}
 	

@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
 import model.GameWorld;
 import model.models.TexturedModel;
 
@@ -34,6 +35,8 @@ public class Commit extends Item {
 		game.incrementPatch();
 		// add new commit in random position in game
 		game.addCommit();
+
+		AudioController.playRandomCommitSound();
 		
 		return 11;
 	}
