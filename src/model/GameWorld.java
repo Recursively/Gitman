@@ -175,22 +175,30 @@ public class GameWorld {
 	}
 	
 	public void initLoadGame(Data load) {
+		// load in movable entities and their saved positions
 		movableEntities = new HashMap<Integer, MovableEntity>();
 		for(MovableEntity e : load.getMovableEntities()){
 			this.movableEntities.put(e.getUID(), e);
 		} 
 
-		// game state
+		// inventory state
 		inventory = new Inventory(guiFactory);
-		this.patchProgress = load.getPatchProgress();
-		this.codeProgress = load.getCodeProgress(); 
-		this.cards = load.getSwipeCards(); 
-		this.canApplyPatch = load.isCanApplyPatch();
-		this.commitIndex = load.getCommitIndex();
 		inventory.setStorageUsed(load.getStorageUsed());
 		inventory.setInLaptop(load.getInventory());
+		
+		// swipe cards
+		this.cards = load.getSwipeCards(); 
+		
+		// score and game state
+		this.patchProgress = load.getPatchProgress();
+		this.codeProgress = load.getCodeProgress(); 
+		this.canApplyPatch = load.isCanApplyPatch();
+		this.commitIndex = load.getCommitIndex();
+		this.score = load.getScore();
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
+		
+		// player state //TODO 
 	}
 
 	private void initCommits() {
