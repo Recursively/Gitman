@@ -95,11 +95,16 @@ public class Load {
 			score = Integer.parseInt(getTextValue(doc, "score"));
 			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
 					"canApplyPatch"));
-			;
+			
 			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));
-			;
+			
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
+			
+			// create collections
+			inventory = new ArrayList<LaptopItem>();
+			movableEntities = new ArrayList<MovableEntity>();
+			swipeCards = new ArrayList<SwipeCard>();
 
 			// delegation of large groupings of loading to smaller, helper methods
 			parsePlayer(doc);
@@ -365,18 +370,19 @@ public class Load {
 	 */
 
 	private static TexturedModel ModelFromString(String type, int cardNum) {
-		if (type == "Bug") {
+		type = type.trim();
+		if (type.equals("Bug")) {
 			return EntityFactory.getBugTexturedModel();
-		} else if (type == "Commit") {
+		} else if (type.equals("Commit")) {
 			return EntityFactory.getCommitTexturedModel();
-		} else if (type == "FlashDrive") {
+		} else if (type.equals("FlashDrive")) {
 			return EntityFactory.getFlashdriveTexturedModel();
-		} else if (type == "Laptop") {
+		} else if (type.equals("Laptop")) {
 			return EntityFactory.getLaptopTexturedModel();
-		} else if (type == "ReadMe") {
+		} else if (type.equals("ReadMe")) {
 			return EntityFactory.getTabletTexturedModel();
-		} else if (type == "SwipeCard") {
-			return EntityFactory.getSwipecardTexturedModel()[cardNum - 1];
+		} else if (type.equals("SwipeCard")) {
+			return EntityFactory.getSwipecardTexturedModel()[cardNum];
 		}
 		System.out.println("Model not found for given type");
 		return null;
@@ -393,17 +399,18 @@ public class Load {
 			TexturedModel model, Vector3f pos, float rotX, float rotY,
 			float rotZ, float scale, int id, String name, int cardNum,
 			int cardID) {
-		if (type == "Bug") {
+		type = type.trim();
+		if (type.equals("Bug")) {
 			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
-		} else if (type == "Commit") {
+		} else if (type.equals("Commit")) {
 			return new Commit(model, pos, rotX, rotY, rotZ, scale, id);
-		} else if (type == "FlashDrive") {
+		} else if (type.equals("FlashDrive")) {
 			return new FlashDrive(model, pos, rotX, rotY, rotZ, scale, id, name);
-		} else if (type == "Laptop") {
+		} else if (type.equals("Laptop")) {
 			return new Laptop(model, pos, rotX, rotY, rotZ, scale, id, cardID);
-		} else if (type == "ReadMe") {
+		} else if (type.equals("ReadMe")) {
 			return new ReadMe(model, pos, rotX, rotY, rotZ, scale, id, name);
-		} else if (type == "SwipeCard") {
+		} else if (type.equals("SwipeCard")) {
 			return new SwipeCard(model, pos, rotX, rotY, rotZ, scale, id,
 					cardNum);
 		}
