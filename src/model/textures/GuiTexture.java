@@ -44,6 +44,15 @@ public class GuiTexture {
     public Vector2f getPosition() {
         return position;
     }
+    
+    /**
+     * Sets position.
+    *
+    * 
+    */
+   public void setPosition(Vector2f position) {
+       this.position = position;
+   }
 
     /**
      * Gets scale.
@@ -53,4 +62,8 @@ public class GuiTexture {
     public Vector2f getScale() {
         return scale;
     }
+
+	public GuiTexture copy() {
+		return new GuiTexture(texture, position, scale);
+	}
 }
