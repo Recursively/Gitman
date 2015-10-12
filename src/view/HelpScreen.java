@@ -57,8 +57,7 @@ public class HelpScreen {
 			if(!closed){
 			new PlayLoadHelpScreen(isHost, hostname, fullscreen);
 			}
-			//
-			//
+
 		}
 
 

@@ -67,13 +67,14 @@ public class PlayLoadHelpScreen {
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
-					
 					HelpScreen helpScreen = new HelpScreen(isHost, hostname, fullscreen);
 					closed = helpScreen.wasClosed();
+					break;
 				}
 				else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 					DisplayManager.closeDisplay();
 					closed = true;
+
 				}
 			}
 			if(!closed){

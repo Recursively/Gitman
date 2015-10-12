@@ -24,17 +24,17 @@ public class Laptop extends Item {
 	private int cardID;
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
-				  float rotY, float rotZ, float scale, int id, int cardID) {
+				  float rotY, float rotZ, float scale, int id, int cardID, boolean hasCode) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.hasCode = true;  
+		this.hasCode = hasCode;  
 		this.locked = true;
 		this.cardID = cardID;
 	}
 
 	public Laptop(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
-				  int textureIndex, int id, boolean code, int cardID) {
+				  int textureIndex, int id, boolean code, int cardID, boolean hasCode) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
-		this.hasCode = code;
+		this.hasCode = hasCode;
 		this.locked = true;
 		this.cardID = cardID;
 	}
@@ -86,6 +86,11 @@ public class Laptop extends Item {
 	@Override
 	public int getCardID(){
 		return cardID;
+	}
+	
+	@Override
+	public boolean getHasCode(){
+		return hasCode;
 	}
 
 }
