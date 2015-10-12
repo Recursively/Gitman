@@ -278,7 +278,7 @@ public class EntityFactory {
         } else if (entityName.equals("bug")) {
             y += 15;
             movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 10f, 0));
+                    0, 0, 10f, 0));
         } else if (entityName.equals("swipe_card")) {
             y += 3.5;
             z += 4.5;
