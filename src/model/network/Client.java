@@ -70,10 +70,15 @@ public class Client extends Thread {
 	}
 
 	private void checkForRemovedPlayers(ArrayList<Integer> receivedPlayers) {
+		int removeID = -1;
 		for (Integer index : gameController.getPlayers().keySet()) {
 			if (!receivedPlayers.contains(index)) {
-				gameController.removePlayer(index);
+				removeID = index;
 			}
+		}
+
+		if (removeID != -1) {
+			gameController.removePlayer(removeID);
 		}
 	}
 
@@ -147,7 +152,8 @@ public class Client extends Thread {
 
 	public void updatePlayer(int playerID, float[] packet) {
 		if (gameController.getPlayers().containsKey(playerID)) {
-			gameController.getPlayerWithID(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
+			gameController.getPlayerWithID(playerID).setPosition(
+					new Vector3f(packet[0], packet[1], packet[2]));
 		} else {
 			gameController.createPlayer(playerID);
 		}
@@ -169,7 +175,8 @@ public class Client extends Thread {
 	}
 
 	public void setUpdate(int updateType, MovableEntity entity) {
-		networkHandler.setClientUpdate(new Update(updateType, entity.getUID(), uid));
+		networkHandler.setClientUpdate(new Update(updateType, entity.getUID(),
+				uid));
 	}
 
 	public void updateGameInformation() throws IOException {
@@ -177,13 +184,15 @@ public class Client extends Thread {
 
 		for (int i = 0; i < inventorySize; i++) {
 			int id = inputStream.readInt();
-			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
+			gameController.getGameWorld().getMoveableEntities().get(id)
+					.interact(gameController.getGameWorld());
 		}
 
 		int swipeSize = inputStream.readInt();
 		for (int i = 0; i < swipeSize; i++) {
 			int id = inputStream.readInt();
-			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
+			gameController.getGameWorld().getMoveableEntities().get(id)
+					.interact(gameController.getGameWorld());
 		}
 
 		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
