@@ -161,6 +161,11 @@ public class GameWorld {
 		wallEntities = entityFactory.getWallEntities();
 		inventory = new Inventory(guiFactory);
 		
+		if(load){
+			load = initLoadGame();
+		}
+		
+		// if not loading in, or load game failed, create normal game
 		if(!load){
 			movableEntities = entityFactory.getMovableEntities();
 
@@ -174,17 +179,19 @@ public class GameWorld {
 			// create commits
 			initCommits();
 		}
-		else {
-			initLoadGame();
-		}
 
 		this.helpVisible = false;
 		this.gameState = -1; 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
 	
-	public void initLoadGame() {
+	public boolean initLoadGame() {
 		this.load = Load.loadGame();
+		
+		// loading failed. Don't load game, just return
+		if(load == null){
+			return false;
+		}
 		// load in movable entities and their saved positions
 		movableEntities = new HashMap<>();
 		for(MovableEntity e : load.getMovableEntities()){
@@ -217,6 +224,8 @@ public class GameWorld {
 		else {
 			this.interactDistance = MIN_INTERACT;
 		}
+		
+		return true;
 	}
 
 	private void initCommits() {

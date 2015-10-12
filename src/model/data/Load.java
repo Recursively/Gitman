@@ -123,6 +123,8 @@ public class Load {
 			System.out.println(se.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+		} catch (NullPointerException ne){
+			System.err.println(ne.getMessage());
 		}
 		
 		// loading was unsuccessful
