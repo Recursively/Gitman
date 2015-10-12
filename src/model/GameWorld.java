@@ -159,12 +159,12 @@ public class GameWorld {
 
 		staticEntities = entityFactory.getEntities();
 		wallEntities = entityFactory.getWallEntities();
+		inventory = new Inventory(guiFactory);
 		
 		if(!load){
 			movableEntities = entityFactory.getMovableEntities();
 
 			// game state
-			inventory = new Inventory(guiFactory);
 			this.patchProgress = START_PATCH;
 			this.codeProgress = 0; 
 			this.cards = new ArrayList<SwipeCard>();
@@ -192,7 +192,6 @@ public class GameWorld {
 		} 
 
 		// inventory state
-		inventory = new Inventory(guiFactory);
 		inventory.setStorageUsed(load.getStorageUsed());
 		inventory.setInLaptop(load.getInventory());
 		
@@ -217,6 +216,8 @@ public class GameWorld {
 		else {
 			this.interactDistance = MIN_INTERACT;
 		}
+		
+		//updateGui();  //TODO
 	}
 
 	private void initCommits() {
@@ -248,7 +249,6 @@ public class GameWorld {
 		guiImages = new ArrayList<GuiTexture>();
 		guiImages = guiFactory.getInfoPanel();
 		guiMessages = new GuiMessages(guiFactory);
-
 	}
 
 	/**
@@ -650,9 +650,6 @@ public class GameWorld {
 			// set player up in the outside world if they are outside
 			if(GameWorld.isOutside){
 				setPlayerOutside();
-				MasterRenderer.setRenderSkybox(true);
-				AudioController.stopOfficeLoop();
-				AudioController.playGameWorldLoop();
 			}
 		}
 		else {
@@ -667,6 +664,7 @@ public class GameWorld {
 		currentTerrain = otherTerrain;
 		otherTerrain = temp;
 		player.setCurrentTerrain(currentTerrain);
+		MasterRenderer.setRenderSkybox(true);
 	}
 
 	private void initPlayerModel() {
@@ -681,7 +679,6 @@ public class GameWorld {
 		player.getPosition().x = SPAWN_POSITION.getX();
 		player.getPosition().z = SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(160f);
-		MasterRenderer.setRenderSkybox(true);
 		isOutside = true;
 		AudioController.stopPortalHum();
 		AudioController.playPortalSound();
