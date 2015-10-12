@@ -186,7 +186,7 @@ public class GameWorld {
 	public void initLoadGame() {
 		this.load = Load.loadGame();
 		// load in movable entities and their saved positions
-		movableEntities = new HashMap<Integer, MovableEntity>();
+		movableEntities = new HashMap<>();
 		for(MovableEntity e : load.getMovableEntities()){
 			this.movableEntities.put(e.getUID(), e);
 		} 
@@ -212,6 +212,7 @@ public class GameWorld {
 		}
 		else if (GameWorld.isProgramCompiled){
 			this.interactDistance = COMMIT_INTERACT;
+			enablePortal();
 		}
 		else {
 			this.interactDistance = MIN_INTERACT;
@@ -619,11 +620,17 @@ public class GameWorld {
 		this.interactDistance = COMMIT_INTERACT;
 
 		// adds the portal to the game
-		officeLight.setColour(new Vector3f(6, 1, 1));
-		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
-		GameWorld.isProgramCompiled = true;
+		enablePortal();
 
 		AudioController.playPortalHum();
+
+		GameWorld.isProgramCompiled = true;
+
+	}
+
+	private void enablePortal() {
+		officeLight.setColour(new Vector3f(6, 1, 1));
+		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
 	}
 
 	public List<GuiTexture> getEndStateScreen() {

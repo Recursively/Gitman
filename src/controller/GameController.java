@@ -119,6 +119,9 @@ public class GameController {
         }
         else {
         	AudioController.playOfficeLoop();
+        	if (GameWorld.isProgramCompiled()) {
+				AudioController.playPortalHum();
+			}
         }
      		
         while (!Display.isCloseRequested() && networkRunning && RUNNING) {
