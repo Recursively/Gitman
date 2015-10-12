@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Controller class to handle the delegations between the Model and View
  * package.
- *
+ * <p/>
  * Deals with Game logic
  *
  * @author Marcel van Workum
@@ -29,244 +29,249 @@ import java.util.Map;
  */
 public class GameController {
 
-	public static boolean RUNNING;
-	private boolean compiled = false;
+    public static boolean RUNNING;
+    private boolean compiled = false;
 
-	public static boolean READY;
-	public boolean networkRunning;
+    public static boolean READY;
+    public boolean networkRunning;
 
-	// Model
-	private final Loader loader;
-	private final GameWorld gameWorld;
+    // Model
+    private final Loader loader;
+    private final GameWorld gameWorld;
 
-	// View
-	private final MasterRenderer renderer;
-	private final GuiRenderer guiRenderer;
+    // View
+    private final MasterRenderer renderer;
+    private final GuiRenderer guiRenderer;
 
-	// Controller
-	private ClientController clientController;
-	private ServerController serverController;
-	private ActionController actionController;
+    // Controller
+    private ClientController clientController;
+    private ServerController serverController;
+    private ActionController actionController;
 
-	private final boolean isHost;
-	private final String ipAddress;
-	private int playerCount;
+    private final boolean isHost;
+    private final String ipAddress;
+    private int playerCount;
 
-	/**
-	 * Delegates the creation of the MVC and then starts the game
-	 *
-	 * @throws IOException
-	 */
-	public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
+    /**
+     * Delegates the creation of the MVC and then starts the game
+     *
+     * @throws IOException
+     */
+    public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
 
-		RUNNING = true;
+        RUNNING = true;
 
-		// initialise model
-		loader = new Loader();
+        // initialise model
+        loader = new Loader();
 
-		// initialise view
-		renderer = new MasterRenderer(loader);
-		guiRenderer = new GuiRenderer(loader);
+        // initialise view
+        renderer = new MasterRenderer(loader);
+        guiRenderer = new GuiRenderer(loader);
 
-		// initialise the game world
-		gameWorld = new GameWorld(loader, this);
-		gameWorld.initGame(isHost, load);
-		
-		// initialise controller for actions
-		actionController = new ActionController(loader, gameWorld, this);
+        // initialise the game world
+        gameWorld = new GameWorld(loader, this);
+        gameWorld.initGame(isHost, load);
 
-		// setup client
-		this.isHost = isHost;
-		this.ipAddress = ipAddress;
-		if (isHost) {
-			serverController = new ServerController(this);
-			serverController.start();
-		} else {
-			clientController = new ClientController(this, ipAddress);
-			clientController.run();
-		}
+        // initialise controller for actions
+        actionController = new ActionController(loader, gameWorld, this);
 
-		this.networkRunning = true;
+        // setup client
+        this.isHost = isHost;
+        this.ipAddress = ipAddress;
+        if (isHost) {
+            serverController = new ServerController(this);
+            serverController.start();
+        } else {
+            clientController = new ClientController(this, ipAddress);
+            clientController.run();
+        }
 
-		// hook the mouse
-		Mouse.setGrabbed(true);
+        this.networkRunning = true;
 
-		try {
-			while (!READY) {
-				Thread.sleep(50);
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+        // hook the mouse
+        Mouse.setGrabbed(true);
 
-		}
+        try {
+            while (!READY) {
+                Thread.sleep(50);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
 
-		// start the game
-		doGame();
-	}
+        }
 
-	/**
-	 * Main game loop where all the goodness will happen
-	 */
-	private void doGame() {
-		AudioController.stopMenuLoop();
-		while (!Display.isCloseRequested() && networkRunning && RUNNING) {
-			// process the terrains
+        // start the game
+        doGame();
+    }
 
-			renderer.processTerrain(gameWorld.getTerrain());
+    /**
+     * Main game loop where all the goodness will happen
+     */
+    private void doGame() {
+        AudioController.stopMenuLoop();
+        while (!Display.isCloseRequested() && networkRunning && RUNNING) {
+            // process the terrains
 
-			// PROCESS PLAYER
+            renderer.processTerrain(gameWorld.getTerrain());
 
-			for (Player player : gameWorld.getAllPlayers().values()) {
-				if (player.getUID() != gameWorld.getPlayer().getUID()) {
-					renderer.processEntity(player);
-				}
-			}
+            // PROCESS PLAYER
 
-			// TODO Should only get static entities
-			ArrayList<Entity> statics = gameWorld.getStaticEntities();
-			Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
-			Player player = gameWorld.getPlayer();
+            for (Player player : gameWorld.getAllPlayers().values()) {
+                if (player.getUID() != gameWorld.getPlayer().getUID()) {
+                    renderer.processEntity(player);
+                }
+            }
 
-			// PROCESS ENTITIES
-			for (Entity e : statics) {
-				if (e.isWithinRange(player)) {
-					renderer.processEntity(e);
-				}
-			}
+            // TODO Should only get static entities
+            ArrayList<Entity> statics = gameWorld.getStaticEntities();
+            ArrayList<Entity> walls = gameWorld.getWallEntities();
+            Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
+            Player player = gameWorld.getPlayer();
 
-			for (MovableEntity e : movables.values()) {
-				if (e.isWithinRange(player)) {
-					renderer.processEntity(e);
-				}
-			}
+            // PROCESS ENTITIES
+            for (Entity e : statics) {
+                if (e.isWithinRange(player)) {
+                    renderer.processEntity(e);
+                }
+            }
 
-			// checks to see if inventory needs to be displayed
-			actionController.processActions();
+            for (MovableEntity e : movables.values()) {
+                if (e.isWithinRange(player)) {
+                    renderer.processEntity(e);
+                }
+            }
 
-			// update the players position in the world
-			// gameWorld.getPlayer().move(gameWorld.getTerrain());
-			if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
-				gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
-			}
+            for (Entity e : walls) {
+                renderer.processEntity(e);
+            }
 
-			// decrease patch progress as time passes
-			gameWorld.decreasePatch();
+            // checks to see if inventory needs to be displayed
+            actionController.processActions();
 
-			// Render the player's view
-			renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
+            // update the players position in the world
+            // gameWorld.getPlayer().move(gameWorld.getTerrain());
+            if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
+                gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
+            }
 
-			// render the gui
-			guiRenderer.render(gameWorld.getGuiImages());
+            // decrease patch progress as time passes
+            gameWorld.decreasePatch();
 
-			if (gameWorld.getInventory().isVisible()) {
-				guiRenderer.render(gameWorld.getInventory().getTextureList());
+            // Render the player's view
+            renderer.render(gameWorld.getLights(), gameWorld.getPlayer().getCamera());
 
-			} else {
-				// only show e to interact message if inventory is not open
-				for (MovableEntity e : gameWorld.withinDistance().values()) {
-					guiRenderer.render(gameWorld.eInteractMessage(e));
-				}
-			}
+            // render the gui
+            guiRenderer.render(gameWorld.getGuiImages());
 
-			guiRenderer.render(gameWorld.displayMessages());
+            if (gameWorld.getInventory().isVisible()) {
+                guiRenderer.render(gameWorld.getInventory().getTextureList());
 
-			if (gameWorld.isHelpVisible()) {
-				guiRenderer.render(gameWorld.helpMessage());
-			}
+            } else {
+                // only show e to interact message if inventory is not open
+                for (MovableEntity e : gameWorld.withinDistance().values()) {
+                    guiRenderer.render(gameWorld.eInteractMessage(e));
+                }
+            }
 
-			if (gameWorld.getGameState() > -1) {
-				guiRenderer.render(gameWorld.getEndStateScreen());
-			}
+            guiRenderer.render(gameWorld.displayMessages());
 
-			TimeController.tickTock();
+            if (gameWorld.isHelpVisible()) {
+                guiRenderer.render(gameWorld.helpMessage());
+            }
 
-			// update the Display window
-			DisplayManager.updateDisplay();
-		}
+            if (gameWorld.getGameState() > -1) {
+                guiRenderer.render(gameWorld.getEndStateScreen());
+            }
 
-		AudioController.stopMenuLoop();
+            TimeController.tickTock();
 
-		// Finally clean up resources
-		cleanUp();
-	}
+            // update the Display window
+            DisplayManager.updateDisplay();
+        }
 
-	/**
-	 * Cleans up the game when it is closed
-	 */
-	public void cleanUp() {
-		guiRenderer.cleanUp();
-		renderer.cleanUp();
-		loader.cleanUp();
-		DisplayManager.closeDisplay();
+        AudioController.stopMenuLoop();
 
-		// Cleans Audio resources
-		AL.destroy();
+        // Finally clean up resources
+        cleanUp();
+    }
 
-		if (isHost) {
-			serverController.terminate();
-		} else {
-			clientController.terminate();
-		}
-	}
+    /**
+     * Cleans up the game when it is closed
+     */
+    public void cleanUp() {
+        guiRenderer.cleanUp();
+        renderer.cleanUp();
+        loader.cleanUp();
+        DisplayManager.closeDisplay();
 
-	public boolean isHost() {
-		return isHost;
-	}
+        // Cleans Audio resources
+        AL.destroy();
 
-	public void createPlayer(int uid) {
-		gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
-		playerCount++;
-	}
+        if (isHost) {
+            serverController.terminate();
+        } else {
+            clientController.terminate();
+        }
+    }
 
-	public void createPlayer(int uid, boolean b) {
-		gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
-		playerCount++;
-	}
+    public boolean isHost() {
+        return isHost;
+    }
 
-	public Map<Integer, Player> getPlayers() {
-		return gameWorld.getAllPlayers();
-	}
+    public void createPlayer(int uid) {
+        gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
+        playerCount++;
+    }
 
-	public Player getPlayerWithID(int uid) {
-		return gameWorld.getAllPlayers().get(uid);
-	}
+    public void createPlayer(int uid, boolean b) {
+        gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
+        playerCount++;
+    }
 
-	public Player getPlayer() {
-		return gameWorld.getPlayer();
-	}
+    public Map<Integer, Player> getPlayers() {
+        return gameWorld.getAllPlayers();
+    }
 
-	public String getIpAddress() {
-		return ipAddress;
-	}
+    public Player getPlayerWithID(int uid) {
+        return gameWorld.getAllPlayers().get(uid);
+    }
 
-	public void removePlayer(int uid) {
-		gameWorld.getAllPlayers().remove(uid);
-	}
+    public Player getPlayer() {
+        return gameWorld.getPlayer();
+    }
 
-	public void setNetworkUpdate(int status, MovableEntity entity) {
+    public String getIpAddress() {
+        return ipAddress;
+    }
 
-		if (!isHost()) {
-			clientController.setNetworkUpdate(status, entity);
-		} else {
-			serverController.setNetworkUpdate(status, entity);
-		}
+    public void removePlayer(int uid) {
+        gameWorld.getAllPlayers().remove(uid);
+    }
 
-	}
+    public void setNetworkUpdate(int status, MovableEntity entity) {
 
-	public int gameSize() {
-		return playerCount;
-	}
+        if (!isHost()) {
+            clientController.setNetworkUpdate(status, entity);
+        } else {
+            serverController.setNetworkUpdate(status, entity);
+        }
 
-	public GameWorld getGameWorld() {
-		return gameWorld;
-	}
+    }
 
-	public boolean isCompiled() {
-		return compiled;
-	}
+    public int gameSize() {
+        return playerCount;
+    }
 
-	public void setCompiled(boolean compiled) {
-		this.compiled = compiled;
-	}
+    public GameWorld getGameWorld() {
+        return gameWorld;
+    }
+
+    public boolean isCompiled() {
+        return compiled;
+    }
+
+    public void setCompiled(boolean compiled) {
+        this.compiled = compiled;
+    }
 
 }
