@@ -25,12 +25,13 @@ public class Data {
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
+	private int storageUsed;
 
 	public Data(Player player, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities,
 			ArrayList<SwipeCard> swipeCards, int codeProgress,
 			int patchProgress, int score, boolean inProgram,
-			boolean canApplyPatch, int commitIndex, long timer) {
+			boolean canApplyPatch, int commitIndex, long timer, int storageUsed) {
 		this.player = player;
 		this.inventory = inventory;
 		this.movableEntities = movableEntities;
@@ -42,6 +43,7 @@ public class Data {
 		this.canApplyPatch = canApplyPatch;
 		this.commitIndex = commitIndex;
 		this.timer = timer;
+		this.storageUsed = storageUsed;
 	}
 
 	public int getCodeProgress() {

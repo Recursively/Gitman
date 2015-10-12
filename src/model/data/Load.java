@@ -83,7 +83,7 @@ public class Load {
 			parseEntities(doc);
 			parseCards(doc);
 
-			return new Data(player, inventory, movableEntities, swipeCards, codeProgress, patchProgress, score, inProgram, canApplyPatch, commitIndex, timer);
+			return new Data(player, inventory, movableEntities, swipeCards, codeProgress, patchProgress, score, inProgram, canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());
