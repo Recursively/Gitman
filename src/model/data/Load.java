@@ -42,7 +42,6 @@ public class Load {
 	private static int codeProgress;
 	private static int patchProgress;
 	private static int score;
-	private static boolean inProgram;
 	private static boolean canApplyPatch;
 	private static int commitIndex;
 	private static long timer;
@@ -94,7 +93,6 @@ public class Load {
 			patchProgress = Integer
 					.parseInt(getTextValue(doc, "patchProgress"));
 			score = Integer.parseInt(getTextValue(doc, "score"));
-			inProgram = Boolean.parseBoolean(getTextValue(doc, "inProgram"));
 			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
 					"canApplyPatch"));
 			;
@@ -111,7 +109,7 @@ public class Load {
 
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
-					isCodeCompiled, isOutside, codeProgress, patchProgress, score, inProgram,
+					isCodeCompiled, isOutside, codeProgress, patchProgress, score,
 					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {

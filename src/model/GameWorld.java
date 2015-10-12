@@ -104,7 +104,6 @@ public class GameWorld {
 	private int patchProgress; // commit collection progress
 
 	private int score; // overall score
-	private boolean inProgram;
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
@@ -159,7 +158,6 @@ public class GameWorld {
 			this.patchProgress = START_PATCH;
 			this.codeProgress = 0;
 			this.cards = new ArrayList<SwipeCard>();
-			this.inProgram = false;
 			this.canApplyPatch = false;			
 		}
 		else {
@@ -186,10 +184,13 @@ public class GameWorld {
 		inventory = new Inventory(guiFactory);
 		this.patchProgress = load.getPatchProgress();
 		this.codeProgress = load.getCodeProgress(); 
-		this.cards = load.getSwipeCards();
-		this.inProgram = load.isInProgram();  
+		this.cards = load.getSwipeCards(); 
 		this.canApplyPatch = load.isCanApplyPatch();
+		this.commitIndex = load.getCommitIndex();
 		inventory.setStorageUsed(load.getStorageUsed());
+		inventory.setInLaptop(load.getInventory());
+		GameWorld.isOutside = load.isIsOutside();
+		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
 	}
 
 	private void initCommits() {
@@ -352,7 +353,7 @@ public class GameWorld {
 	}
 
 	public void updateGui() {
-		int progress = this.inProgram ? this.patchProgress : this.codeProgress;
+		int progress = GameWorld.isProgramCompiled ? this.patchProgress : this.codeProgress;
 		this.guiImages = this.guiFactory.getInfoPanel();
 		this.guiImages.addAll(this.guiFactory.getProgress(progress));
 		this.guiImages.addAll(this.guiFactory.getScore(this.score));
@@ -512,7 +513,7 @@ public class GameWorld {
 	 */
 	public void decreasePatch() {
 		// if not in outside area, do nothing
-		if (!inProgram)
+		if (!GameWorld.isProgramCompiled)
 			return;
 
 		// decrease patch in relation to how much time has passed since last
@@ -587,8 +588,7 @@ public class GameWorld {
 	 * given the option of multiplayer or single player, and the environment
 	 * they are displayed in changes in
 	 */
-	public void compileProgram() {
-		this.inProgram = true;  
+	public void compileProgram() { 
 		this.timer = System.currentTimeMillis(); // start timer
 		this.interactDistance = 20;
 		setGuiMessage("codeCompiledMessage", 5000);
@@ -718,10 +718,6 @@ public class GameWorld {
 
 	public int getScore() {
 		return score;
-	}
-
-	public boolean isInProgram() {
-		return inProgram;
 	}
 
 	public boolean isCanApplyPatch() {

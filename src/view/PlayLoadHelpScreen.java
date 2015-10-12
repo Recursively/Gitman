@@ -65,7 +65,6 @@ public class PlayLoadHelpScreen {
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
 					break;
-					
 				}
 			}
 

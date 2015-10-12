@@ -261,4 +261,8 @@ public class Inventory {
 		
 	}
 
+	public void setInLaptop(ArrayList<LaptopItem> inventory) {
+		this.inLaptop = inventory;
+	}
+
 }

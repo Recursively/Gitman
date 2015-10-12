@@ -91,12 +91,6 @@ public class Save {
 					.getScore())));
 			rootElement.appendChild(score);
 
-			// inProgram element
-			Element inProgram = doc.createElement("inProgram");
-			inProgram.appendChild(doc.createTextNode(String.valueOf(gameWorld
-					.isInProgram())));
-			rootElement.appendChild(inProgram);
-
 			// canApplyPatch element
 			Element canApplyPatch = doc.createElement("canApplyPatch");
 			canApplyPatch.appendChild(doc.createTextNode(String
@@ -129,8 +123,6 @@ public class Save {
 			// StreamResult result = new StreamResult(System.out);
 
 			transformer.transform(source, result);
-
-			System.out.println("File saved!");
 			return true;
 
 		} catch (ParserConfigurationException pce) {
@@ -266,7 +258,7 @@ public class Save {
 			inventoryItem.appendChild(scale);
 
 			Element id = doc.createElement("id");
-			rotZ.appendChild(doc.createTextNode(String.valueOf(item.getUID())));
+			id.appendChild(doc.createTextNode(String.valueOf(item.getUID())));
 			inventoryItem.appendChild(id);
 
 			Element name = doc.createElement("name");
@@ -334,28 +326,28 @@ public class Save {
 			movableEntity.appendChild(scale);
 
 			Element id = doc.createElement("id");
-			rotZ.appendChild(doc.createTextNode(String.valueOf(e.getUID())));
+			id.appendChild(doc.createTextNode(String.valueOf(e.getUID())));
 			movableEntity.appendChild(id);
 
 			Element name = doc.createElement("name");
 			name.appendChild(doc.createTextNode(String.valueOf(e.getName())));
-			movableEntity.appendChild(id);
+			movableEntity.appendChild(name);
 
 			Element type = doc.createElement("type");
-			movableEntity.appendChild(doc.createTextNode(String.valueOf(e
+			type.appendChild(doc.createTextNode(String.valueOf(e
 					.getType())));
 			movableEntity.appendChild(type);
 
 			if (e.getType() == "SwipeCard") {
 				Element cardNum = doc.createElement("cardNum");
-				movableEntity.appendChild(doc.createTextNode(String.valueOf(e
+				cardNum.appendChild(doc.createTextNode(String.valueOf(e
 						.getCardNum())));
 				movableEntity.appendChild(cardNum);
 			}
 
 			if (e.getType() == "Laptop") {
 				Element cardID = doc.createElement("cardID");
-				movableEntity.appendChild(doc.createTextNode(String.valueOf(e
+				cardID.appendChild(doc.createTextNode(String.valueOf(e
 						.getCardID())));
 				movableEntity.appendChild(cardID);
 			}
@@ -417,11 +409,11 @@ public class Save {
 			swipeCard.appendChild(scale);
 
 			Element id = doc.createElement("id");
-			rotZ.appendChild(doc.createTextNode(String.valueOf(card.getUID())));
+			id.appendChild(doc.createTextNode(String.valueOf(card.getUID())));
 			swipeCard.appendChild(id);
 
 			Element cardNum = doc.createElement("cardNum");
-			swipeCard.appendChild(doc.createTextNode(String.valueOf(card
+			cardNum.appendChild(doc.createTextNode(String.valueOf(card
 					.getCardNum())));
 			swipeCard.appendChild(cardNum);
 
