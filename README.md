@@ -15,7 +15,7 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 1. Clone repository into your favourite Java IDE
 2. Make sure that the repository contains lib, lwjgl-2.9.3 and res
 3. Make sure that the res folder is a resource (**Should include link to how to do this here**)
-4. Make sure that lwjgl.jar, lwjgl_util.jar, slick-util.jar and PNGDecoder.jar are set as dependencies for the project in your IDE
+4. Make sure that lwjgl.jar, lwjgl_util.jar, slick-util.jar, PNGDecoder.jar, jogg-0.0.7.jar and jorbis-0.0.15.jar are set as dependencies for the project in your IDE
    - *These files are in the repo under lwjgl-2.9.3 > jar and lib > jars*
 5. This is the hard part:
   * OpenGL is operating system specifc, and so you need to change which natives it will try and use

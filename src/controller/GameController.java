@@ -1,16 +1,13 @@
 package controller;
 
 import model.GameWorld;
-import model.data.Load;
 import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -112,7 +109,15 @@ public class GameController {
      */
     private void doGame() {
         AudioController.stopMenuLoop();
-        AudioController.playOfficeLoop();
+
+        // set up audio
+        if(GameWorld.isOutside()){
+        	AudioController.playGameWorldLoop();
+        }
+        else {
+        	AudioController.playOfficeLoop();
+        }
+     		
         while (!Display.isCloseRequested() && networkRunning && RUNNING) {
             // process the terrains
 
@@ -131,6 +136,8 @@ public class GameController {
             ArrayList<Entity> walls = gameWorld.getWallEntities();
             Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
             Player player = gameWorld.getPlayer();
+
+            gameWorld.rotateCommits();
 
             // PROCESS ENTITIES
             for (Entity e : statics) {

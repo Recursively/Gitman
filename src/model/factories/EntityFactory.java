@@ -3,6 +3,7 @@ package model.factories;
 import model.entities.Entity;
 import model.entities.movableEntity.*;
 import model.entities.staticEntity.CollidableEntity;
+import model.entities.staticEntity.OfficeEntity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -29,15 +30,14 @@ import java.util.Random;
  * @author Marcel van Workum
  */
 public class EntityFactory {
-
-
+	// commit position is 10 above the ground
+	private static final int COMMIT_OFFSET_Y = 0;
+	
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
     private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
-
-
 
     private Loader loader;
 
@@ -242,7 +242,7 @@ public class EntityFactory {
         float scale = random.nextFloat() + 1;
 
         if (entityName.equals("commit")) {
-            commitPositions.add(new Vector3f(x, y, z));
+            commitPositions.add(new Vector3f(x, y + COMMIT_OFFSET_Y, z));
         } else if (entityName.equals("lamp")) {
             entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
                     random.nextFloat() * 256f, 0, 1f, 0, lampData));
@@ -261,11 +261,11 @@ public class EntityFactory {
             }
         } else if (entityName.equals("free_standing_whiteboard")) {
             y += 8;
-            entities.add(new CollidableEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
+            entities.add(new OfficeEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1.5f, 0, whiteboardData));
         } else if (entityName.equals("table_with_drawer")) {
             y += 4;
-            entities.add(new CollidableEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
+            entities.add(new OfficeEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1.5f, 0, tableData));
         }
 
@@ -307,7 +307,7 @@ public class EntityFactory {
 
     public static Commit createCommit(Vector3f position) {
         position.y += 10;
-        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
+        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1.5f, EntityFactory.movableItemID++);
     }
 
     public ArrayList<Entity> getEntities() {

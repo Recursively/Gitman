@@ -170,9 +170,10 @@ public class Inventory {
 		if (itemDisplayed != null) {
 			this.textureList.remove(this.itemDisplayed);
 			this.itemDisplayed = null;
-
-		} else {
-			if (this.selected != null) {
+			AudioController.stopEasterEggLoop();
+		}
+		else {
+			if(this.selected != null){
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
 				if (this.selected.getImgName().equals("extImg1Info")) {
