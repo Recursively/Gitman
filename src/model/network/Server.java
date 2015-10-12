@@ -96,6 +96,7 @@ public class Server extends Thread {
 		} else {
 			outputStream.writeInt(-1);
 			outputStream.writeInt(-1);
+			outputStream.writeInt(-1);
 		}
 	}
 
