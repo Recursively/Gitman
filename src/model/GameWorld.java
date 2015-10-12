@@ -50,7 +50,7 @@ public class GameWorld {
 	private static final Vector3f OFFICE_PORTAL_POSITION = new Vector3f(128011f, 0, -127930);
 	public static final int PORTAL_LOWER_BOUND_OFFICE_Z = -127920;
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
-	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128012;
+	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128016;
 
 
 	private static float WORLD_TIME = 0;
@@ -113,6 +113,7 @@ public class GameWorld {
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
+	private ArrayList<Entity> wallEntities;
 
 	/**
 	 * Creates the game world and passes in the loader
@@ -150,6 +151,7 @@ public class GameWorld {
 		initPlayerModel();
 
 		staticEntities = entityFactory.getEntities();
+		wallEntities = entityFactory.getWallEntities();
 		
 		if(!load){
 			movableEntities = entityFactory.getMovableEntities();
@@ -763,6 +765,10 @@ public class GameWorld {
 			sun.decreaseColour(0.0001f, 0.0001f, 0.0001f);
 		}
 
+	}
+
+	public ArrayList<Entity> getWallEntities() {
+		return wallEntities;
 	}
 }
 

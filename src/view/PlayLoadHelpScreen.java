@@ -21,7 +21,6 @@ public class PlayLoadHelpScreen {
 		this.hostname = hostname;
 		this.isHost = isHost;
 
-		DisplayManager.createDisplay(fullscreen);
 		Keyboard.enableRepeatEvents(false);
 		blinkTitle(fullscreen);
 	}
@@ -58,17 +57,13 @@ public class PlayLoadHelpScreen {
 				// user begins game
 				
 				if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
-					DisplayManager.closeDisplay();
 					break;
 				}
 				else if(Keyboard.isKeyDown(Keyboard.KEY_L)){
-					DisplayManager.closeDisplay();
 					load = true;
 					break;
 					
 				}else if(Keyboard.isKeyDown(Keyboard.KEY_H)){
-					DisplayManager.closeDisplay();
-					//TODO
 					break;
 					
 				}
