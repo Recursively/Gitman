@@ -308,7 +308,7 @@ public class EntityFactory {
 
     public static Commit createCommit(Vector3f position) {
         position.y += 10;
-        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1f, EntityFactory.movableItemID++);
+        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1.5f, EntityFactory.movableItemID++);
     }
 
     public ArrayList<Entity> getEntities() {
