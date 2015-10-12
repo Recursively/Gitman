@@ -60,7 +60,7 @@ public class GuiFactory {
 	private int oldScore;
 	private List<GuiTexture> scoreNum;
 	
-	//number list
+	//number
 	
 	
 
@@ -205,14 +205,12 @@ public class GuiFactory {
 	
 	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  
 		if(this.oldCardsSize != collected.size()){
-			for(int i = this.oldCardsSize; i < collected.size(); i++){
-				String name = collected.get(i).getImgName();	
-				float xPos = SwipeCard.START_X + i*SwipeCard.CARD_SCALE.getX()*2f;
-				Vector2f pos = new Vector2f(xPos, SwipeCard.CARD_YPOS);
-				GuiTexture img = makeItemTexture(name, pos, SwipeCard.CARD_SCALE);
-				this.cards.add(img);
-			}
 			this.oldCardsSize = collected.size();
+			String name = collected.get(this.oldCardsSize-1).getImgName();	
+			float xPos = SwipeCard.START_X + (this.oldCardsSize-1)*SwipeCard.CARD_SCALE.getX()*2f;
+			Vector2f pos = new Vector2f(xPos, SwipeCard.CARD_YPOS);
+			GuiTexture img = makeItemTexture(name, pos, SwipeCard.CARD_SCALE);
+			this.cards.add(img);
 		}
 		return this.cards;
 	}
