@@ -42,8 +42,8 @@ public class AudioController {
             gameWonLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWonLoop" + ".ogg"));
 
 
-            officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "menuLoop" + ".ogg"));
-            gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "menuLoop" + ".ogg"));
+            officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "officeLoop" + ".ogg"));
+            gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
 
 
             gameOverSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameOverSound" + ".ogg"));
@@ -119,5 +119,21 @@ public class AudioController {
 
     public static void stopEasterEggLoop() {
         easterEggLoop.stop();
+    }
+
+    public static void playOfficeLoop() {
+        officeLoop.playAsMusic(1f, 1f, true);
+    }
+
+    public static void stopOfficeLoop() {
+        officeLoop.stop();
+    }
+
+    public static void playGameWorldLoop() {
+        gameWorldLoop.playAsMusic(1f, 1f, true);
+    }
+
+    public static void stopGameWorldLoop() {
+        gameWorldLoop.stop();
     }
 }

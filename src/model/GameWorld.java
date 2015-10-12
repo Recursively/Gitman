@@ -645,9 +645,11 @@ public class GameWorld {
 		isOutside = true;
 		AudioController.stopPortalHum();
 		AudioController.playPortalSound();
+		AudioController.stopOfficeLoop();
+		AudioController.playGameWorldLoop();
 	}
 
-	public static void telportToOffice() {
+	public static void teleportToOffice() {
 		Terrain temp = currentTerrain;
 		currentTerrain = otherTerrain;
 		otherTerrain = temp;
@@ -659,6 +661,8 @@ public class GameWorld {
 		isOutside = false;
 		AudioController.playPortalHum();
 		AudioController.playPortalSound();
+		AudioController.stopGameWorldLoop();
+		AudioController.playOfficeLoop();
 	}
 
 
@@ -684,7 +688,6 @@ public class GameWorld {
 	public static void setIsProgramCompiled(boolean isProgramCompiled) {
 		GameWorld.isProgramCompiled = isProgramCompiled;
 	}
-
 
 	public List<GuiTexture> displayMessages() {
 		return guiMessages.getMessages();
