@@ -31,7 +31,7 @@ import java.util.Random;
  */
 public class EntityFactory {
 	// commit position is 10 above the ground
-	private static final int COMMIT_OFFSET_Y = 10; 
+	private static final int COMMIT_OFFSET_Y = 0;
 	
     // Paths to the object and textures files
     private static final String MODEL_PATH = "models/";
