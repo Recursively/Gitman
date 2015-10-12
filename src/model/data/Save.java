@@ -338,18 +338,23 @@ public class Save {
 					.getType())));
 			movableEntity.appendChild(type);
 
-			if (e.getType() == "SwipeCard") {
+			if (e.getType().equals("SwipeCard")) {
 				Element cardNum = doc.createElement("cardNum");
 				cardNum.appendChild(doc.createTextNode(String.valueOf(e
 						.getCardNum())));
 				movableEntity.appendChild(cardNum);
 			}
 
-			if (e.getType() == "Laptop") {
+			if (e.getType().equals("Laptop")) {
 				Element cardID = doc.createElement("cardID");
 				cardID.appendChild(doc.createTextNode(String.valueOf(e
 						.getCardID())));
 				movableEntity.appendChild(cardID);
+				
+				Element hasCode = doc.createElement("hasCode");
+				hasCode.appendChild(doc.createTextNode(String.valueOf(e
+						.getHasCode())));
+				movableEntity.appendChild(hasCode);
 			}
 
 		}

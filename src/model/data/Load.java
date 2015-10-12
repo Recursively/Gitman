@@ -224,7 +224,7 @@ public class Load {
 				String name = getTextValue(e, "name");
 
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, 0, 0);
+						rotX, rotY, rotZ, scale, id, name, 0, 0, false);
 
 				inventory.add((LaptopItem) movableEntity);
 			}
@@ -251,9 +251,6 @@ public class Load {
 
 				String type = getTextValue(e, "type");
 
-				// textured model
-				TexturedModel model = ModelFromString(type, 0);
-
 				// item position
 				float x = Float.parseFloat(getTextValue(e, "posX"));
 				float y = Float.parseFloat(getTextValue(e, "posY"));
@@ -278,22 +275,26 @@ public class Load {
 				int cardNum = 0;
 
 				// if swipeCard - set its cardNum
-				if (type == "SwipeCard") {
+				if (type.equals("SwipeCard")) {
 					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				}
 				
 				// laptop cardID
 				int cardID = 0;
+				boolean hasCode = true;
 
 				// if laptop - set its cardID
-				if (type == "Laptop") {
-					cardID = Integer.parseInt(getTextValue(e, "cardID"));
+				if (type.equals("Laptop")) {
+					cardID = Integer.parseInt(getTextValue(e, "cardID"));					
+					hasCode = Boolean.parseBoolean(getTextValue(e, "hasCode"));
 				}
+				
+				// textured model
+				TexturedModel model = ModelFromString(type, cardNum);
 
 				// construct the entity
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
-
+						rotX, rotY, rotZ, scale, id, name, cardNum, cardID, hasCode);
 				// add entity to entity list
 				movableEntities.add(movableEntity);
 
@@ -324,9 +325,6 @@ public class Load {
 				// swipeCard cardNum
 				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 
-				TexturedModel model = null; // TODO =
-											// EntityFactory.getSwipecardTexturedModel();
-
 				// item position
 				float x = Float.parseFloat(getTextValue(e, "posX"));
 				float y = Float.parseFloat(getTextValue(e, "posY"));
@@ -347,11 +345,9 @@ public class Load {
 				// item name
 				String name = getTextValue(e, "name");
 
-				int cardID = 0;
-
 				// construct the entity
-				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
+				MovableEntity movableEntity = EntityFromType(type, null, pos,
+						rotX, rotY, rotZ, scale, id, name, cardNum, 0, false);
 
 				swipeCards.add((SwipeCard) movableEntity);
 			}
@@ -398,7 +394,7 @@ public class Load {
 	private static MovableEntity EntityFromType(String type,
 			TexturedModel model, Vector3f pos, float rotX, float rotY,
 			float rotZ, float scale, int id, String name, int cardNum,
-			int cardID) {
+			int cardID, boolean hasCode) {
 		type = type.trim();
 		if (type.equals("Bug")) {
 			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
@@ -407,7 +403,7 @@ public class Load {
 		} else if (type.equals("FlashDrive")) {
 			return new FlashDrive(model, pos, rotX, rotY, rotZ, scale, id, name);
 		} else if (type.equals("Laptop")) {
-			return new Laptop(model, pos, rotX, rotY, rotZ, scale, id, cardID);
+			return new Laptop(model, pos, rotX, rotY, rotZ, scale, id, cardID, hasCode);
 		} else if (type.equals("ReadMe")) {
 			return new ReadMe(model, pos, rotX, rotY, rotZ, scale, id, name);
 		} else if (type.equals("SwipeCard")) {
