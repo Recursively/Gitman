@@ -13,15 +13,18 @@ public class ClientController {
 	private Socket socket;
 	private Client client;
 	private String ipAddres;
-
+	
+	private static int port = 32768;
+	
 	public ClientController(GameController controller, String ipAddress) {
 		this.gameController = controller;
 		this.ipAddres = ipAddress;
 	}
-
-	public void run() {
-
-		int port = 32768; // default
+	
+	/**
+	 * Connects this client to the Server at the given port
+	 */
+	public void start() {
 
 		try {
 			socket = new Socket(ipAddres, port);

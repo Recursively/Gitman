@@ -83,7 +83,7 @@ public class GameController {
             serverController.start();
         } else {
             clientController = new ClientController(this, ipAddress);
-            clientController.run();
+            clientController.start();
         }
 
         this.networkRunning = true;
