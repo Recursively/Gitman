@@ -104,6 +104,15 @@ public class Camera {
     }
     
     /**
+     * Sets yaw.
+     *
+     * @param yaw the yaw
+     */
+    public void setYaw(int yaw) {
+        this.yaw = yaw;
+    }
+    
+    /**
      * Calculate the direction vector of the camera
      * @return direction vector of the camera
      */

@@ -47,12 +47,13 @@ public class Laptop extends Item {
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){
 					this.locked = false;
-					game.updateCodeProgress();
 					game.updateScore(LAPTOP_SCORE);
 
 					this.hasCode = false;
 					GameWorld.setGuiMessage("codeCopied", 1500); 
 					AudioController.playSuccessfulUnlockSound();
+
+					game.updateCodeProgress();
 					return 17;
 				}
 			}

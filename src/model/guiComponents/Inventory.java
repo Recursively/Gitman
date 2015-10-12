@@ -177,6 +177,8 @@ public class Inventory {
 				this.textureList.add(this.itemDisplayed);
 				if (this.selected.getImgName().equals("extImg1Info")) {
 					AudioController.playEasterEggLoop();
+				} else {
+					AudioController.playRandomInventorySound();
 				}
 			}
 		}
@@ -277,5 +279,4 @@ public class Inventory {
 	public void setInLaptop(ArrayList<LaptopItem> inventory) {
 		this.inLaptop = inventory;
 	}
-
 }

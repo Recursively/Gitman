@@ -37,6 +37,11 @@ public class GameWorld {
 	private static final double PATCH_TIMER = 100000;  // time before decrease 
 	private static final int AVG_COMMIT_COLLECT = 5; // by each player  
 	
+	// interaction distances
+	private static final int MIN_INTERACT = 15;
+	private static final int COMMIT_INTERACT = 20;
+	private static final int BUG_INTERACT = 40;
+	
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
 	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
@@ -112,8 +117,12 @@ public class GameWorld {
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
-	private ArrayList<Entity> wallEntities;
+	
+	// information from saved file, if game loaded in
+	private Data load;  
 
+	private ArrayList<Entity> wallEntities;
+	
 	/**
 	 * Creates the game world and passes in the loader
 	 *
@@ -160,23 +169,23 @@ public class GameWorld {
 			this.patchProgress = START_PATCH;
 			this.codeProgress = 0;
 			this.cards = new ArrayList<SwipeCard>();
-			this.canApplyPatch = false;			
+			this.canApplyPatch = false;		
+			this.interactDistance = MIN_INTERACT;  
+			
+			// create commits
+			initCommits();
 		}
 		else {
-			initLoadGame(Load.loadGame());
+			initLoadGame();
 		}
 
 		this.helpVisible = false;
-		this.gameState = -1;
-		this.interactDistance = 15;
-		this.commitIndex = 10;   // start with 10 commits
+		this.gameState = -1; 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
-		
-		// create commits
-		initCommits();
 	}
 	
-	public void initLoadGame(Data load) {
+	public void initLoadGame() {
+		this.load = Load.loadGame();
 		// load in movable entities and their saved positions
 		movableEntities = new HashMap<Integer, MovableEntity>();
 		for(MovableEntity e : load.getMovableEntities()){
@@ -200,7 +209,15 @@ public class GameWorld {
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
 		
-		// player state //TODO 
+		if(this.canApplyPatch){
+			this.interactDistance = BUG_INTERACT;
+		}
+		else if (GameWorld.isProgramCompiled){
+			this.interactDistance = COMMIT_INTERACT;
+		}
+		else {
+			this.interactDistance = MIN_INTERACT;
+		}
 	}
 
 	private void initCommits() {
@@ -560,8 +577,9 @@ public class GameWorld {
 		this.patchProgress += commitScore;
 		// 100% reached, game almost won...display message with last task
 		if (this.patchProgress >= MAX_PROGRESS) {
+
 			this.canApplyPatch = true;
-			this.interactDistance = 40;
+			this.interactDistance = BUG_INTERACT;
 			setGuiMessage("patchComplete", 3000);
 			AudioController.playGameWonLoop();
 		}
@@ -600,9 +618,9 @@ public class GameWorld {
 	 * they are displayed in changes in
 	 */
 	public void compileProgram() { 
-		this.timer = System.currentTimeMillis(); // start timer
-		this.interactDistance = 20;
 		setGuiMessage("codeCompiledMessage", 5000);
+		this.timer = System.currentTimeMillis(); // start timer
+		this.interactDistance = COMMIT_INTERACT;
 
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));
@@ -622,16 +640,20 @@ public class GameWorld {
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
-		Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid);
+		Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);
 		allPlayers.put(uid, player);
 
 		System.out.println("ADDED NEW PLAYER, ID: " + uid);
 	}
 
 	public void addPlayer(Vector3f position, int uid) {
-		player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid);
+		if(load != null){
+			player = playerFactory.makeNewPlayer(load.getPlayerPos(), EntityFactory.getPlayerTexturedModel(), uid, load);
+		}
+		else {
+			player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);	
+		}
 		allPlayers.put(uid, player);
-
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 

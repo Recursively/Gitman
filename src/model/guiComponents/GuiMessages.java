@@ -50,6 +50,7 @@ public class GuiMessages {
 	}
 	
 	public void setMessage(String msg, long time){
+		this.messages.clear();
 		this.timer = System.currentTimeMillis();
 		this.messages.add(messageMap.get(msg));
 		this.messageTime = time;
