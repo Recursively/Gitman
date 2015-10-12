@@ -81,6 +81,7 @@ public class Client extends Thread {
 
 		int update = inputStream.readInt();
 		int id = inputStream.readInt();
+		int uid = inputStream.readInt();
 
 		if (update != -1 && id != -1) {
 			networkHandler.dealWithUpdate(update, id, uid);
