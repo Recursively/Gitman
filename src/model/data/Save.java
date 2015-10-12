@@ -54,11 +54,24 @@ public class Save {
 			Element rootElement = doc.createElement("gamestate");
 			doc.appendChild(rootElement);
 
-			// delegation of large groupings of saving to smaller, helper methods
+			// delegation of large groupings of saving to smaller, helper
+			// methods
 			savePlayer(doc, rootElement, gameWorld);
 			saveInventory(doc, rootElement, gameWorld);
 			saveEntities(doc, rootElement, gameWorld);
 			saveSwipeCards(doc, rootElement, gameWorld);
+
+			// isProgramCompiled element
+			Element isProgramCompiled = doc.createElement("isProgramCompiled");
+			isProgramCompiled.appendChild(doc.createTextNode(String
+					.valueOf(gameWorld.getCodeProgress())));
+			rootElement.appendChild(isProgramCompiled);
+
+			// isOutside element
+			Element isOutside = doc.createElement("isOutside");
+			isOutside.appendChild(doc.createTextNode(String
+					.valueOf(gameWorld.getCodeProgress())));
+			rootElement.appendChild(isOutside);
 
 			// codeProgress element
 			Element codeProgress = doc.createElement("codeProgress");
@@ -125,16 +138,18 @@ public class Save {
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
-		
+
 		// the game was not successfully saved
 		return false;
 	}
-	
+
 	/**
 	 * Helper methods that saves all player data into xml format.
 	 * 
-	 * @param doc the document in which the xml heirachy is stored
-	 * @param rootElement the element to which all others are appended
+	 * @param doc
+	 *            the document in which the xml heirachy is stored
+	 * @param rootElement
+	 *            the element to which all others are appended
 	 */
 
 	public static void savePlayer(Document doc, Element rootElement,
@@ -194,10 +209,12 @@ public class Save {
 	/**
 	 * Helper methods that saves all inventory data into xml format.
 	 * 
-	 * @param doc the document in which the xml heirachy is stored
-	 * @param rootElement the element to which all others are appended
+	 * @param doc
+	 *            the document in which the xml heirachy is stored
+	 * @param rootElement
+	 *            the element to which all others are appended
 	 */
-	
+
 	public static void saveInventory(Document doc, Element rootElement,
 			GameWorld gameWorld) {
 
@@ -266,10 +283,12 @@ public class Save {
 	/**
 	 * Helper methods that saves all entity data into xml format.
 	 * 
-	 * @param doc the document in which the xml heirachy is stored
-	 * @param rootElement the element to which all others are appended
+	 * @param doc
+	 *            the document in which the xml heirachy is stored
+	 * @param rootElement
+	 *            the element to which all others are appended
 	 */
-	
+
 	public static void saveEntities(Document doc, Element rootElement,
 			GameWorld gameWorld) {
 
@@ -347,10 +366,12 @@ public class Save {
 	/**
 	 * Helper methods that saves all swipeCard data into xml format.
 	 * 
-	 * @param doc the document in which the xml heirachy is stored
-	 * @param rootElement the element to which all others are appended
+	 * @param doc
+	 *            the document in which the xml heirachy is stored
+	 * @param rootElement
+	 *            the element to which all others are appended
 	 */
-	
+
 	public static void saveSwipeCards(Document doc, Element rootElement,
 			GameWorld gameWorld) {
 

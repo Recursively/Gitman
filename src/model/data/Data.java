@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import org.lwjgl.util.vector.Vector3f;
 
-import model.entities.Camera;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 
 /**
@@ -33,7 +31,8 @@ public class Data {
 
 	// gamestate elements
 	private int codeProgress;
-
+	private boolean isCodeCompiled;
+	private boolean isOutside;
 	private int patchProgress;
 	private int score;
 	private boolean inProgram;
@@ -45,9 +44,10 @@ public class Data {
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw,
 			int uid, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities,
-			ArrayList<SwipeCard> swipeCards, int codeProgress,
-			int patchProgress, int score, boolean inProgram,
-			boolean canApplyPatch, int commitIndex, long timer, int storageUsed) {
+			ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
+			boolean isOutside, int codeProgress, int patchProgress, int score,
+			boolean inProgram, boolean canApplyPatch, int commitIndex,
+			long timer, int storageUsed) {
 
 		this.playerPos = playerPos;
 		this.pitch = pitch;
@@ -57,6 +57,8 @@ public class Data {
 		this.inventory = inventory;
 		this.movableEntities = movableEntities;
 		this.swipeCards = swipeCards;
+		this.isCodeCompiled = isCodeCompiled;
+		this.isOutside = isOutside;
 		this.codeProgress = codeProgress;
 		this.patchProgress = patchProgress;
 		this.score = score;
@@ -65,7 +67,7 @@ public class Data {
 		this.commitIndex = commitIndex;
 		this.timer = timer;
 		this.storageUsed = storageUsed;
-		
+
 	}
 
 	public Vector3f getPlayerPos() {
@@ -86,6 +88,14 @@ public class Data {
 
 	public int getUid() {
 		return uid;
+	}
+	
+	public boolean isIsCodeCompiled() {
+		return isCodeCompiled;
+	}
+
+	public boolean isIsOutside() {
+		return isOutside;
 	}
 
 	public int getCodeProgress() {

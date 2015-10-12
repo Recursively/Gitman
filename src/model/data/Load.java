@@ -8,19 +8,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import model.entities.Camera;
-import model.entities.Entity;
 import model.entities.movableEntity.Bug;
 import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.FlashDrive;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
 import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
 import model.factories.EntityFactory;
-import model.guiComponents.Inventory;
 import model.models.TexturedModel;
 
 import org.lwjgl.util.vector.Vector3f;
@@ -41,6 +37,8 @@ import org.xml.sax.SAXException;
 public class Load {
 
 	// gamestate elements
+	private static boolean isCodeCompiled;
+	private static boolean isOutside;
 	private static int codeProgress;
 	private static int patchProgress;
 	private static int score;
@@ -90,6 +88,8 @@ public class Load {
 			Element doc = dom.getDocumentElement();
 
 			// various gamestate fields
+			isCodeCompiled = Boolean.parseBoolean(getTextValue(doc, "isCodeCompiled"));
+			isOutside = Boolean.parseBoolean(getTextValue(doc, "isOutside"));
 			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
 			patchProgress = Integer
 					.parseInt(getTextValue(doc, "patchProgress"));
@@ -111,7 +111,7 @@ public class Load {
 
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
-					codeProgress, patchProgress, score, inProgram,
+					isCodeCompiled, isOutside, codeProgress, patchProgress, score, inProgram,
 					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
