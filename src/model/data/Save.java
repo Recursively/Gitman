@@ -375,7 +375,7 @@ public class Save {
 		for (SwipeCard card : gameWorld.getSwipeCards()) {
 
 			Element swipeCard = doc.createElement("swipeCard");
-			swipeCard.appendChild(swipeCards);
+			swipeCards.appendChild(swipeCard);
 
 			Element cardPosX = doc.createElement("posX");
 			cardPosX.appendChild(doc.createTextNode(String.valueOf(card
