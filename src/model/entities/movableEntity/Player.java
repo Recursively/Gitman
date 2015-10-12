@@ -1,5 +1,6 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
 import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
@@ -201,6 +202,7 @@ public class Player extends MovableEntity {
 
     private void jump() {
         verticalVelocity += JUMP_POWER;
+        AudioController.playJumpSound();
     }
 
     // TODO does this still need to be here
@@ -248,11 +250,6 @@ public class Player extends MovableEntity {
 
     public Camera getCamera() {
         return camera;
-    }
-
-    //TODO implement terrain specification
-    public Terrain getCurrentTerrain() {
-        return currentTerrain;
     }
 
     public void setCurrentTerrain(Terrain currentTerrain) {
