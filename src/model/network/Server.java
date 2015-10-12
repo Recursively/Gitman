@@ -1,22 +1,15 @@
 package model.network;
 
+import controller.GameController;
+import model.entities.movableEntity.LaptopItem;
+import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.Player;
+import org.lwjgl.util.vector.Vector3f;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
-
-import org.lwjgl.util.vector.Vector3f;
-
-import com.sun.xml.internal.bind.v2.model.core.ID;
-
-import controller.GameController;
-import controller.ServerController;
-import model.entities.Entity;
-import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
 
 public class Server extends Thread {
 

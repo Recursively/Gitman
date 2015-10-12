@@ -26,6 +26,9 @@ public class AudioController {
     private static Audio portalHum;
     private static Audio pickupSound;
 
+    private static Audio jumpSound;
+    private static Audio deleteSound;
+
     private static Audio easterEggLoop;
 
     private static Random random = new Random();
@@ -42,9 +45,8 @@ public class AudioController {
             gameWonLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWonLoop" + ".ogg"));
 
 
-            officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "menuLoop" + ".ogg"));
-            gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "menuLoop" + ".ogg"));
-
+            officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "officeLoop" + ".ogg"));
+            gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
 
             gameOverSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameOverSound" + ".ogg"));
             successfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "successfulUnlockSound" + ".ogg"));
@@ -54,6 +56,9 @@ public class AudioController {
             pickupSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "pickupSound" + ".ogg"));
 
             easterEggLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
+
+            jumpSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "jumpSound" + ".ogg"));
+            deleteSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "deleteSound" + ".ogg"));
 
             for (int i = 1; i < 6; i++) {
                 commitSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "commitSound" + i + ".ogg")));
@@ -119,5 +124,29 @@ public class AudioController {
 
     public static void stopEasterEggLoop() {
         easterEggLoop.stop();
+    }
+
+    public static void playOfficeLoop() {
+        officeLoop.playAsMusic(1f, 1f, true);
+    }
+
+    public static void stopOfficeLoop() {
+        officeLoop.stop();
+    }
+
+    public static void playGameWorldLoop() {
+        gameWorldLoop.playAsMusic(1f, 1f, true);
+    }
+
+    public static void stopGameWorldLoop() {
+        gameWorldLoop.stop();
+    }
+
+    public static void playJumpSound() {
+        jumpSound.playAsSoundEffect(1f, 1f, false);
+    }
+
+    public static void playDeleteSound() {
+        deleteSound.playAsSoundEffect(1f, 1f, false);
     }
 }

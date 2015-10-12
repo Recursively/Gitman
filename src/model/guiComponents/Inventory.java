@@ -109,6 +109,8 @@ public class Inventory {
 			this.selected = null;
 			// redraw inventory gui as item has been deleted 
 			updateLaptopDisplay();
+
+			AudioController.playDeleteSound();
 		}
 		//Networking
 		return item;
@@ -126,7 +128,14 @@ public class Inventory {
 		if(this.isVisible){
 			this.isVisible = false;
 			Mouse.setGrabbed(true);
-			this.selected = null;			
+			this.selected = null;
+			AudioController.stopEasterEggLoop();
+			if (GameWorld.isOutside()) {
+				AudioController.playGameWorldLoop();
+			} else {
+				AudioController.playOfficeLoop();
+			}
+			this.selected = null;
 		}
 		else {
 			this.isVisible = true;
@@ -158,7 +167,6 @@ public class Inventory {
 		if(itemDisplayed != null){
 			this.textureList.remove(this.itemDisplayed);
 			this.itemDisplayed = null;
-			AudioController.stopEasterEggLoop();
 		}
 		else {
 			if(this.selected != null){
@@ -258,7 +266,6 @@ public class Inventory {
 		this.storageUsed = this.storageUsed - entity.getSize();
 		inLaptop.remove(entity);
 		updateLaptopDisplay();
-		
 	}
 
 	public void setInLaptop(ArrayList<LaptopItem> inventory) {
