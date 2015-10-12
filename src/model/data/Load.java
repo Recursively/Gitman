@@ -328,9 +328,9 @@ public class Load {
 											// EntityFactory.getSwipecardTexturedModel();
 
 				// item position
-				int x = Integer.parseInt(getTextValue(e, "posX"));
-				int y = Integer.parseInt(getTextValue(e, "posY"));
-				int z = Integer.parseInt(getTextValue(e, "posZ"));
+				float x = Float.parseFloat(getTextValue(e, "posX"));
+				float y = Float.parseFloat(getTextValue(e, "posY"));
+				float z = Float.parseFloat(getTextValue(e, "posZ"));
 				Vector3f pos = new Vector3f(x, y, z);
 
 				// item rotation
