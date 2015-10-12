@@ -126,6 +126,12 @@ public class Inventory {
 			this.isVisible = false;
 			Mouse.setGrabbed(true);
 			this.selected = null;
+			AudioController.stopEasterEggLoop();
+			if (GameWorld.isOutside()) {
+				AudioController.playGameWorldLoop();
+			} else {
+				AudioController.playOfficeLoop();
+			}
 		}
 		else {
 			this.isVisible = true;
@@ -153,7 +159,6 @@ public class Inventory {
 		if(itemDisplayed != null){
 			this.textureList.remove(this.itemDisplayed);
 			this.itemDisplayed = null;
-			AudioController.stopEasterEggLoop();
 		}
 		else {
 			if(this.selected != null){
