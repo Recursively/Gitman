@@ -52,7 +52,6 @@ public class NetworkHandler {
 	}
 
 	public void interactBug(int id) {
-		System.out.println("INTERACTED WITH BUG");
 
 		// win games???
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
@@ -60,14 +59,12 @@ public class NetworkHandler {
 	}
 
 	public void interactCommit(int id) {
-		System.out.println("INTERACTED WITH COMMIT");
 		
 		// interact with commit
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 	}
 
 	public void interactLaptopItem(int id) {
-		System.out.println("INTERACTED WITH LAPTOP ITEM");
 
 		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities().get(id);
 
@@ -81,16 +78,9 @@ public class NetworkHandler {
 	}
 
 	public void interactSwipeCard(int id) {
-		System.out.println("INTERACTED WITH SWIPE CARD");
 
-		SwipeCard entity = (SwipeCard) gameWorld.getMoveableEntities().get(id);
-
-		entity.interact(gameWorld);
-
-		// remove from movables
-		// gameWorld.removeMovableEntity(entity);
-		// add to swipe cards array
-		// gameWorld.getSwipeCards().add(entity);
+		// interact with swipe card
+		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 
 	}
 

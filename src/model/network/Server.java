@@ -78,7 +78,6 @@ public class Server extends Thread {
 			return new Update(update, id, uid);
 
 		} else {
-			System.out.println("Nothing to update");
 			return null;
 		}
 
