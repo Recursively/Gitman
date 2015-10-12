@@ -36,6 +36,7 @@ public class Load {
 
 	// inventory elements
 	private static ArrayList<LaptopItem> inventory;
+	private static int storageUsed;
 
 	// movable entity elements
 	private static ArrayList<MovableEntity> movableEntities;
@@ -75,6 +76,7 @@ public class Load {
 			canApplyPatch = Boolean.parseBoolean(getTextValue(doc, "canApplyPatch"));;
 			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));;
 			timer = Long.parseLong(getTextValue(doc, "timer"));
+			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
 
 			parsePlayer(doc);
 			parseInventory(doc);

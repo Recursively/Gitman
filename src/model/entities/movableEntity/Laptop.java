@@ -74,5 +74,5 @@ public class Laptop extends Item {
 	public int getCardID(){
 		return cardID;
 	}
-
+	 
 }

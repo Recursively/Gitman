@@ -123,11 +123,17 @@ public class Save {
 		Element inventory = doc.createElement("inventory");
 		rootElement.appendChild(inventory);
 		
+		Element storageUsed = doc.createElement("storageUsed");
+		storageUsed.appendChild(doc.createTextNode(String.valueOf(gameWorld.getInventory().getStorageUsed())));
+		inventory.appendChild(storageUsed);
+		
 		// laptop item elements
 		for (LaptopItem item : gameWorld.getInventory().getItems()){
 			
 			Element inventoryItem = doc.createElement("inventoryItem");
 			inventory.appendChild(inventoryItem);
+			
+			
 			
 			Element itemPosX = doc.createElement("itemPosX");
 			itemPosX.appendChild(doc.createTextNode(String.valueOf(item.getPosition().x)));

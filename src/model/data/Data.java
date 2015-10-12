@@ -18,13 +18,13 @@ public class Data {
 	private ArrayList<SwipeCard> swipeCards;
 
 	// gamestate elements
-	private static int codeProgress;
-	private static int patchProgress;
-	private static int score;
-	private static boolean inProgram;
-	private static boolean canApplyPatch;
-	private static int commitIndex;
-	private static long timer;
+	private int codeProgress;
+	private int patchProgress;
+	private int score;
+	private boolean inProgram;
+	private boolean canApplyPatch;
+	private int commitIndex;
+	private long timer;
 
 	public Data(Player player, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities,
@@ -44,31 +44,31 @@ public class Data {
 		this.timer = timer;
 	}
 
-	public static int getCodeProgress() {
+	public int getCodeProgress() {
 		return codeProgress;
 	}
 
-	public static int getPatchProgress() {
+	public int getPatchProgress() {
 		return patchProgress;
 	}
 
-	public static int getScore() {
+	public int getScore() {
 		return score;
 	}
 
-	public static boolean isInProgram() {
+	public boolean isInProgram() {
 		return inProgram;
 	}
 
-	public static boolean isCanApplyPatch() {
+	public boolean isCanApplyPatch() {
 		return canApplyPatch;
 	}
 
-	public static int getCommitIndex() {
+	public int getCommitIndex() {
 		return commitIndex;
 	}
 
-	public static long getTimer() {
+	public long getTimer() {
 		return timer;
 	}
 
