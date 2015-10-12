@@ -10,6 +10,13 @@ import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 
+/**
+ * Class used to store all data loaded from the xml save file. Data is stored in
+ * appropriate objects and collections.
+ *
+ * @author Finn Kinnear
+ */
+
 public class Data {
 
 	private Player player;

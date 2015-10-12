@@ -29,6 +29,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Class used to load all data from the xml save file. The data is read, then
+ * used to construct appropriate objects, which are then passed into a data
+ * object.
+ *
+ * @author Finn Kinnear
+ */
+
 public class Load {
 
 	// player element
@@ -43,7 +51,7 @@ public class Load {
 
 	// swipeCard elements
 	private static ArrayList<SwipeCard> swipeCards;
-	
+
 	// gamestate elements
 	private static int codeProgress;
 	private static int patchProgress;
@@ -53,8 +61,13 @@ public class Load {
 	private static int commitIndex;
 	private static long timer;
 
+	/**
+	 * Loads gamestate fields, and delegates loading player, inventory, movable entities, and swipe cards to helper methods.
+	 * 
+	 * @return data object storing all gamestate information
+	 */
+	
 	public static Data loadGame() {
-
 
 		Document dom;
 		// Make an instance of the DocumentBuilderFactory
@@ -69,13 +82,17 @@ public class Load {
 					+ "save.xml");
 
 			Element doc = dom.getDocumentElement();
-			
+
 			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
-			patchProgress = Integer.parseInt(getTextValue(doc, "patchProgress"));
+			patchProgress = Integer
+					.parseInt(getTextValue(doc, "patchProgress"));
 			score = Integer.parseInt(getTextValue(doc, "score"));
 			inProgram = Boolean.parseBoolean(getTextValue(doc, "inProgram"));
-			canApplyPatch = Boolean.parseBoolean(getTextValue(doc, "canApplyPatch"));;
-			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));;
+			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
+					"canApplyPatch"));
+			;
+			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));
+			;
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
 
@@ -84,7 +101,9 @@ public class Load {
 			parseEntities(doc);
 			parseCards(doc);
 
-			return new Data(player, inventory, movableEntities, swipeCards, codeProgress, patchProgress, score, inProgram, canApplyPatch, commitIndex, timer, storageUsed);
+			return new Data(player, inventory, movableEntities, swipeCards,
+					codeProgress, patchProgress, score, inProgram,
+					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());
@@ -96,7 +115,16 @@ public class Load {
 
 		return null;
 	}
-
+	
+	/**
+	 * Helper methods that gets the text value associated with any given tag.
+	 * 
+	 * @param e the element being searched
+	 * @param tagName the identifying text tag
+	 * 
+	 * @return the String associated with the given tag
+	 */
+	
 	private static String getTextValue(Element e, String tagName) {
 		String value = null;
 		NodeList nl = e.getElementsByTagName(tagName);
@@ -107,11 +135,16 @@ public class Load {
 
 		return value;
 	}
+	
+	/**
+	 * Helper methods that parses all player data and sets the class variable player..
+	 * 
+	 * @param e the element being searched
+	 */
 
 	private static void parsePlayer(Element doc) {
 
-		TexturedModel model = null; // TODO =
-									// EntityFactory.getPlayerTexturedModel();
+		TexturedModel model = null; // Player.getPlayerTexturedModel();
 
 		// player position
 		float x = Float.parseFloat(getTextValue(doc, "posX"));
@@ -133,6 +166,12 @@ public class Load {
 		// TODO change roll?
 		player = new Player(model, pos, 0, 0, 0, 0, uid, camera);
 	}
+	
+	/**
+	 * Helper methods that parses all inventory data and sets the class variable inventory.
+	 * 
+	 * @param e the element being searched
+	 */
 
 	private static void parseInventory(Element doc) {
 
@@ -143,7 +182,7 @@ public class Load {
 
 				// get the inventoryItem element
 				Element e = (Element) inventoryNodes.item(i);
-				
+
 				String type = getTextValue(e, "type");
 
 				TexturedModel model = ModelFromString(type, 0);
@@ -170,7 +209,7 @@ public class Load {
 
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
 						rotX, rotY, rotZ, scale, id, name, 0, 0);
-				
+
 				inventory.add((LaptopItem) movableEntity);
 			}
 		}
@@ -217,9 +256,9 @@ public class Load {
 				if (type == "SwipeCard") {
 					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				}
-				
+
 				int cardID = 0;
-				
+
 				if (type == "Laptop") {
 					cardID = Integer.parseInt(getTextValue(e, "cardID"));
 				}
@@ -244,14 +283,15 @@ public class Load {
 
 				// get the inventoryItem element
 				Element e = (Element) cardNodes.item(i);
-				
+
 				String type = "SwipeCard";
-				
+
 				// swipeCard cardNum
 				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
-				
-				TexturedModel model = null; // TODO = EntityFactory.getSwipecardTexturedModel();
-				
+
+				TexturedModel model = null; // TODO =
+											// EntityFactory.getSwipecardTexturedModel();
+
 				// item position
 				int x = Integer.parseInt(getTextValue(e, "cardPosX"));
 				int y = Integer.parseInt(getTextValue(e, "cardPosY"));
@@ -273,11 +313,11 @@ public class Load {
 				String name = getTextValue(e, "name");
 
 				int cardID = 0;
-				
+
 				// construct the entity
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
 						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
-				
+
 				swipeCards.add((SwipeCard) movableEntity);
 			}
 		}
@@ -303,7 +343,8 @@ public class Load {
 
 	private static MovableEntity EntityFromType(String type,
 			TexturedModel model, Vector3f pos, float rotX, float rotY,
-			float rotZ, float scale, int id, String name, int cardNum, int cardID) {
+			float rotZ, float scale, int id, String name, int cardNum,
+			int cardID) {
 		if (type == "Bug") {
 			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
 		} else if (type == "Commit") {
