@@ -42,6 +42,15 @@ public class Load {
 
 	// swipeCard elements
 	private static ArrayList<SwipeCard> swipeCards;
+	
+	// gamestate elements
+	private static int codeProgress;
+	private static int patchProgress;
+	private static int score;
+	private static boolean inProgram;
+	private static boolean canApplyPatch;
+	private static int commitIndex;
+	private static long timer;
 
 	public static Data loadGame() {
 
@@ -58,13 +67,21 @@ public class Load {
 					+ "save.xml");
 
 			Element doc = dom.getDocumentElement();
+			
+			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
+			patchProgress = Integer.parseInt(getTextValue(doc, "patchProgress"));
+			score = Integer.parseInt(getTextValue(doc, "score"));
+			inProgram = Boolean.parseBoolean(getTextValue(doc, "inProgram"));
+			canApplyPatch = Boolean.parseBoolean(getTextValue(doc, "canApplyPatch"));;
+			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));;
+			timer = Long.parseLong(getTextValue(doc, "timer"));
 
 			parsePlayer(doc);
 			parseInventory(doc);
 			parseEntities(doc);
 			parseCards(doc);
 
-			return new Data(player, inventory, movableEntities, swipeCards);
+			return new Data(player, inventory, movableEntities, swipeCards, codeProgress, patchProgress, score, inProgram, canApplyPatch, commitIndex, timer);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());
@@ -148,11 +165,12 @@ public class Load {
 				// item name
 				String name = getTextValue(e, "name");
 				
-				// placeholder to make EntityFromType() work
+				// placeholders to make EntityFromType() work
 				int cardNum = 0;
+				int cardID = 0;
 
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum);
+						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
 				
 				inventory.add((LaptopItem) movableEntity);
 			}
@@ -200,10 +218,16 @@ public class Load {
 				if (type == "SwipeCard") {
 					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				}
+				
+				int cardID = 0;
+				
+				if (type == "Laptop") {
+					cardID = Integer.parseInt(getTextValue(e, "cardID"));
+				}
 
 				// construct the entity
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum);
+						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
 
 				// add entity to entity list
 				movableEntities.add(movableEntity);
@@ -249,9 +273,11 @@ public class Load {
 				// swipeCard cardNum
 				int cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				
+				int cardID = 0;
+				
 				// construct the entity
 				MovableEntity movableEntity = EntityFromType(type, model, pos,
-						rotX, rotY, rotZ, scale, id, name, cardNum);
+						rotX, rotY, rotZ, scale, id, name, cardNum, cardID);
 				
 				swipeCards.add((SwipeCard) movableEntity);
 			}
@@ -278,7 +304,7 @@ public class Load {
 
 	private static MovableEntity EntityFromType(String type,
 			TexturedModel model, Vector3f pos, float rotX, float rotY,
-			float rotZ, float scale, int id, String name, int cardNum) {
+			float rotZ, float scale, int id, String name, int cardNum, int cardID) {
 		if (type == "Bug") {
 			return new Bug(model, pos, rotX, rotY, rotZ, scale, id);
 		} else if (type == "Commit") {
@@ -286,7 +312,7 @@ public class Load {
 		} else if (type == "FlashDrive") {
 			return new FlashDrive(model, pos, rotX, rotY, rotZ, scale, id, name);
 		} else if (type == "Laptop") {
-			// return new Laptop(model, pos, rotX, rotY, rotZ, scale, id);
+			return new Laptop(model, pos, rotX, rotY, rotZ, scale, id, cardID);
 		} else if (type == "ReadMe") {
 			return new ReadMe(model, pos, rotX, rotY, rotZ, scale, id, name);
 		} else if (type == "SwipeCard") {

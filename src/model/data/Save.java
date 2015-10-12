@@ -39,6 +39,41 @@ public class Save {
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("gamestate");
 		doc.appendChild(rootElement);
+		
+		// codeProgress element
+		Element codeProgress = doc.createElement("codeProgress");
+		codeProgress.appendChild(doc.createTextNode(String.valueOf(gameWorld.getCodeProgress())));
+		rootElement.appendChild(codeProgress);
+		
+		// patchProgress element
+		Element patchProgress = doc.createElement("patchProgress");
+		patchProgress.appendChild(doc.createTextNode(String.valueOf(gameWorld.getPatchProgress())));
+		rootElement.appendChild(patchProgress);
+		
+		// score element
+		Element score = doc.createElement("score");
+		score.appendChild(doc.createTextNode(String.valueOf(gameWorld.getScore())));
+		rootElement.appendChild(score);
+		
+		// inProgram element
+		Element inProgram = doc.createElement("inProgram");
+		inProgram.appendChild(doc.createTextNode(String.valueOf(gameWorld.isInProgram())));
+		rootElement.appendChild(inProgram);
+		
+		// canApplyPatch element
+		Element canApplyPatch = doc.createElement("canApplyPatch");
+		canApplyPatch.appendChild(doc.createTextNode(String.valueOf(gameWorld.isCanApplyPatch())));
+		rootElement.appendChild(canApplyPatch);
+		
+		// commitIndex element
+		Element commitIndex = doc.createElement("commitIndex");
+		commitIndex.appendChild(doc.createTextNode(String.valueOf(gameWorld.getCommitIndex())));
+		rootElement.appendChild(commitIndex);
+		
+		// timer element
+		Element timer = doc.createElement("timer");
+		timer.appendChild(doc.createTextNode(String.valueOf(gameWorld.getTimer())));
+		rootElement.appendChild(timer);
 
 		// player elements
 		Element player = doc.createElement("player");
@@ -187,11 +222,9 @@ public class Save {
 			rotZ.appendChild(doc.createTextNode(String.valueOf(e.getUID())));
 			movableEntity.appendChild(id);
 			
-			/*
 			Element name = doc.createElement("name");
 			name.appendChild(doc.createTextNode(String.valueOf(e.getName())));
 			movableEntity.appendChild(id);
-			*/
 			
 			Element type = doc.createElement("type");
 			movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getType())));
@@ -199,8 +232,14 @@ public class Save {
 			
 			if (e.getType() == "SwipeCard"){
 				Element cardNum = doc.createElement("cardNum");
-				//movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getCardNum())));
+				movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getCardNum())));
 				movableEntity.appendChild(cardNum);
+			}
+			
+			if (e.getType() == "Laptop"){
+				Element cardID = doc.createElement("cardID");
+				movableEntity.appendChild(doc.createTextNode(String.valueOf(e.getCardID())));
+				movableEntity.appendChild(cardID);
 			}
 			
 		}

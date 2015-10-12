@@ -69,5 +69,10 @@ public class Laptop extends Item {
 	public String getType(){
 		return "Laptop";
 	}
+	
+	@Override
+	public int getCardID(){
+		return cardID;
+	}
 
 }
