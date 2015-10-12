@@ -74,7 +74,7 @@ public class DisplayManager {
                 Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
                 Display.create(new PixelFormat(), attribs);
             }
-            Display.setTitle("Our first display");
+            Display.setTitle(GAME_TITLE);
 
             Display.setVSyncEnabled(true);
         } catch (LWJGLException e) {
