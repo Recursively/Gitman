@@ -14,8 +14,10 @@ import model.guiComponents.Inventory;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.renderEngine.MasterRenderer;
 
 import java.util.*;
@@ -224,6 +226,13 @@ public class GameWorld {
 		else {
 			this.interactDistance = MIN_INTERACT;
 		}
+		
+		if(!isOutside){
+			if (isProgramCompiled) {
+				AudioController.playPortalHum();
+			}
+		}
+		
 		return true;
 	}
 
@@ -470,12 +479,26 @@ public class GameWorld {
 
 	public void addCommit() {
 		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
+		boolean found = false;
+		for(int i = 0; i < commitPos.size(); i++){
+			commitIndex = (commitIndex + i) % commitPos.size();
+			Vector3f pos = commitPos.get(commitIndex);
+			for(MovableEntity e : this.movableEntities.values()){
+				if(e.getPosition().equals(pos)){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				break;
+			}
+		}
+		
 		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
 		this.movableEntities.put(newCommit.getUID(), newCommit);
-		commitIndex++;
-		if(commitIndex >= commitPos.size()){
-			commitIndex = 0;
-		}
+		
+		// increment commitIndex
+		commitIndex = (commitIndex + 1) % commitPos.size();
 	}
 
 	/**
