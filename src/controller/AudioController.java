@@ -26,6 +26,8 @@ public class AudioController {
     private static Audio portalHum;
     private static Audio pickupSound;
 
+    private static Audio easterEggLoop;
+
     private static Random random = new Random();
 
     public AudioController() {
@@ -50,6 +52,8 @@ public class AudioController {
             portalSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "portalSound" + ".ogg"));
             portalHum = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "portalHumSound" + ".ogg"));
             pickupSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "pickupSound" + ".ogg"));
+
+            easterEggLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
 
             for (int i = 1; i < 6; i++) {
                 commitSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "commitSound" + i + ".ogg")));
@@ -107,5 +111,13 @@ public class AudioController {
 
     public static void stopGameWonLoop() {
         gameWonLoop.stop();
+    }
+
+    public static void playEasterEggLoop() {
+        easterEggLoop.playAsMusic(1f, 1f, true);
+    }
+
+    public static void stopEasterEggLoop() {
+        easterEggLoop.stop();
     }
 }

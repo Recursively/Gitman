@@ -6,6 +6,7 @@ import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
@@ -64,7 +65,6 @@ public class GameController {
 		loader = new Loader();
 
 		// initialise view
-		DisplayManager.createDisplay(fullscreen);
 		renderer = new MasterRenderer(loader);
 		guiRenderer = new GuiRenderer(loader);
 
@@ -198,6 +198,10 @@ public class GameController {
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
+
+		// Cleans Audio resources
+		AL.destroy();
+
 		if (isHost) {
 			serverController.terminate();
 		} else {
