@@ -456,7 +456,7 @@ public class GameWorld {
 			this.removeMovableEntity(item);
 			return true;
 		}
-		this.setGuiMessage("laptopMemoryFull", 3000);
+		setGuiMessage("laptopMemoryFull", 3000);
 		return false;
 	}
 
@@ -592,7 +592,7 @@ public class GameWorld {
 		this.inProgram = true;  
 		this.timer = System.currentTimeMillis(); // start timer
 		this.interactDistance = 20;
-		this.setGuiMessage("codeCompiledMessage", 5000);
+		setGuiMessage("codeCompiledMessage", 5000);
 
 		// adds the portal to the game
 		officeLight.setColour(new Vector3f(6, 1, 1));

@@ -150,7 +150,7 @@ public class Player extends MovableEntity {
                 
                 if(firstTimeOutside){
         			firstTimeOutside = false;
-        			//TODO GameWorld.setGuiMessage("findCommitsMessage", 5000);
+        			GameWorld.setGuiMessage("inGameMessage", 5000);
         		}
             }
         }

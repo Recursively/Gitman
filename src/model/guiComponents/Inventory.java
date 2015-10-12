@@ -46,6 +46,7 @@ public class Inventory {
 		this.itemDisplayed = null;
 		this.selected = null;
 		this.guiFactory = guiFactory;
+		this.textureList = new ArrayList<GuiTexture>();
 
 	}
 
@@ -126,11 +127,16 @@ public class Inventory {
 		if (this.isVisible) {
 			this.isVisible = false;
 			Mouse.setGrabbed(true);
-			this.selected = null;
-		} else {
+			this.selected = null;			
+		}
+		else {
 			this.isVisible = true;
 			Mouse.setGrabbed(false);
-			updateLaptopDisplay();
+			// if not empty, show first item as selected
+			if(!this.inLaptop.isEmpty()){
+				this.selected = this.inLaptop.get(0);
+				updateLaptopDisplay();
+			}
 		}
 	}
 
@@ -157,6 +163,7 @@ public class Inventory {
 			if (this.selected != null) {
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
+				
 			}
 		}
 
@@ -205,9 +212,11 @@ public class Inventory {
 				}
 				if (Keyboard.KEY_RIGHT == keyEvent) {
 					yPos = selectDownOrRight(yPos, laptopDisplay[0].length - 1);
+				}				
+				
+				if(laptopDisplay[xPos][yPos] != null){
+					this.selected = laptopDisplay[xPos][yPos];
 				}
-
-				this.selected = laptopDisplay[xPos][yPos];
 			}
 
 			if (this.selected != null) {
