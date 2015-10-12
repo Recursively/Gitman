@@ -27,9 +27,6 @@ public abstract class StaticEntity extends Entity {
 
         boundingBox = this.modelData.getBoundingBox();
 
-        //TODO this fixes desks but breaks other things
-//        boundingBox = new BoundingBox(boundingBox.getMinX() * scale, boundingBox.getMinY() * scale, boundingBox.getMinZ() * scale,
-//                boundingBox.getMaxX() * scale, boundingBox.getMaxY() * scale, boundingBox.getMaxZ() * scale);
 
         //TODO efficiency
 
