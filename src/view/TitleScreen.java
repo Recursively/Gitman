@@ -68,7 +68,6 @@ public class TitleScreen {
 
 			// user begins game
 			if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
-				DisplayManager.closeDisplay();
 				break;
 			}
 		}
