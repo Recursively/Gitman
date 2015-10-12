@@ -28,7 +28,6 @@ public class AudioController {
 
     private static Audio jumpSound;
     private static Audio deleteSound;
-    private static Audio codeCompiledSound;
 
     private static ArrayList<Audio> inventorySounds = new ArrayList<>();
 
@@ -42,12 +41,8 @@ public class AudioController {
 
     private void parseAudioResources() {
         try {
-
-            //TODO add different sounds?
             menuLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "menuLoop" + ".ogg"));
             gameWonLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWonLoop" + ".ogg"));
-
-
             officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "officeLoop" + ".ogg"));
             gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
             gameOverSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameOverSound" + ".ogg"));
