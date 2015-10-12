@@ -194,8 +194,11 @@ public class Client extends Thread {
 			gameController.getGameWorld().getMoveableEntities().get(id)
 					.interact(gameController.getGameWorld());
 		}
-
-		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
+		
+		int patchProgress = inputStream.readInt();
+		gameController.getGameWorld().setPatchProgress(patchProgress);
+		
+		System.out.println("Patch: " + patchProgress);
 
 	}
 
