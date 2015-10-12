@@ -4,6 +4,7 @@ import controller.AudioController;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.openal.AL;
 import org.lwjgl.util.vector.Vector2f;
 import view.renderEngine.GuiRenderer;
 
@@ -50,8 +51,9 @@ public class TitleScreen {
 		int index = 0;
 
 		GuiTexture[] images = initTitleScreens(loader);
+		boolean closed = false;
 
-		while (true) {
+		while (!closed) {
 
 			// ticks time every half second
 			long currentTime = System.currentTimeMillis();
@@ -70,11 +72,19 @@ public class TitleScreen {
 			if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
 				break;
 			}
+			else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+				DisplayManager.closeDisplay();
+				closed = true;
+			}
 		}
 
 		// create the game now
+		if(!closed){
 		new PlayLoadHelpScreen(isHost,hostname, fullscreen);
-		
+		}
+		else{
+			AL.destroy();
+		}
 	}
 
 	/**

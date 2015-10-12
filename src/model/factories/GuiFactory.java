@@ -46,7 +46,10 @@ public class GuiFactory {
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
-
+	
+	// pop up messages that need to appear for everyone
+	private GuiTexture codeCompiledMessage;
+	private GuiTexture patchComplete;
 	// gui panel
 	private int oldCardsSize;
 	private List<GuiTexture> cards;
@@ -75,6 +78,7 @@ public class GuiFactory {
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
+		
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -163,7 +167,7 @@ public class GuiFactory {
 			// else add how many blocks it has increased by
 			else {
 				for(int i = this.oldProgress; i < progress; i++){
-					if(progress <= GameWorld.MAX_PROGRESS){
+					if(i <= GameWorld.MAX_PROGRESS){
 						float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.01f;
 						Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
 						GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
@@ -222,4 +226,5 @@ public class GuiFactory {
 		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));
 		return help;
 	}
+
 }
