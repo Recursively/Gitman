@@ -28,8 +28,10 @@ public class AudioController {
 
     private static Audio jumpSound;
     private static Audio deleteSound;
+    private static Audio coolStuffSound;
 
     private static ArrayList<Audio> inventorySounds = new ArrayList<>();
+    private static ArrayList<Audio> easterEggSounds = new ArrayList<>();
 
     private static Audio easterEggLoop;
 
@@ -54,10 +56,16 @@ public class AudioController {
             easterEggLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
             jumpSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "jumpSound" + ".ogg"));
             deleteSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "deleteSound" + ".ogg"));
+            coolStuffSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "coolStuffSound" + ".ogg"));
 
             inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "helpSound" + ".ogg")));
             inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "hmmmSound" + ".ogg")));
             inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "interestingSound" + ".ogg")));
+
+            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "anyQuestionsSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "bestBitSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "bestThingSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gonnaBeGoodSound" + ".ogg")));
 
             for (int i = 1; i < 6; i++) {
                 commitSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "commitSound" + i + ".ogg")));
@@ -86,12 +94,17 @@ public class AudioController {
         inventorySounds.get(i).playAsSoundEffect(1f, 1f, false);
     }
 
+    public static void playRandomEasterEggSound() {
+        int i = random.nextInt(easterEggSounds.size());
+        easterEggSounds.get(i).playAsSoundEffect(1f, 1f, false);
+    }
+
     public static void playPortalSound() {
         portalSound.playAsSoundEffect(1f, 1f, false);
     }
 
     public static void playSuccessfulUnlockSound() {
-        successfulUnlockSound.playAsSoundEffect(1f, 2f, false);
+        successfulUnlockSound.playAsSoundEffect(1f, 200f, false);
     }
 
     public static void playUnsuccessfulUnlockSound() {
@@ -152,5 +165,9 @@ public class AudioController {
 
     public static void playDeleteSound() {
         deleteSound.playAsSoundEffect(1f, 1f, false);
+    }
+
+    public static void playCoolStuffSound() {
+        coolStuffSound.playAsSoundEffect(1f, 1f, false);
     }
 }

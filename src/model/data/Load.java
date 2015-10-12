@@ -37,7 +37,7 @@ import org.xml.sax.SAXException;
 public class Load {
 
 	// gamestate elements
-	private static boolean isCodeCompiled;
+	private static boolean isProgramCompiled;
 	private static boolean isOutside;
 	private static int codeProgress;
 	private static int patchProgress;
@@ -87,7 +87,7 @@ public class Load {
 			Element doc = dom.getDocumentElement();
 
 			// various gamestate fields
-			isCodeCompiled = Boolean.parseBoolean(getTextValue(doc, "isCodeCompiled"));
+			isProgramCompiled = Boolean.parseBoolean(getTextValue(doc, "isProgramCompiled"));
 			isOutside = Boolean.parseBoolean(getTextValue(doc, "isOutside"));
 			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
 			patchProgress = Integer
@@ -114,7 +114,7 @@ public class Load {
 
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
-					isCodeCompiled, isOutside, codeProgress, patchProgress, score,
+					isProgramCompiled, isOutside, codeProgress, patchProgress, score,
 					canApplyPatch, commitIndex, timer, storageUsed);
 
 		} catch (ParserConfigurationException pce) {
@@ -123,6 +123,8 @@ public class Load {
 			System.out.println(se.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+		} catch (NullPointerException ne){
+			System.err.println(ne.getMessage());
 		}
 		
 		// loading was unsuccessful
