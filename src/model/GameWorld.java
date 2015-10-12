@@ -147,8 +147,7 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the currentTerrain
-		// currentTerrain at some point.
+		// initialises the currentTerrain 
 		initTerrain();
 
 		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
@@ -167,7 +166,7 @@ public class GameWorld {
 			// game state
 			inventory = new Inventory(guiFactory);
 			this.patchProgress = START_PATCH;
-			this.codeProgress = 90; //TODO
+			this.codeProgress = 0; 
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
 			this.interactDistance = MIN_INTERACT;  
@@ -465,7 +464,6 @@ public class GameWorld {
 		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
 		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
 		this.movableEntities.put(newCommit.getUID(), newCommit);
-		System.out.println(newCommit.getPosition().y);   // TODO
 		commitIndex++;
 		if(commitIndex >= commitPos.size()){
 			commitIndex = 0;
@@ -648,12 +646,27 @@ public class GameWorld {
 	public void addPlayer(Vector3f position, int uid) {
 		if(load != null){
 			player = playerFactory.makeNewPlayer(load.getPlayerPos(), EntityFactory.getPlayerTexturedModel(), uid, load);
+			
+			// set player up in the outside world if they are outside
+			if(GameWorld.isOutside){
+				System.out.println("Is OUtside"); //TODO
+				setPlayerOutside();
+				MasterRenderer.setRenderSkybox(true);
+				AudioController.playGameWorldLoop();
+			}
 		}
 		else {
 			player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);	
 		}
 		allPlayers.put(uid, player);
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
+	}
+
+	private static void setPlayerOutside() {
+		Terrain temp = currentTerrain;
+		currentTerrain = otherTerrain;
+		otherTerrain = temp;
+		player.setCurrentTerrain(currentTerrain);
 	}
 
 	private void initPlayerModel() {
@@ -664,10 +677,7 @@ public class GameWorld {
 	 * Swaps out the terrains for the players game world
 	 */
 	public static void teleportToOutside() {
-		Terrain temp = currentTerrain;
-		currentTerrain = otherTerrain;
-		otherTerrain = temp;
-		player.setCurrentTerrain(currentTerrain);
+		setPlayerOutside();
 		player.getPosition().x = SPAWN_POSITION.getX();
 		player.getPosition().z = SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(160f);
