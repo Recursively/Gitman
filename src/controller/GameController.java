@@ -112,7 +112,15 @@ public class GameController {
      */
     private void doGame() {
         AudioController.stopMenuLoop();
-        AudioController.playOfficeLoop();
+    
+        // set up audio
+        if(GameWorld.isOutside()){
+        	AudioController.playGameWorldLoop();
+        }
+        else {
+        	AudioController.playOfficeLoop();
+        }
+     		
         while (!Display.isCloseRequested() && networkRunning && RUNNING) {
             // process the terrains
 
