@@ -10,6 +10,8 @@ import model.toolbox.Loader;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.sun.tracing.dtrace.ProviderAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +59,9 @@ public class GuiFactory {
 	
 	private int oldScore;
 	private List<GuiTexture> scoreNum;
+	
+	//number list
+	
 	
 
 	/**
