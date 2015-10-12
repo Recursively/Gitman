@@ -149,7 +149,7 @@ public class Server extends Thread {
 
 	public void terminate() {
 		System.out.println("CONNECTION TERMINATED TO PLAYER WITH ID: " + uid);
-		//gameController.removePlayer(uid);
+		gameController.removePlayer(uid);
 		isRunning = false;
 		try {
 			inputStream.close();
