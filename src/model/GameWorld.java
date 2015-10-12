@@ -205,7 +205,7 @@ public class GameWorld {
 		// swipe cards
 		this.cards = load.getSwipeCards(); 
 		
-		// score and game state
+		// score and game state 
 		this.progress = load.getProgress();
 		this.canApplyPatch = load.isCanApplyPatch();
 		this.commitIndex = load.getCommitIndex();
@@ -228,8 +228,7 @@ public class GameWorld {
 			if (isProgramCompiled) {
 				AudioController.playPortalHum();
 			}
-		}
-		
+		}		
 		return true;
 	}
 
