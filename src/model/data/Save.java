@@ -31,6 +31,16 @@ public class Save {
 
 	private final static String FILE_NAME = "save.xml";
 
+	/**
+	 * Saves gamestate fields, and delegates saving player, inventory, movable
+	 * entities, and swipe cards to helper methods.
+	 *
+	 * @param gameWorld
+	 *            the world of the game
+	 * 
+	 * @return whether or not the save was successful
+	 */
+
 	public static boolean saveGame(GameWorld gameWorld) {
 
 		try {
@@ -44,6 +54,7 @@ public class Save {
 			Element rootElement = doc.createElement("gamestate");
 			doc.appendChild(rootElement);
 
+			// delegation of large groupings of saving to smaller, helper methods
 			savePlayer(doc, rootElement, gameWorld);
 			saveInventory(doc, rootElement, gameWorld);
 			saveEntities(doc, rootElement, gameWorld);
@@ -114,9 +125,17 @@ public class Save {
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
 		}
-
+		
+		// the game was not successfully saved
 		return false;
 	}
+	
+	/**
+	 * Helper methods that saves all player data into xml format.
+	 * 
+	 * @param doc the document in which the xml heirachy is stored
+	 * @param rootElement the element to which all others are appended
+	 */
 
 	public static void savePlayer(Document doc, Element rootElement,
 			GameWorld gameWorld) {
@@ -172,19 +191,27 @@ public class Save {
 		player.appendChild(uid);
 	}
 
+	/**
+	 * Helper methods that saves all inventory data into xml format.
+	 * 
+	 * @param doc the document in which the xml heirachy is stored
+	 * @param rootElement the element to which all others are appended
+	 */
+	
 	public static void saveInventory(Document doc, Element rootElement,
 			GameWorld gameWorld) {
 
-		// inventory elements
+		// laptop items container element
 		Element inventory = doc.createElement("inventory");
 		rootElement.appendChild(inventory);
 
+		// storage used in the inventory element
 		Element storageUsed = doc.createElement("storageUsed");
 		storageUsed.appendChild(doc.createTextNode(String.valueOf(gameWorld
 				.getInventory().getStorageUsed())));
 		inventory.appendChild(storageUsed);
 
-		// laptop item elements
+		// individual laptop item elements
 		for (LaptopItem item : gameWorld.getInventory().getItems()) {
 
 			Element inventoryItem = doc.createElement("inventoryItem");
@@ -236,14 +263,21 @@ public class Save {
 		}
 	}
 
+	/**
+	 * Helper methods that saves all entity data into xml format.
+	 * 
+	 * @param doc the document in which the xml heirachy is stored
+	 * @param rootElement the element to which all others are appended
+	 */
+	
 	public static void saveEntities(Document doc, Element rootElement,
 			GameWorld gameWorld) {
 
-		// movable entity elements
+		// movable entity container element
 		Element movableEntities = doc.createElement("movableEntities");
 		rootElement.appendChild(movableEntities);
 
-		// movable entity elements
+		// individual movable entity elements
 		for (MovableEntity e : gameWorld.getMoveableEntities().values()) {
 
 			Element movableEntity = doc.createElement("movableEntity");
@@ -310,14 +344,21 @@ public class Save {
 		}
 	}
 
+	/**
+	 * Helper methods that saves all swipeCard data into xml format.
+	 * 
+	 * @param doc the document in which the xml heirachy is stored
+	 * @param rootElement the element to which all others are appended
+	 */
+	
 	public static void saveSwipeCards(Document doc, Element rootElement,
 			GameWorld gameWorld) {
 
-		// swipe card elements
+		// swipe card container element
 		Element swipeCards = doc.createElement("swipeCards");
 		rootElement.appendChild(swipeCards);
 
-		// swipe card elements
+		// individual swipe card elements
 		for (SwipeCard card : gameWorld.getSwipeCards()) {
 
 			Element swipeCard = doc.createElement("swipeCard");

@@ -89,6 +89,7 @@ public class Load {
 
 			Element doc = dom.getDocumentElement();
 
+			// various gamestate fields
 			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
 			patchProgress = Integer
 					.parseInt(getTextValue(doc, "patchProgress"));
@@ -102,11 +103,13 @@ public class Load {
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
 
+			// delegation of large groupings of loading to smaller, helper methods
 			parsePlayer(doc);
 			parseInventory(doc);
 			parseEntities(doc);
 			parseCards(doc);
 
+			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
 					codeProgress, patchProgress, score, inProgram,
 					canApplyPatch, commitIndex, timer, storageUsed);
@@ -118,7 +121,9 @@ public class Load {
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
 		}
-
+		
+		// loading was unsuccessful
+		System.out.println("Loading failed");
 		return null;
 	}
 
@@ -149,7 +154,7 @@ public class Load {
 
 	/**
 	 * Helper methods that parses all player data and sets the class variable
-	 * player..
+	 * player.
 	 * 
 	 * @param e
 	 *            the element being searched
@@ -269,12 +274,15 @@ public class Load {
 				// swipeCard cardNum
 				int cardNum = 0;
 
+				// if swipeCard - set its cardNum
 				if (type == "SwipeCard") {
 					cardNum = Integer.parseInt(getTextValue(e, "cardNum"));
 				}
-
+				
+				// laptop cardID
 				int cardID = 0;
 
+				// if laptop - set its cardID
 				if (type == "Laptop") {
 					cardID = Integer.parseInt(getTextValue(e, "cardID"));
 				}
@@ -372,7 +380,7 @@ public class Load {
 		} else if (type == "SwipeCard") {
 			return EntityFactory.getSwipecardTexturedModel()[cardNum - 1];
 		}
-
+		System.out.println("Model not found for given type");
 		return null;
 	}
 
@@ -401,7 +409,7 @@ public class Load {
 			return new SwipeCard(model, pos, rotX, rotY, rotZ, scale, id,
 					cardNum);
 		}
-
+		System.out.println("Entity construction unsuccessful");
 		return null;
 	}
 }
