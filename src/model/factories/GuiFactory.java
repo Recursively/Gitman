@@ -3,7 +3,6 @@ package model.factories;
 import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.SwipeCard;
-import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
@@ -80,8 +79,6 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		
-		patchComplete = makeGuiTexture("patchComplete", GuiMessages.MESSAGE_POS, GuiMessages.MESSAGE_SCALE);
-		codeCompiledMessage = makeGuiTexture("patchComplete", GuiMessages.MESSAGE_POS, GuiMessages.MESSAGE_SCALE);
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -230,11 +227,4 @@ public class GuiFactory {
 		return help;
 	}
 
-	public GuiTexture getCodeCompiledMessage() {
-		return this.codeCompiledMessage;
-	}
-	
-	public GuiTexture getPatchComplete() {
-		return this.patchComplete;
-	}
 }

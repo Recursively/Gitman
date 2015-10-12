@@ -81,6 +81,7 @@ public class EntityFactory {
     private static int flashdriveItemID = 0;
     private ModelData portalData;
     private TexturedModel portalTexturedModel;
+    private ArrayList<Entity> wallEntities = new ArrayList<>();
 
     /**
      * Construct a new Entity factor with no models preloaded
@@ -252,8 +253,8 @@ public class EntityFactory {
                     random.nextFloat() * 256f, 0, scale, 0, pineData));
         } else if (entityName.equals("wall")) {
             if (rotate) {
-                entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
-                        90f, 0, 10f, 0, wallData));
+                wallEntities.add(new Entity(wallTexturedModel, new Vector3f(x, y, z), 0,
+                        90f, 0, 10f, 0));
             } else {
                 entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
                         0, 0, 10f, 0, wallData));
@@ -319,6 +320,10 @@ public class EntityFactory {
 
     public Map<Integer, MovableEntity> getMovableEntities() {
         return movableEntities;
+    }
+
+    public ArrayList<Entity> getWallEntities() {
+        return wallEntities;
     }
 
     public static TexturedModel getFlashdriveTexturedModel() {

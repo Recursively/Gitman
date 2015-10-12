@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
 public abstract class StaticEntity extends Entity {
 
     protected final Vector3f origin;
-    protected final BoundingBox boundingBox;
+    protected  BoundingBox boundingBox;
     protected final ModelData modelData;
     protected final float radiusX;
     protected final float radiusY;
@@ -26,6 +26,8 @@ public abstract class StaticEntity extends Entity {
         this.modelData = modelData;
 
         boundingBox = this.modelData.getBoundingBox();
+        boundingBox = new BoundingBox(boundingBox.getMinX() * scale, boundingBox.getMinY() * scale, boundingBox.getMinZ() * scale,
+                boundingBox.getMaxX() * scale, boundingBox.getMaxY() * scale, boundingBox.getMaxZ() * scale);
 
         //TODO efficiency
 
