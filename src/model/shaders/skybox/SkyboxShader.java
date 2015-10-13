@@ -42,7 +42,7 @@ public class SkyboxShader extends ShaderProgram {
      *
      * @param matrix the matrix
      */
-    public void loadProjectionMatrix(Matrix4f matrix){
+    public void loadProjectionMatrix(Matrix4f matrix) {
         super.loadMatrix(location_projectionMatrix, matrix);
     }
 
@@ -62,7 +62,7 @@ public class SkyboxShader extends ShaderProgram {
 
         Last column of matrix determines the translation of skybox
     */
-    public void loadViewMatrix(Camera camera){
+    public void loadViewMatrix(Camera camera) {
         Matrix4f matrix = Maths.createViewMatrix(camera);
         matrix.m30 = 0;
         matrix.m31 = 0;
