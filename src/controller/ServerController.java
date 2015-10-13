@@ -1,5 +1,6 @@
 package controller;
 
+import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.MovableEntity;
 import model.network.NetworkHandler;
 import model.network.Server;
@@ -126,7 +127,8 @@ public class ServerController extends Thread {
 	
 	/**
 	 * 
-	 * Sets the update in the ArrayList of Servers when a button has been pushed 
+	 * Sets the update in the ArrayList of Servers when a button has been pushed.
+	 * If the entity is a laptop, add it to the interacted Laptops. 
 	 * 
 	 * @param status which type of interaction has occurred 
 	 * @param entity a reference to the actual entity that has been interacted with
@@ -136,6 +138,9 @@ public class ServerController extends Thread {
 			for (Server server : servers) {
 				server.setUpdate(status, entity);
 			}
+		}
+		if(status == 17){
+			networkHandler.getInteractedLaptops().add((Laptop) entity);
 		}
 	}
 
