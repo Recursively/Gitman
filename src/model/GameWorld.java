@@ -116,7 +116,7 @@ public class GameWorld {
 	private int interactDistance;
 	
 	// game state
-	private int gameState; // -1 is playing. 0 is lost. 1 is won, 2 is game disconnected
+	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
 	
 	// information from saved file, if game loaded in
@@ -669,11 +669,8 @@ public class GameWorld {
 		if(this.gameState == GAME_WIN){
 			return guiFactory.getWinScreen();
 		}
-		else if (this.gameState == GAME_WIN - 1){
-			return guiFactory.getLostScreen();
-		}
 		else {
-			return guiFactory.getDisconnectedScreen();
+			return guiFactory.getLostScreen();
 		}
 	}
 
@@ -845,6 +842,11 @@ public class GameWorld {
 				e.increaseRotation(0.5f, 0.5f, 0.5f);
 			}
 		}
+	}
+
+	public List<GuiTexture> getDisconnectedScreen() {
+		// TODO Auto-generated method stub
+		return guiFactory.getDisconnectedScreen();
 	}
 }
 
