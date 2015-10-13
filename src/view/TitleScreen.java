@@ -33,6 +33,7 @@ public class TitleScreen {
         this.isHost = isHost;
         DisplayManager.createDisplay(fullscreen);
         Keyboard.enableRepeatEvents(false);
+        
 
         // Creates the audio controller
         new AudioController();
