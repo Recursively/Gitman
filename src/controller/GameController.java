@@ -67,7 +67,7 @@ public class GameController {
 
         // initialise the game world
         gameWorld = new GameWorld(this);
-        gameWorld.initGame(isHost, load);
+        gameWorld.initGame(load);
 
         // initialise controller for actions
         actionController = new ActionController(gameWorld, this);
