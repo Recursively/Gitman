@@ -847,7 +847,6 @@ public class GameWorld {
 	}
 
 	public List<GuiTexture> getDisconnectedScreen() {
-		// TODO Auto-generated method stub
 		return guiFactory.getDisconnectedScreen();
 	}
 }

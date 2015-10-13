@@ -84,7 +84,7 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE); 
-		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, PROGRESS_SCALE); 
+		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, FULL_SCALE); 
 		
 		
 		
