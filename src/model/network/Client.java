@@ -179,15 +179,16 @@ public class Client extends Thread {
 	}
 
 	public void updateGameInformation() throws IOException {
-		int inventorySize = inputStream.readInt();
-
-		for (int i = 0; i < inventorySize; i++) {
-			int id = inputStream.readInt();
-			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
-		}
+		
 
 		int swipeSize = inputStream.readInt();
 		for (int i = 0; i < swipeSize; i++) {
+			int id = inputStream.readInt();
+			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
+		}
+		
+		int inventorySize = inputStream.readInt();
+		for (int i = 0; i < inventorySize; i++) {
 			int id = inputStream.readInt();
 			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}

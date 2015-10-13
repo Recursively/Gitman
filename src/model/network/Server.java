@@ -171,17 +171,17 @@ public class Server extends Thread {
 	}
 
 	public void initNewPlayer() throws IOException {
-		int inventorySize = gameController.getGameWorld().getInventory().getItems().size();
-
-		outputStream.writeInt(inventorySize);
-		for (LaptopItem entity : gameController.getGameWorld().getInventory().getItems()) {
-			outputStream.writeInt(entity.getUID());
-		}
-
+		
 		int swipeSize = gameController.getGameWorld().getSwipeCards().size();
 		outputStream.writeInt(swipeSize);
 		for (SwipeCard swipeCard : gameController.getGameWorld().getSwipeCards()) {
 			outputStream.writeInt(swipeCard.getUID());
+		}
+		
+		int inventorySize = gameController.getGameWorld().getInventory().getItems().size();
+		outputStream.writeInt(inventorySize);
+		for (LaptopItem entity : gameController.getGameWorld().getInventory().getItems()) {
+			outputStream.writeInt(entity.getUID());
 		}
 
 		outputStream.writeInt(gameController.getGameWorld().getProgress());
