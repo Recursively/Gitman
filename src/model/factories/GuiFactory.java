@@ -121,7 +121,7 @@ public class GuiFactory {
      * @return list of GuiTextures to be displayed
      */
     public List<GuiTexture> makeInventory(Inventory inventory) {
-        List<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
+        List<GuiTexture> inventoryImages = new ArrayList<>();
         inventoryImages.add(inventoryScreen);
         if (inventory.getLaptopDisplay() != null) {
             LaptopItem[][] items = inventory.getLaptopDisplay();
@@ -144,7 +144,6 @@ public class GuiFactory {
             }
         }
 
-
         return inventoryImages;
 
     }
@@ -155,7 +154,7 @@ public class GuiFactory {
      * @return List of guitextures to be rendered
      */
     public List<GuiTexture> getLostScreen() {
-        List<GuiTexture> lostScreens = new ArrayList<GuiTexture>();
+        List<GuiTexture> lostScreens = new ArrayList<>();
         lostScreens.add(lostScreen);
         return lostScreens;
 
@@ -168,7 +167,7 @@ public class GuiFactory {
      */
 
     public List<GuiTexture> getWinScreen() {
-        List<GuiTexture> winScreens = new ArrayList<GuiTexture>();
+        List<GuiTexture> winScreens = new ArrayList<>();
         winScreens.add(winScreen);
         return winScreens;
     }
@@ -179,7 +178,7 @@ public class GuiFactory {
      * @return List of guitextures to be rendered
      */
     public List<GuiTexture> getDisconnectedScreen() {
-        List<GuiTexture> disconnected = new ArrayList<GuiTexture>();
+        List<GuiTexture> disconnected = new ArrayList<>();
         disconnected.add(disconnectedServer);
         return disconnected;
     }
@@ -224,7 +223,7 @@ public class GuiFactory {
     public List<GuiTexture> getScore(int score) {
         if (this.oldScore != score) {
             this.oldScore = score;
-            this.scoreNum = new ArrayList<GuiTexture>();
+            this.scoreNum = new ArrayList<>();
             String num = this.oldScore + "";
             for (int i = 0; i < num.length(); i++) {
                 String charNum = num.substring(i, i + 1);
@@ -264,10 +263,9 @@ public class GuiFactory {
      * @return List of gui textures to render
      */
     public List<GuiTexture> getPopUpInteract(Vector3f position) {
-        List<GuiTexture> message = new ArrayList<GuiTexture>();
+        List<GuiTexture> message = new ArrayList<>();
         message.add(interactMessage);
         return message;
-
     }
 
     /**
@@ -276,7 +274,7 @@ public class GuiFactory {
      * @return List of gui textures to render
      */
     public List<GuiTexture> getInfoPanel() {
-        List<GuiTexture> infoPanels = new ArrayList<GuiTexture>();
+        List<GuiTexture> infoPanels = new ArrayList<>();
         infoPanels.add(infoPanel);
         return infoPanels;
     }
@@ -287,9 +285,8 @@ public class GuiFactory {
      * @return List of gui textures to render
      */
     public List<GuiTexture> getHelpScreen() {
-        List<GuiTexture> help = new ArrayList<GuiTexture>();
+        List<GuiTexture> help = new ArrayList<>();
         help.add(makeGuiTexture("helpScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
         return help;
     }
-
 }
