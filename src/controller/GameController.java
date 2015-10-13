@@ -30,8 +30,8 @@ import java.util.Map;
  */
 public class GameController {
     // network state
-    public static boolean RUNNING;
-    public static boolean READY;
+    protected static boolean RUNNING;
+    protected static boolean READY;
     public static boolean NETWORK_DISCONNECTED;
 
     // Model

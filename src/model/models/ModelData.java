@@ -9,10 +9,10 @@ import model.entities.staticEntity.BoundingBox;
  */
 public class ModelData {
 
-    private float[] vertices;
-    private float[] textureCoords;
-    private float[] normals;
-    private int[] indices;
+    private final float[] vertices;
+    private final float[] textureCoords;
+    private final float[] normals;
+    private final int[] indices;
 
     // BOUNDS INFO
     private float minX = Float.MAX_VALUE;
