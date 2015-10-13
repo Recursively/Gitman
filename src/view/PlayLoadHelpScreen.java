@@ -45,15 +45,15 @@ public class PlayLoadHelpScreen {
      */
     private void blinkTitle(boolean fullscreen) {
 
-        Loader loader = new Loader();
-        GuiRenderer guiRenderer = new GuiRenderer(loader);
+       
+        GuiRenderer guiRenderer = new GuiRenderer();
 
         long timer = System.currentTimeMillis();
         int index = 0;
 
         int selectionPointer = 0;
-        GuiTexture[] selections = initTitleScreens(loader);
-        GuiTexture blankTitleImage = initBlankTitleScreen(loader);
+        GuiTexture[] selections = initTitleScreens();
+        GuiTexture blankTitleImage = initBlankTitleScreen();
 
         boolean load = false;
         boolean closed = false;
@@ -137,11 +137,10 @@ public class PlayLoadHelpScreen {
     }
 /**
  * Initalises a blank title screen
- * @param loader
  * @return the GuiTexture initalised
  */
-    private GuiTexture initBlankTitleScreen(Loader loader) {
-        return new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
+    private GuiTexture initBlankTitleScreen() {
+        return new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
     }
 
@@ -149,17 +148,17 @@ public class PlayLoadHelpScreen {
     /**
      * @return an Array of title screen images to render
      */
-    private GuiTexture[] initTitleScreens(Loader loader) {
+    private GuiTexture[] initTitleScreens() {
         GuiTexture[] images = new GuiTexture[3];
-        images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpPlayUnderscore"), new Vector2f(0, 0),
+        images[0] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpPlayUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
       
-        images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpLoadUnderscore"), new Vector2f(0, 0),
+        images[1] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpLoadUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
        
-        images[2] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpHelpUnderscore"), new Vector2f(0, 0),
+        images[2] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpHelpUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
         return images;
     }

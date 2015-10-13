@@ -98,8 +98,6 @@ public class GameWorld {
 	// Collection of attenuating light-sources
 	private ArrayList<Light> lights;
 
-	// object file loader
-	private Loader loader;
 
 	// reference to the gameController
 	private GameController gameController;
@@ -123,13 +121,10 @@ public class GameWorld {
 	private ArrayList<Entity> wallEntities;
 	
 	/**
-	 * Creates the game world and passes in the loader
-	 *
-	 * @param loader
-	 *            loader
+	 * Creates the game world
 	 */
-	public GameWorld(Loader loader, GameController gameController) {
-		this.loader = loader;
+	public GameWorld(GameController gameController) {
+
 		this.gameController = gameController;
 	}
 	
@@ -151,7 +146,7 @@ public class GameWorld {
 		// initialises the currentTerrain 
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
+		entityFactory = new EntityFactory(otherTerrain, currentTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
@@ -294,8 +289,8 @@ public class GameWorld {
 	private void initFactories() {
 		playerFactory = new PlayerFactory(this);
 		lightFactory = new LightFactory();
-		terrainFactory = new TerrainFactory(loader);
-		guiFactory = new GuiFactory(loader);
+		terrainFactory = new TerrainFactory();
+		guiFactory = new GuiFactory();
 	}
 
 	/**
@@ -706,7 +701,7 @@ public class GameWorld {
 	}
 
 	private void initPlayerModel() {
-		EntityFactory.initPayerModel(loader);
+		EntityFactory.initPayerModel();
 	}
 
 	/**
