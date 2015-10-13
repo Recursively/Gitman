@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * The GuiRender is different from the other renderer classes, as it only needs to handle the rendering of 2D images.
- *
+ * <p/>
  * It Renders these images directly onto the players screen.
  *
  * @author Marcel van Workum
@@ -29,7 +29,7 @@ public class GuiRenderer {
 
     /**
      * Constructor
-     *
+     * <p/>
      * Loads screen to VAO and creates shader
      */
     public GuiRenderer() {

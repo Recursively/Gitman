@@ -14,6 +14,7 @@ import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.ReadMe;
 import model.entities.movableEntity.SwipeCard;
+import model.guiComponents.Inventory;
 
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
@@ -114,7 +115,38 @@ public class GameWorldTests {
 		assertTrue(e.canInteract());
 	}
 	
+	@Test
+	public void addToInventoryReadMe(){
+		ReadMe e = (ReadMe) getEntity("ReadMe");
+		if(gameWorld.getInventory().getStorageUsed() + GameWorld.CODE_VALUE > Inventory.MAX_STORAGE_SIZE){
+			assertFalse(gameWorld.getInventory().addItem(e));
+		}
+		else {
+			assertTrue(gameWorld.getInventory().addItem(e));
+		}
+	}
 	
+	@Test
+	public void addToInventoryFlashDrive(){
+		FlashDrive e = (FlashDrive) getEntity("FlashDrive");
+		if(gameWorld.getInventory().getStorageUsed() + GameWorld.CODE_VALUE > Inventory.MAX_STORAGE_SIZE){
+			assertFalse(gameWorld.getInventory().addItem(e));
+		}
+		else {
+			assertTrue(gameWorld.getInventory().addItem(e));
+		}
+	}
+	
+	@Test
+	public void deleteItemFromInventory(){
+		Inventory i = gameWorld.getInventory();
+		if(i.getSelected() != null){
+			assertEquals(i.getSelected().getUID(), i.deleteItem(gameWorld));
+		}
+		else {
+			assertEquals(-1, i.deleteItem(gameWorld));
+		}
+	}
 	
 	
 	// ------------------------------------------------------

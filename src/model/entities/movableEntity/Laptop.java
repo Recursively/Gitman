@@ -17,13 +17,25 @@ import java.util.ArrayList;
  *
  */
 public class Laptop extends Item {
-	public static final int LAPTOP_SCORE = 10;
+	private static final int LAPTOP_SCORE = 10;
 	
-	private boolean hasCode;
-	private boolean locked;
-	private int cardID;
+	private boolean hasCode;  // store if laptop still has code on it
+	private boolean locked;   // true if laptop is locked
+	private int cardID;       // cardId matches cardId of a swipe card
 
-	
+	/**
+	 * Instantiates a new Laptop.
+	 * 
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param id unique id for networking
+	 * @param cardID matching id of card that unlocks the this laptop
+	 * @param hasCode true if laptop has code on it
+	 */
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
 				  float rotY, float rotZ, float scale, int id, int cardID, boolean hasCode) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
@@ -32,8 +44,22 @@ public class Laptop extends Item {
 		this.cardID = cardID;
 	}
 
+	/**
+	 * Instantiates a new Laptop.
+	 * 
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param textureIndex index for atlassing
+	 * @param id unique id for networking
+	 * @param cardID matching id of card that unlocks the this laptop
+	 * @param hasCode true if laptop has code on it
+	 */
 	public Laptop(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
-				  int textureIndex, int id, boolean code, int cardID, boolean hasCode) {
+				  int textureIndex, int id, int cardID, boolean hasCode) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.hasCode = hasCode;
 		this.locked = true;
@@ -48,12 +74,10 @@ public class Laptop extends Item {
 			for(SwipeCard s: cards){
 				if(s.matchID(cardID)){
 					this.locked = false;
-					game.updateScore(LAPTOP_SCORE);
-
 					this.hasCode = false;
+					game.updateScore(LAPTOP_SCORE);
 					GameWorld.setGuiMessage("codeCopied", 1500); 
 					AudioController.playSuccessfulUnlockSound();
-
 					game.updateCodeProgress();
 					return 17;
 				}

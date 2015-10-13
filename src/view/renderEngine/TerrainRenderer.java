@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  * Delegate renderer to handle the rendering of terrains.
- *
+ * <p/>
  * An {@link Terrain} acts as the surface of the game world and has altered vertical y based on the a heightMap
  *
  * @author Marcel van Workum
@@ -28,7 +28,7 @@ public class TerrainRenderer {
     /**
      * Constructor
      *
-     * @param shader Terrain shader
+     * @param shader           Terrain shader
      * @param projectionMatrix 4x4 projection matrix for the Terrain
      */
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
@@ -41,7 +41,7 @@ public class TerrainRenderer {
 
     /**
      * Renders a list of terrains
-     *
+     * <p/>
      * Each terrain is bound to the VAO and then a transformation matrix is applied before finally being drawn
      *
      * @param terrains Terrains to render

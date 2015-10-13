@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * @author Marcel van Workum
- *
+ * 
  *
  */
 public class Player extends MovableEntity {

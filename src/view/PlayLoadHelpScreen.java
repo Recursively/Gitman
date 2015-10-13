@@ -17,9 +17,10 @@ import java.util.List;
  * action controller is currently not created
  *
  * @author Ellie
- * @author Marcel
  * @author Divya
+ * @author Marcel
  */
+
 public class PlayLoadHelpScreen {
 
     //networking
@@ -48,8 +49,6 @@ public class PlayLoadHelpScreen {
      * @param fullscreen whether the screen si full screen or not
      */
     private void blinkTitle(boolean fullscreen) {
-
-
         GuiRenderer guiRenderer = new GuiRenderer();
 
         long timer = System.currentTimeMillis();
@@ -91,12 +90,16 @@ public class PlayLoadHelpScreen {
             } else {
                 guiList.add(selections[selectionPointer]);
             }
+
+            // update the display
             guiRenderer.render(guiList);
             DisplayManager.updateDisplay();
 
             // user begins game
             if (Keyboard.next()) {
                 if (Keyboard.getEventKeyState()) {
+
+                    // close game
                     if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {
                         DisplayManager.closeDisplay();
                         closed = true;
@@ -105,6 +108,8 @@ public class PlayLoadHelpScreen {
                     // check arrow keys
 
                     else if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
+
+                        // decrease pointer position
                         if (selectionPointer == 0) {
                             selectionPointer = 2;
                         } else {
@@ -112,11 +117,15 @@ public class PlayLoadHelpScreen {
                             selectionPointer %= 3;
                         }
                     } else if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
+
+                        // increase pointer position
                         selectionPointer += 1;
                         selectionPointer %= 3;
                     }
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+
+                        // do selected option
                         if (selectionPointer == 0) {
                             break;
                         } else if (selectionPointer == 1) {
@@ -133,7 +142,7 @@ public class PlayLoadHelpScreen {
         }
 
         if (!closed) {
-            new GameController(isHost, hostname, load, fullscreen);
+            new GameController(isHost, hostname, load);
         } else {
             //kills music
             AL.destroy();

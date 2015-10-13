@@ -54,6 +54,7 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 
         where xxx.xxx.xxx.xxx is the ip address from the server 
 
+3. A player cannot connect to a host when commits have been collected.
   
 *Game created by:*
 - *Reuben Puketapu*

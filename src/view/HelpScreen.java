@@ -12,6 +12,7 @@ import java.util.List;
  * action controller is not made yet and it is simple.
  *
  * @author Ellie
+ * @author Marcel
  */
 public class HelpScreen {
 
@@ -28,19 +29,14 @@ public class HelpScreen {
 
     /**
      * Handles logic for either closing the window or moving back to the Play/Load/Help screen
-     *
      */
     private void showScreen() {
-
-
         GuiRenderer guiRenderer = new GuiRenderer();
         GuiFactory guiFactory = new GuiFactory();
         List<GuiTexture> helpScreen = guiFactory.getHelpScreen();
 
         closed = false;
-
         while (!closed) {
-
             guiRenderer.render(helpScreen);
             DisplayManager.updateDisplay();
 

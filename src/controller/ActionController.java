@@ -14,14 +14,20 @@ import model.data.Save;
  * @author Divya
  * @author Marcel van Workum
  * @author Ellie
+ * @author Reuben Puketapu
  *
  */
 public class ActionController {
 	private GameWorld gameWorld;
 	private GameController gameController;   // to check if game is still running
 
-	public ActionController(GameWorld gameWorld,
-			GameController gameController) {
+	/**
+	 * Instantiates a new Action controller.
+	 *
+	 * @param gameWorld      the game world
+	 * @param gameController the game controller
+	 */
+	public ActionController(GameWorld gameWorld, GameController gameController) {
 		this.gameWorld = gameWorld;
 		this.gameController = gameController;
 	}

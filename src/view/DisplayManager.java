@@ -6,7 +6,7 @@ import org.lwjgl.opengl.*;
 
 /**
  * Display management class used to handle the resolution and FPS of the game.
- *
+ * <p/>
  * Arguably this class could be in the model, however it fits nicely here and the resolution
  * and fps values are static for the time being
  *
@@ -31,7 +31,7 @@ public class DisplayManager {
 
     /**
      * Create a Display window with the specified resolution and fps cap
-     *
+     * <p/>
      * And fullscreen
      */
     public static void createDisplay(boolean fullscreen) {
@@ -73,7 +73,7 @@ public class DisplayManager {
 
     /**
      * Parses the display mode.
-     *
+     * <p/>
      * Tries to get a 720p display, otherwise it will default to lowest res possible
      *
      * @return DisplayMode parsed

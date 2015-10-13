@@ -14,6 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Handles both the main player and other multilayer players
  *
  * @author Marcel van Workum
+ * @author Reuben Puketapu
  */
 public class PlayerFactory {
 
