@@ -188,7 +188,12 @@ public class GameWorld {
                 currentTerrain));
     }
 
-    public boolean initLoadGame() {
+    /**
+     * Load in currently saved game
+     * 
+     * @return true if successful load, false otherwise
+     */
+    private boolean initLoadGame() {
         this.load = Load.loadGame();
 
         // loading failed. Don't load game, just return false
@@ -235,6 +240,9 @@ public class GameWorld {
         return true;
     }
 
+    /**
+     * Initialize/Create commits
+     */
     private void initCommits() {
         int count = 0;
         for (Vector3f position : entityFactory.getCommitPositions()) {
@@ -439,6 +447,13 @@ public class GameWorld {
         return closest;
     }
 
+    /**
+     * Check if entities in the movable entities map
+     * are within distance of the current player, and if they are
+     * add to a map
+     * 
+     * @return map that maps distance from player to entity, to entity
+     */
     public Map<Double, MovableEntity> withinDistance() {
         HashMap<Double, MovableEntity> interactable = new HashMap<Double, MovableEntity>();
 
@@ -475,8 +490,16 @@ public class GameWorld {
         movableEntities.remove(entity.getUID());
     }
 
+    /**
+     * Add a commit to the movable entities map. Check that position
+     * of commit is not already taken first. If it is, keep searching 
+     * through positions until one is found that is not 'in use'
+     * 
+     */
     public void addCommit() {
         ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
+        
+        // ensure that position to place commit at is not already taken
         boolean found = false;
         for (int i = 0; i < commitPos.size(); i++) {
             commitIndex = (commitIndex + i) % commitPos.size();
@@ -492,6 +515,7 @@ public class GameWorld {
             }
         }
 
+        // create commit at unused position
         Commit newCommit = EntityFactory.createCommit(commitPos
                 .get(commitIndex));
         this.movableEntities.put(newCommit.getUID(), newCommit);
@@ -537,9 +561,10 @@ public class GameWorld {
 
     /**
      * Remove the given item from the inventory, and drop the item at the player
-     * position
+     * position of the given player (find player with given player id)
      *
      * @param item to remove
+     * @param playerID id of player that has removed item from inventory
      * @return true if remove was successful
      */
     public void removeFromInventory(LaptopItem item, int playerID) {
@@ -548,8 +573,12 @@ public class GameWorld {
                     .getPosition();
             float y = currentTerrain.getTerrainHeight(playerPos.getX(),
                     playerPos.getZ());
+            
+            // make sure scaling of item is fine
             float scale = item.getScale();
             item.setScale(scale);
+            
+            // set player position
             item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET,
                     playerPos.getZ()));
             this.movableEntities.put(item.getUID(), item);
@@ -569,7 +598,7 @@ public class GameWorld {
      * Decreases patch progress bar steadily by 10% of current progress
      */
     public void decreasePatch() {
-        // if not in outside area, do nothing
+        // if not compiled program do nothing
         if (!GameWorld.isProgramCompiled)
             return;
 
@@ -629,7 +658,6 @@ public class GameWorld {
      * given the option of multiplayer or single player, and the environment
      * they are displayed in changes in
      */
-
     public void updateCodeProgress() {
         this.progress += CODE_VALUE;
         inventory.increaseStorageUsed(CODE_VALUE);
@@ -653,11 +681,8 @@ public class GameWorld {
 
         // adds the portal to the game
         enablePortal();
-
         AudioController.playPortalHum();
-
         GameWorld.isProgramCompiled = true;
-
     }
 
     private void enablePortal() {
@@ -666,6 +691,10 @@ public class GameWorld {
                 currentTerrain));
     }
 
+    /**
+     * @return end state screen depending on current game state
+     *  (i.e. if game has been won or lost)
+     */
     public List<GuiTexture> getEndStateScreen() {
         if (this.gameState == GAME_WIN) {
             return guiFactory.getWinScreen();
@@ -743,6 +772,10 @@ public class GameWorld {
         AudioController.playOfficeLoop();
     }
 
+    /**
+     * If help screen is not visible, display it, 
+     * otherwise close help screen
+     */
     public void displayHelp() {
         if (this.helpVisible) {
             this.helpVisible = false;
@@ -818,6 +851,9 @@ public class GameWorld {
         worldTime %= 24000;
     }
 
+    /**
+     * @return true if player is on the outside terrain
+     */
     public static boolean isOutside() {
         return isOutside;
     }
@@ -845,18 +881,34 @@ public class GameWorld {
         }
     }
 
+    /**
+     * @return disconnected screen gui texture
+     */
     public List<GuiTexture> getDisconnectedScreen() {
         return guiFactory.getDisconnectedScreen();
     }
     
+    /**
+     * @return 1 if commits have been collected
+     */
     public int getCommitCollected() {
 		return this.commitCollected;
+	}
+    
+    /**
+     * @param collected to set commitsCollected to
+     */
+    public void setCommitCollected(int collected) {
+		this.commitCollected = collected;
 	}
 
     // -------------------------------------------------
     // TEST METHODS
     // -------------------------------------------------
 
+    /**
+     * Testing Constructor
+     */
     public GameWorld() {
         initTestWorld();
     }
