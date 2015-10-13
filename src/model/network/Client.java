@@ -196,10 +196,9 @@ public class Client extends Thread {
 		}
 		
 		int patchProgress = inputStream.readInt();
-		gameController.getGameWorld().setPatchProgress(patchProgress);
+		gameController.getGameWorld().setProgress(patchProgress);
 		
 		System.out.println("Patch: " + patchProgress);
 
 	}
-
 }

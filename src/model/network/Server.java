@@ -181,7 +181,7 @@ public class Server extends Thread {
 			outputStream.writeInt(swipeCard.getUID());
 		}
 
-		outputStream.writeInt(gameController.getGameWorld().getPatchProgress());
+		outputStream.writeInt(gameController.getGameWorld().getProgress());
 
 	}
 
