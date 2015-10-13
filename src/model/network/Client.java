@@ -327,11 +327,10 @@ public class Client extends Thread {
 
 	}
 
-	public boolean readIsCommitCollected() throws IOException{
+	public void readIsCommitCollected() throws IOException{
 		
-		if(inputStream.readInt() == 1) return true;
+		if(inputStream.readInt() == 1) throw new IOException();
 		
-		throw new IOException();
 		
 	}
 
