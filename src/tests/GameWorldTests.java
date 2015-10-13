@@ -342,6 +342,57 @@ public class GameWorldTests {
 		i.setStorageUsed(used);  //reset storage value
 	}
 	
+	@Test
+	public void testGameWorldRemoveFromInventory_1(){
+		// add item first
+		Inventory i = gameWorld.getInventory();
+		ReadMe e = (ReadMe) getEntity("ReadMe");		
+		// if can't find item in entities map, create dummy item
+		if(e == null){
+			e = new ReadMe(null, null, 0, 0, 0, 0, 0, 0, "readme10");
+		}		
+		int used = i.getStorageUsed();
+		i.setStorageUsed(0);
+		gameWorld.addToInventory(e);
+		
+		// now test remove from inventory method
+		gameWorld.removeFromInventory(e);
+		assertTrue(gameWorld.getMoveableEntities().containsKey(e.getUID()));
+		i.setStorageUsed(used);  //reset storage value
+	}
+	
+	@Test
+	public void testGameWorldRemoveFromInventory_2(){
+		// add item first
+		Inventory i = gameWorld.getInventory();
+		FlashDrive e = (FlashDrive) getEntity("FlashDrive");		
+		// if can't find item in entities map, create dummy item
+		if(e == null){
+			e = new FlashDrive(null, null, 0, 0, 0, 0, 0, 0, "extImg0");
+		}		
+		int used = i.getStorageUsed();
+		i.setStorageUsed(0);
+		gameWorld.addToInventory(e);
+		
+		// now test remove from inventory method
+		gameWorld.removeFromInventory(e);
+		assertTrue(gameWorld.getMoveableEntities().containsKey(e.getUID()));
+		i.setStorageUsed(used);  //reset storage value
+	}
+	
+	@Test
+	public void testAddCard(){
+		SwipeCard e = (SwipeCard) getEntity("SwipeCard");
+		// if can't find item in entities map, create dummy item
+		if(e == null){
+			e = new SwipeCard(null, null, 0, 0, 0, 0, 0, 0);
+		}			
+		gameWorld.addCard(e);
+		assertTrue(gameWorld.getSwipeCards().contains(e));
+	}
+	
+	// TODO tests from decreasePatch method onwards in gameworld	
+	
 	// ------------------------------------------------------
 	// HELPER METHODS
 	// ------------------------------------------------------
