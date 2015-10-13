@@ -13,7 +13,6 @@ import model.data.Save;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.SwipeCard;
-import model.toolbox.Loader;
 
 public class DataTests {
 
@@ -21,7 +20,7 @@ public class DataTests {
 	private String ipAddress = "0";
 	private boolean load = false;
 	private boolean fullscreen = true;
-	private GameWorld gameWorld = new GameWorld(new Loader(), new GameController(isHost, ipAddress, load, fullscreen));
+	private GameWorld gameWorld = new GameWorld(new GameController(isHost, ipAddress, load, fullscreen));
 	private ArrayList<LaptopItem> laptopItems;
 	private ArrayList<MovableEntity> movableEntities;
 	private ArrayList<SwipeCard> swipeCards;

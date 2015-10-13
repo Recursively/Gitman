@@ -8,7 +8,6 @@ import model.models.TexturedModel;
 import model.shaders.entity.EntityShader;
 import model.shaders.terrain.TerrainShader;
 import model.terrains.Terrain;
-import model.toolbox.Loader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
@@ -70,15 +69,13 @@ public class MasterRenderer {
      * <p/>
      * Prepares the display for enabling culling, creating the transformationMatrix
      * and creating the separate Renderers
-     *
-     * @param loader Loader for the Skybox Renderer
      */
-    public MasterRenderer(Loader loader) {
+    public MasterRenderer() {
         enableCulling();
         createProjectionMatrix();
         entityRenderer = new EntityRenderer(entityShader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-        skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
+        skyboxRenderer = new SkyboxRenderer(projectionMatrix);
     }
 
     /**

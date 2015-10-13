@@ -39,7 +39,7 @@ public class EntityFactory {
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
 
-    private Loader loader;
+
 
     private ArrayList<Vector3f> commitPositions = new ArrayList<>();
 
@@ -86,8 +86,8 @@ public class EntityFactory {
     /**
      * Construct a new Entity factor with no models preloaded
      */
-    public EntityFactory(Loader loader, Terrain terrain, Terrain office) {
-        this.loader = loader;
+    public EntityFactory(Terrain terrain, Terrain office) {
+
         initModels();
 
         BufferedImage image = getBufferedImage(ENTITY_MAP);
@@ -99,83 +99,83 @@ public class EntityFactory {
 
     private void initModels() {
         pineData = OBJFileLoader.loadOBJ(MODEL_PATH + "pine");
-        RawModel pineRawModel = loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(),
+        RawModel pineRawModel = Loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(),
                 pineData.getNormals(), pineData.getIndices());
         pineTexturedModel = new TexturedModel(pineRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "pine")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "pine")));
         pineTexturedModel.getTexture().setReflectivity(0);
 
 
         lampData = OBJFileLoader.loadOBJ(MODEL_PATH + "lamp");
-        RawModel lampRawModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
+        RawModel lampRawModel = Loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
                 lampData.getNormals(), lampData.getIndices());
         lampTexturedModel = new TexturedModel(lampRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "lamp")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "lamp")));
 
         wallData = OBJFileLoader.loadOBJ(MODEL_PATH + "wall");
-        RawModel wallRawModel = loader.loadToVAO(wallData.getVertices(), wallData.getTextureCoords(),
+        RawModel wallRawModel = Loader.loadToVAO(wallData.getVertices(), wallData.getTextureCoords(),
                 wallData.getNormals(), wallData.getIndices());
         wallTexturedModel = new TexturedModel(wallRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "wall")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "wall")));
        wallTexturedModel.getTexture().setReflectivity(0.1f);
 
         whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
-        RawModel whiteboardRawModel = loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
+        RawModel whiteboardRawModel = Loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
                 whiteboardData.getNormals(), whiteboardData.getIndices());
         whiteboardTexturedModel = new TexturedModel(whiteboardRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
         whiteboardTexturedModel.getTexture().setReflectivity(0);
 
         tableData = OBJFileLoader.loadOBJ(MODEL_PATH + "table_with_drawer");
-        RawModel tableRawModel = loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
+        RawModel tableRawModel = Loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
                 tableData.getNormals(), tableData.getIndices());
         tableTexturedModel = new TexturedModel(tableRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "table_with_drawer")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "table_with_drawer")));
 
         laptopData = OBJFileLoader.loadOBJ(MODEL_PATH + "laptop");
-        RawModel laptopRawModel = loader.loadToVAO(laptopData.getVertices(), laptopData.getTextureCoords(),
+        RawModel laptopRawModel = Loader.loadToVAO(laptopData.getVertices(), laptopData.getTextureCoords(),
                 laptopData.getNormals(), laptopData.getIndices());
         laptopTexturedModel = new TexturedModel(laptopRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "laptop")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "laptop")));
 
         bugData = OBJFileLoader.loadOBJ(MODEL_PATH + "bug");
-        RawModel bugRawModel = loader.loadToVAO(bugData.getVertices(), bugData.getTextureCoords(),
+        RawModel bugRawModel = Loader.loadToVAO(bugData.getVertices(), bugData.getTextureCoords(),
                 bugData.getNormals(), bugData.getIndices());
         bugTexturedModel = new TexturedModel(bugRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "bug")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "bug")));
 
         tabletData = OBJFileLoader.loadOBJ(MODEL_PATH + "tablet");
-        RawModel tabletRawModel = loader.loadToVAO(tabletData.getVertices(), tabletData.getTextureCoords(),
+        RawModel tabletRawModel = Loader.loadToVAO(tabletData.getVertices(), tabletData.getTextureCoords(),
                 tabletData.getNormals(), tabletData.getIndices());
         EntityFactory.tabletTexturedModel = new TexturedModel(tabletRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "tablet")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "tablet")));
 
         commitData = OBJFileLoader.loadOBJ(MODEL_PATH + "commit_cube");
-        RawModel commitRawModel = loader.loadToVAO(commitData.getVertices(), commitData.getTextureCoords(),
+        RawModel commitRawModel = Loader.loadToVAO(commitData.getVertices(), commitData.getTextureCoords(),
                 commitData.getNormals(), commitData.getIndices());
         commitTexturedModel = new TexturedModel(commitRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "commit_cube")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "commit_cube")));
 
         flashdriveData = OBJFileLoader.loadOBJ(MODEL_PATH + "flash_drive");
-        RawModel flashdriveRawModel = loader.loadToVAO(flashdriveData.getVertices(), flashdriveData.getTextureCoords(),
+        RawModel flashdriveRawModel = Loader.loadToVAO(flashdriveData.getVertices(), flashdriveData.getTextureCoords(),
                 flashdriveData.getNormals(), flashdriveData.getIndices());
         flashdriveTexturedModel = new TexturedModel(flashdriveRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "flash_drive")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "flash_drive")));
 
         swipecardData = OBJFileLoader.loadOBJ(MODEL_PATH + "swipe_card");
         for (int i = 0; i < 5; i++) {
-            RawModel swipecardRawModel = loader.loadToVAO(swipecardData.getVertices(), swipecardData.getTextureCoords(),
+            RawModel swipecardRawModel = Loader.loadToVAO(swipecardData.getVertices(), swipecardData.getTextureCoords(),
                     swipecardData.getNormals(), swipecardData.getIndices());
             swipecardTexturedModel[i] = new TexturedModel(swipecardRawModel,
-                    new ModelTexture(loader.loadTexture(TEXTURES_PATH + "swipe_card" + i)));
+                    new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "swipe_card" + i)));
         }
 
 
         portalData = OBJFileLoader.loadOBJ(MODEL_PATH + "portal");
-        RawModel portalRawModel = loader.loadToVAO(portalData.getVertices(), portalData.getTextureCoords(),
+        RawModel portalRawModel = Loader.loadToVAO(portalData.getVertices(), portalData.getTextureCoords(),
                 portalData.getNormals(), portalData.getIndices());
         portalTexturedModel = new TexturedModel(portalRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "portal")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "portal")));
         portalTexturedModel.getTexture().setReflectivity(0);
     }
 
@@ -358,12 +358,12 @@ public class EntityFactory {
         EntityFactory.movableItemID++;
     }
 
-    public static void initPayerModel(Loader loader) {
+    public static void initPayerModel() {
         playerData = OBJFileLoader.loadOBJ(MODEL_PATH + "orb");
-        RawModel playerRawModel = loader.loadToVAO(playerData.getVertices(), playerData.getTextureCoords(),
+        RawModel playerRawModel = Loader.loadToVAO(playerData.getVertices(), playerData.getTextureCoords(),
                 playerData.getNormals(), playerData.getIndices());
         playerTexturedModel = new TexturedModel(playerRawModel,
-                new ModelTexture(loader.loadTexture(TEXTURES_PATH + "orb")));
+                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "orb")));
         playerTexturedModel.getTexture().setReflectivity(0.4f);
     }
 

@@ -23,13 +23,13 @@ import java.util.List;
  *
  * @author Marcel van Workum
  */
-public class Loader {
+public final class Loader {
 
-    //TODO this should be static
 
-    private List<Integer> vaos = new ArrayList<>();
-    private List<Integer> vbos = new ArrayList<>();
-    private List<Integer> textures = new ArrayList<>();
+    private static List<Integer> vaos = new ArrayList<>();
+    private static List<Integer> vbos = new ArrayList<>();
+    private static List<Integer> textures = new ArrayList<>();
+
 
     /**
      *  Loads the obj model to a opengl VAO and returns a rawmodel of the vao
@@ -41,7 +41,7 @@ public class Loader {
      *
      * @return A raw model containing the vao data
      */
-    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
+    public static RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
         // first crate the VAO
         int vaoID = createVAO();
 
@@ -67,12 +67,12 @@ public class Loader {
      *
      * @return Raw model of VAO data
      */
-    public RawModel loadToVAO(float[] positions, int dimensions) {
+    public static RawModel loadToVAO(float[] positions, int dimensions) {
         // generate VAO
         int vaoID = createVAO();
 
         //  store data into VBO
-        this.storeDataInAttributeList(0, dimensions, positions);
+        storeDataInAttributeList(0, dimensions, positions);
 
         // finally unbind the vao
         unbindVAO();
@@ -86,7 +86,7 @@ public class Loader {
      * @param fileName filename of the texture
      * @return textureID
      */
-    public int loadTexture(String fileName) {
+    public static int loadTexture(String fileName) {
         Texture texture = null;
         try {
 
@@ -128,7 +128,7 @@ public class Loader {
      *
      * @return textureID
      */
-    public int loadCubeMap(String[] textureFiles) {
+    public static int loadCubeMap(String[] textureFiles) {
 
         // generates empty texture
         int textureID = GL11.glGenTextures();
@@ -171,7 +171,7 @@ public class Loader {
     /**
      * Cleans up the VAOs, VBOs and Textures
      */
-    public void cleanUp() {
+    public static void cleanUp() {
         for (int vao : vaos) {
             GL30.glDeleteVertexArrays(vao);
         }
@@ -189,7 +189,7 @@ public class Loader {
      *
      * @return id of vao
      */
-    private int createVAO() {
+    private static int createVAO() {
         // generates vao
         int vaoID = GL30.glGenVertexArrays();
         vaos.add(vaoID);
@@ -207,7 +207,7 @@ public class Loader {
      * @param coordinateSize size of coordinate
      * @param data the actual data to store
      */
-    private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
+    private static void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
         // first generate the VBO
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
@@ -229,7 +229,7 @@ public class Loader {
     /**
      * Unbinds the VAO
      */
-    private void unbindVAO() {
+    private static void unbindVAO() {
         GL30.glBindVertexArray(0);
     }
 
@@ -238,7 +238,7 @@ public class Loader {
      *
      * @param indices indices to bin to buffer
      */
-    private void bindIndicesBuffer(int[] indices) {
+    private static void bindIndicesBuffer(int[] indices) {
         // generates the VBO and adds to lsit
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
@@ -258,7 +258,7 @@ public class Loader {
      *
      * @return IntBuffer
      */
-    private IntBuffer storeDataInIntBuffer(int[] data) {
+    private static IntBuffer storeDataInIntBuffer(int[] data) {
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
 
@@ -275,7 +275,7 @@ public class Loader {
      *
      * @return float buffer
      */
-    private FloatBuffer storeDataInFloatBuffer(float[] data) {
+    private static FloatBuffer storeDataInFloatBuffer(float[] data) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         buffer.put(data);
 
@@ -292,7 +292,7 @@ public class Loader {
      *
      * @return Texture data for the skybox texture
      */
-    private TextureData decodeSkyboxTexture(String fileName) {
+    private static TextureData decodeSkyboxTexture(String fileName) {
         int width = 0;
         int height = 0;
         ByteBuffer buffer = null;
