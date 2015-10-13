@@ -28,7 +28,6 @@ public class SwipeCard extends Item {
 			float rotY, float rotZ, float scale, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.cardNum = cardNum;
-		System.out.println(cardNum);
 	}
 	
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY,

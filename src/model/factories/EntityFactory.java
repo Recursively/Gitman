@@ -3,6 +3,7 @@ package model.factories;
 import model.entities.Entity;
 import model.entities.movableEntity.*;
 import model.entities.staticEntity.CollidableEntity;
+import model.entities.staticEntity.OfficeEntity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.ModelData;
 import model.models.RawModel;
@@ -261,11 +262,11 @@ public class EntityFactory {
             }
         } else if (entityName.equals("free_standing_whiteboard")) {
             y += 8;
-            entities.add(new CollidableEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
+            entities.add(new OfficeEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1.5f, 0, whiteboardData));
         } else if (entityName.equals("table_with_drawer")) {
             y += 4;
-            entities.add(new CollidableEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
+            entities.add(new OfficeEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
                     270f, 0, 1.5f, 0, tableData));
         }
 

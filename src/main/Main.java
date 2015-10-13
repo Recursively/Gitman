@@ -48,7 +48,7 @@ public class Main {
 
     public static void main(String[] args) {
     	boolean fullscreen = true;
-        new TitleScreen(false, "130.195.6.129", fullscreen);
+        new TitleScreen(false, "130.195.6.51", fullscreen);
     }
 
 }

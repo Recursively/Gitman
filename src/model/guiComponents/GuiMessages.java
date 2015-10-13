@@ -46,10 +46,12 @@ public class GuiMessages {
 		 messageMap.put("patchComplete", guiFactory.makeGuiTexture("patchComplete", MESSAGE_POS, MESSAGE_SCALE));
 		 messageMap.put("pressEToInteract", guiFactory.makeGuiTexture("pressEToInteract", MESSAGE_POS, MESSAGE_SCALE));
 		 messageMap.put("unsuccessfulUnlock", guiFactory.makeGuiTexture("unsuccessfulUnlock", MESSAGE_POS, MESSAGE_SCALE));
+		 messageMap.put("gameSaved", guiFactory.makeGuiTexture("gameSaved", MESSAGE_POS, MESSAGE_SCALE));
 		 
 	}
 	
 	public void setMessage(String msg, long time){
+		this.messages.clear();
 		this.timer = System.currentTimeMillis();
 		this.messages.add(messageMap.get(msg));
 		this.messageTime = time;

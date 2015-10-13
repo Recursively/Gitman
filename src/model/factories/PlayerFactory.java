@@ -1,9 +1,11 @@
 package model.factories;
 
 import model.GameWorld;
+import model.data.Data;
 import model.entities.Camera;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
+
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -36,14 +38,18 @@ public class PlayerFactory {
 	 *
 	 * @return Player with Camera
 	 */
-	public Player makeNewPlayer(Vector3f position, TexturedModel playerModel, int uid) {
+	public Player makeNewPlayer(Vector3f position, TexturedModel playerModel, int uid, Data load) {
 		// where on the ground should the player be
 		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
 		position.y = initialPlayerY;
 
-		System.out.println("CREATED PLAYER WITH ID: " + uid);
-
 		// New player and camera to follow the player
-		return new Player(playerModel, position, 0, 180f, 0, 2f, uid, new Camera(initialPlayerY, position));
+		Player player = new Player(playerModel, position, 0, 180f, 0, 2f, uid, new Camera(initialPlayerY, position));
+		
+		if(load != null){
+			player.getCamera().setPitch((int)load.getPitch());
+			player.getCamera().setYaw((int)load.getYaw());
+		}
+		return player;
 	}
 }

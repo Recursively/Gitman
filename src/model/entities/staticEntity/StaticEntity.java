@@ -26,8 +26,7 @@ public abstract class StaticEntity extends Entity {
         this.modelData = modelData;
 
         boundingBox = this.modelData.getBoundingBox();
-        boundingBox = new BoundingBox(boundingBox.getMinX() * scale, boundingBox.getMinY() * scale, boundingBox.getMinZ() * scale,
-                boundingBox.getMaxX() * scale, boundingBox.getMaxY() * scale, boundingBox.getMaxZ() * scale);
+
 
         //TODO efficiency
 

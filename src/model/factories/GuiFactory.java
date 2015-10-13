@@ -10,6 +10,8 @@ import model.toolbox.Loader;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import com.sun.tracing.dtrace.ProviderAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +41,15 @@ public class GuiFactory {
 	private static final Vector2f SCORE_SCALE = new Vector2f(0.05f, 0.05f);
 	private static final float SCORE_YPOS = 0.95f;
 	
-	// common textures (whose scale/position does not change)
+	// textures
 	private final Loader loader;
 	private GuiTexture inventoryScreen;
 	private GuiTexture interactMessage;
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
+	private GuiTexture progressBlock;
 	
-	// pop up messages that need to appear for everyone
-	private GuiTexture codeCompiledMessage;
-	private GuiTexture patchComplete;
 	// gui panel
 	private int oldCardsSize;
 	private List<GuiTexture> cards;
@@ -59,6 +59,10 @@ public class GuiFactory {
 	
 	private int oldScore;
 	private List<GuiTexture> scoreNum;
+	
+	//number list
+	
+	
 
 	/**
 	 * Create the Gui factory passing in the object loader
@@ -78,6 +82,8 @@ public class GuiFactory {
 		infoPanel = makeGuiTexture("topLeftCornerGUI", new Vector2f(-0.6875f, 0.8f), new Vector2f(0.4f, 0.4f));
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
+		progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE); 
+		
 		
 		
 		// info panel
@@ -170,8 +176,9 @@ public class GuiFactory {
 					if(i <= GameWorld.MAX_PROGRESS){
 						float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.01f;
 						Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
-						GuiTexture img = makeGuiTexture("progressBlock", pos, PROGRESS_SCALE);
-						this.progressBar.add(img);
+						GuiTexture progBlock = progressBlock.copy();
+						progBlock.setPosition(pos);
+						this.progressBar.add(progBlock);
 					}
 				}
 			}
@@ -198,12 +205,14 @@ public class GuiFactory {
 	
 	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  
 		if(this.oldCardsSize != collected.size()){
+			for(int i = this.oldCardsSize; i < collected.size(); i++){
+				String name = collected.get(i).getImgName();	
+				float xPos = SwipeCard.START_X + i*SwipeCard.CARD_SCALE.getX()*2f;
+				Vector2f pos = new Vector2f(xPos, SwipeCard.CARD_YPOS);
+				GuiTexture img = makeItemTexture(name, pos, SwipeCard.CARD_SCALE);
+				this.cards.add(img);
+			}
 			this.oldCardsSize = collected.size();
-			String name = collected.get(this.oldCardsSize-1).getImgName();	
-			float xPos = SwipeCard.START_X + (this.oldCardsSize-1)*SwipeCard.CARD_SCALE.getX()*2f;
-			Vector2f pos = new Vector2f(xPos, SwipeCard.CARD_YPOS);
-			GuiTexture img = makeItemTexture(name, pos, SwipeCard.CARD_SCALE);
-			this.cards.add(img);
 		}
 		return this.cards;
 	}

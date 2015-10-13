@@ -64,13 +64,13 @@ public class Save {
 			// isProgramCompiled element
 			Element isProgramCompiled = doc.createElement("isProgramCompiled");
 			isProgramCompiled.appendChild(doc.createTextNode(String
-					.valueOf(gameWorld.getCodeProgress())));
+					.valueOf(GameWorld.isProgramCompiled())));
 			rootElement.appendChild(isProgramCompiled);
 
 			// isOutside element
 			Element isOutside = doc.createElement("isOutside");
 			isOutside.appendChild(doc.createTextNode(String
-					.valueOf(gameWorld.getCodeProgress())));
+					.valueOf(GameWorld.isOutside())));
 			rootElement.appendChild(isOutside);
 
 			// codeProgress element

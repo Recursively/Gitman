@@ -92,6 +92,10 @@ public class ActionController {
     			if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
 					GameController.RUNNING = false;
     			}
+
+				if (Keyboard.getEventKey() == Keyboard.KEY_J) {
+					AudioController.playRandomEasterEggSound();
+				}
         	}
 		}
 	}
