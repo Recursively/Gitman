@@ -179,7 +179,7 @@ public class GameController {
             } else {
                 // only show e to interact message if inventory is not open
                 for (MovableEntity e : gameWorld.withinDistance().values()) {
-                    guiRenderer.render(gameWorld.eInteractMessage(e));
+                    guiRenderer.render(gameWorld.eInteractMessage());
                 }
             }
 

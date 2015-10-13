@@ -772,8 +772,8 @@ public class GameWorld {
 		}
 	}
 
-	public List<GuiTexture> eInteractMessage(MovableEntity e) {
-		return guiFactory.getPopUpInteract(e.getPosition());
+	public List<GuiTexture> eInteractMessage() {
+		return guiFactory.getPopUpInteract();
 	}
 
 	public static boolean isProgramCompiled() {

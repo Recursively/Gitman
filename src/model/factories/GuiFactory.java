@@ -8,7 +8,6 @@ import model.textures.GuiTexture;
 import model.toolbox.Loader;
 
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -259,10 +258,9 @@ public class GuiFactory {
     /**
      * makes a list of press E to interact messages
      *
-     * @param position of the popup
      * @return List of gui textures to render
      */
-    public List<GuiTexture> getPopUpInteract(Vector3f position) {
+    public List<GuiTexture> getPopUpInteract() {
         List<GuiTexture> message = new ArrayList<>();
         message.add(interactMessage);
         return message;
