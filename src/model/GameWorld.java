@@ -13,8 +13,7 @@ import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
-import model.toolbox.Loader;
-
+ 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -28,6 +27,8 @@ import java.util.*;
  *
  * @author Marcel van Workum
  * @author Divya
+ * @author Reuben
+ * @author Ellie
  */
 public class GameWorld {
 	public static final int GAME_WIN = 1;      // game state value for won game
@@ -813,6 +814,10 @@ public class GameWorld {
 	public static Vector3f getPlayerPosition() {
 		return player.getPosition();
 	}
+	
+	public static boolean isOutside() {
+		return isOutside;
+	}
 
 	public static float getWorldTime() {
 		return worldTime;
@@ -821,10 +826,6 @@ public class GameWorld {
 	public static void increaseTime(float worldTime) {
 		worldTime += worldTime;
 		worldTime %= 24000;
-	}
-
-	public static boolean isOutside() {
-		return isOutside;
 	}
 
 	public static void updateSun() {
@@ -838,16 +839,16 @@ public class GameWorld {
 
 	}
 
-	public ArrayList<Entity> getWallEntities() {
-		return wallEntities;
-	}
-
 	public void rotateCommits() {
 		for (MovableEntity e : movableEntities.values()) {
 			if (e instanceof Commit) {
 				e.increaseRotation(0.5f, 0.5f, 0.5f);
 			}
 		}
+	}
+	
+	public ArrayList<Entity> getWallEntities() {
+		return wallEntities;
 	}
 
 	public List<GuiTexture> getDisconnectedScreen() {
