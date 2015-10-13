@@ -10,18 +10,9 @@ import java.util.List;
 
 public class HelpScreen {
 
-    private boolean isHost;
-    private String hostname;
-
-    private boolean fullscreen;
     private boolean closed;
 
     public HelpScreen(boolean isHost, String hostname, boolean fullscreen) {
-        this.fullscreen = fullscreen;
-        this.hostname = hostname;
-        this.isHost = isHost;
-
-
         Keyboard.enableRepeatEvents(false);
         showScreen(fullscreen);
     }
