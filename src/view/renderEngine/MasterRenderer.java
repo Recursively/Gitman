@@ -30,8 +30,6 @@ public class MasterRenderer {
 
     private static boolean RENDER_SKYBOX = false;
 
-    public static final int NUMBER_OF_LIGHTS = 5;
-
     // Display Parameters
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
@@ -43,8 +41,6 @@ public class MasterRenderer {
     public static final int RENDER_DISTANCE = 200;
 
     // Fog colour values
-
-
     private static float RED = 0;
     private static float GREEN = 0;
     private static float BLUE = 0;
@@ -220,14 +216,27 @@ public class MasterRenderer {
         projectionMatrix.m33 = 0;
     }
 
+    /**
+     * Gets fov.
+     *
+     * @return the fov
+     */
     public static float getFOV() {
         return FOV;
     }
 
+    /**
+     * Sets render skybox.
+     *
+     * @param renderSkybox the render skybox
+     */
     public static void setRenderSkybox(boolean renderSkybox) {
         RENDER_SKYBOX = renderSkybox;
     }
 
+    /**
+     * Updates the fog colour based on the game time
+     */
     public static void updateFog() {
         if (GameWorld.getWorldTime() < 5000) {
             RED = 0;

@@ -33,7 +33,7 @@ public class TitleScreen {
         DisplayManager.createDisplay(fullscreen);
         Keyboard.enableRepeatEvents(false);
 
-        // TODO Static controller?
+        // Creates the audio controller
         new AudioController();
         AudioController.playMenuLoop();
 
@@ -81,7 +81,7 @@ public class TitleScreen {
         if (!closed) {
             new PlayLoadHelpScreen(isHost, hostname, fullscreen);
         } else {
-        	//kills music
+            //kills music
             AL.destroy();
         }
     }
@@ -99,5 +99,4 @@ public class TitleScreen {
                 new Vector2f(1, 1));
         return images;
     }
-
 }
