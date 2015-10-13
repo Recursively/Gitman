@@ -69,6 +69,7 @@ public class ServerController extends Thread {
 				// send all the information to the client to ensure the server
 				// is ready for the server thread to start
 				server.sendPlayerID(uid);
+				server.sendIsCommitCollected();
 				server.setUid(uid);
 				server.initNewPlayer();
 				servers.add(server);

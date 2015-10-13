@@ -112,6 +112,7 @@ public class GameWorld {
 	private int commitIndex;
 	private long timer;
 	private int interactDistance;
+	private int commitCollected;
 
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
@@ -177,6 +178,7 @@ public class GameWorld {
 			this.canApplyPatch = false;
 			this.interactDistance = MIN_INTERACT;
 			this.gameState = -1;
+			this.commitCollected = 0;
 			// create commits
 			initCommits();
 		}
@@ -848,5 +850,14 @@ public class GameWorld {
 
 	public List<GuiTexture> getDisconnectedScreen() {
 		return guiFactory.getDisconnectedScreen();
+	}
+
+	public int getCommitCollected() {
+		// TODO Auto-generated method stub
+		return this.commitCollected;
+	}
+	
+	public void setCommitCollected(int c){
+		this.commitCollected = c;
 	}
 }

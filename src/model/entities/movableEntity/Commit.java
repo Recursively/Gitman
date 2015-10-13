@@ -30,6 +30,7 @@ public class Commit extends Item {
 	@Override
 	public int interact(GameWorld game) {
 		game.updateScore(COMMIT_SCORE);
+		game.setCommitCollected(1);
 		// commits disappear when picked up (added to the patch progress)
 		game.removeMovableEntity(this); 
 		game.incrementPatch();

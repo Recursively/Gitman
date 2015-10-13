@@ -1,7 +1,6 @@
 package model.network;
 
 import controller.GameController;
-import model.GameWorld;
 import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
@@ -314,6 +313,11 @@ public class Server extends Thread {
 		// sends the progress
 		outputStream.writeInt(gameController.getGameWorld().getProgress());
 
+	}
+
+	public void sendIsCommitCollected() throws IOException {
+		outputStream.writeInt(gameController.getGameWorld().getCommitCollected());
+		
 	}
 
 }

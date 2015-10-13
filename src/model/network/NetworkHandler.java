@@ -6,7 +6,6 @@ import model.GameWorld;
 import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.SwipeCard;
 
 /**
  * 

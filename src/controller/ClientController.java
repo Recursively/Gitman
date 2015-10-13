@@ -50,7 +50,7 @@ public class ClientController {
 
 			// initialize the Player and gameController so they're ready for the
 			// Client Thread to start
-
+			client.readIsCommitCollected();
 			client.setUid(uid);
 			createPlayer(uid);
 			client.updateGameInformation();

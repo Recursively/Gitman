@@ -1,7 +1,6 @@
 package model.network;
 
 import controller.GameController;
-import model.GameWorld;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import org.lwjgl.util.vector.Vector3f;
@@ -10,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -315,6 +315,7 @@ public class Client extends Thread {
 			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}
 		
+		// read the commits that have been interacted with
 		int commitSize = inputStream.readInt();
 		for(int i = 0; i < commitSize; i++){
 			int id = inputStream.readInt();
@@ -324,6 +325,14 @@ public class Client extends Thread {
 		int patchProgress = inputStream.readInt();
 		gameController.getGameWorld().setProgress(patchProgress);
 
+	}
+
+	public boolean readIsCommitCollected() throws IOException{
+		
+		if(inputStream.readInt() == 1) return true;
+		
+		throw new IOException();
+		
 	}
 
 }
