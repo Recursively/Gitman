@@ -10,6 +10,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g. files and
@@ -38,7 +39,7 @@ public class Inventory {
 	private GuiTexture itemDisplayed;
 	private LaptopItem selected;
 	private GuiFactory guiFactory;
-	private ArrayList<GuiTexture> textureList;
+	private List<GuiTexture> textureList;
 
 	public Inventory(GuiFactory guiFactory) {
 		this.inLaptop = new ArrayList<LaptopItem>();
@@ -65,7 +66,7 @@ public class Inventory {
 		return this.storageUsed;
 	}
 
-	public ArrayList<GuiTexture> getTextureList() {
+	public List<GuiTexture> getTextureList() {
 		return textureList;
 	}
 
