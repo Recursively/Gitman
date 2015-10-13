@@ -2,6 +2,7 @@ package model.network;
 
 
 import controller.GameController;
+import model.GameWorld;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
@@ -97,7 +98,6 @@ public class Server extends Thread {
 			outputStream.writeInt(-1);
 			outputStream.writeInt(-1);
 		}
-		networkHandler.setServerUpdate(null);
 	}
 
 	public void initStreams() {

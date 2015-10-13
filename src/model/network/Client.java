@@ -1,6 +1,7 @@
 package model.network;
 
 import controller.GameController;
+import model.GameWorld;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import org.lwjgl.util.vector.Vector3f;
@@ -152,8 +153,7 @@ public class Client extends Thread {
 
 	public void updatePlayer(int playerID, float[] packet) {
 		if (gameController.getPlayers().containsKey(playerID)) {
-			gameController.getPlayerWithID(playerID).setPosition(
-					new Vector3f(packet[0], packet[1], packet[2]));
+			gameController.getPlayerWithID(playerID).setPosition(new Vector3f(packet[0], packet[1], packet[2]));
 		} else {
 			gameController.createPlayer(playerID);
 		}
@@ -175,8 +175,7 @@ public class Client extends Thread {
 	}
 
 	public void setUpdate(int updateType, MovableEntity entity) {
-		networkHandler.setClientUpdate(new Update(updateType, entity.getUID(),
-				uid));
+		networkHandler.setClientUpdate(new Update(updateType, entity.getUID(), uid));
 	}
 
 	public void updateGameInformation() throws IOException {
@@ -184,20 +183,18 @@ public class Client extends Thread {
 
 		for (int i = 0; i < inventorySize; i++) {
 			int id = inputStream.readInt();
-			gameController.getGameWorld().getMoveableEntities().get(id)
-					.interact(gameController.getGameWorld());
+			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}
 
 		int swipeSize = inputStream.readInt();
 		for (int i = 0; i < swipeSize; i++) {
 			int id = inputStream.readInt();
-			gameController.getGameWorld().getMoveableEntities().get(id)
-					.interact(gameController.getGameWorld());
+			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}
-		
+
 		int patchProgress = inputStream.readInt();
 		gameController.getGameWorld().setProgress(patchProgress);
-		
+
 		System.out.println("Patch: " + patchProgress);
 
 	}
