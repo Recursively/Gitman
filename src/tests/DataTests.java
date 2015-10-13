@@ -15,8 +15,7 @@ public class DataTests {
 	private GameWorld gameWorld;
 
 	private void initTestGame() {
-		
-		this.gameWorld = TestSuite.gameWorld;
+
 	}
 	
 	@Test
