@@ -82,6 +82,7 @@ public class TitleScreen {
         if (!closed) {
             new PlayLoadHelpScreen(isHost, hostname, fullscreen);
         } else {
+        	//kills music
             AL.destroy();
         }
     }
