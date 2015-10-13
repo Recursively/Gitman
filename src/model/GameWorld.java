@@ -857,6 +857,7 @@ public class GameWorld {
         // initialise factories and data structures
         initFactories();
         initDataStructures();
+        initGui();
 
 
         // initialises the currentTerrain

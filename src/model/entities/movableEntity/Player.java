@@ -264,7 +264,7 @@ public class Player extends MovableEntity {
 
 	@Override
 	public boolean canInteract() {
-		return true;
+		return false;
 	}
 	
 	@Override
