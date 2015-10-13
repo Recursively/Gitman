@@ -4,17 +4,26 @@ import model.GameWorld;
 import model.data.Data;
 import model.data.Load;
 import model.data.Save;
+import model.entities.movableEntity.MovableEntity;
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.util.HashSet;
+
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test suite for data tests
+ */
 public class DataTests {
 
     private static TestSuite suite = new TestSuite();
     private GameWorld gameWorld;
     private Data data;
 
+    /**
+     * Initialises the game world
+     */
     private void initTestGame() {
         gameWorld = TestSuite.getGameWorld();
         Vector3f position = new Vector3f(10, 10, 10);
@@ -55,9 +64,18 @@ public class DataTests {
     public void testCompareMovableEntities() {
         initTestGame();
 
-//        for (MovableEntity e : gameWorld.getMoveableEntities().values()) {
-//            assertTrue("MovableEntity comparison of " + e.getType(), data.getMovableEntities().contains(e));
-//        }
+        assertTrue("Collection the same size", data.getMovableEntities().size() ==
+                gameWorld.getMoveableEntities().size());
+
+        HashSet<Integer> uids = new HashSet<>();
+
+        for (MovableEntity e : gameWorld.getMoveableEntities().values()) {
+            uids.add(e.getUID());
+        }
+
+        for (MovableEntity m : data.getMovableEntities()) {
+            assertTrue("Not contained" + m.getUID(), uids.contains(m.getUID()));
+        }
     }
 
     @Test
