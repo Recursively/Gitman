@@ -21,23 +21,24 @@ public class Main {
             System.out.println("Invalid number of arguments");
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("Arguments are: \n   fullscreen (Y/N)\n   ipAddress (xxx.xxx.xxx.x.x)");
-        }
-
-        // Parse the full screen args
-        boolean fullscreen = false;
-        if (args[0].equalsIgnoreCase("Y") || args[1].equalsIgnoreCase("True")) {
-            fullscreen = true;
-        }
-
-        // checks if the player tried to enter an ip address
-        boolean isHost = args.length == 1;
-
-        // Creates the correct game client type
-        if (!isHost) {
-            String ipAddress = args[2];
-            new TitleScreen(false, ipAddress, fullscreen);
         } else {
-            new TitleScreen(true, "", fullscreen);
+
+            // Parse the full screen args
+            boolean fullscreen = false;
+            if (args[0].equalsIgnoreCase("Y") || args[0].equalsIgnoreCase("True")) {
+                fullscreen = true;
+            }
+
+            // checks if the player tried to enter an ip address
+            boolean isHost = args.length == 1;
+
+            // Creates the correct game client type
+            if (!isHost) {
+                String ipAddress = args[1];
+                new TitleScreen(false, ipAddress, fullscreen);
+            } else {
+                new TitleScreen(true, "", fullscreen);
+            }
         }
     }
 }
