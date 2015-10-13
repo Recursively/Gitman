@@ -116,7 +116,7 @@ public class GameWorld {
 	private int interactDistance;
 	
 	// game state
-	private int gameState; // -1 is playing. 0 is lost. 1 is won
+	private int gameState; // -1 is playing. 0 is lost. 1 is won, 2 is game disconnected
 	private boolean helpVisible;
 	
 	// information from saved file, if game loaded in
@@ -669,8 +669,11 @@ public class GameWorld {
 		if(this.gameState == GAME_WIN){
 			return guiFactory.getWinScreen();
 		}
-		else{
+		else if (this.gameState == GAME_WIN - 1){
 			return guiFactory.getLostScreen();
+		}
+		else {
+			return guiFactory.getDisconnectedScreen();
 		}
 	}
 
