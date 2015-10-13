@@ -20,7 +20,6 @@ public class OBJFileLoader {
      * Attempts to load the object into a model data
      *
      * @param objFileName name of object
-     *
      * @return Model data about the object
      */
     public static ModelData loadOBJ(String objFileName) {
@@ -53,18 +52,18 @@ public class OBJFileLoader {
         // creates the indices array
         int[] indicesArray = convertIndicesListToArray(indices);
 
-        return new ModelData(verticesArray, texturesArray, normalsArray, indicesArray,
-                furthest);
+        return new ModelData(verticesArray, texturesArray, normalsArray, indicesArray
+        );
     }
 
     /**
      * Parses the obj file
      *
-     * @param reader File reader
+     * @param reader   File reader
      * @param vertices vertex points
      * @param textures vertex textures
-     * @param normals vertex normals
-     * @param indices vertex indices
+     * @param normals  vertex normals
+     * @param indices  vertex indices
      */
     private static void parseObject(BufferedReader reader, List<Vertex> vertices, List<Vector2f> textures, List<Vector3f> normals, List<Integer> indices) {
         String line;
@@ -118,10 +117,10 @@ public class OBJFileLoader {
     /**
      * Attempts to parse the vertex faces f v/vt/vn
      *
-     * @param reader file reader
+     * @param reader   file reader
      * @param vertices vertices
-     * @param indices indices
-     * @param line line in file
+     * @param indices  indices
+     * @param line     line in file
      * @throws IOException :<>
      */
     private static void parseFaces(BufferedReader reader, List<Vertex> vertices, List<Integer> indices, String line) throws IOException {
@@ -145,7 +144,6 @@ public class OBJFileLoader {
      * Gets the file reader for the obj file
      *
      * @param objFileName file name
-     *
      * @return FileReader
      */
     private static InputStreamReader getFileReader(String objFileName) {
@@ -164,9 +162,9 @@ public class OBJFileLoader {
     /**
      * Processes the vertex face
      *
-     * @param vertex vertex
+     * @param vertex   vertex
      * @param vertices list of vertices
-     * @param indices indices
+     * @param indices  indices
      */
     private static void processVertex(String[] vertex, List<Vertex> vertices, List<Integer> indices) {
 
@@ -196,7 +194,6 @@ public class OBJFileLoader {
      * Converts a list of indices to an indices array
      *
      * @param indices list of indices
-     *
      * @return An int[] of indices
      */
     private static int[] convertIndicesListToArray(List<Integer> indices) {
@@ -210,12 +207,12 @@ public class OBJFileLoader {
     /**
      * Converts all the face information into data arrays
      *
-     * @param vertices list of vertices to convert
-     * @param textures list of textures to convert
-     * @param normals list of normals to convert
+     * @param vertices      list of vertices to convert
+     * @param textures      list of textures to convert
+     * @param normals       list of normals to convert
      * @param verticesArray the vertex array
      * @param texturesArray textures array
-     * @param normalsArray normals array
+     * @param normalsArray  normals array
      * @return furtherest point
      */
     private static float convertDataToArrays(List<Vertex> vertices, List<Vector2f> textures,
@@ -255,14 +252,14 @@ public class OBJFileLoader {
 
     /**
      * Deals with an already processed vertex point
-     *
+     * <p/>
      * Fixes texture seams
      *
-     * @param previousVertex :?
+     * @param previousVertex  :?
      * @param newTextureIndex new index of the texture
-     * @param newNormalIndex new norma index of texture
-     * @param indices indices
-     * @param vertices vertices
+     * @param newNormalIndex  new norma index of texture
+     * @param indices         indices
+     * @param vertices        vertices
      */
     private static void dealWithAlreadyProcessedVertex(Vertex previousVertex, int newTextureIndex,
                                                        int newNormalIndex, List<Integer> indices, List<Vertex> vertices) {
@@ -300,9 +297,9 @@ public class OBJFileLoader {
      *
      * @param vertices List of vertices
      */
-    private static void removeUnusedVertices(List<Vertex> vertices){
-        for(Vertex vertex:vertices){
-            if(!vertex.isSet()){
+    private static void removeUnusedVertices(List<Vertex> vertices) {
+        for (Vertex vertex : vertices) {
+            if (!vertex.isSet()) {
                 vertex.setTextureIndex(0);
                 vertex.setNormalIndex(0);
             }

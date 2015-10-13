@@ -13,7 +13,7 @@ public class RawModel {
     /**
      * Instantiates a new Raw model.
      *
-     * @param vaoID the vao iD
+     * @param vaoID       the vao iD
      * @param vertexCount the vertex count
      */
     public RawModel(int vaoID, int vertexCount) {
