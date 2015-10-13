@@ -2,6 +2,7 @@ package model.network;
 
 import controller.GameController;
 import model.GameWorld;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
@@ -245,6 +246,9 @@ public class Server extends Thread {
 		if (status == 8) {
 			networkHandler.getInteractedLaptops().add((Laptop) entity);
 		}
+		else if(status == 11){
+			networkHandler.getInteractedCommits().add((Commit) entity);
+		}
 	}
 
 	/**
@@ -299,6 +303,12 @@ public class Server extends Thread {
 		outputStream.writeInt(laptopSize);
 		for (Laptop laptop : networkHandler.getInteractedLaptops()) {
 			outputStream.writeInt(laptop.getUID());
+		}
+		
+		int commitSize = networkHandler.getInteractedCommits().size();
+		outputStream.writeInt(commitSize);
+		for(Commit commit : networkHandler.getInteractedCommits()){
+			outputStream.writeInt(commit.getUID());
 		}
 
 		// sends the progress
