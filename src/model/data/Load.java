@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
  * object.
  *
  * @author Finn Kinnear
+ * @author Divya
  */
 
 public class Load {
@@ -45,6 +46,7 @@ public class Load {
 	private static int commitIndex;
 	private static long timer;
 	private static int gameState;
+	private static int commitCollected;
 
 	// player element
 	private static Vector3f playerPos;
@@ -96,6 +98,7 @@ public class Load {
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
 			gameState = Integer.parseInt(getTextValue(doc, "gameState"));
+			commitCollected = Integer.parseInt(getTextValue(doc, "commitCollected"));
 			
 			// create collections
 			inventory = new ArrayList<LaptopItem>();
@@ -111,7 +114,7 @@ public class Load {
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
 					isProgramCompiled, isOutside, progress, score,
-					canApplyPatch, commitIndex, timer, storageUsed, gameState);
+					canApplyPatch, commitIndex, timer, storageUsed, gameState, commitCollected);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());

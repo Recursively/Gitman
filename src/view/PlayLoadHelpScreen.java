@@ -15,7 +15,9 @@ import java.util.List;
  * Displays the Play Load Help screen and deals with simple key press logic as the 
  * action controller is currently not created
  * 
- * @author Ellie and Divya and Marcel
+ * @author Ellie
+ * @author Divya
+ * @author Marcel
  *
  */
 public class PlayLoadHelpScreen {

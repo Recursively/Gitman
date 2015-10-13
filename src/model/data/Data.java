@@ -13,6 +13,7 @@ import model.entities.movableEntity.SwipeCard;
  * appropriate objects and collections.
  *
  * @author Finn Kinnear
+ * @author Divya
  */
 
 public class Data {
@@ -39,6 +40,7 @@ public class Data {
 	private long timer;
 	private int storageUsed;
 	private int gameState;
+	private int commitCollected;
 
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw,
 			int uid, ArrayList<LaptopItem> inventory,
@@ -46,7 +48,7 @@ public class Data {
 			ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
 			boolean isOutside, int progress, int score,
 			boolean canApplyPatch, int commitIndex,
-			long timer, int storageUsed, int gameState) {
+			long timer, int storageUsed, int gameState, int commitCollected) {
 
 		this.playerPos = playerPos;
 		this.pitch = pitch;
@@ -65,6 +67,7 @@ public class Data {
 		this.timer = timer;
 		this.storageUsed = storageUsed;
 		this.gameState = gameState;
+		this.commitCollected = commitCollected;
 
 	}
 
@@ -134,5 +137,9 @@ public class Data {
 
 	public int getGameState() {
 		return this.gameState;
+	}
+	
+	public int getCommitCollected(){
+		return this.commitCollected;
 	}
 }

@@ -12,6 +12,7 @@ import java.util.List;
  * action controller is not made yet and it is simple.
  * 
  * @author Ellie
+ * @author Marcel
  *
  */
 public class HelpScreen {

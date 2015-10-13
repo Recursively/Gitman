@@ -17,6 +17,7 @@ import java.util.List;
  * and handles logic for key presses as the action controller class is not made yet
  *
  * @author Ellie
+ * @author Marcel
  */
 
 public class TitleScreen {
@@ -33,7 +34,6 @@ public class TitleScreen {
         DisplayManager.createDisplay(fullscreen);
         Keyboard.enableRepeatEvents(false);
 
-        // TODO Static controller?
         new AudioController();
         AudioController.playMenuLoop();
 

@@ -17,6 +17,9 @@ import java.util.List;
  * README txt documents).
  * 
  * @author Divya
+ * @author Ellie
+ * @author Marcel
+ * @author Reuben
  *
  */
 public class Inventory {
@@ -32,15 +35,20 @@ public class Inventory {
 	public static final Vector2f CENTER_POS = new Vector2f(0f, 0f);
 	public static final Vector2f IMAGE_SCALE = new Vector2f(0.6f, 0.8f);
 
-	private LaptopItem[][] laptopDisplay;
+	private LaptopItem[][] laptopDisplay;   // for display of laptop images
 	private ArrayList<LaptopItem> inLaptop;
 	private int storageUsed;
-	private boolean isVisible;
+	private boolean isVisible;         // true if inventory is visible
 	private GuiTexture itemDisplayed;
-	private LaptopItem selected;
+	private LaptopItem selected;       // currently selected item in laptop
 	private GuiFactory guiFactory;
 	private List<GuiTexture> textureList;
 
+	/**
+	 * Instantiates a new Inventory
+	 * 
+	 * @param guiFactory to create guiTextures
+	 */
 	public Inventory(GuiFactory guiFactory) {
 		this.inLaptop = new ArrayList<LaptopItem>();
 		this.storageUsed = 0;
@@ -49,7 +57,6 @@ public class Inventory {
 		this.selected = null;
 		this.guiFactory = guiFactory;
 		this.textureList = new ArrayList<GuiTexture>();
-
 	}
 
 	/**
@@ -66,12 +73,15 @@ public class Inventory {
 		return this.storageUsed;
 	}
 
+	/**
+	 * @return current list of images in inventory to be displayed
+	 */
 	public List<GuiTexture> getTextureList() {
 		return textureList;
 	}
 
 	/**
-	 * @return the isVisible
+	 * @return true if inventory is visible
 	 */
 	public boolean isVisible() {
 		return isVisible;
@@ -81,15 +91,13 @@ public class Inventory {
 	 * Add item to inventory (only allowed to add if required storage space is
 	 * still available)
 	 * 
-	 * @param item
-	 *            to add
+	 * @param item to add
 	 * @return true if add was successful
 	 */
 	public boolean addItem(LaptopItem item) {
 		if (this.storageUsed + item.getSize() <= MAX_STORAGE_SIZE) {
 			inLaptop.add(item);
 			increaseStorageUsed(item.getSize());
-			// updateLaptopDisplay(); //TODO
 			return true;
 		}
 		return false;
@@ -98,8 +106,7 @@ public class Inventory {
 	/**
 	 * Remove item from inventory. Update storage space used.
 	 * 
-	 * @param item
-	 *            to remove
+	 * @param item to remove
 	 * @return Item if successfully removed, null if not
 	 */
 	public int deleteItem(GameWorld game) {
@@ -127,11 +134,17 @@ public class Inventory {
 		this.storageUsed = this.storageUsed + size;
 	}
 
+	/**
+	 * Opens the inventory if inventory not already displayed,
+	 * else closes the inventory. 
+	 */
 	public void displayInventory() {
 		if (this.isVisible) {
 			this.isVisible = false;
 			Mouse.setGrabbed(true);
 			this.selected = null;
+			
+			// change audio
 			AudioController.stopEasterEggLoop();
 			if (GameWorld.isOutside()) {
 				AudioController.playGameWorldLoop();
@@ -149,6 +162,10 @@ public class Inventory {
 		}
 	}
 
+	/**
+	 * Add the images in the inLaptop array to the 2d array
+	 * so laptop display calculations can be carried out
+	 */
 	private void updateLaptopDisplay() {
 		this.laptopDisplay = new LaptopItem[NUM_ACROSS][NUM_DOWN];
 		int i = 0;
@@ -160,10 +177,13 @@ public class Inventory {
 				}
 			}
 		}
-
 		this.textureList = this.guiFactory.makeInventory(this);
 	}
 
+	/**
+	 * Open up the currently selected item if something is
+	 * selected. If item is already open, close it. 
+	 */
 	public void displayLaptopItem() {
 		if (itemDisplayed != null) {
 			this.textureList.remove(this.itemDisplayed);
@@ -172,8 +192,11 @@ public class Inventory {
 		}
 		else {
 			if(this.selected != null){
+				// add item image to texture list so that it can be displayed
 				this.itemDisplayed = guiFactory.makeItemTexture(this.selected.getImgName(), CENTER_POS, IMAGE_SCALE);
 				this.textureList.add(this.itemDisplayed);
+				
+				// player easter egg tune for special image
 				if (this.selected.getImgName().equals("extImg1Info")) {
 					AudioController.playEasterEggLoop();
 				} else {
@@ -184,17 +207,32 @@ public class Inventory {
 
 	}
 
+	/**
+	 * @return 2D array of items currently in the laptop
+	 */
 	public LaptopItem[][] getLaptopDisplay() {
 		return this.laptopDisplay;
 	}
 
+	/**
+	 * @return currently selected item
+	 */
 	public LaptopItem getSelected() {
 		return this.selected;
 	}
 
+	/**
+	 * Handle selection of item via key event that has been
+	 * passed in
+	 * 
+	 * @param keyEvent up, down, left or right arrow key number
+	 */
 	public void selectItem(int keyEvent) {
+		// only can select item if inventory seen, and has items 
+		// in it
 		if (this.isVisible && !this.inLaptop.isEmpty()) {
 			if (this.selected == null) {
+				// default is selecting first one
 				this.selected = this.inLaptop.get(0);
 			} else {
 				// find currently selected item
@@ -229,6 +267,7 @@ public class Inventory {
 					yPos = selectDownOrRight(yPos, laptopDisplay[0].length - 1);
 				}
 
+				// only update if not null
 				if (laptopDisplay[xPos][yPos] != null) {
 					this.selected = laptopDisplay[xPos][yPos];
 				}
@@ -240,6 +279,14 @@ public class Inventory {
 		}
 	}
 
+	/**
+	 * Calculations for moving towards max row/col number
+	 * of 2d array
+	 * 
+	 * @param num current x/y point in array
+	 * @param max max value of that row/col
+	 * @return new x/y position
+	 */
 	public int selectDownOrRight(int num, int max) {
 		if (num < max) {
 			return num + 1;
@@ -247,6 +294,12 @@ public class Inventory {
 		return num;
 	}
 
+	/**
+	 * Calculations for moving towards 0 in row/col of 2d array
+	 * 
+	 * @param num current x/y point in array
+	 * @return new x/y position
+	 */
 	public int selectUpOrLeft(int num) {
 		if (num > 0) {
 			return num - 1;
@@ -254,6 +307,11 @@ public class Inventory {
 		return num;
 	}
 
+	/**
+	 * Get item from the laptop with the given UID
+	 * @param uid of item to find
+	 * @return item with given UID
+	 */
 	public LaptopItem getItem(int uid) {
 		for (LaptopItem l : this.inLaptop) {
 			if (l.getUID() == uid) {
@@ -263,18 +321,29 @@ public class Inventory {
 		return null;
 	}
 
+	/**
+	 * @param set storage to used
+	 */
 	public void setStorageUsed(int used) {
 		this.storageUsed = used;
 	}
 
+	/**
+	 * Method called by server to delete given laptop entity
+	 * from this laptop
+	 * 
+	 * @param entity LaptopItem to delete
+	 */
 	public void serverDelete(LaptopItem entity) {
 		if (entity != null) {
 			this.storageUsed = this.storageUsed - entity.getSize();
 			inLaptop.remove(entity);
-			//updateLaptopDisplay();
 		}
 	}
 
+	/**
+	 * @param inventory to set inLaptop array to
+	 */
 	public void setInLaptop(ArrayList<LaptopItem> inventory) {
 		this.inLaptop = inventory;
 	}
