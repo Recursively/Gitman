@@ -49,6 +49,7 @@ public class GuiFactory {
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
 	private GuiTexture progressBlock;
+	private GuiTexture disconnectedServer;
 	
 	// gui panel
 	private int oldCardsSize;
@@ -83,6 +84,7 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE); 
+		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, PROGRESS_SCALE); 
 		
 		
 		
@@ -160,6 +162,12 @@ public class GuiFactory {
 		List<GuiTexture> winScreens = new ArrayList<GuiTexture>();
 		winScreens.add(winScreen);
 		return winScreens;
+	}
+	
+	public List<GuiTexture> getDisconnectedScreen() {
+		List<GuiTexture> disconnected = new ArrayList<GuiTexture>();
+		disconnected.add(disconnectedServer);
+		return disconnected;
 	}
 
 	public List<GuiTexture> getProgress(int progress) {  
