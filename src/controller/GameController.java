@@ -36,7 +36,7 @@ public class GameController {
     private boolean compiled = false;
 
     public static boolean READY;
-    public static boolean networkRunning;
+  //  public static boolean networkRunning;
     public static boolean networkDisconnected;
 
     // Model
@@ -90,8 +90,8 @@ public class GameController {
             clientController.start();
         }
 
-        this.networkRunning = true;
-        this.networkDisconnected = false;
+   //     this.networkRunning = true;
+        GameController.networkDisconnected = false;
 
         // hook the mouse
         Mouse.setGrabbed(true);
@@ -123,7 +123,7 @@ public class GameController {
         	AudioController.playOfficeLoop();
         }
      		
-        while (!Display.isCloseRequested() && networkRunning && RUNNING) {
+        while (!Display.isCloseRequested() && RUNNING) {
             // process the terrains
             renderer.processTerrain(gameWorld.getTerrain());
 
@@ -207,7 +207,7 @@ public class GameController {
             			break;
             		}
             	}
-            	networkRunning = false;
+            	break;
             }
 
             TimeController.tickTock();
