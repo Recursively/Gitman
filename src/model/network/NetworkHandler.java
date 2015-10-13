@@ -1,8 +1,10 @@
 package model.network;
 
+import java.util.ArrayList;
+
 import model.GameWorld;
+import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
-import model.entities.movableEntity.SwipeCard;
 
 public class NetworkHandler {
 
@@ -10,8 +12,11 @@ public class NetworkHandler {
 
 	private Update lastClientUpdate;
 
+	private ArrayList<Laptop> interactedLaptops;
+
 	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
+		this.interactedLaptops = new ArrayList<>();
 	}
 
 	// when an update is sent to the server about an entity update process it
@@ -47,18 +52,21 @@ public class NetworkHandler {
 	}
 
 	private void interactLaptop(int id) {
-		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
+		Laptop laptop = (Laptop) gameWorld.getMoveableEntities().get(id);
+		laptop.interact(gameWorld);
+		interactedLaptops.add(laptop);
+
 	}
 
 	public void interactBug(int id) {
 
 		// win games???
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
-		
+
 	}
 
 	public void interactCommit(int id) {
-		
+
 		// interact with commit
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 	}
@@ -92,14 +100,20 @@ public class NetworkHandler {
 		gameWorld.removeFromInventory(entity, playerID);
 
 	}
-	
-	public Update getClientUpdate(){
+
+	public Update getClientUpdate() {
 		return lastClientUpdate;
 	}
-	
-	public void setClientUpdate(Update update){
+
+	public void setClientUpdate(Update update) {
 		this.lastClientUpdate = update;
+	}
+	
+	/**
+	 * @return the interactedLaptops
+	 */
+	public ArrayList<Laptop> getInteractedLaptops() {
+		return interactedLaptops;
 	}
 
 }
-

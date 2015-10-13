@@ -1,8 +1,8 @@
 package model.network;
 
-
 import controller.GameController;
 import model.GameWorld;
+import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
@@ -25,7 +25,7 @@ public class Server extends Thread {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
-	
+
 	private Update serverUpdate;
 
 	private int uid;
@@ -182,6 +182,12 @@ public class Server extends Thread {
 		outputStream.writeInt(inventorySize);
 		for (LaptopItem entity : gameController.getGameWorld().getInventory().getItems()) {
 			outputStream.writeInt(entity.getUID());
+		}
+		
+		int laptopSize = networkHandler.getInteractedLaptops().size();
+		outputStream.writeInt(laptopSize);
+		for(Laptop laptop : networkHandler.getInteractedLaptops()){
+			outputStream.writeInt(laptop.getUID());
 		}
 
 		outputStream.writeInt(gameController.getGameWorld().getProgress());
