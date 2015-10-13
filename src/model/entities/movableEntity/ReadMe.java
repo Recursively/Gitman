@@ -14,8 +14,9 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class ReadMe extends LaptopItem{
-	public static final int README_SCORE = 1;
 	private static final int README_SIZE = 60;
+	
+	public static int readMeScore = 8;
 
 	public ReadMe(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id, String name) {
@@ -29,7 +30,10 @@ public class ReadMe extends LaptopItem{
 	
 	@Override
 	public int getScore() {
-		return README_SCORE;
+		if(super.getPickedUpAlready()){
+			readMeScore = 0;
+		}
+		return readMeScore;
 	}
 
 	@Override

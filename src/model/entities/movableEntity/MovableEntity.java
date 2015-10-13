@@ -15,22 +15,21 @@ import model.models.TexturedModel;
  *
  */
 public abstract class MovableEntity extends Entity {
-	 protected static final float GRAVITY = -50;
-	 private final int UID; // for networking
+	protected static final float GRAVITY = -50;
+	private final int UID; // for networking
 
 	public MovableEntity(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id) {
 		super(model, position, rotX, rotY, rotZ, scale);
 		this.UID = id;
 	}
-	
+
 	public MovableEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
-            int textureIndex, int id) {
+			int textureIndex, int id) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
 		this.UID = id;
 	}
-	
-	
+
 	/**
 	 * @return ID number of the item
 	 */
@@ -53,20 +52,43 @@ public abstract class MovableEntity extends Entity {
 	 */
 	public abstract boolean canInteract();
 	
-	public abstract String getType();
+	// ---------------------------------------------------------
+	// Getters for SAVING:
+	//
+	// May be related specifically to certain implementations
+	// however needed here for save and load information
+	// ---------------------------------------------------------
 	
+	/**
+	 * @return name of image files 
+	 */
 	public String getName(){
 		return null;
 	}
 	
+	/**
+	 * @return name of the class
+	 */
+	public abstract String getType();
+	
+	/**
+	 * @return id card for laptop items
+	 */
 	public int getCardID(){
 		return -1;
 	}
 	
+	/**
+	 * @return card number of swipe cards (the 
+	 * cards Id)
+	 */
 	public int getCardNum(){
 		return -1;
 	}
 
+	/**
+	 * @return true if a laptop has code
+	 */
 	public boolean getHasCode() {
 		return false;
 	}

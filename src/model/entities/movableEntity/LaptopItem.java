@@ -16,23 +16,27 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class LaptopItem extends Item {	
 	private final String name;
+	private boolean pickedUpAlready;   // ensures that score of item only added once
 	
 	public LaptopItem(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.name = name;
+		this.pickedUpAlready = false; 
 	}
 	
 	public LaptopItem(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
 		this.name = name;
+		this.pickedUpAlready = false; 
 	}
 
 	@Override
 	public int interact(GameWorld game) {
 		// if add to inventory is successful, update score
 		if(game.addToInventory(this)){
+			this.pickedUpAlready = true;
 			game.updateScore(this.getScore());
 			AudioController.playPickupSound();
 			return 13;
@@ -40,16 +44,35 @@ public abstract class LaptopItem extends Item {
 		return -1;
 	}
 	
+	/**
+	 * @return size of the laptop item
+	 */
 	public abstract int getSize();
 	
+	/**
+	 * @return item score
+	 */
 	public abstract int getScore();
+
+	/**
+	 * @return name of image file that has the image
+	 * this item needs to display when opened in the 
+	 * inventory
+	 */
+	public String getImgName() {
+		return this.name + "Info";
+	}
+	
+	/**
+	 * @return true if it the item has already been picked 
+	 * up before
+	 */
+	public boolean getPickedUpAlready(){
+		return this.pickedUpAlready;
+	}
 	
 	@Override
 	public String getName(){
 		return this.name;
-	}
-
-	public String getImgName() {
-		return this.name + "Info";
-	}
+	}	
 }

@@ -11,9 +11,10 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Divya
  *
  */
-public class FlashDrive extends LaptopItem {
-	public static final int FLASH_DRIVE_SCORE = 2;
+public class FlashDrive extends LaptopItem {   
 	private static final int FLASH_DRIVE_SIZE = 30;
+
+	public static int flashDriveScore = 5; 
 	
 	public FlashDrive(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id, String name) {
@@ -27,7 +28,10 @@ public class FlashDrive extends LaptopItem {
 	
 	@Override
 	public int getScore() {
-		return FLASH_DRIVE_SCORE;
+		if(super.getPickedUpAlready()){
+			flashDriveScore = 0;
+		}
+		return flashDriveScore;
 	}
 
 	@Override
