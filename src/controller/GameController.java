@@ -257,6 +257,7 @@ public class GameController {
 
     public void removePlayer(int uid) {
         gameWorld.getAllPlayers().remove(uid);
+		GameWorld.setGuiMessage("aPlayerHasLeftTheGame", 2000);
         playerCount--;
     }
 
