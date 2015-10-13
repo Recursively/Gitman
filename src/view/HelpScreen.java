@@ -8,57 +8,60 @@ import view.renderEngine.GuiRenderer;
 
 import java.util.List;
 
+/**
+ * A class for displaying the Help screen. Key press logic is included as the
+ * action controller is not made yet and it is simple.
+ * 
+ * @author Ellie
+ *
+ */
 public class HelpScreen {
+	
+	//holds flag to show whether or not esc was pressed in this menu
+	private boolean closed;
+	
+	/**
+	 * Constructor to make new help screen object
+	 * @param fullscreen displays help screen as full screen or not
+	 */
+	public HelpScreen(boolean fullscreen) {
+		Keyboard.enableRepeatEvents(false);
+		showScreen(fullscreen);
+	}
 
-    private boolean isHost;
-    private String hostname;
+	/**
+	 * Handles logic for either closing the window or moving back to the Play/Load/Help screen
+	 * @param fullscreen displays help screen as full screen or not
+	 */
+	private void showScreen(boolean fullscreen) {
 
-    private boolean fullscreen;
-    private boolean closed;
+		Loader loader = new Loader();
+		GuiRenderer guiRenderer = new GuiRenderer(loader);
+		GuiFactory guiFactory = new GuiFactory(loader);
+		List<GuiTexture> helpScreen = guiFactory.getHelpScreen();
 
-    public HelpScreen(boolean isHost, String hostname, boolean fullscreen) {
-        this.fullscreen = fullscreen;
-        this.hostname = hostname;
-        this.isHost = isHost;
+		closed = false;
 
+		while (!closed) {
 
-        Keyboard.enableRepeatEvents(false);
-        showScreen(fullscreen);
-    }
+			guiRenderer.render(helpScreen);
+			DisplayManager.updateDisplay();
 
+			if (Keyboard.isKeyDown(Keyboard.KEY_H) || Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
+				break;
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
+				DisplayManager.closeDisplay();
+				closed = true;
+			}
+		}
+	}
 
-    private void showScreen(boolean fullscreen) {
-
-        Loader loader = new Loader();
-        GuiRenderer guiRenderer = new GuiRenderer(loader);
-        GuiFactory guiFactory = new GuiFactory(loader);
-        List<GuiTexture> helpScreen = guiFactory.getHelpScreen();
-
-
-        closed = false;
-
-        while (!closed) {
-
-            guiRenderer.render(helpScreen);
-            DisplayManager.updateDisplay();
-
-            if (Keyboard.isKeyDown(Keyboard.KEY_H) || Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
-                break;
-            } else if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-                DisplayManager.closeDisplay();
-                closed = true;
-            }
-        }
-    }
-
-
-    public boolean wasClosed() {
-        return closed;
-    }
-
+	/**
+	 * Shows whether esc was pressed while viewing this window
+	 * @return boolean closed 
+	 */
+	public boolean wasClosed() {
+		return closed;
+	}
 
 }
-
-
-
-
