@@ -48,13 +48,10 @@ public class GuiMessages {
 		 messageMap.put("pressEToInteract", guiFactory.makeGuiTexture("pressEToInteract", MESSAGE_POS, MESSAGE_SCALE));
 		 messageMap.put("unsuccessfulUnlock", guiFactory.makeGuiTexture("unsuccessfulUnlock", MESSAGE_POS, MESSAGE_SCALE));
 		 messageMap.put("gameSaved", guiFactory.makeGuiTexture("gameSaved", MESSAGE_POS, MESSAGE_SCALE));
+		 messageMap.put("failedToLoad", guiFactory.makeGuiTexture("failedToLoad", MESSAGE_POS, MESSAGE_SCALE)); 
 		 
 		 // FIXME position
-		 messageMap.put("aPlayerHasLeftTheGame", guiFactory.makeGuiTexture("aPlayerHasLeftTheGame", MINOR_MESSAGE_POS, MINOR_MESSAGE_SCALE));
-		 
-		 // TODO add this stuff
-		 messageMap.put("failedToLoad", guiFactory.makeGuiTexture("unsuccessfulUnlock", MESSAGE_POS, MESSAGE_SCALE));
-		 
+		 messageMap.put("aPlayerHasLeftTheGame", guiFactory.makeGuiTexture("aPlayerHasLeftTheGame", MINOR_MESSAGE_POS, MINOR_MESSAGE_SCALE));		 
 	}
 	
 	public void setMessage(String msg, long time){
