@@ -21,7 +21,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class GameWorldTests {
 	
-	private static TestSuite suite = new TestSuite();
 	private static GameWorld gameWorld = TestSuite.getGameWorld();
 
 	/**
