@@ -25,6 +25,8 @@ public class Server extends Thread {
 
 	private DataInputStream inputStream;
 	private DataOutputStream outputStream;
+	
+	private Update serverUpdate;
 
 	private int uid;
 
@@ -59,8 +61,9 @@ public class Server extends Thread {
 				}
 
 				// NEED TO SET THE UPDATE TYPE OUTSIDE OF THIS THREAD!!!!!
-				sendUpdateEntity(networkHandler.getServerUpdate(), networkHandler.getClientUpdate());
+				sendUpdateEntity(serverUpdate, networkHandler.getClientUpdate());
 
+				serverUpdate = null;
 
 			}
 		} catch (IOException e) {
@@ -164,7 +167,7 @@ public class Server extends Thread {
 	}
 
 	public void setUpdate(int status, MovableEntity entity) {
-		this.networkHandler.setServerUpdate(new Update(status, entity.getUID(), 0));
+		serverUpdate = (new Update(status, entity.getUID(), 0));
 	}
 
 	public void initNewPlayer() throws IOException {

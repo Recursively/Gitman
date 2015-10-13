@@ -8,7 +8,6 @@ public class NetworkHandler {
 
 	private GameWorld gameWorld;
 
-	private Update lastServerUpdate;
 	private Update lastClientUpdate;
 
 	public NetworkHandler(GameWorld gameWorld) {
@@ -92,14 +91,6 @@ public class NetworkHandler {
 		// remove uid from inventory laptop
 		gameWorld.removeFromInventory(entity, playerID);
 
-	}
-
-	public Update getServerUpdate(){
-		return lastServerUpdate;
-	}
-	
-	public void setServerUpdate(Update update){
-		this.lastServerUpdate = update;
 	}
 	
 	public Update getClientUpdate(){
