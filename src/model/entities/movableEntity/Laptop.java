@@ -23,6 +23,7 @@ public class Laptop extends Item {
 	private boolean locked;
 	private int cardID;
 
+	
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
 				  float rotY, float rotZ, float scale, int id, int cardID, boolean hasCode) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
