@@ -135,6 +135,8 @@ public class GameWorld {
 		this.loader = loader;
 		this.gameController = gameController;
 	}
+	
+	public GameWorld(){}
 
 	/**
 	 * Initialises the game by setting up the lighting, factories and currentTerrain
