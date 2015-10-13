@@ -63,6 +63,11 @@ public class GuiTexture {
         return scale;
     }
 
+    /**
+     * Creates a copy of the current gui texture
+     *
+     * @return A copy of the gui texture
+     */
 	public GuiTexture copy() {
 		return new GuiTexture(texture, position, scale);
 	}
