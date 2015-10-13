@@ -8,7 +8,7 @@ import model.models.TexturedModel;
 
 /**
  * This class represents a movable entity in the game. This is an 
- * entity that's postion can change throughout the course of the game, 
+ * entity that's position can change throughout the course of the game, 
  * and that can be interacted with by the player.
  * 
  * @author Divya
@@ -16,7 +16,7 @@ import model.models.TexturedModel;
  */
 public abstract class MovableEntity extends Entity {
 	 protected static final float GRAVITY = -50;
-	 private final int UID;
+	 private final int UID; // for networking
 
 	public MovableEntity(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id) {

@@ -217,7 +217,7 @@ public class Entity {
 		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());	
 		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
 		
-		// check that entity is within player's 1/2 field of view
+		// check that entity is within player's 1/4 field of view
 		double maxAngle = MasterRenderer.getFOV()/4.0;
 		if(angle <= maxAngle){
 			return true;

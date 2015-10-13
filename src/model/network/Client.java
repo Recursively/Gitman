@@ -98,7 +98,7 @@ public class Client extends Thread {
 	public void terminate() {
 		System.out.println("THE SERVER HAS BEEN DISCONNECTED");
 		running = false;
-		GameController.networkDisconnected = true;
+		GameController.NETWORK_DISCONNECTED = true;
 		try {
 			outputStream.close();
 			inputStream.close();

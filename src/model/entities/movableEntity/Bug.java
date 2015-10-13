@@ -6,7 +6,8 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * Represents the bug in the game.
+ * Represents the bug in the game. Bug can only be interacted with. 
+ * Otherwise, it does nothing else currently. 
  * 
  * @author Divya
  *
@@ -25,13 +26,12 @@ public class Bug extends NonPlayerCharacters {
 
 	@Override
 	public int interact(GameWorld game) {
-		// only can 'apply patch' to bug if all commits collected
+		// only can 'apply patch' to bug if enough commits collected
 		if(game.canApplyPatch()){
 			game.setGameState(GameWorld.GAME_WIN);
 			return 10;
 		}
-		
-		return 10;
+		return -1;  // unsuccessful interaction
 	}
 	
 	@Override
