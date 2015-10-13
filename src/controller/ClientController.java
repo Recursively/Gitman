@@ -38,7 +38,7 @@ public class ClientController {
 
 		} catch (UnknownHostException e) {
 			System.out.println("INCORRECT IP ADDRESS");
-			gameController.networkRunning = false;
+			GameController.networkDisconnected = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

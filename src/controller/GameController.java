@@ -5,9 +5,12 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
+
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -33,7 +36,8 @@ public class GameController {
     private boolean compiled = false;
 
     public static boolean READY;
-    public boolean networkRunning;
+  //  public static boolean networkRunning;
+    public static boolean networkDisconnected;
 
     // Model
     private final Loader loader;
@@ -86,7 +90,8 @@ public class GameController {
             clientController.start();
         }
 
-        this.networkRunning = true;
+   //     this.networkRunning = true;
+        GameController.networkDisconnected = false;
 
         // hook the mouse
         Mouse.setGrabbed(true);
@@ -118,9 +123,8 @@ public class GameController {
         	AudioController.playOfficeLoop();
         }
      		
-        while (!Display.isCloseRequested() && networkRunning && RUNNING) {
+        while (!Display.isCloseRequested() && RUNNING) {
             // process the terrains
-
             renderer.processTerrain(gameWorld.getTerrain());
 
             // PROCESS PLAYER
@@ -187,11 +191,23 @@ public class GameController {
             guiRenderer.render(gameWorld.displayMessages());
 
             if (gameWorld.isHelpVisible()) {
-                guiRenderer.render(gameWorld.helpMessage());
+               guiRenderer.render(gameWorld.helpMessage());
             }
 
             if (gameWorld.getGameState() > -1) {
                 guiRenderer.render(gameWorld.getEndStateScreen());
+            }
+            
+            if (networkDisconnected){
+            	guiRenderer.render(gameWorld.getDisconnectedScreen());
+            	while(true){
+            		guiRenderer.render(gameWorld.getDisconnectedScreen());
+            		DisplayManager.updateDisplay();
+            		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
+            			break;
+            		}
+            	}
+            	break;
             }
 
             TimeController.tickTock();
@@ -199,8 +215,6 @@ public class GameController {
             // update the Display window
             DisplayManager.updateDisplay();
         }
-
-        AudioController.stopMenuLoop();
 
         // Finally clean up resources
         cleanUp();

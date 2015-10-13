@@ -57,16 +57,6 @@ public class Laptop extends Item {
 					return 17;
 				}
 			}
-			
-			// only show one message. If laptop full, prioritise that message
-			if(game.getInventory().getStorageUsed() + GameWorld.CODE_VALUE > Inventory.MAX_STORAGE_SIZE){
-				game.setGuiMessage("laptopMemoryFull", 2500);
-			}
-			else {
-				// no card found that can unlock door. display message
-				game.setGuiMessage("unsuccessfulUnlock", 2500);
-				AudioController.playUnsuccessfulUnlockSound();
-			}
 		}
 		// only show one message.
 		if(!hasCode){

@@ -1,3 +1,4 @@
+
 package model.network;
 
 import controller.GameController;
@@ -98,7 +99,7 @@ public class Client extends Thread {
 	public void terminate() {
 		System.out.println("THE SERVER HAS BEEN DISCONNECTED");
 		running = false;
-		gameController.networkRunning = false;
+		GameController.networkDisconnected = true;
 		try {
 			outputStream.close();
 			inputStream.close();
@@ -180,7 +181,6 @@ public class Client extends Thread {
 
 	public void updateGameInformation() throws IOException {
 		
-
 		int swipeSize = inputStream.readInt();
 		for (int i = 0; i < swipeSize; i++) {
 			int id = inputStream.readInt();

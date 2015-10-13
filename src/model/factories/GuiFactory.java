@@ -10,8 +10,6 @@ import model.toolbox.Loader;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.sun.tracing.dtrace.ProviderAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +82,7 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE); 
-		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, PROGRESS_SCALE); 
+		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, FULL_SCALE); 
 		
 		
 		
