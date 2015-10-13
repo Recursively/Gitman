@@ -283,12 +283,12 @@ public class Player extends MovableEntity {
     }
 
     @Override
-    public boolean canInteract() {
-        return true;
+    public String getType() {
+        return "Player";
     }
 
     @Override
-    public String getType() {
-        return "Player";
+    public boolean canInteract() {
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 package tests;
 
+import controller.AudioController;
 import model.GameWorld;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
@@ -7,7 +8,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        DataTests.class
+        DataTests.class,
+        GameWorldTests.class
 })
 
 /**
@@ -24,6 +26,7 @@ public class TestSuite {
      */
     public TestSuite() {
         gameWorld = new GameWorld();
+        new AudioController();
     }
 
     /**

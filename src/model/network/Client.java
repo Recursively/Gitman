@@ -325,6 +325,4 @@ public class Client extends Thread {
         if (inputStream.readInt() == 1) throw new IOException();
 
     }
-
-
 }
