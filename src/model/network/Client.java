@@ -326,11 +326,15 @@ public class Client extends Thread {
 		gameController.getGameWorld().setProgress(patchProgress);
 
 	}
-
+	
+	/**
+	 * Checks to see if there was a commit collected
+	 * 
+	 * @throws IOException if there is a commit been collected
+	 */
 	public void readIsCommitCollected() throws IOException{
 		
 		if(inputStream.readInt() == 1) throw new IOException();
-		
 		
 	}
 

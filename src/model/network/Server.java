@@ -315,6 +315,11 @@ public class Server extends Thread {
 
 	}
 
+	/**
+	 * Sends if there has been a collected commit
+	 * 
+	 * @throws IOException
+	 */
 	public void sendIsCommitCollected() throws IOException {
 		outputStream.writeInt(gameController.getGameWorld().getCommitCollected());
 		
