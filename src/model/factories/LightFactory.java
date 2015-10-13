@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Factory class to handle the creation of {@link Light} sources in the game.
- *
+ * <p/>
  * A Light source is either the sun, a constant source of light, regardless of distance,
  * or an attenuating light source, one which fades with distance.
  *
@@ -29,7 +29,8 @@ public class LightFactory {
     /**
      * Constructs the light factory and initialises the data structure to hold the collection of lights
      */
-    public LightFactory() {}
+    public LightFactory() {
+    }
 
     /**
      * Creates a new Sun... Wait, I thought we were computer scientists, not astrophysicists...
@@ -40,28 +41,31 @@ public class LightFactory {
         return new Light(INITIAL_SUN_POSITION, INITIAL_SUN_COLOUR);
     }
 
-    public static ArrayList<Light> getStaticEntityLights() {
-        return staticEntityLights;
-    }
-
+    /**
+     * Create office light light.
+     *
+     * @return the light
+     */
     public Light createOfficeLight() {
         return new Light(new Vector3f(128060, 70, -127930), OFFICE_LIGHT_COLOUR, new Vector3f(1f, 0.005f, 0.001f));
     }
 
+    /**
+     * Create entity light.
+     *
+     * @param position the position
+     */
     public static void createEntityLight(Vector3f position) {
         staticEntityLights.add(new Light(position, DEFAULT_LIGHT_COLOUR, DEFAULT_ATTENUATION_FACTOR));
     }
 
-    public static void createEntityLight(Vector3f position, Vector3f colour) {
-        staticEntityLights.add(new Light(position, colour, DEFAULT_ATTENUATION_FACTOR));
+    /**
+     * Gets static entity lights.
+     *
+     * @return the static entity lights
+     */
+    public static ArrayList<Light> getStaticEntityLights() {
+        return staticEntityLights;
     }
 
-    public static void removeEntityLight(Vector3f position) {
-        for (Light light : staticEntityLights) {
-            if (light.getPosition().equals(position)) {
-                staticEntityLights.remove(light);
-                break;
-            }
-        }
-    }
 }

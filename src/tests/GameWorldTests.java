@@ -1,23 +1,15 @@
 package tests;
 
-import static org.junit.Assert.*;
+import model.GameWorld;
+import model.entities.movableEntity.*;
+import model.guiComponents.Inventory;
+import org.junit.Test;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-import model.GameWorld;
-import model.entities.movableEntity.Bug;
-import model.entities.movableEntity.Commit;
-import model.entities.movableEntity.FlashDrive;
-import model.entities.movableEntity.Laptop;
-import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
-import model.entities.movableEntity.ReadMe;
-import model.entities.movableEntity.SwipeCard;
-import model.guiComponents.Inventory;
-
-import org.junit.Test;
-import org.lwjgl.util.vector.Vector3f;
+import static org.junit.Assert.*;
 
 public class GameWorldTests {
 	
@@ -431,5 +423,4 @@ public class GameWorldTests {
 		}
 		return false;
 	}
-
 }

@@ -17,7 +17,7 @@ public class DisplayManager {
     /**
      * Whether the Display should use VSync to smooth out vertical tearing
      */
-    public static boolean VSYNC_ENABLED = true;
+    public static final boolean VSYNC_ENABLED = true;
 
     // Game window parameters
     private static int WIDTH = 1280;

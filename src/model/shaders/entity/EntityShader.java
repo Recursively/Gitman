@@ -3,10 +3,10 @@ package model.shaders.entity;
 import model.entities.Camera;
 import model.entities.Light;
 import model.shaders.ShaderProgram;
+import model.toolbox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import model.toolbox.Maths;
 
 import java.util.List;
 
@@ -17,7 +17,6 @@ import java.util.List;
  */
 public class EntityShader extends ShaderProgram {
 
-    //TODO this will need to change if more light sources are added
     private static final int MAX_LIGHT_SOURCES = 5;
 
     // actually shader files
@@ -125,7 +124,7 @@ public class EntityShader extends ShaderProgram {
     /**
      * Load shine variables.
      *
-     * @param damper the damper
+     * @param damper       the damper
      * @param reflectivity the reflectivity
      */
     public void loadShineVariables(float damper, float reflectivity) {

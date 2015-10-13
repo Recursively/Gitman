@@ -5,12 +5,10 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -32,8 +30,8 @@ import java.util.Map;
  */
 public class GameController {
     // network state
-    public static boolean RUNNING;
-    public static boolean READY;
+    protected static boolean RUNNING;
+    protected static boolean READY;
     public static boolean NETWORK_DISCONNECTED;
 
     // Model
@@ -67,7 +65,7 @@ public class GameController {
 
         // initialise the game world
         gameWorld = new GameWorld(this);
-        gameWorld.initGame(isHost, load);
+        gameWorld.initGame(load);
 
         // initialise controller for actions
         actionController = new ActionController(gameWorld, this);
@@ -179,7 +177,7 @@ public class GameController {
             } else {
                 // only show e to interact message if inventory is not open
                 for (MovableEntity e : gameWorld.withinDistance().values()) {
-                    guiRenderer.render(gameWorld.eInteractMessage(e));
+                    guiRenderer.render(gameWorld.eInteractMessage());
                 }
             }
 

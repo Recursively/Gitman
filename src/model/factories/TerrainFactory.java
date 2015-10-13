@@ -25,13 +25,13 @@ public class TerrainFactory {
      * Instantiates a new Terrain factory.
      */
     public TerrainFactory() {
-
-
         initOutsideTextures();
-
         initOfficeTextures();
     }
 
+    /**
+     * Create the outside terrain
+     */
     private void initOutsideTextures() {
         // Terrain creation
         TerrainTexture backgroundTexture = new TerrainTexture(Loader.loadTexture("textures/grass"));
@@ -46,9 +46,10 @@ public class TerrainFactory {
         outsideBlendMap = new TerrainTexture(Loader.loadTexture("terrains/blendMap"));
     }
 
+    /**
+     * create office terrain
+     */
     private void initOfficeTextures() {
-        //TODO only using one texture at the moment
-
         TerrainTexture backgroundTexture = new TerrainTexture(Loader.loadTexture("textures/wood_tiles"));
         TerrainTexture rTexture = new TerrainTexture(Loader.loadTexture("textures/wood_tiles"));
         TerrainTexture gTexture = new TerrainTexture(Loader.loadTexture("textures/wood_tiles"));
@@ -62,17 +63,26 @@ public class TerrainFactory {
     }
 
     /**
-     * Make terrain.
+     * Make outside terrain terrain.
      *
+     * @param gridX the grid x
+     * @param gridZ the grid z
      * @return the terrain
      */
     public Terrain makeOutsideTerrain(int gridX, int gridZ) {
-        // Create the new terrain object, using pack blendermap and heightmap
-        return new Terrain(gridX, gridZ,outsideTexturePack, outsideBlendMap, "terrains/heightMap");
+        // Create the new terrain object, using pack blendMap and heightmap
+        return new Terrain(gridX, gridZ, outsideTexturePack, outsideBlendMap, "terrains/heightMap");
     }
 
+    /**
+     * Make office terrain terrain.
+     *
+     * @param gridX the grid x
+     * @param gridZ the grid z
+     * @return the terrain
+     */
     public Terrain makeOfficeTerrain(int gridX, int gridZ) {
-        // Create the new terrain object, using pack blendermap and heightmap
-        return new Terrain(gridX, gridZ,officeTexturePack, officeBlendMap, "terrains/officeHeightMap", 128);
+        // Create the new terrain object, using pack blendMap and heightmap
+        return new Terrain(gridX, gridZ, officeTexturePack, officeBlendMap, "terrains/officeHeightMap", 128);
     }
 }

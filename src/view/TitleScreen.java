@@ -38,13 +38,13 @@ public class TitleScreen {
         new AudioController();
         AudioController.playMenuLoop();
 
-        blinkTitle(fullscreen);
+        blinkTitle();
     }
 
     /**
      * Cycles through the title screens making the _ blink
      */
-    private void blinkTitle(boolean fullscreen) {
+    private void blinkTitle() {
 
         GuiRenderer guiRenderer = new GuiRenderer();
         long timer = System.currentTimeMillis();
@@ -79,7 +79,7 @@ public class TitleScreen {
 
         // create the game now
         if (!closed) {
-            new PlayLoadHelpScreen(isHost, hostname, fullscreen);
+            new PlayLoadHelpScreen(isHost, hostname);
         } else {
             //kills music
             AL.destroy();

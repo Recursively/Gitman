@@ -5,10 +5,26 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * Created by Marcel on 29/09/15.
+ * Implementation of a static entity which is collidable.
+ * <p/>
+ * Interestingly, this class is pointless and could just be a static entity.
+ *
+ * @author Marcel van Workum
  */
 public class CollidableEntity extends StaticEntity {
 
+    /**
+     * Instantiates a new Collidable entity.
+     *
+     * @param model        the model
+     * @param position     the position
+     * @param rotX         the rot x
+     * @param rotY         the rot y
+     * @param rotZ         the rot z
+     * @param scale        the scale
+     * @param textureIndex the texture index
+     * @param modelData    the model data
+     */
     public CollidableEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int textureIndex, ModelData modelData) {
         super(model, position, rotX, rotY, rotZ, scale, textureIndex, modelData);
     }
