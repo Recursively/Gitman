@@ -9,8 +9,11 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Comment
-
+/**
+ * Obj file loader that takes a .obj model and parses it into a vertex object
+ *
+ * @author Marcel van Workum
+ */
 public class OBJFileLoader {
 
     // Location of the resources folder
@@ -123,7 +126,8 @@ public class OBJFileLoader {
      * @param line     line in file
      * @throws IOException :<>
      */
-    private static void parseFaces(BufferedReader reader, List<Vertex> vertices, List<Integer> indices, String line) throws IOException {
+    private static void parseFaces(BufferedReader reader, List<Vertex> vertices, List<Integer> indices, String line)
+            throws IOException {
         while (line != null && line.startsWith("f ")) {
             String[] currentLine = line.split(" ");
             String[] vertex1 = currentLine[1].split("/");
@@ -147,15 +151,6 @@ public class OBJFileLoader {
      * @return FileReader
      */
     private static InputStreamReader getFileReader(String objFileName) {
-//        FileReader isr = null;
-//        File objFile = new File(RES_LOC + objFileName + ".obj");
-//        try {
-//            isr = new FileReader(objFile);
-//        } catch (FileNotFoundException e) {
-//            System.err.println("File not found in res; don't use any extension");
-//        }
-//        return isr;
-
         return new InputStreamReader(ResourceLoader.getResourceAsStream(RES_LOC + objFileName + ".obj"));
     }
 
@@ -288,7 +283,6 @@ public class OBJFileLoader {
                 vertices.add(duplicateVertex);
                 indices.add(duplicateVertex.getIndex());
             }
-
         }
     }
 
@@ -305,5 +299,4 @@ public class OBJFileLoader {
             }
         }
     }
-
 }

@@ -32,13 +32,12 @@ public final class Loader {
 
 
     /**
-     *  Loads the obj model to a opengl VAO and returns a rawmodel of the vao
+     * Loads the obj model to a opengl VAO and returns a rawmodel of the vao
      *
-     * @param positions vertex positions
+     * @param positions     vertex positions
      * @param textureCoords vertex texture coordinates
-     * @param normals vertex texture normals
-     * @param indices vertex indices
-     *
+     * @param normals       vertex texture normals
+     * @param indices       vertex indices
      * @return A raw model containing the vao data
      */
     public static RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
@@ -62,9 +61,8 @@ public final class Loader {
     /**
      * Handles the loading of VAO which are not 3d image buffers, eg skybox or gui
      *
-     * @param positions positon data
+     * @param positions  positon data
      * @param dimensions dimensions of the vao
-     *
      * @return Raw model of VAO data
      */
     public static RawModel loadToVAO(float[] positions, int dimensions) {
@@ -125,7 +123,6 @@ public final class Loader {
      * Attempts to load a cube map using PNGDecoder
      *
      * @param textureFiles List of texture files
-     *
      * @return textureID
      */
     public static int loadCubeMap(String[] textureFiles) {
@@ -204,8 +201,8 @@ public final class Loader {
      * Stores data into a VAO attrib list as a VBO
      *
      * @param attributeNumber attrib list number to store in
-     * @param coordinateSize size of coordinate
-     * @param data the actual data to store
+     * @param coordinateSize  size of coordinate
+     * @param data            the actual data to store
      */
     private static void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
         // first generate the VBO
@@ -255,7 +252,6 @@ public final class Loader {
      * Creates a int buffer to be stored in a vbo
      *
      * @param data data to store in buffer
-     *
      * @return IntBuffer
      */
     private static IntBuffer storeDataInIntBuffer(int[] data) {
@@ -272,7 +268,6 @@ public final class Loader {
      * Creates a float buffer to be stored in a vbo
      *
      * @param data data to store in buffer
-     *
      * @return float buffer
      */
     private static FloatBuffer storeDataInFloatBuffer(float[] data) {
@@ -289,7 +284,6 @@ public final class Loader {
      * Helper method to decode a Skybox texture
      *
      * @param fileName fileName of skybox texture
-     *
      * @return Texture data for the skybox texture
      */
     private static TextureData decodeSkyboxTexture(String fileName) {

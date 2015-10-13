@@ -17,10 +17,10 @@ public class TextureData {
      * Instantiates a new Texture data.
      *
      * @param buffer the buffer
-     * @param width the width
+     * @param width  the width
      * @param height the height
      */
-    public TextureData(ByteBuffer buffer, int width, int height){
+    public TextureData(ByteBuffer buffer, int width, int height) {
         this.buffer = buffer;
         this.width = width;
         this.height = height;
@@ -31,7 +31,7 @@ public class TextureData {
      *
      * @return the int
      */
-    public int getWidth(){
+    public int getWidth() {
         return width;
     }
 
@@ -40,7 +40,7 @@ public class TextureData {
      *
      * @return the int
      */
-    public int getHeight(){
+    public int getHeight() {
         return height;
     }
 
@@ -49,7 +49,7 @@ public class TextureData {
      *
      * @return the byte buffer
      */
-    public ByteBuffer getBuffer(){
+    public ByteBuffer getBuffer() {
         return buffer;
     }
 

@@ -11,7 +11,6 @@ public class TerrainTexture {
     // opengl binding of the texture
     private int textureID;
 
-
     /**
      * Instantiates a new Terrain texture.
      *

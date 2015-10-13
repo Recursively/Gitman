@@ -158,7 +158,7 @@ public class Terrain {
     /**
      * Parses the information of the terrain into a data structures
      *
-     * @param image Height map
+     * @param image       Height map
      * @param vertexCount number of vertices in the terrain
      */
     private void parseTerrainInformation(BufferedImage image, int vertexCount) {
@@ -230,7 +230,6 @@ public class Terrain {
      * Attempts to parse the height map
      *
      * @param heightMap Height map
-     *
      * @return Buffered image
      */
     private BufferedImage getBufferedImage(String heightMap) {
@@ -247,8 +246,8 @@ public class Terrain {
     /**
      * Calculates the normal for the Point on the terrain
      *
-     * @param x gridX of terrain
-     * @param z gridZ of terrain
+     * @param x     gridX of terrain
+     * @param z     gridZ of terrain
      * @param image heightmap
      * @return Normal vector
      */
@@ -269,8 +268,8 @@ public class Terrain {
     /**
      * Parses the terrain y height for the given pixel of the height map
      *
-     * @param x gridX position
-     * @param z gridZ position
+     * @param x     gridX position
+     * @param z     gridZ position
      * @param image height map
      * @return y position
      */

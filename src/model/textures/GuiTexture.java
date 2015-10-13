@@ -17,9 +17,9 @@ public class GuiTexture {
     /**
      * Constructor
      *
-     * @param texture opengl texture binding
+     * @param texture  opengl texture binding
      * @param position Position of the screen of the texture
-     * @param scale scale of the texture
+     * @param scale    scale of the texture
      */
     public GuiTexture(int texture, Vector2f position, Vector2f scale) {
         this.texture = texture;
@@ -44,15 +44,13 @@ public class GuiTexture {
     public Vector2f getPosition() {
         return position;
     }
-    
+
     /**
      * Sets position.
-    *
-    * 
-    */
-   public void setPosition(Vector2f position) {
-       this.position = position;
-   }
+     */
+    public void setPosition(Vector2f position) {
+        this.position = position;
+    }
 
     /**
      * Gets scale.
@@ -68,7 +66,7 @@ public class GuiTexture {
      *
      * @return A copy of the gui texture
      */
-	public GuiTexture copy() {
-		return new GuiTexture(texture, position, scale);
-	}
+    public GuiTexture copy() {
+        return new GuiTexture(texture, position, scale);
+    }
 }
