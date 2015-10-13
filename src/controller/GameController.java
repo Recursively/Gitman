@@ -199,7 +199,6 @@ public class GameController {
             }
             
             if (networkDisconnected){
-            	guiRenderer.render(gameWorld.getDisconnectedScreen());
             	while(true){
             		guiRenderer.render(gameWorld.getDisconnectedScreen());
             		DisplayManager.updateDisplay();
