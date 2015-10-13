@@ -15,7 +15,6 @@ import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-import view.DisplayManager;
 import view.renderEngine.MasterRenderer;
 
 import java.util.*;
@@ -1049,8 +1048,6 @@ public class GameWorld {
      * Creates a test game world
      */
     private void initTestWorld() {
-        DisplayManager.createTestDisplay();
-
         // initialise factories and data structures
         initFactories();
         initDataStructures();

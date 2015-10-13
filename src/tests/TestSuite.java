@@ -5,6 +5,8 @@ import model.GameWorld;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.lwjgl.opengl.Display;
+import view.DisplayManager;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -19,14 +21,20 @@ import org.junit.runners.Suite;
  */
 public class TestSuite {
 
-    private static GameWorld gameWorld;
+    private static GameWorld gameWorld = null;
+    AudioController audioController = new AudioController();
 
     /**
      * Creates a new test suite, makes the game world and then runs the tests
      */
     public TestSuite() {
-        gameWorld = new GameWorld();
-        new AudioController();
+        if (Display.isCreated()) {
+            DisplayManager.closeDisplay();
+        }
+        DisplayManager.createTestDisplay();
+        if (gameWorld == null) {
+            gameWorld = new GameWorld();
+        }
     }
 
     /**
