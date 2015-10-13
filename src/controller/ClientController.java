@@ -22,8 +22,10 @@ public class ClientController {
 	}
 	
 	/**
-	 * Connects this client to the Server at the given port
+	 * Connects this client to the Server at the given port then starts
+	 * the new Client thread
 	 */
+	
 	public void start() {
 
 		try {
@@ -33,22 +35,30 @@ public class ClientController {
 			client.setUid(uid);
 			createPlayer(uid);
 			client.updateGameInformation();
-			gameController.READY = true;
+			GameController.READY = true;
 			client.start();
 
 		} catch (UnknownHostException e) {
 			GameController.networkDisconnected = true;
-			gameController.READY = true;
+			GameController.READY = true;
 		} catch (IOException e) {
 			GameController.networkDisconnected = true;
-			gameController.READY = true;
+			GameController.READY = true;
 		} 
 	}
-
+	
+	/**
+	 * Creates a new player with the given UID
+	 * 
+	 * @param uid the ID of the new player
+	 */
 	private void createPlayer(int uid) {
 		gameController.createPlayer(uid, true);
 	}
-
+	
+	/**
+	 * Terminates the Client thread
+	 */
 	public void terminate() {
 		try {
 			client.terminate();
@@ -56,7 +66,14 @@ public class ClientController {
 			// client was not made
 		}
 	}
-
+	
+	/**
+	 * Sends a network update to the Client thread when a 
+	 * button has been pushed
+	 * 
+	 * @param status the type of update
+	 * @param entity the entity that has been interacted with
+	 */
 	public void setNetworkUpdate(int status, MovableEntity entity) {
 		client.setUpdate(status, entity);
 

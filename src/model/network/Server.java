@@ -168,6 +168,10 @@ public class Server extends Thread {
 
 	public void setUpdate(int status, MovableEntity entity) {
 		serverUpdate = (new Update(status, entity.getUID(), 0));
+		
+		if(status == 8){
+			networkHandler.getInteractedLaptops().add((Laptop) entity);
+		}
 	}
 
 	public void initNewPlayer() throws IOException {
