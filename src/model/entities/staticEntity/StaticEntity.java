@@ -20,15 +20,24 @@ public abstract class StaticEntity extends Entity {
     protected final float radiusY;
     protected final float radiusZ;
 
+    /**
+     * Instantiates a new Static entity.
+     *
+     * @param model        the model
+     * @param position     the position
+     * @param rotX         the rot x
+     * @param rotY         the rot y
+     * @param rotZ         the rot z
+     * @param scale        the scale
+     * @param textureIndex the texture index
+     * @param modelData    the model data
+     */
     public StaticEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
                         int textureIndex, ModelData modelData) {
         super(model, position, rotX, rotY, rotZ, scale, textureIndex);
         this.modelData = modelData;
 
         boundingBox = this.modelData.getBoundingBox();
-
-
-        //TODO efficiency
 
         radiusX = Math.abs((boundingBox.getMaxX() - boundingBox.getMinX()) / 2);
         radiusY = Math.abs((boundingBox.getMaxY() - boundingBox.getMinY()) / 2);
@@ -41,5 +50,12 @@ public abstract class StaticEntity extends Entity {
         origin = new Vector3f(originX, originY, originZ);
     }
 
+    /**
+     * Checks if the position is colliding with this entity
+     *
+     * @param position position of player
+     *
+     * @return result of check
+     */
     public abstract boolean checkCollision(Vector3f position);
 }
