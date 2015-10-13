@@ -34,31 +34,33 @@ public class GameWorld {
 	public static final int CODE_VALUE = 20;    
 	public static final int MAX_PROGRESS = 100;
 
-	private static final int START_PATCH = 10; // starting patch progress value												
-	private static final double PATCH_DECREASE = 0.1; 
-	private static final double PATCH_TIMER = 30000;  // time before decrease 
-	private static final int AVG_COMMIT_COLLECT = 5; // by each player  
-	
+	private static final int START_PATCH = 10; // starting patch progress value
+	private static final double PATCH_DECREASE = 0.1;
+	private static final double PATCH_TIMER = 30000; // time before decrease
+	private static final int AVG_COMMIT_COLLECT = 5; // by each player
+
 	// interaction distances
 	private static final int MIN_INTERACT = 15;
 	private static final int COMMIT_INTERACT = 20;
 	private static final int BUG_INTERACT = 40;
-	
+
 	private static final float Y_OFFSET = 2; // y offset to place deleted items
 	public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
-	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
+	public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060,
+			100, -127930);
 
 	// need to update y position when initialised
-	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19, -35);
+	private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19,
+			-35);
 	public static final int PORTAL_LOWER_BOUND_OUTSIDE_Z = -30;
 	public static final int PORTAL_UPPER_BOUND_OUTSIDE_Z = -40;
 	public static final int PORTAL_EDGE_BOUND_OUTSIDE_X = 12;
 
-	private static final Vector3f OFFICE_PORTAL_POSITION = new Vector3f(128011f, 0, -127930);
+	private static final Vector3f OFFICE_PORTAL_POSITION = new Vector3f(
+			128011f, 0, -127930);
 	public static final int PORTAL_LOWER_BOUND_OFFICE_Z = -127920;
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128016;
-
 
 	private static float worldTime = 0;
 	private static boolean isProgramCompiled = false;
@@ -110,16 +112,17 @@ public class GameWorld {
 	private int commitIndex;
 	private long timer;
 	private int interactDistance;
-	
+
 	// game state
 	private int gameState; // -1 is playing. 0 is lost. 1 is won
 	private boolean helpVisible;
-	
+
 	// information from saved file, if game loaded in
-	private Data load; 
+
+	private Data load;
 
 	private ArrayList<Entity> wallEntities;
-	
+
 	/**
 	 * Creates the game world
 	 */
@@ -127,11 +130,10 @@ public class GameWorld {
 
 		this.gameController = gameController;
 	}
-	
-	public GameWorld(){}
 
 	/**
-	 * Initialises the game by setting up the lighting, factories and currentTerrain
+	 * Initialises the game by setting up the lighting, factories and
+	 * currentTerrain
 	 *
 	 * @param isHost
 	 */
@@ -143,7 +145,7 @@ public class GameWorld {
 		// creates the gui to be displayed on the display
 		initGui();
 
-		// initialises the currentTerrain 
+		// initialises the currentTerrain
 		initTerrain();
 
 		entityFactory = new EntityFactory(otherTerrain, currentTerrain);
@@ -156,54 +158,55 @@ public class GameWorld {
 		staticEntities = entityFactory.getEntities();
 		wallEntities = entityFactory.getWallEntities();
 		inventory = new Inventory(guiFactory);
-		
-		if(load){
+
+		if (load) {
 			load = initLoadGame();
 			if(!load){
 				setGuiMessage("failedToLoad", 2000);  
 			}
 			
 		}
-		
+
 		// if not loading in, or load game failed, create normal game
-		if(!load){
+		if (!load) {
 			movableEntities = entityFactory.getMovableEntities();
 
 			// game state
-			this.progress = 0;  
+			this.progress = 0;
 			this.cards = new ArrayList<SwipeCard>();
-			this.canApplyPatch = false;		
-			this.interactDistance = MIN_INTERACT;  
-			this.gameState = -1; 
+			this.canApplyPatch = false;
+			this.interactDistance = MIN_INTERACT;
+			this.gameState = -1;
 			// create commits
 			initCommits();
 		}
 
 		this.helpVisible = false;
-		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION,
+				currentTerrain));
 	}
-	
+
 	public boolean initLoadGame() {
 		this.load = Load.loadGame();
-		
+
 		// loading failed. Don't load game, just return false
-		if(load == null){
+		if (load == null) {
 			return false;
 		}
 		// load in movable entities and their saved positions
 		movableEntities = new HashMap<>();
-		for(MovableEntity e : load.getMovableEntities()){
+		for (MovableEntity e : load.getMovableEntities()) {
 			this.movableEntities.put(e.getUID(), e);
-		} 
+		}
 
 		// inventory state
 		inventory.setStorageUsed(load.getStorageUsed());
 		inventory.setInLaptop(load.getInventory());
-		
+
 		// swipe cards
-		this.cards = load.getSwipeCards(); 
-		
-		// score and game state 
+		this.cards = load.getSwipeCards();
+
+		// score and game state
 		this.progress = load.getProgress();
 		this.canApplyPatch = load.isCanApplyPatch();
 		this.commitIndex = load.getCommitIndex();
@@ -211,30 +214,29 @@ public class GameWorld {
 		this.gameState = load.getGameState();
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
-		
-		if(this.canApplyPatch){
+
+		if (this.canApplyPatch) {
 			this.interactDistance = BUG_INTERACT;
-		}
-		else if (GameWorld.isProgramCompiled){
+		} else if (GameWorld.isProgramCompiled) {
 			this.interactDistance = COMMIT_INTERACT;
 			enablePortal();
-		}
-		else {
+		} else {
 			this.interactDistance = MIN_INTERACT;
 		}
-		
-		if(!isOutside){
+
+		if (!isOutside) {
 			if (isProgramCompiled) {
 				AudioController.playPortalHum();
 			}
-		}		
+		}
 		return true;
 	}
 
 	private void initCommits() {
 		int count = 0;
 		for (Vector3f position : entityFactory.getCommitPositions()) {
-			if (count == 10) break;
+			if (count == 10)
+				break;
 			Commit newCommit = EntityFactory.createCommit(position);
 			this.movableEntities.put(newCommit.getUID(), newCommit);
 			count++;
@@ -305,7 +307,6 @@ public class GameWorld {
 		} else {
 			collectionOfLights.add(blackHoleSun);
 		}
-
 
 		ArrayList<Light> possibleLights = new ArrayList<>();
 		possibleLights.add(officeLight);
@@ -426,8 +427,9 @@ public class GameWorld {
 		MovableEntity closest = null;
 		double closestDiff = interactDistance * interactDistance;
 
-		for(Map.Entry<Double, MovableEntity> e : this.withinDistance().entrySet()){
-			if(e.getKey() <= closestDiff){
+		for (Map.Entry<Double, MovableEntity> e : this.withinDistance()
+				.entrySet()) {
+			if (e.getKey() <= closestDiff) {
 				closestDiff = e.getKey();
 				closest = e.getValue();
 			}
@@ -435,7 +437,7 @@ public class GameWorld {
 		return closest;
 	}
 
-	public Map<Double, MovableEntity> withinDistance(){
+	public Map<Double, MovableEntity> withinDistance() {
 		HashMap<Double, MovableEntity> interactable = new HashMap<Double, MovableEntity>();
 
 		// get position of player
@@ -454,7 +456,7 @@ public class GameWorld {
 			double diff = (ex - px) * (ex - px) + (ez - pz) * (ez - pz);
 
 			// if within interactable distance, add to map
-			if (diff <= (interactDistance*interactDistance)
+			if (diff <= (interactDistance * interactDistance)
 					&& Entity.isInFrontOfPlayer(e.getPosition(), camera)) {
 				interactable.put(diff, e);
 			}
@@ -475,23 +477,24 @@ public class GameWorld {
 	public void addCommit() {
 		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
 		boolean found = false;
-		for(int i = 0; i < commitPos.size(); i++){
+		for (int i = 0; i < commitPos.size(); i++) {
 			commitIndex = (commitIndex + i) % commitPos.size();
 			Vector3f pos = commitPos.get(commitIndex);
-			for(MovableEntity e : this.movableEntities.values()){
-				if(e.getPosition().equals(pos)){
+			for (MovableEntity e : this.movableEntities.values()) {
+				if (e.getPosition().equals(pos)) {
 					found = true;
 					break;
 				}
 			}
-			if(!found){
+			if (!found) {
 				break;
 			}
 		}
-		
-		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
+
+		Commit newCommit = EntityFactory.createCommit(commitPos
+				.get(commitIndex));
 		this.movableEntities.put(newCommit.getUID(), newCommit);
-		
+
 		// increment commitIndex
 		commitIndex = (commitIndex + 1) % commitPos.size();
 	}
@@ -523,10 +526,12 @@ public class GameWorld {
 	public void removeFromInventory(LaptopItem item) {
 		if (item != null) {
 			Vector3f playerPos = player.getPosition();
-			float y = currentTerrain.getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			float y = currentTerrain.getTerrainHeight(playerPos.getX(),
+					playerPos.getZ());
 			float scale = item.getScale();
 			item.setScale(scale);
-			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET, playerPos.getZ()));
+			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET,
+					playerPos.getZ()));
 			this.movableEntities.put(item.getUID(), item);
 		}
 	}
@@ -541,11 +546,14 @@ public class GameWorld {
 	 */
 	public void removeFromInventory(LaptopItem item, int playerID) {
 		if (item != null) {
-			Vector3f playerPos = gameController.getPlayerWithID(playerID).getPosition();
-			float y = currentTerrain.getTerrainHeight(playerPos.getX(), playerPos.getZ());
+			Vector3f playerPos = gameController.getPlayerWithID(playerID)
+					.getPosition();
+			float y = currentTerrain.getTerrainHeight(playerPos.getX(),
+					playerPos.getZ());
 			float scale = item.getScale();
 			item.setScale(scale);
-			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET, playerPos.getZ()));
+			item.setPosition(new Vector3f(playerPos.getX(), y + Y_OFFSET,
+					playerPos.getZ()));
 			this.movableEntities.put(item.getUID(), item);
 		}
 	}
@@ -596,7 +604,8 @@ public class GameWorld {
 	 * the number of players trying to 'fix' the bug)
 	 */
 	public void incrementPatch() {
-		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
+		int commitScore = MAX_PROGRESS
+				/ ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 
 		this.progress += commitScore;
 		// 100% reached, game almost won...display message with last task
@@ -608,7 +617,6 @@ public class GameWorld {
 			AudioController.playGameWonLoop();
 		}
 	}
-
 
 	/**
 	 * Updates game score (players get points for interacting with items)
@@ -641,7 +649,7 @@ public class GameWorld {
 	 * given the option of multiplayer or single player, and the environment
 	 * they are displayed in changes in
 	 */
-	public void compileProgram() { 
+	public void compileProgram() {
 		setGuiMessage("codeCompiledMessage", 5000);
 		this.timer = System.currentTimeMillis(); // start timer
 		this.interactDistance = COMMIT_INTERACT;
@@ -658,12 +666,14 @@ public class GameWorld {
 
 	private void enablePortal() {
 		officeLight.setColour(new Vector3f(6, 1, 1));
-		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION, currentTerrain));
+		staticEntities.add(entityFactory.makePortal(OFFICE_PORTAL_POSITION,
+				currentTerrain));
 	}
 
 	public List<GuiTexture> getEndStateScreen() {
-		if(this.gameState == GAME_WIN){
+		if (this.gameState == GAME_WIN) {
 			return guiFactory.getWinScreen();
+
 		}
 		else {
 			return guiFactory.getLostScreen();
@@ -671,23 +681,25 @@ public class GameWorld {
 	}
 
 	public void addNewPlayer(Vector3f position, int uid) {
-		Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);
+		Player player = playerFactory.makeNewPlayer(position,
+				EntityFactory.getPlayerTexturedModel(), uid, null);
 		allPlayers.put(uid, player);
 
 		System.out.println("ADDED NEW PLAYER, ID: " + uid);
 	}
 
 	public void addPlayer(Vector3f position, int uid) {
-		if(load != null){
-			player = playerFactory.makeNewPlayer(load.getPlayerPos(), EntityFactory.getPlayerTexturedModel(), uid, load);
-			
+		if (load != null) {
+			player = playerFactory.makeNewPlayer(load.getPlayerPos(),
+					EntityFactory.getPlayerTexturedModel(), uid, load);
+
 			// set player up in the outside world if they are outside
-			if(GameWorld.isOutside){
+			if (GameWorld.isOutside) {
 				setPlayerOutside();
 			}
-		}
-		else {
-			player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);	
+		} else {
+			player = playerFactory.makeNewPlayer(position,
+					EntityFactory.getPlayerTexturedModel(), uid, null);
 		}
 		allPlayers.put(uid, player);
 		System.out.println("ADDED THIS PLAYER, ID: " + uid);
@@ -736,18 +748,16 @@ public class GameWorld {
 		AudioController.playOfficeLoop();
 	}
 
-
-
 	public void displayHelp() {
-		if(this.helpVisible){
+		if (this.helpVisible) {
 			this.helpVisible = false;
 			Mouse.setGrabbed(true);
-		}
-		else {
+		} else {
 			this.helpVisible = true;
 			Mouse.setGrabbed(false);
 		}
 	}
+
 	public List<GuiTexture> eInteractMessage(MovableEntity e) {
 		return guiFactory.getPopUpInteract(e.getPosition());
 	}
@@ -775,7 +785,7 @@ public class GameWorld {
 	public List<GuiTexture> helpMessage() {
 		return guiFactory.getHelpScreen();
 	}
-	
+
 	public int getProgress() {
 		return progress;
 	}
@@ -844,4 +854,3 @@ public class GameWorld {
 		return guiFactory.getDisconnectedScreen();
 	}
 }
-

@@ -84,6 +84,20 @@ public class DisplayManager {
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
         lastFrameTime = getCurrentTime();
     }
+    
+    public static void createDisplay(){
+    	 ContextAttribs attribs = new ContextAttribs(3, 2)
+         .withForwardCompatible(true).withProfileCore(true);
+    	 
+    	 try {
+			Display.setDisplayMode(new DisplayMode(0, 0));
+			Display.create(new PixelFormat(), attribs);
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+         
+    }
 
 
     /**
