@@ -5,7 +5,6 @@ import org.lwjgl.input.Mouse;
 
 import model.GameWorld;
 import model.data.Save;
-import model.toolbox.Loader;
 
 /**
  * Controller to handle mouse and key input by the player. The class identifies
@@ -21,7 +20,7 @@ public class ActionController {
 	private GameWorld gameWorld;
 	private GameController gameController;   // to check if game is still running
 
-	public ActionController(Loader loader, GameWorld gameWorld,
+	public ActionController(GameWorld gameWorld,
 			GameController gameController) {
 		this.gameWorld = gameWorld;
 		this.gameController = gameController;

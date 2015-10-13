@@ -2,7 +2,6 @@ package view;
 
 import model.factories.GuiFactory;
 import model.textures.GuiTexture;
-import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
 import view.renderEngine.GuiRenderer;
 
@@ -35,9 +34,9 @@ public class HelpScreen {
 	 */
 	private void showScreen(boolean fullscreen) {
 
-		Loader loader = new Loader();
-		GuiRenderer guiRenderer = new GuiRenderer(loader);
-		GuiFactory guiFactory = new GuiFactory(loader);
+		
+		GuiRenderer guiRenderer = new GuiRenderer();
+		GuiFactory guiFactory = new GuiFactory();
 		List<GuiTexture> helpScreen = guiFactory.getHelpScreen();
 
 		closed = false;

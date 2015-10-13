@@ -45,13 +45,12 @@ public class TitleScreen {
      */
     private void blinkTitle(boolean fullscreen) {
 
-        Loader loader = new Loader();
-        GuiRenderer guiRenderer = new GuiRenderer(loader);
+        GuiRenderer guiRenderer = new GuiRenderer();
 
         long timer = System.currentTimeMillis();
         int index = 0;
 
-        GuiTexture[] images = initTitleScreens(loader);
+        GuiTexture[] images = initTitleScreens();
         boolean closed = false;
 
         while (!closed) {
@@ -90,13 +89,13 @@ public class TitleScreen {
     /**
      * @return an Array of title screen images to render
      */
-    private GuiTexture[] initTitleScreens(Loader loader) {
+    private GuiTexture[] initTitleScreens() {
         GuiTexture[] images = new GuiTexture[2];
         String PATH = "titleScreen";
-        images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "GitmanTitle1"), new Vector2f(0, 0),
+        images[0] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "GitmanTitle1"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
-        images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "GitmanTitle2"), new Vector2f(0, 0),
+        images[1] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "GitmanTitle2"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
         return images;
     }

@@ -35,7 +35,7 @@ public final class OBJLoader {
      *
      * @return RawModel created
      */
-    public static RawModel loadObjModel(String fileName, Loader loader) {
+    public static RawModel loadObjModel(String fileName) {
 
         // initialises the obj data structures
         initDataStructures();
@@ -60,7 +60,7 @@ public final class OBJLoader {
         loadIndices();
 
         // returns the obj raw model loaded by the loader
-        return loader.loadToVAO(verticesArray, texturesArray, normalsArray, indicesArray);
+        return Loader.loadToVAO(verticesArray, texturesArray, normalsArray, indicesArray);
     }
 
     /**
