@@ -166,7 +166,7 @@ public class GameWorld {
 		if(load){
 			load = initLoadGame();
 			if(!load){
-				setGuiMessage("failedToLoad", 2000);  //TODO
+				setGuiMessage("failedToLoad", 2000);  
 			}
 			
 		}
