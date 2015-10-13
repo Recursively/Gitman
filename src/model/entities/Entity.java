@@ -28,12 +28,12 @@ public class Entity {
     /**
      * Instantiates a new Entity.
      *
-     * @param model the model
+     * @param model    the model
      * @param position the position
-     * @param rotX the rot x
-     * @param rotY the rot y
-     * @param rotZ the rot z
-     * @param scale the scale
+     * @param rotX     the rot x
+     * @param rotY     the rot y
+     * @param rotZ     the rot z
+     * @param scale    the scale
      */
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
@@ -47,12 +47,12 @@ public class Entity {
     /**
      * Instantiates a new Entity.
      *
-     * @param model the model
-     * @param position the position
-     * @param rotX the rot x
-     * @param rotY the rot y
-     * @param rotZ the rot z
-     * @param scale the scale
+     * @param model        the model
+     * @param position     the position
+     * @param rotX         the rot x
+     * @param rotY         the rot y
+     * @param rotZ         the rot z
+     * @param scale        the scale
      * @param textureIndex the texture index
      */
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
@@ -64,9 +64,6 @@ public class Entity {
         this.rotZ = rotZ;
         this.scale = scale;
         this.textureIndex = textureIndex;
-    }
-
-    public Entity() {
     }
 
     /**
@@ -197,45 +194,41 @@ public class Entity {
     }
 
     /**
-     * Determine if the given entityPos is in front of the player, 
+     * Determine if the given entityPos is in front of the player,
      * and within the player's field of view
-     * 
+     *
      * @param entityPos position of entity
-     * @param cam player to get view of
+     * @param cam       player to get view of
      * @return true if entity can be seen by player
      */
-	public static boolean isInFrontOfPlayer(Vector3f entityPos, Camera cam) {
-		// get camera direction vector
-		Vector3f camDirection = cam.getDirection();
-		
-		// calculate vector from camera to entity
-		Vector3f camToEntity = new Vector3f(0, 0, 0);    // need to initialise for .sub method
-		Vector3f.sub(entityPos, cam.getPosition(), camToEntity);
-		
-		// calculate angle between camera direction and entity
-		Vector2f dir = new Vector2f(camDirection.getX(), camDirection.getZ());
-		Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());	
-		double angle = Math.toDegrees(Vector2f.angle(dir, ent));
-		
-		// check that entity is within player's 1/4 field of view
-		double maxAngle = MasterRenderer.getFOV()/4.0;
-		if(angle <= maxAngle){
-			return true;
-		}
-		return false;
-	}
+    public static boolean isInFrontOfPlayer(Vector3f entityPos, Camera cam) {
+        // get camera direction vector
+        Vector3f camDirection = cam.getDirection();
+
+        // calculate vector from camera to entity
+        Vector3f camToEntity = new Vector3f(0, 0, 0);    // need to initialise for .sub method
+        Vector3f.sub(entityPos, cam.getPosition(), camToEntity);
+
+        // calculate angle between camera direction and entity
+        Vector2f dir = new Vector2f(camDirection.getX(), camDirection.getZ());
+        Vector2f ent = new Vector2f(camToEntity.getX(), camToEntity.getZ());
+        double angle = Math.toDegrees(Vector2f.angle(dir, ent));
+
+        // check that entity is within player's 1/4 field of view
+        double maxAngle = MasterRenderer.getFOV() / 4.0;
+        return angle <= maxAngle;
+    }
 
     /**
      * Checks if a given entity is within a render range limit of the players current location
      *
      * @param player players position
-     *
      * @return is the entity within range?
      */
     public boolean isWithinRange(Player player) {
         if (Math.abs(position.getX() - player.getPosition().getX()) < MasterRenderer.RENDER_DISTANCE) {
             if (Math.abs(position.getZ() - player.getPosition().getZ()) < MasterRenderer.RENDER_DISTANCE)
-            return true;
+                return true;
         }
         return false;
     }

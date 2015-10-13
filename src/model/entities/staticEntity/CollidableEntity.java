@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Implementation of a static entity which is collidable.
- *
+ * <p/>
  * Interestingly, this class is pointless and could just be a static entity.
  *
  * @author Marcel van Workum

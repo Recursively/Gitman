@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
 public abstract class StaticEntity extends Entity {
 
     protected final Vector3f origin;
-    protected  BoundingBox boundingBox;
+    protected BoundingBox boundingBox;
     protected final ModelData modelData;
     protected final float radiusX;
     protected final float radiusY;
@@ -54,7 +54,6 @@ public abstract class StaticEntity extends Entity {
      * Checks if the position is colliding with this entity
      *
      * @param position position of player
-     *
      * @return result of check
      */
     public abstract boolean checkCollision(Vector3f position);

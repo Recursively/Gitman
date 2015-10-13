@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Implementation of a collidable entity which has a scaled collision hit box.
- *
+ * <p/>
  * Again, this is some what pointless. These classes would have been much more useful if more time had been put into
  * collision detection.
  *
