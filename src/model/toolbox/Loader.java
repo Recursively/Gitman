@@ -7,10 +7,11 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -88,7 +89,8 @@ public class Loader {
     public int loadTexture(String fileName) {
         Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/" + fileName + ".png"));
+
+            texture = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("res/" + fileName + ".png"));
 
             // Mipmapping to lower resolution of distance textures
             GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
@@ -295,10 +297,11 @@ public class Loader {
         int height = 0;
         ByteBuffer buffer = null;
         try {
-            FileInputStream in = new FileInputStream(fileName);
+            //FileInputStream in = new FileInputStream(fileName);
+            InputStream in = ResourceLoader.getResourceAsStream(fileName);
 
             // delegates to PNGDecoder to decode the image
-            PNGDecoder decoder = new PNGDecoder(in);
+            PNGDecoder decoder = new PNGDecoder(ResourceLoader.getResourceAsStream(fileName));
 
             width = decoder.getWidth();
             height = decoder.getHeight();

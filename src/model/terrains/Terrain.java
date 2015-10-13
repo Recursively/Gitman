@@ -1,16 +1,16 @@
 package model.terrains;
 
 import model.models.RawModel;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import model.toolbox.Loader;
 import model.textures.TerrainTexture;
 import model.textures.TerrainTexturePack;
+import model.toolbox.Loader;
 import model.toolbox.Maths;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.util.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -239,7 +239,7 @@ public class Terrain {
     private BufferedImage getBufferedImage(String heightMap) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("res/" + heightMap + ".png"));
+            image = ImageIO.read(ResourceLoader.getResourceAsStream("res/" + heightMap + ".png"));
         } catch (IOException e) {
             System.err.println("Failed to load height map");
             e.printStackTrace();
