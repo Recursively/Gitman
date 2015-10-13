@@ -109,6 +109,7 @@ public class GameController {
      */
     private void doGame() {
         AudioController.stopMenuLoop();
+        AudioController.playOfficeLoop();
         while (!Display.isCloseRequested() && networkRunning && RUNNING) {
             // process the terrains
 
