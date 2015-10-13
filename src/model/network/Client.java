@@ -312,7 +312,6 @@ public class Client extends Thread {
 		for (int i = 0; i < laptopSize; i++) {
 			int id = inputStream.readInt();
 			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
-			System.out.println(id);
 		}
 
 		int patchProgress = inputStream.readInt();

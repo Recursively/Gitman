@@ -683,8 +683,6 @@ public class GameWorld {
 		Player player = playerFactory.makeNewPlayer(position,
 				EntityFactory.getPlayerTexturedModel(), uid, null);
 		allPlayers.put(uid, player);
-
-		System.out.println("ADDED NEW PLAYER, ID: " + uid);
 	}
 
 	public void addPlayer(Vector3f position, int uid) {
@@ -701,7 +699,6 @@ public class GameWorld {
 					EntityFactory.getPlayerTexturedModel(), uid, null);
 		}
 		allPlayers.put(uid, player);
-		System.out.println("ADDED THIS PLAYER, ID: " + uid);
 	}
 
 	private static void setPlayerOutside() {

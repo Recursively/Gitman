@@ -90,7 +90,10 @@ public class ServerController extends Thread {
 	private void initServerSocket() {
 		try {
 			this.serverSocket = new ServerSocket(port);
+			System.out.println("\n********************");
 			System.out.println("SERVER IP ADDRESS: " + InetAddress.getLocalHost().getHostAddress());
+			System.out.println("********************\n");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
