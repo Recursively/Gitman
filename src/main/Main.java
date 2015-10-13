@@ -6,6 +6,7 @@ import view.TitleScreen;
  * Main method delegate class
  *
  * @author Marcel van Workum
+ * @author Reuben Puketapu
  */
 public class Main {
 

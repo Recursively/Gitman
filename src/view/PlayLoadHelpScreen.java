@@ -11,26 +11,34 @@ import view.renderEngine.GuiRenderer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
- * Displays the Play Load Help screen and deals with simple key press logic as the 
+ * Displays the Play Load Help screen and deals with simple key press logic as the
  * action controller is currently not created
+<<<<<<< HEAD
  * 
  * @author Ellie
  * @author Divya
  * @author Marcel
+=======
+>>>>>>> 0857566e3a099b702f7cfb8d3a435442fa0bd714
  *
+ * @author Ellie
+ * @author Marcel
+ * @author Divya
  */
 public class PlayLoadHelpScreen {
-	//networking
+
+    //networking
     private String hostname;
     private boolean isHost;
+
     //rendering
     private String PATH = "titleScreen";
 
     /**
-     * 
-     * @param isHost whether this is the host
-     * @param hostname name of Host
+     * @param isHost     whether this is the host
+     * @param hostname   name of Host
      * @param fullscreen whether game is full screen or not
      */
     public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
@@ -43,11 +51,12 @@ public class PlayLoadHelpScreen {
 
     /**
      * Blinks the title and handles key press logic for selecting wither play load or help
+     *
      * @param fullscreen whether the screen si full screen or not
      */
     private void blinkTitle(boolean fullscreen) {
 
-       
+
         GuiRenderer guiRenderer = new GuiRenderer();
 
         long timer = System.currentTimeMillis();
@@ -69,8 +78,8 @@ public class PlayLoadHelpScreen {
         while (!closed) {
 
             if (pollOffReturn) {
-                while (Keyboard.next()){
-
+                while (Keyboard.next()) {
+                    // polls
                 }
                 pollOffReturn = false;
             }
@@ -121,7 +130,7 @@ public class PlayLoadHelpScreen {
                             load = true;
                             break;
                         } else if (selectionPointer == 2) {
-                            HelpScreen helpScreen = new HelpScreen(fullscreen);
+                            HelpScreen helpScreen = new HelpScreen();
                             closed = helpScreen.wasClosed();
                             pollOffReturn = true;
                         }
@@ -133,19 +142,20 @@ public class PlayLoadHelpScreen {
         if (!closed) {
             new GameController(isHost, hostname, load, fullscreen);
         } else {
-        	//kills music
+            //kills music
             AL.destroy();
         }
     }
-/**
- * Initalises a blank title screen
- * @return the GuiTexture initalised
- */
+
+    /**
+     * Initialises a blank title screen
+     *
+     * @return the GuiTexture initialised
+     */
     private GuiTexture initBlankTitleScreen() {
         return new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
     }
-
 
     /**
      * @return an Array of title screen images to render
@@ -155,18 +165,14 @@ public class PlayLoadHelpScreen {
         images[0] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpPlayUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
-      
         images[1] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpLoadUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
-       
+
         images[2] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpHelpUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
         return images;
     }
-    
-    
-
 }
 
 

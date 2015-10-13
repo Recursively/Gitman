@@ -86,29 +86,43 @@ public class SkyboxRenderer {
         shader.stop();
     }
 
+    /**
+     * Binds the skybox textures and slowly rotates them/blends them together based on the game world time
+     */
     private void bindTextures(){
         int texture1;
         int texture2;
         float blendFactor;
 
+        // Night
         if(GameWorld.getWorldTime() >= 0 && GameWorld.getWorldTime() < 5000){
             texture1 = nightTexture;
             texture2 = nightTexture;
             blendFactor = (GameWorld.getWorldTime())/(5000);
-        }else if(GameWorld.getWorldTime() >= 5000 && GameWorld.getWorldTime() < 8000){
+        }
+
+        // Early morning
+        else if(GameWorld.getWorldTime() >= 5000 && GameWorld.getWorldTime() < 8000){
             texture1 = nightTexture;
             texture2 = texture;
             blendFactor = (GameWorld.getWorldTime() - 5000)/(8000 - 5000);
-        }else if(GameWorld.getWorldTime() >= 8000 && GameWorld.getWorldTime() < 21000){
+        }
+
+        // Daytime
+        else if(GameWorld.getWorldTime() >= 8000 && GameWorld.getWorldTime() < 21000){
             texture1 = texture;
             texture2 = texture;
             blendFactor = (GameWorld.getWorldTime() - 8000)/(21000 - 8000);
-        }else{
+        }
+
+        // Evening
+        else{
             texture1 = texture;
             texture2 = nightTexture;
             blendFactor = (GameWorld.getWorldTime() - 21000)/(24000 - 21000);
         }
 
+        // finally bind the textures
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture1);
         GL13.glActiveTexture(GL13.GL_TEXTURE1);
