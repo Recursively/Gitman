@@ -24,9 +24,6 @@ import java.util.ArrayList;
  */
 public class ServerController extends Thread {
 
-	/*
-	 * ServerSocket that is bound to a port and listens to connections
-	 */
 	private ServerSocket serverSocket;
 	private ArrayList<Server> servers;
 	private Socket socket;
@@ -41,17 +38,21 @@ public class ServerController extends Thread {
 	/**
 	 * Constructor for the ServerController
 	 * 
-	 * @param gameController gameController
+	 * @param gameController
+	 *            gameController
 	 */
 	public ServerController(GameController gameController) {
 		this.gameController = gameController;
-		servers = new ArrayList<>();
+		this.servers = new ArrayList<>();
 		this.isRunning = true;
 		initServerSocket();
 		initNetworkHandler();
 
 	}
 
+	/**
+	 * The main thread loop that listens to the port and accepts connections
+	 */
 	public void run() {
 
 		createHostPlayer();
@@ -63,13 +64,19 @@ public class ServerController extends Thread {
 				socket = serverSocket.accept();
 				Server server = new Server(socket, gameController, networkHandler);
 				int uid = createOtherPlayer();
+
+				// send all the information to the client to ensure the server
+				// is ready for the server thread to start
 				server.sendPlayerID(uid);
 				server.setUid(uid);
 				server.initNewPlayer();
 				servers.add(server);
+
+				// start the server thread
 				server.start();
 
 			} catch (IOException e) {
+				// There was no connections to be made
 				System.out.println("SOCKET IS CLOSED");
 			}
 
@@ -129,14 +136,16 @@ public class ServerController extends Thread {
 		gameController.createPlayer(uid);
 		return uid;
 	}
-	
+
 	/**
 	 * 
-	 * Sets the update in the ArrayList of Servers when a button has been pushed.
-	 * If the entity is a laptop, add it to the interacted Laptops. 
+	 * Sets the update in the ArrayList of Servers when a button has been
+	 * pushed. If the entity is a laptop, add it to the interacted Laptops.
 	 * 
-	 * @param status which type of interaction has occurred 
-	 * @param entity a reference to the actual entity that has been interacted with
+	 * @param status
+	 *            which type of interaction has occurred
+	 * @param entity
+	 *            a reference to the actual entity that has been interacted with
 	 */
 	public void setNetworkUpdate(int status, MovableEntity entity) {
 		if (gameController.getPlayers().size() != 1) {
@@ -144,7 +153,10 @@ public class ServerController extends Thread {
 				server.setUpdate(status, entity);
 			}
 		}
-		if(status == 17){
+
+		// if there was a laptop interacted with, add this entity to the
+		// interacted Laptops
+		if (status == 17) {
 			networkHandler.getInteractedLaptops().add((Laptop) entity);
 		}
 	}

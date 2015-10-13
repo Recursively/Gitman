@@ -122,7 +122,8 @@ public class Client extends Thread {
 		int update = inputStream.readInt();
 		int id = inputStream.readInt();
 		int uid = inputStream.readInt();
-
+		
+		// deal with an update if there is a valid input
 		if (update != -1 && id != -1) {
 			networkHandler.dealWithUpdate(update, id, uid);
 		}
@@ -137,6 +138,7 @@ public class Client extends Thread {
 	 * @throws IOException
 	 */
 	private void sendUpdateEntity() throws IOException {
+		// if there is a update made by the client send it accross the network
 		if (networkHandler.getClientUpdate() != null) {
 			outputStream.writeInt(networkHandler.getClientUpdate().update);
 			outputStream.writeInt(networkHandler.getClientUpdate().id);
@@ -291,19 +293,22 @@ public class Client extends Thread {
 	 * @throws IOException
 	 */
 	public void updateGameInformation() throws IOException {
-
+		
+		// read the swipeCards that have been interacted with
 		int swipeSize = inputStream.readInt();
 		for (int i = 0; i < swipeSize; i++) {
 			int id = inputStream.readInt();
 			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}
 
+		// read the inventory items that have been interacted with
 		int inventorySize = inputStream.readInt();
 		for (int i = 0; i < inventorySize; i++) {
 			int id = inputStream.readInt();
 			gameController.getGameWorld().getMoveableEntities().get(id).interact(gameController.getGameWorld());
 		}
-
+		
+		// read the laptop items that have been interacted with
 		int laptopSize = inputStream.readInt();
 		for (int i = 0; i < laptopSize; i++) {
 			int id = inputStream.readInt();
