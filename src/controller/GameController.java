@@ -62,7 +62,7 @@ public class GameController {
      * @throws IOException
      */
     public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
-
+    	GameController.networkDisconnected = false;
         RUNNING = true;
 
         // initialise model
@@ -91,7 +91,6 @@ public class GameController {
         }
 
    //     this.networkRunning = true;
-        GameController.networkDisconnected = false;
 
         // hook the mouse
         Mouse.setGrabbed(true);
@@ -124,6 +123,11 @@ public class GameController {
         }
      		
         while (!Display.isCloseRequested() && RUNNING) {
+        	// handle disconnected connections
+        	if(networkDisconnected){
+        		handleDisconnection();
+        		break;
+        	}
             // process the terrains
             renderer.processTerrain(gameWorld.getTerrain());
 
@@ -197,17 +201,6 @@ public class GameController {
             if (gameWorld.getGameState() > -1) {
                 guiRenderer.render(gameWorld.getEndStateScreen());
             }
-            
-            if (networkDisconnected){
-            	while(true){
-            		guiRenderer.render(gameWorld.getDisconnectedScreen());
-            		DisplayManager.updateDisplay();
-            		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-            			break;
-            		}
-            	}
-            	break;
-            }
 
             TimeController.tickTock();
 
@@ -219,7 +212,17 @@ public class GameController {
         cleanUp();
     }
 
-    /**
+    private void handleDisconnection() {
+    	while(true){
+    		guiRenderer.render(gameWorld.getDisconnectedScreen());
+    		DisplayManager.updateDisplay();
+    		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
+    			break;
+    		}
+    	}
+	}
+
+	/**
      * Cleans up the game when it is closed
      */
     public void cleanUp() {
