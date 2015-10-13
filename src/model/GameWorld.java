@@ -175,13 +175,12 @@ public class GameWorld {
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
 			this.interactDistance = MIN_INTERACT;  
-			
+			this.gameState = -1; 
 			// create commits
 			initCommits();
 		}
 
 		this.helpVisible = false;
-		this.gameState = -1; 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
 	
@@ -210,6 +209,7 @@ public class GameWorld {
 		this.canApplyPatch = load.isCanApplyPatch();
 		this.commitIndex = load.getCommitIndex();
 		this.score = load.getScore();
+		this.gameState = load.getGameState();
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
 		

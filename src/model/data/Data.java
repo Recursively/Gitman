@@ -38,6 +38,7 @@ public class Data {
 	private int commitIndex;
 	private long timer;
 	private int storageUsed;
+	private int gameState;
 
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw,
 			int uid, ArrayList<LaptopItem> inventory,
@@ -45,7 +46,7 @@ public class Data {
 			ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
 			boolean isOutside, int progress, int score,
 			boolean canApplyPatch, int commitIndex,
-			long timer, int storageUsed) {
+			long timer, int storageUsed, int gameState) {
 
 		this.playerPos = playerPos;
 		this.pitch = pitch;
@@ -63,6 +64,7 @@ public class Data {
 		this.commitIndex = commitIndex;
 		this.timer = timer;
 		this.storageUsed = storageUsed;
+		this.gameState = gameState;
 
 	}
 
@@ -128,5 +130,9 @@ public class Data {
 
 	public int getStorageUsed() {
 		return storageUsed;
+	}
+
+	public int getGameState() {
+		return this.gameState;
 	}
 }

@@ -44,6 +44,7 @@ public class Load {
 	private static boolean canApplyPatch;
 	private static int commitIndex;
 	private static long timer;
+	private static int gameState;
 
 	// player element
 	private static Vector3f playerPos;
@@ -94,6 +95,7 @@ public class Load {
 			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));			
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
+			gameState = Integer.parseInt(getTextValue(doc, "gameState"));
 			
 			// create collections
 			inventory = new ArrayList<LaptopItem>();
@@ -109,7 +111,7 @@ public class Load {
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
 					isProgramCompiled, isOutside, progress, score,
-					canApplyPatch, commitIndex, timer, storageUsed);
+					canApplyPatch, commitIndex, timer, storageUsed, gameState);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());

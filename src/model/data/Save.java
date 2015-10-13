@@ -73,11 +73,17 @@ public class Save {
 					.valueOf(GameWorld.isOutside())));
 			rootElement.appendChild(isOutside);
 
-			// codeProgress element
+			// progress element
 			Element progress = doc.createElement("progress");
 			progress.appendChild(doc.createTextNode(String
 					.valueOf(gameWorld.getProgress())));
 			rootElement.appendChild(progress);
+			
+			// gameState element
+			Element gameState = doc.createElement("gameState");
+			gameState.appendChild(doc.createTextNode(String
+					.valueOf(gameWorld.getGameState())));
+			rootElement.appendChild(gameState);
 
 			// score element
 			Element score = doc.createElement("score");
