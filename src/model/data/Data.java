@@ -256,6 +256,11 @@ public class Data {
 		return this.gameState;
 	}
 
+	/**
+	 * Gets commit collected.
+	 *
+	 * @return the commit collected
+	 */
 	public int getCommitCollected() {
 		return this.commitCollected;
 	}
