@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Produces the title screen for the game
+ * and handles logic for key presses as the action controller class is not made yet
  *
  * @author Ellie
  */
