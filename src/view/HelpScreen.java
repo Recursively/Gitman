@@ -12,7 +12,7 @@ public class HelpScreen {
 
     private boolean closed;
 
-    public HelpScreen(boolean isHost, String hostname, boolean fullscreen) {
+    public HelpScreen(boolean fullscreen) {
         Keyboard.enableRepeatEvents(false);
         showScreen(fullscreen);
     }

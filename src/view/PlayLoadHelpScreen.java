@@ -103,7 +103,7 @@ public class PlayLoadHelpScreen {
                             load = true;
                             break;
                         } else if (selectionPointer == 2) {
-                            HelpScreen helpScreen = new HelpScreen(isHost, hostname, fullscreen);
+                            HelpScreen helpScreen = new HelpScreen(fullscreen);
                             closed = helpScreen.wasClosed();
                             pollOffReturn = true;
                         }
