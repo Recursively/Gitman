@@ -41,7 +41,7 @@ public class GuiFactory {
 	private static final float SCORE_YPOS = 0.95f;
 	
 	// textures
-	private final Loader loader;
+
 	private GuiTexture inventoryScreen;
 	private GuiTexture interactMessage;
 	private GuiTexture infoPanel;
@@ -62,12 +62,9 @@ public class GuiFactory {
 	
 	/**
 	 * Create the Gui factory passing in the object loader
-	 *
-	 * @param loader
-	 *            Object loader
 	 */
-	public GuiFactory(Loader loader) {
-		this.loader = loader;
+	public GuiFactory() {
+
 
 		loadImages();
 	}
@@ -110,7 +107,7 @@ public class GuiFactory {
 	 */
 
 	public GuiTexture makeGuiTexture(String textureName, Vector2f position, Vector2f scale) {
-		return new GuiTexture(loader.loadTexture(GUI_PATH + textureName), position, scale);
+		return new GuiTexture(Loader.loadTexture(GUI_PATH + textureName), position, scale);
 	}
 	
 	/**
@@ -121,7 +118,7 @@ public class GuiFactory {
 	 * @return the GuiTexture
 	 */
 	public GuiTexture makeItemTexture(String textureName, Vector2f position, Vector2f scale) {
-		return new GuiTexture(loader.loadTexture(ITEM_PATH + textureName), position, scale);
+		return new GuiTexture(Loader.loadTexture(ITEM_PATH + textureName), position, scale);
 	}
 	
 	/**

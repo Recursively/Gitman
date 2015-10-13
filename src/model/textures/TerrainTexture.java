@@ -5,23 +5,7 @@ package model.textures;
  *
  * @author Marcel van Workum
  */
-/*
 
-         These Javadoc comments    Full Javadoc is never
-             are pointless!                pointless!
-     (,        /                            \     ,)
-     /|__--__                                __--_|\
-     |\' _                                     _ `/|
-     .' / `.,_ _________         _________ _,.' \ `.
-    /  ||``._.'                           `._.''||  \
-  .'   /|                                       |\   `.
-.'    /\ \                                     / /\    `.
- ` `,/ / ,\                                   /, \ \,' '
-   .'.'  /|                                   |\  `.`.
- .' /   / |                                   | \   \ `,
-- `- -- `-'- ------------------------------- -`-' -- -' -
-
- */
 public class TerrainTexture {
 
     // opengl binding of the texture

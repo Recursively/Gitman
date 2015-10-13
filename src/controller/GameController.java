@@ -37,7 +37,6 @@ public class GameController {
     public static boolean NETWORK_DISCONNECTED;
 
     // Model
-    private final Loader loader;
     private final GameWorld gameWorld;
 
     // View
@@ -66,18 +65,18 @@ public class GameController {
         GameController.RUNNING = true;
 
         // initialise model
-        loader = new Loader();
+
 
         // initialise view
-        renderer = new MasterRenderer(loader);
-        guiRenderer = new GuiRenderer(loader);
+        renderer = new MasterRenderer();
+        guiRenderer = new GuiRenderer();
 
         // initialise the game world
-        gameWorld = new GameWorld(loader, this);
+        gameWorld = new GameWorld(this);
         gameWorld.initGame(isHost, load);
 
         // initialise controller for actions
-        actionController = new ActionController(loader, gameWorld, this);
+        actionController = new ActionController(gameWorld, this);
 
         // setup client
         this.isHost = isHost;
@@ -137,7 +136,7 @@ public class GameController {
                 }
             }
 
-            // TODO Should only get static entities
+            
             ArrayList<Entity> statics = gameWorld.getStaticEntities();
             ArrayList<Entity> walls = gameWorld.getWallEntities();
             Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
@@ -218,7 +217,7 @@ public class GameController {
     public void cleanUp() {
         guiRenderer.cleanUp();
         renderer.cleanUp();
-        loader.cleanUp();
+        Loader.cleanUp();
         DisplayManager.closeDisplay();
 
         // Cleans Audio resources
