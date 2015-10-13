@@ -37,10 +37,10 @@ public class ClientController {
 			client.start();
 
 		} catch (UnknownHostException e) {
-			GameController.networkDisconnected = true;
+			GameController.NETWORK_DISCONNECTED = true;
 			gameController.READY = true;
 		} catch (IOException e) {
-			GameController.networkDisconnected = true;
+			GameController.NETWORK_DISCONNECTED = true;
 			gameController.READY = true;
 		} 
 	}

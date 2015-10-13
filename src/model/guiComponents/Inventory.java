@@ -103,16 +103,15 @@ public class Inventory {
 	 * @return Item if successfully removed, null if not
 	 */
 	public int deleteItem(GameWorld game) {
-		int item = this.selected.getUID();
+		int item = -1;
 		if (this.selected != null) {
-
+			item = this.selected.getUID();
 			this.storageUsed = this.storageUsed - this.selected.getSize();
 			inLaptop.remove(this.selected);
 			game.removeFromInventory(this.selected);
 			this.selected = null;
 			// redraw inventory gui as item has been deleted
 			updateLaptopDisplay();
-
 			AudioController.playDeleteSound();
 		}
 		// Networking
@@ -131,7 +130,6 @@ public class Inventory {
 	public void displayInventory() {
 		if (this.isVisible) {
 			this.isVisible = false;
-
 			Mouse.setGrabbed(true);
 			this.selected = null;
 			AudioController.stopEasterEggLoop();
@@ -140,7 +138,6 @@ public class Inventory {
 			} else {
 				AudioController.playOfficeLoop();
 			}
-			this.selected = null;
 		} else {
 			this.isVisible = true;
 			Mouse.setGrabbed(false);
