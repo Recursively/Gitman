@@ -40,9 +40,9 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
   
   
 *Game created by:*
+- *Reuben Puketapu*
 - *Ellie Coyle*
 - *Divya Patel*
-- *Finn Kinnear*
-- *Reuben Puketapu*
 - *Marcel van Workum*
+- *Finn Kinnear*
 
