@@ -16,20 +16,45 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class SwipeCard extends Item {
-	public static final int SWIPE_CARD_SCORE = 5;
+	// final positioning values for swipe card images drawn on info panel
 	public static final float START_X = -0.915f;
 	public static final Vector2f CARD_SCALE = new Vector2f(0.06f, 0.06f);
 	public static final float CARD_YPOS = 0.7f;
 	
-	
+	private static final int SWIPE_CARD_SCORE = 5;	
 	private final int cardNum;
 
+	/**
+	 * Instantiates a new SwipeCard
+	 *
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param id unique id for networking
+	 * @param cardNum number of card that matches cardID of single laptop
+	 */
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
 		this.cardNum = cardNum;
 	}
 	
+	/**
+	 * Instantiates a new SwipeCard
+	 *
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param textureIndex index for atlassing
+	 * @param id unique id for networking 
+	 * @param cardNum number of card that matches cardID of single laptop
+	 */
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
@@ -42,18 +67,23 @@ public class SwipeCard extends Item {
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
-
 		AudioController.playPickupSound();
 		return 16;
-	}
-
-	public int getScore() {
-		return SWIPE_CARD_SCORE;
 	}
 
 	@Override
 	public String viewInfo() {
 		return "Swipe Cards help you unlock doors";
+	}
+	
+	@Override
+	public String getType(){
+		return "SwipeCard";
+	}
+	
+	@Override
+	public int getCardNum(){
+		return cardNum;
 	}
 	
 	/**
@@ -67,16 +97,17 @@ public class SwipeCard extends Item {
 		return this.cardNum == id;
 	}
 	
-	@Override
-	public String getType(){
-		return "SwipeCard";
+	/**
+	 * @return score of swipe cards
+	 */
+	public int getScore() {
+		return SWIPE_CARD_SCORE;
 	}
 	
-	@Override
-	public int getCardNum(){
-		return cardNum;
-	}
-	
+	/**
+	 * @return name of image of this swipe card
+	 * (each swipe card will have different colours)
+	 */
 	public String getImgName(){
 		return "swipeCard" + this.cardNum;
 	}

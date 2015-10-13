@@ -69,6 +69,7 @@ public class ServerController extends Thread {
 				// send all the information to the client to ensure the server
 				// is ready for the server thread to start
 				server.sendPlayerID(uid);
+				server.sendIsCommitCollected();
 				server.setUid(uid);
 				server.initNewPlayer();
 				servers.add(server);
@@ -90,7 +91,10 @@ public class ServerController extends Thread {
 	private void initServerSocket() {
 		try {
 			this.serverSocket = new ServerSocket(port);
+			System.out.println("\n********************");
 			System.out.println("SERVER IP ADDRESS: " + InetAddress.getLocalHost().getHostAddress());
+			System.out.println("********************\n");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -28,6 +28,7 @@ import java.util.Random;
  * map for a given terrain or randomly generates entities for testing.
  *
  * @author Marcel van Workum
+ * @author Reuben Puketapu
  */
 public class EntityFactory {
 	// commit position is 10 above the ground
@@ -38,8 +39,6 @@ public class EntityFactory {
     private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
-
-
 
     private ArrayList<Vector3f> commitPositions = new ArrayList<>();
 

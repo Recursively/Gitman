@@ -14,7 +14,18 @@ import java.util.List;
 
 /**
  * Displays the Play Load Help screen and deals with simple key press logic as the
+<<<<<<< HEAD
  * action controller is currently not created
+<<<<<<< HEAD
+ * 
+ * @author Ellie
+ * @author Divya
+ * @author Marcel
+=======
+>>>>>>> 0857566e3a099b702f7cfb8d3a435442fa0bd714
+=======
+ * action controller is currently not created
+>>>>>>> 56b0c6742cd49a61afa9d3fa1874474b674ea98a
  *
  * @author Ellie
  * @author Marcel

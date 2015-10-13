@@ -17,6 +17,7 @@ import java.util.List;
  * and handles logic for key presses as the action controller class is not made yet
  *
  * @author Ellie
+ * @author Marcel
  */
 
 public class TitleScreen {
@@ -32,6 +33,7 @@ public class TitleScreen {
         this.isHost = isHost;
         DisplayManager.createDisplay(fullscreen);
         Keyboard.enableRepeatEvents(false);
+        
 
         // Creates the audio controller
         new AudioController();

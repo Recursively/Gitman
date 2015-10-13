@@ -45,13 +45,14 @@ public class DataTests {
 		initTestGame();
 		
 		assertTrue(
-				"LaptopItems saved and loaded correctly",
+				"LaptopItems comparison",
 				gameWorld.getInventory().getItems()
 						.equals(Load.loadGame().getInventory()));
-		assertTrue("MovableEntities saved and loaded correctly",
+		System.out.println("Before: " + gameWorld.getInventory().getItems().size() + " After: " + Load.loadGame().getInventory().size());
+		assertTrue("MovableEntities comparison",
 				new ArrayList<MovableEntity>(gameWorld.getMoveableEntities()
 						.values()).equals(Load.loadGame().getInventory()));
-		assertTrue("MovableEntities saved and loaded correctly", gameWorld
+		assertTrue("MovableEntities comparison", gameWorld
 				.getSwipeCards().equals(Load.loadGame().getInventory()));
 	}
 
