@@ -18,6 +18,18 @@ public abstract class LaptopItem extends Item {
 	private final String name;
 	private boolean pickedUpAlready;   // ensures that score of item only added once
 	
+	/**
+	 * Instantiates a new LaptopItem
+	 * 
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param id unique id for networking
+	 * @param name name of image file icon to show in inventory
+	 */
 	public LaptopItem(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
@@ -25,6 +37,19 @@ public abstract class LaptopItem extends Item {
 		this.pickedUpAlready = false; 
 	}
 	
+	/**
+	 * Instantiates a new LaptopItem
+	 * 
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param textureIndex texture index for atlassing
+	 * @param id unique id for networking
+	 * @param name name of image file icon to show in inventory
+	 */
 	public LaptopItem(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, String name) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
@@ -36,13 +61,18 @@ public abstract class LaptopItem extends Item {
 	public int interact(GameWorld game) {
 		// if add to inventory is successful, update score
 		if(game.addToInventory(this)){
-			this.pickedUpAlready = true;
 			game.updateScore(this.getScore());
 			AudioController.playPickupSound();
+			this.pickedUpAlready = true;
 			return 13;
 		}
 		return -1;
 	}
+	
+	@Override
+	public String getName(){
+		return this.name;
+	}	
 	
 	/**
 	 * @return size of the laptop item
@@ -70,9 +100,4 @@ public abstract class LaptopItem extends Item {
 	public boolean getPickedUpAlready(){
 		return this.pickedUpAlready;
 	}
-	
-	@Override
-	public String getName(){
-		return this.name;
-	}	
 }

@@ -18,12 +18,35 @@ public abstract class MovableEntity extends Entity {
 	protected static final float GRAVITY = -50;
 	private final int UID; // for networking
 
+	/**
+	 * Instantiates a MovableEntity.
+	 *
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param id unique id for networking
+	 */
 	public MovableEntity(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id) {
 		super(model, position, rotX, rotY, rotZ, scale);
 		this.UID = id;
 	}
 
+	/**
+	 * Instantiates a MovableEntity.
+	 * 
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param textureIndex index for atlassing
+	 * @param id unique id for networking
+	 */
 	public MovableEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale,
 			int textureIndex, int id) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex);
