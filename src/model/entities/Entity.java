@@ -2,10 +2,8 @@ package model.entities;
 
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
-
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.renderEngine.MasterRenderer;
 
 /**

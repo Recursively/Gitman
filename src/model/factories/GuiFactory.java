@@ -6,7 +6,6 @@ import model.entities.movableEntity.SwipeCard;
 import model.guiComponents.Inventory;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
-
 import org.lwjgl.util.vector.Vector2f;
 
 import java.util.ArrayList;

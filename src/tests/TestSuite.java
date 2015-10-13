@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	DataTests.class
+        DataTests.class
 })
 
 /**
@@ -17,28 +17,28 @@ import org.junit.runners.Suite;
  */
 public class TestSuite {
 
-	private static GameWorld gameWorld;
+    private static GameWorld gameWorld;
 
-	/**
-	 * Creates a new test suite, makes the game world and then runs the tests
-	 */
-	public TestSuite() {
-		gameWorld = new GameWorld();
-	}
+    /**
+     * Creates a new test suite, makes the game world and then runs the tests
+     */
+    public TestSuite() {
+        gameWorld = new GameWorld();
+    }
 
-	/**
-	 * Gets game world.
-	 *
-	 * @return the game world
-	 */
-	public static GameWorld getGameWorld() {
-		return gameWorld;
-	}
+    /**
+     * Gets game world.
+     *
+     * @return the game world
+     */
+    public static GameWorld getGameWorld() {
+        return gameWorld;
+    }
 
-	/**
-	 * Runs the test suite
-	 */
-	public static void main(String[] args) {
-		JUnitCore.runClasses(TestSuite.class);
-	}
+    /**
+     * Runs the test suite
+     */
+    public static void main(String[] args) {
+        JUnitCore.runClasses(TestSuite.class);
+    }
 }

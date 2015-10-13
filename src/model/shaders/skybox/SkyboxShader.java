@@ -2,8 +2,8 @@ package model.shaders.skybox;
 
 import model.entities.Camera;
 import model.shaders.ShaderProgram;
-import org.lwjgl.util.vector.Matrix4f;
 import model.toolbox.Maths;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 

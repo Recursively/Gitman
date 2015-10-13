@@ -292,8 +292,7 @@ public class EntityFactory {
      * Creates a new portal entity
      *
      * @param position position of the portal
-     * @param terrain Terrain to get y height from
-     *
+     * @param terrain  Terrain to get y height from
      * @return Portal Entity
      */
     public StaticEntity makePortal(Vector3f position, Terrain terrain) {

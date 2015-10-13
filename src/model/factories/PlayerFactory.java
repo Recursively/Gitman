@@ -5,7 +5,6 @@ import model.data.Data;
 import model.entities.Camera;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
-
 import org.lwjgl.util.vector.Vector3f;
 
 /**

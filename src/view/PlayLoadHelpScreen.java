@@ -31,8 +31,8 @@ public class PlayLoadHelpScreen {
     private String PATH = "titleScreen";
 
     /**
-     * @param isHost     whether this is the host
-     * @param hostname   name of Host
+     * @param isHost   whether this is the host
+     * @param hostname name of Host
      */
     public PlayLoadHelpScreen(boolean isHost, String hostname) {
         this.hostname = hostname;

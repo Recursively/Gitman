@@ -3,7 +3,6 @@ package model.entities.movableEntity;
 import controller.AudioController;
 import model.GameWorld;
 import model.models.TexturedModel;
-
 import org.lwjgl.util.vector.Vector3f;
 
 /**

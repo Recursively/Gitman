@@ -2,7 +2,6 @@ package model.entities.movableEntity;
 
 import model.GameWorld;
 import model.models.TexturedModel;
-
 import org.lwjgl.util.vector.Vector3f;
 
 /**

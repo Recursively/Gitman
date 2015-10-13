@@ -3,10 +3,10 @@ package model.shaders.entity;
 import model.entities.Camera;
 import model.entities.Light;
 import model.shaders.ShaderProgram;
+import model.toolbox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import model.toolbox.Maths;
 
 import java.util.List;
 

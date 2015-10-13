@@ -1,10 +1,9 @@
 package model.entities.movableEntity;
 
-import org.lwjgl.util.vector.Vector3f;
-
 import model.GameWorld;
 import model.entities.Entity;
 import model.models.TexturedModel;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * This class represents a movable entity in the game. This is an

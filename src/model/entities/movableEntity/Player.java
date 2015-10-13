@@ -7,11 +7,9 @@ import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
 import view.DisplayManager;
 
 import java.util.ArrayList;

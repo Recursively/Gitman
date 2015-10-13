@@ -13,7 +13,6 @@ import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
