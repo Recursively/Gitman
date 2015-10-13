@@ -28,6 +28,7 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
+
     public static final int GAME_WIN = 1;      // game state value for won game
     public static final int CODE_VALUE = 20;
     public static final int MAX_PROGRESS = 100;
@@ -210,7 +211,7 @@ public class GameWorld {
         this.score = load.getScore();
         this.gameState = load.getGameState();
         GameWorld.isOutside = load.isIsOutside();
-        GameWorld.isProgramCompiled = load.isIsCodeCompiled();
+        GameWorld.isProgramCompiled = load.isIsProgramCompiled();
 
         if (this.canApplyPatch) {
             this.interactDistance = BUG_INTERACT;

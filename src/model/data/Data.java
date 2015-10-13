@@ -29,7 +29,7 @@ public class Data {
 	private ArrayList<SwipeCard> swipeCards;
 
 	// gamestate elements
-	private boolean isCodeCompiled;
+	private boolean isProgramCompiled;
 	private boolean isOutside;
 	private int progress;
 	private int score;
@@ -50,7 +50,7 @@ public class Data {
 	 * @param inventory       the inventory
 	 * @param movableEntities the movable entities
 	 * @param swipeCards      the swipe cards
-	 * @param isCodeCompiled  the is code compiled
+	 * @param isProgramCompiled  the is code compiled
 	 * @param isOutside       the is outside
 	 * @param progress        the progress
 	 * @param score           the score
@@ -61,7 +61,7 @@ public class Data {
 	 * @param gameState       the game state
 	 */
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw, int uid, ArrayList<LaptopItem> inventory,
-			ArrayList<MovableEntity> movableEntities, ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
+			ArrayList<MovableEntity> movableEntities, ArrayList<SwipeCard> swipeCards, boolean isProgramCompiled,
 			boolean isOutside, int progress, int score, boolean canApplyPatch, int commitIndex, long timer,
 				int storageUsed, int gameState) {
 		this.playerPos = playerPos;
@@ -72,7 +72,7 @@ public class Data {
 		this.inventory = inventory;
 		this.movableEntities = movableEntities;
 		this.swipeCards = swipeCards;
-		this.isCodeCompiled = isCodeCompiled;
+		this.isProgramCompiled = isProgramCompiled;
 		this.isOutside = isOutside;
 		this.progress = progress;
 		this.score = score;
@@ -129,12 +129,12 @@ public class Data {
 	}
 
 	/**
-	 * Is is code compiled boolean.
+	 * Is is program compiled boolean.
 	 *
 	 * @return the boolean
 	 */
-	public boolean isIsCodeCompiled() {
-		return isCodeCompiled;
+	public boolean isIsProgramCompiled() {
+		return isProgramCompiled;
 	}
 
 	/**
