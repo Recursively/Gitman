@@ -909,6 +909,9 @@ public class GameWorld {
 		initFactories();
 		initDataStructures();
 
+		// creates the gui to be displayed on the display
+		initGui();
+
 		// initialises the currentTerrain
 		initTerrain();
 
