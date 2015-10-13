@@ -2,8 +2,8 @@ package controller;
 
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -43,36 +43,36 @@ public class AudioController {
 
     private void parseAudioResources() {
         try {
-            menuLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "menuLoop" + ".ogg"));
-            gameWonLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWonLoop" + ".ogg"));
-            officeLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "officeLoop" + ".ogg"));
-            gameWorldLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
-            gameOverSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gameOverSound" + ".ogg"));
-            successfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "successfulUnlockSound" + ".ogg"));
-            unsuccessfulUnlockSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "unsuccessfulUnlockSound" + ".ogg"));
-            portalSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "portalSound" + ".ogg"));
-            portalHum = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "portalHumSound" + ".ogg"));
-            pickupSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "pickupSound" + ".ogg"));
-            easterEggLoop = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
-            jumpSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "jumpSound" + ".ogg"));
-            deleteSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "deleteSound" + ".ogg"));
-            coolStuffSound = AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "coolStuffSound" + ".ogg"));
+            menuLoop = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "menuLoop" + ".ogg"));
+            gameWonLoop = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "gameWonLoop" + ".ogg"));
+            officeLoop = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "officeLoop" + ".ogg"));
+            gameWorldLoop = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "gameWorldLoop" + ".ogg"));
+            gameOverSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "gameOverSound" + ".ogg"));
+            successfulUnlockSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "successfulUnlockSound" + ".ogg"));
+            unsuccessfulUnlockSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "unsuccessfulUnlockSound" + ".ogg"));
+            portalSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "portalSound" + ".ogg"));
+            portalHum = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "portalHumSound" + ".ogg"));
+            pickupSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "pickupSound" + ".ogg"));
+            easterEggLoop = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "easterEggLoop" + ".ogg"));
+            jumpSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "jumpSound" + ".ogg"));
+            deleteSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "deleteSound" + ".ogg"));
+            coolStuffSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "coolStuffSound" + ".ogg"));
 
-            inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "helpSound" + ".ogg")));
-            inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "hmmmSound" + ".ogg")));
-            inventorySounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "interestingSound" + ".ogg")));
+            inventorySounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "helpSound" + ".ogg")));
+            inventorySounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "hmmmSound" + ".ogg")));
+            inventorySounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "interestingSound" + ".ogg")));
 
-            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "anyQuestionsSound" + ".ogg")));
-            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "bestBitSound" + ".ogg")));
-            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "bestThingSound" + ".ogg")));
-            easterEggSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "gonnaBeGoodSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "anyQuestionsSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "bestBitSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "bestThingSound" + ".ogg")));
+            easterEggSounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "gonnaBeGoodSound" + ".ogg")));
 
             for (int i = 1; i < 6; i++) {
-                commitSounds.add(AudioLoader.getAudio("OGG", new FileInputStream("res/" + audioPath + "commitSound" + i + ".ogg")));
+                commitSounds.add(AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("res/" + audioPath + "commitSound" + i + ".ogg")));
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Failed to load audio assets.");
         }
     }
 
