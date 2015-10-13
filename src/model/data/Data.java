@@ -30,23 +30,23 @@ public class Data {
 	private ArrayList<SwipeCard> swipeCards;
 
 	// gamestate elements
-	private int codeProgress;
 	private boolean isCodeCompiled;
 	private boolean isOutside;
-	private int patchProgress;
+	private int progress;
 	private int score;
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
 	private int storageUsed;
+	private int gameState;
 
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw,
 			int uid, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities,
 			ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
-			boolean isOutside, int codeProgress, int patchProgress, int score,
+			boolean isOutside, int progress, int score,
 			boolean canApplyPatch, int commitIndex,
-			long timer, int storageUsed) {
+			long timer, int storageUsed, int gameState) {
 
 		this.playerPos = playerPos;
 		this.pitch = pitch;
@@ -58,13 +58,13 @@ public class Data {
 		this.swipeCards = swipeCards;
 		this.isCodeCompiled = isCodeCompiled;
 		this.isOutside = isOutside;
-		this.codeProgress = codeProgress;
-		this.patchProgress = patchProgress;
+		this.progress = progress;
 		this.score = score;
 		this.canApplyPatch = canApplyPatch;
 		this.commitIndex = commitIndex;
 		this.timer = timer;
 		this.storageUsed = storageUsed;
+		this.gameState = gameState;
 
 	}
 
@@ -96,12 +96,8 @@ public class Data {
 		return isOutside;
 	}
 
-	public int getCodeProgress() {
-		return codeProgress;
-	}
-
-	public int getPatchProgress() {
-		return patchProgress;
+	public int getProgress() {
+		return progress;
 	}
 
 	public int getScore() {
@@ -134,5 +130,9 @@ public class Data {
 
 	public int getStorageUsed() {
 		return storageUsed;
+	}
+
+	public int getGameState() {
+		return this.gameState;
 	}
 }

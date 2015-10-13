@@ -208,7 +208,7 @@ public class Client extends Thread {
 					.interact(gameController.getGameWorld());
 		}
 
-		gameController.getGameWorld().setPatchProgress(inputStream.readInt());
+		gameController.getGameWorld().setProgress(inputStream.readInt());
 	}
 
 }

@@ -32,9 +32,9 @@ public class GuiFactory {
 	private static final Vector2f FULL_SCALE = new Vector2f(1f, 1f);
 	
 	// progress block positions and scale
-	private static final float PROGRESS_START_X = -0.955f;
-	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.35f, 0.03f);
-	private static final float PROGRESS_YPOS = 0.94f;
+	private static final float PROGRESS_START_X = -0.965f;
+	private static final Vector2f PROGRESS_SCALE = new Vector2f(0.00355f, 0.027f);
+	private static final float PROGRESS_YPOS = 0.941f;
 	
 	// score scale and positions
 	private static final float SCORE_START_X = -0.56f;
@@ -60,7 +60,7 @@ public class GuiFactory {
 	private int oldScore;
 	private List<GuiTexture> scoreNum;
 	
-	//number list
+	//number
 	
 	
 
@@ -174,7 +174,7 @@ public class GuiFactory {
 			else {
 				for(int i = this.oldProgress; i < progress; i++){
 					if(i <= GameWorld.MAX_PROGRESS){
-						float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX()*0.01f;
+						float xPos = PROGRESS_START_X + i*PROGRESS_SCALE.getX();
 						Vector2f pos = new Vector2f(xPos, PROGRESS_YPOS);
 						GuiTexture progBlock = progressBlock.copy();
 						progBlock.setPosition(pos);

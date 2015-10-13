@@ -136,7 +136,7 @@ public class AudioController {
     }
 
     public static void playEasterEggLoop() {
-        easterEggLoop.playAsMusic(1f, 1f, true);
+        easterEggLoop.playAsSoundEffect(1f, 1f, true);
     }
 
     public static void stopEasterEggLoop() {
