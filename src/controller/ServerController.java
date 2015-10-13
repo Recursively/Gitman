@@ -6,6 +6,7 @@ import model.network.NetworkHandler;
 import model.network.Server;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -84,11 +85,12 @@ public class ServerController extends Thread {
 	}
 
 	/*
-	 * Initializes the server socket
+	 * Initializes the server socket and prints the IPADDRESS to console
 	 */
 	private void initServerSocket() {
 		try {
 			this.serverSocket = new ServerSocket(port);
+			System.out.println("SERVER IP ADDRESS: " + InetAddress.getLocalHost().getHostAddress());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
