@@ -13,10 +13,10 @@ import model.textures.ModelTexture;
 import model.toolbox.Loader;
 import model.toolbox.objParser.OBJFileLoader;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.util.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -190,7 +190,7 @@ public class EntityFactory {
     private BufferedImage getBufferedImage(String entityMap) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("res/" + entityMap + ".png"));
+            image = ImageIO.read(ResourceLoader.getResourceAsStream("res/" + entityMap + ".png"));
         } catch (IOException e) {
             System.err.println("Failed to load entity map");
             e.printStackTrace();
