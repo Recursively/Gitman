@@ -38,6 +38,7 @@ public class Main {
             } else {
                 new TitleScreen(true, "", fullscreen);
             }
+
         }
     }
 }

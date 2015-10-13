@@ -4,9 +4,17 @@ import model.GameWorld;
 
 public class TestSuite {
 	
-	public static GameWorld gameWorld;
+	private static GameWorld gameWorld;
 
-    //TODO 
+	public static void main(String[] args) {
+		new TestSuite();
+	}
 
-    
+	public TestSuite() {
+		gameWorld = new GameWorld();
+	}
+
+	public static GameWorld getGameWorld() {
+		return gameWorld;
+	}
 }

@@ -85,6 +85,12 @@ public class Save {
 			gameState.appendChild(doc.createTextNode(String
 					.valueOf(gameWorld.getGameState())));
 			rootElement.appendChild(gameState);
+			
+			// gameState element
+			Element commitCollected = doc.createElement("commitCollected");
+			commitCollected.appendChild(doc.createTextNode(String
+					.valueOf(gameWorld.getCommitCollected())));
+			rootElement.appendChild(commitCollected);
 
 			// score element
 			Element score = doc.createElement("score");

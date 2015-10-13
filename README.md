@@ -8,8 +8,6 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 
 (Explaination of basic controls & goal)
 
-(Information on multiplayer)
-
 ### How to run the game
 
 1. Clone repository into your favourite Java IDE
@@ -37,7 +35,25 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
   
    **Alternately, if you are using eclipse**
    - You can simply add the corresponding native as a native for the lwjgl.jar in your libraries build path
+
+### How to run the game in multiplayer
+
+--ECLIPSE--
   
+1. Run Main on the server computer with the following arguments.
+
+        Y   - for a Server running fullscreen
+        N   - for a Server running small screen
+
+        Take note of the ipaddress output in the console.
+
+2. Run Main on a Client computer with the arguments:
+
+        Y xxx.xxx.xxx.xxx   - for a Client running fullscreen
+        N xxx.xxx.xxx.xxx   - for a Client running small screen
+
+        where xxx.xxx.xxx.xxx is the ip address from the server 
+
   
 *Game created by:*
 - *Reuben Puketapu*
