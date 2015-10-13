@@ -11,7 +11,8 @@ import view.DisplayManager;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         DataTests.class,
-        GameWorldTests.class
+        GameWorldTests.class,
+        RendererTests.class
 })
 
 /**
