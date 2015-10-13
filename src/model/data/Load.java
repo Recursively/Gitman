@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
  * object.
  *
  * @author Finn Kinnear
+ * @author Divya
  */
 
 public class Load {

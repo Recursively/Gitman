@@ -13,6 +13,7 @@ import model.entities.movableEntity.SwipeCard;
  * appropriate objects and collections.
  *
  * @author Finn Kinnear
+ * @author Divya
  */
 
 public class Data {

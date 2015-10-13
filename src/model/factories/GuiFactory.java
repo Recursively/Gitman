@@ -64,11 +64,12 @@ public class GuiFactory {
 	 * Create the Gui factory passing in the object loader
 	 */
 	public GuiFactory() {
-
-
 		loadImages();
 	}
 
+	/**
+	 * Load in commonly used gui images
+	 */
 	private void loadImages() {
 		inventoryScreen = makeGuiTexture("blankInventoryScreen", CENTER_POS, new Vector2f(0.8f, 1f));
 		interactMessage = makeGuiTexture("pressEToInteract", new Vector2f(0f, -0.3f), new Vector2f(0.5f, 0.5f));
@@ -76,9 +77,7 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE); 
-		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, FULL_SCALE); 
-		
-		
+		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, FULL_SCALE); 	
 		
 		// info panel
 		this.cards = new ArrayList<GuiTexture>();
@@ -87,7 +86,6 @@ public class GuiFactory {
 		this.oldProgress = 0;
 		this.scoreNum = new ArrayList<GuiTexture>();
 		this.oldScore = 0;
-
 	}
 
 

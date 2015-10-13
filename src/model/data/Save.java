@@ -25,6 +25,7 @@ import model.entities.movableEntity.SwipeCard;
  * xml format.
  *
  * @author Finn Kinnear
+ * @author Divya
  */
 
 public class Save {

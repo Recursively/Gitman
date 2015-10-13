@@ -39,8 +39,6 @@ public class EntityFactory {
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
 
-
-
     private ArrayList<Vector3f> commitPositions = new ArrayList<>();
 
     private Random random = new Random();
