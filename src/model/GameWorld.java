@@ -13,11 +13,9 @@ import model.guiComponents.GuiMessages;
 import model.guiComponents.Inventory;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
-import model.toolbox.Loader;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-
+import view.DisplayManager;
 import view.renderEngine.MasterRenderer;
 
 import java.util.*;
@@ -30,6 +28,7 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
+
 	public static final int GAME_WIN = 1;      // game state value for won game
 	public static final int CODE_VALUE = 20;    
 	public static final int MAX_PROGRESS = 100;
@@ -860,4 +859,51 @@ public class GameWorld {
 	public void setCommitCollected(int c){
 		this.commitCollected = c;
 	}
+
+    // TEST METHODS
+
+    public GameWorld() {
+        initTestWorld();
+    }
+
+    private void initTestWorld() {
+        DisplayManager.createTestDisplay();
+
+        // initialise factories and data structures
+        initFactories();
+        initDataStructures();
+
+
+        // initialises the currentTerrain
+        initTerrain();
+
+        entityFactory = new EntityFactory(otherTerrain, currentTerrain);
+
+        // Adds lighting to game world
+        setupLighting();
+
+        initPlayerModel();
+
+        staticEntities = entityFactory.getEntities();
+        wallEntities = entityFactory.getWallEntities();
+        inventory = new Inventory(guiFactory);
+
+
+        // if not loading in, or load game failed, create normal game
+        movableEntities = entityFactory.getMovableEntities();
+
+        // game state
+        this.progress = 0;
+        this.cards = new ArrayList<SwipeCard>();
+        this.canApplyPatch = false;
+        this.interactDistance = MIN_INTERACT;
+        this.gameState = -1;
+        // create commits
+        initCommits();
+
+
+        this.helpVisible = false;
+        staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION,
+                currentTerrain));
+    }
 }
