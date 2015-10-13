@@ -72,11 +72,6 @@ public class SwipeCard extends Item {
 	}
 
 	@Override
-	public String viewInfo() {
-		return "Swipe Cards help you unlock doors";
-	}
-	
-	@Override
 	public String getType(){
 		return "SwipeCard";
 	}

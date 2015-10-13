@@ -722,7 +722,6 @@ public class GameWorld {
 		Terrain temp = currentTerrain;
 		currentTerrain = otherTerrain;
 		otherTerrain = temp;
-		player.setCurrentTerrain(currentTerrain);
 		MasterRenderer.setRenderSkybox(true);
 	}
 
@@ -749,7 +748,6 @@ public class GameWorld {
 		Terrain temp = currentTerrain;
 		currentTerrain = otherTerrain;
 		otherTerrain = temp;
-		player.setCurrentTerrain(currentTerrain);
 		player.getPosition().x = OFFICE_SPAWN_POSITION.getX();
 		player.getPosition().z = OFFICE_SPAWN_POSITION.getZ();
 		player.getCamera().changeYaw(180f);

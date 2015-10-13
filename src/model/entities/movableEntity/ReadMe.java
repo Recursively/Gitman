@@ -61,11 +61,6 @@ public class ReadMe extends LaptopItem{
 	}
 
 	@Override
-	public String viewInfo() {
-		return "README documents can contain useful hints about the game...";
-	}
-
-	@Override
 	public int getSize() {
 		return README_SIZE;
 	}
