@@ -21,9 +21,7 @@ public class Main {
             System.out.println("Invalid number of arguments");
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("Arguments are: \n   fullscreen (Y/N)\n   ipAddress (xxx.xxx.xxx.x.x)");
-
         } else {
-
             // Parse the full screen args
             boolean fullscreen = false;
             if (args[0].equalsIgnoreCase("Y") || args[0].equalsIgnoreCase("True")) {
@@ -40,8 +38,8 @@ public class Main {
             } else {
                 new TitleScreen(true, "", fullscreen);
             }
+
         }
-        
     }
 }
 
