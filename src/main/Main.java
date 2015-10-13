@@ -1,55 +1,33 @@
 package main;
+
 import view.TitleScreen;
 
 // MAIN METHOD
 public class Main {
-    /* CALL THIS TO BEGIN THE FUN
-
-                        .s$$$Ss.
-            .8,         $$$. _. .              ..sS$$$$$"  ...,.;
- o.   ,@..  88        =.$"$'  '          ..sS$$$$$$$$$$$$s. _;"'
-  @@@.@@@. .88.   `  ` ""l. .sS$$.._.sS$$$$$$$$$$$$S'"'
-   .@@@q@@.8888o.         .s$$$$$$$$$$$$$$$$$$$$$'
-     .:`@@@@33333.       .>$$$$$$$$$$$$$$$$$$$$'
-     .: `@@@@333'       ..>$$$$$$$$$$$$$$$$$$$'
-      :  `@@333.     `.,   s$$$$$$$$$$$$$$$$$'
-      :   `@33       $$ S.s$$$$$$$$$$$$$$$$$'
-      .S   `Y      ..`  ,"$' `$$$$$$$$$$$$$$
-      $s  .       ..S$s,    . .`$$$$$$$$$$$$.
-      $s .,      ,s ,$$$$,,sS$s.$$$$$$$$$$$$$.
-      / /$$SsS.s. ..s$$$$$$$$$$$$$$$$$$$$$$$$$.
-     /`.`$$$$$dN.ssS$$'`$$$$$$$$$$$$$$$$$$$$$$$.
-    ///   `$$$$$$$$$'    `$$$$$$$$$$$$$$$$$$$$$$.
-   ///|     `S$$S$'       `$$$$$$$$$$$$$$$$$$$$$$.
-  / /                      $$$$$$$$$$$$$$$$$$$$$.
-                           `$$$$$$$$$$$$$$$$$$$$$s.
-                            $$$"'        .?T$$$$$$$
-                           .$'        ...      ?$$#\
-                           !       -=S$$$$$s
-                         .!       -=s$$'  `$=-_      :
-                        ,        .$$$'     `$,       .|
-                       ,       .$$$'          .        ,
-                      ,     ..$$$'
-                          .s$$$'                 `s     .
-                   .   .s$$$$'                    $s. ..$s
-                  .  .s$$$$'                      `$s=s$$$
-                    .$$$$'                         ,    $$s
-               `   " .$$'                               $$$
-               ,   s$$'                              .  $$$s
-            ` .s..s$'                                .s ,$$
-             .s$$$'                                   "s$$$,
-          -   $$$'                                     .$$$$.
-        ."  .s$$s                                     .$',',$.
-        $s.s$$$$S..............   ................    $$....s$s......
-         `""'           `     ```"""""""""""""""         `""   ``
-     */
-
-	// ARGS ARE BOOLEAN: IS HOST OF THE GAME, STRING: IPADDRESS TO CONNECT TO
+    // ARGS ARE BOOLEAN: IS HOST OF THE GAME, STRING: IPADDRESS TO CONNECT TO
 
     public static void main(String[] args) {
-    	boolean fullscreen = true;
-        new TitleScreen(false, "130.195.6.51", fullscreen);
-    }
 
+        if (args.length < 1 || args.length > 2) {
+            System.out.println("Invalid number of arguments");
+            System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+            System.out.println("Arguments are: \n   fullscreen (Y/N)\n   ipAddress (xxx.xxx.xxx.x.x)");
+        }
+
+        boolean fullscreen = false;
+
+        if (args[0].equalsIgnoreCase("Y") || args[1].equalsIgnoreCase("True")) {
+            fullscreen = true;
+        }
+
+        boolean isHost = args.length == 1;
+
+        if (!isHost) {
+            String ipAddress = args[2];
+            new TitleScreen(false, ipAddress, fullscreen);
+        } else {
+            new TitleScreen(true, "", fullscreen);
+        }
+    }
 }
 
