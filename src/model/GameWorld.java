@@ -14,8 +14,10 @@ import model.guiComponents.Inventory;
 import model.terrains.Terrain;
 import model.textures.GuiTexture;
 import model.toolbox.Loader;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.renderEngine.MasterRenderer;
 
 import java.util.*;
@@ -28,8 +30,8 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
-	public static final int GAME_WIN = 1;
-	public static final int CODE_VALUE = 20;
+	public static final int GAME_WIN = 1;      // game state value for won game
+	public static final int CODE_VALUE = 20;    
 	public static final int MAX_PROGRESS = 100;
 
 	private static final int START_PATCH = 10; // starting patch progress value												
@@ -58,7 +60,7 @@ public class GameWorld {
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128016;
 
 
-	private static float WORLD_TIME = 0;
+	private static float worldTime = 0;
 	private static boolean isProgramCompiled = false;
 	private static boolean isOutside = false;
 
@@ -78,8 +80,7 @@ public class GameWorld {
 	private Map<Integer, MovableEntity> movableEntities;
 	private ArrayList<SwipeCard> cards;
 
-	// Terrain the world is on
-
+	// Terrain the world is on and other terrain
 	private static Terrain currentTerrain;
 	private static Terrain otherTerrain;
 
@@ -105,10 +106,8 @@ public class GameWorld {
 
 	// game state elements
 	private Inventory inventory;
-	private int codeProgress; // code collection progress
-	private int patchProgress; // commit collection progress
-
-	private int score; // overall score
+	private int progress; 
+	private int score; // overall score is different to progress 
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
@@ -119,7 +118,7 @@ public class GameWorld {
 	private boolean helpVisible;
 	
 	// information from saved file, if game loaded in
-	private Data load;  
+	private Data load; 
 
 	private ArrayList<Entity> wallEntities;
 	
@@ -133,6 +132,8 @@ public class GameWorld {
 		this.loader = loader;
 		this.gameController = gameController;
 	}
+	
+	public GameWorld(){}
 
 	/**
 	 * Initialises the game by setting up the lighting, factories and currentTerrain
@@ -161,30 +162,39 @@ public class GameWorld {
 		wallEntities = entityFactory.getWallEntities();
 		inventory = new Inventory(guiFactory);
 		
+		if(load){
+			load = initLoadGame();
+			if(!load){
+				setGuiMessage("failedToLoad", 2000);  
+			}
+			
+		}
+		
+		// if not loading in, or load game failed, create normal game
 		if(!load){
 			movableEntities = entityFactory.getMovableEntities();
 
 			// game state
-			this.patchProgress = START_PATCH;
-			this.codeProgress = 0;  
+			this.progress = 0;  
 			this.cards = new ArrayList<SwipeCard>();
 			this.canApplyPatch = false;		
 			this.interactDistance = MIN_INTERACT;  
-			
+			this.gameState = -1; 
 			// create commits
 			initCommits();
 		}
-		else {
-			initLoadGame();
-		}
 
 		this.helpVisible = false;
-		this.gameState = -1; 
 		staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
 	}
 	
-	public void initLoadGame() {
+	public boolean initLoadGame() {
 		this.load = Load.loadGame();
+		
+		// loading failed. Don't load game, just return false
+		if(load == null){
+			return false;
+		}
 		// load in movable entities and their saved positions
 		movableEntities = new HashMap<>();
 		for(MovableEntity e : load.getMovableEntities()){
@@ -198,12 +208,12 @@ public class GameWorld {
 		// swipe cards
 		this.cards = load.getSwipeCards(); 
 		
-		// score and game state
-		this.patchProgress = load.getPatchProgress();
-		this.codeProgress = load.getCodeProgress(); 
+		// score and game state 
+		this.progress = load.getProgress();
 		this.canApplyPatch = load.isCanApplyPatch();
 		this.commitIndex = load.getCommitIndex();
 		this.score = load.getScore();
+		this.gameState = load.getGameState();
 		GameWorld.isOutside = load.isIsOutside();
 		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
 		
@@ -217,14 +227,13 @@ public class GameWorld {
 		else {
 			this.interactDistance = MIN_INTERACT;
 		}
-
-		if (!isOutside) {
+		
+		if(!isOutside){
 			if (isProgramCompiled) {
 				AudioController.playPortalHum();
 			}
-		}
-		
-		//updateGui();  //TODO
+		}		
+		return true;
 	}
 
 	private void initCommits() {
@@ -387,9 +396,8 @@ public class GameWorld {
 	}
 
 	public void updateGui() {
-		int progress = GameWorld.isProgramCompiled ? this.patchProgress : this.codeProgress;
 		this.guiImages = this.guiFactory.getInfoPanel();
-		this.guiImages.addAll(this.guiFactory.getProgress(progress));
+		this.guiImages.addAll(this.guiFactory.getProgress(this.progress));
 		this.guiImages.addAll(this.guiFactory.getScore(this.score));
 		this.guiImages.addAll(this.guiFactory.getSwipeCards(this.cards));
 	}
@@ -409,6 +417,7 @@ public class GameWorld {
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
+		System.out.println("SENT UPDATE");
 		gameController.setNetworkUpdate(type, entity);
 	}
 
@@ -470,12 +479,26 @@ public class GameWorld {
 
 	public void addCommit() {
 		ArrayList<Vector3f> commitPos = entityFactory.getCommitPositions();
+		boolean found = false;
+		for(int i = 0; i < commitPos.size(); i++){
+			commitIndex = (commitIndex + i) % commitPos.size();
+			Vector3f pos = commitPos.get(commitIndex);
+			for(MovableEntity e : this.movableEntities.values()){
+				if(e.getPosition().equals(pos)){
+					found = true;
+					break;
+				}
+			}
+			if(!found){
+				break;
+			}
+		}
+		
 		Commit newCommit = EntityFactory.createCommit(commitPos.get(commitIndex));
 		this.movableEntities.put(newCommit.getUID(), newCommit);
-		commitIndex++;
-		if(commitIndex >= commitPos.size()){
-			commitIndex = 0;
-		}
+		
+		// increment commitIndex
+		commitIndex = (commitIndex + 1) % commitPos.size();
 	}
 
 	/**
@@ -555,14 +578,14 @@ public class GameWorld {
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - this.timer > PATCH_TIMER) {
 
-			if (this.patchProgress >= MAX_PROGRESS) {
+			if (this.progress >= MAX_PROGRESS) {
 				return; // do nothing if reached 100%
 			}
-			double value = this.patchProgress * PATCH_DECREASE;
-			this.patchProgress = (int) (this.patchProgress - value);
+			double value = this.progress * PATCH_DECREASE;
+			this.progress = (int) (this.progress - value);
 
 			// if patch progress reaches zero, players lose
-			if (this.patchProgress <= 0) {
+			if (this.progress <= 0) {
 				gameState = 0;
 				AudioController.playGameOverSound();
 			}
@@ -580,9 +603,10 @@ public class GameWorld {
 	public void incrementPatch() {
 		int commitScore = MAX_PROGRESS / ((allPlayers.size() + 1) * AVG_COMMIT_COLLECT);
 
-		this.patchProgress += commitScore;
+		this.progress += commitScore;
 		// 100% reached, game almost won...display message with last task
-		if (this.patchProgress >= MAX_PROGRESS) {
+
+		if (this.progress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
 			this.interactDistance = BUG_INTERACT;
 			setGuiMessage("patchComplete", 3000);
@@ -608,11 +632,11 @@ public class GameWorld {
 	 */
 
 	public void updateCodeProgress() {
-		this.codeProgress += CODE_VALUE;
+		this.progress += CODE_VALUE;
 		inventory.increaseStorageUsed(CODE_VALUE);
 
 		// player has cloned all bits of code
-		if (this.codeProgress >= MAX_PROGRESS) {
+		if (this.progress >= MAX_PROGRESS) {
 			compileProgram();
 		}
 	}
@@ -626,6 +650,7 @@ public class GameWorld {
 		setGuiMessage("codeCompiledMessage", 5000);
 		this.timer = System.currentTimeMillis(); // start timer
 		this.interactDistance = COMMIT_INTERACT;
+		this.progress = START_PATCH;
 
 		// adds the portal to the game
 		enablePortal();
@@ -645,7 +670,7 @@ public class GameWorld {
 		if(this.gameState == GAME_WIN){
 			return guiFactory.getWinScreen();
 		}
-		else{
+		else {
 			return guiFactory.getLostScreen();
 		}
 	}
@@ -756,20 +781,12 @@ public class GameWorld {
 		return guiFactory.getHelpScreen();
 	}
 	
-	public int getCodeProgress() {
-		return codeProgress;
+	public int getProgress() {
+		return progress;
 	}
 
-	public void setCodeProgress(int codeProgress) {
-		this.codeProgress = codeProgress;
-	}
-
-	public int getPatchProgress() {
-		return patchProgress;
-	}
-
-	public void setPatchProgress(int patchProgress) {
-		this.patchProgress = patchProgress;
+	public void setProgress(int progress) {
+		this.progress = progress;
 	}
 
 	public int getScore() {
@@ -793,12 +810,12 @@ public class GameWorld {
 	}
 
 	public static float getWorldTime() {
-		return WORLD_TIME;
+		return worldTime;
 	}
 
 	public static void increaseTime(float worldTime) {
-		WORLD_TIME += worldTime;
-		WORLD_TIME %= 24000;
+		worldTime += worldTime;
+		worldTime %= 24000;
 	}
 
 	public static boolean isOutside() {
@@ -826,6 +843,10 @@ public class GameWorld {
 				e.increaseRotation(0.5f, 0.5f, 0.5f);
 			}
 		}
+	}
+
+	public List<GuiTexture> getDisconnectedScreen() {
+		return guiFactory.getDisconnectedScreen();
 	}
 }
 

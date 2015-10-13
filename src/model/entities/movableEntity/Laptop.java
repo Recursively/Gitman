@@ -23,6 +23,7 @@ public class Laptop extends Item {
 	private boolean locked;
 	private int cardID;
 
+	
 	public Laptop(TexturedModel model, Vector3f position, float rotX,
 				  float rotY, float rotZ, float scale, int id, int cardID, boolean hasCode) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
@@ -48,11 +49,13 @@ public class Laptop extends Item {
 				if(s.matchID(cardID)){
 					this.locked = false;
 					game.updateScore(LAPTOP_SCORE);
+
 					this.hasCode = false;
 					GameWorld.setGuiMessage("codeCopied", 1500); 
 					AudioController.playSuccessfulUnlockSound();
+
 					game.updateCodeProgress();
-					return 18;
+					return 17;
 				}
 			}
 		}

@@ -39,12 +39,12 @@ public class Load {
 	// gamestate elements
 	private static boolean isProgramCompiled;
 	private static boolean isOutside;
-	private static int codeProgress;
-	private static int patchProgress;
+	private static int progress;
 	private static int score;
 	private static boolean canApplyPatch;
 	private static int commitIndex;
 	private static long timer;
+	private static int gameState;
 
 	// player element
 	private static Vector3f playerPos;
@@ -89,17 +89,13 @@ public class Load {
 			// various gamestate fields
 			isProgramCompiled = Boolean.parseBoolean(getTextValue(doc, "isProgramCompiled"));
 			isOutside = Boolean.parseBoolean(getTextValue(doc, "isOutside"));
-			codeProgress = Integer.parseInt(getTextValue(doc, "codeProgress"));
-			patchProgress = Integer
-					.parseInt(getTextValue(doc, "patchProgress"));
+			progress = Integer.parseInt(getTextValue(doc, "progress"));
 			score = Integer.parseInt(getTextValue(doc, "score"));
-			canApplyPatch = Boolean.parseBoolean(getTextValue(doc,
-					"canApplyPatch"));
-			
-			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));
-			
+			canApplyPatch = Boolean.parseBoolean(getTextValue(doc, "canApplyPatch"));			
+			commitIndex = Integer.parseInt(getTextValue(doc, "commitIndex"));			
 			timer = Long.parseLong(getTextValue(doc, "timer"));
 			storageUsed = Integer.parseInt(getTextValue(doc, "storageUsed"));
+			gameState = Integer.parseInt(getTextValue(doc, "gameState"));
 			
 			// create collections
 			inventory = new ArrayList<LaptopItem>();
@@ -114,8 +110,8 @@ public class Load {
 
 			// returns a new Data object with all necessary information
 			return new Data(playerPos, pitch, roll, yaw, uid, inventory, movableEntities, swipeCards,
-					isProgramCompiled, isOutside, codeProgress, patchProgress, score,
-					canApplyPatch, commitIndex, timer, storageUsed);
+					isProgramCompiled, isOutside, progress, score,
+					canApplyPatch, commitIndex, timer, storageUsed, gameState);
 
 		} catch (ParserConfigurationException pce) {
 			System.out.println(pce.getMessage());
@@ -123,6 +119,8 @@ public class Load {
 			System.out.println(se.getMessage());
 		} catch (IOException ioe) {
 			System.err.println(ioe.getMessage());
+		} catch (Exception e){
+			System.err.println(e.getMessage());
 		}
 		
 		// loading was unsuccessful
