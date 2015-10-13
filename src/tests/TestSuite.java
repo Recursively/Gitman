@@ -12,16 +12,6 @@ public class TestSuite {
 	private static GameWorld gameWorld;
 
 	/**
-	 * Run this to run the tests
-	 *
-	 * @param args Redundant
-	 */
-	public static void main(String[] args) {
-		// Runs tests
-		new TestSuite();
-	}
-
-	/**
 	 * Creates a new test suite, makes the game world and then runs the tests
 	 */
 	public TestSuite() {

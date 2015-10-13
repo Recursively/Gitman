@@ -4,9 +4,6 @@ import model.GameWorld;
 import model.data.Load;
 import model.data.Save;
 import model.entities.movableEntity.MovableEntity;
-import model.entities.movableEntity.Player;
-import model.factories.EntityFactory;
-
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -17,6 +14,7 @@ import static org.junit.Assert.assertTrue;
 public class DataTests {
 
 
+	private static TestSuite suite = new TestSuite();
 	private GameWorld gameWorld;
 
 	private void initTestGame() {
