@@ -418,6 +418,7 @@ public class GameWorld {
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
+		System.out.println("SENT UPDATE");
 		gameController.setNetworkUpdate(type, entity);
 	}
 
@@ -605,6 +606,7 @@ public class GameWorld {
 
 		this.progress += commitScore;
 		// 100% reached, game almost won...display message with last task
+
 		if (this.progress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
 			this.interactDistance = BUG_INTERACT;

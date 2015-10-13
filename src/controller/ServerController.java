@@ -7,28 +7,39 @@ import model.network.Server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
- * Controller class to handle the delegations between the Model and View
- * package.
+ * Controller class to handle the Server, that waits and accepts connections
+ * when a client connects to the ip-address of the server computer.
+ * 
+ * Extends Thread which sits along side the gameController that deals with
+ * Network logic
  *
- * Deals with Network logic
  *
+ * @author Reuben Puketapu
  * @author Marcel van Workum
+ * 
  */
 public class ServerController extends Thread {
 
+	/*
+	 * ServerSocket that is bound to a port and listens to connections
+	 */
+	private ServerSocket serverSocket;
+	private ArrayList<Server> servers;
+	private Socket socket;
+
+	private static int port = 32768;
+
 	private GameController gameController;
 	private NetworkHandler networkHandler;
-
-	private ServerSocket serverSocket;
-	private Server server;
-	private Socket socket;
 
 	public boolean isRunning;
 
 	public ServerController(GameController gameController) {
 		this.gameController = gameController;
+		servers = new ArrayList<>();
 		this.isRunning = true;
 		initServerSocket();
 		initNetworkHandler();
@@ -44,11 +55,12 @@ public class ServerController extends Thread {
 
 			try {
 				socket = serverSocket.accept();
-				server = new Server(socket, gameController, networkHandler);
+				Server server = new Server(socket, gameController, networkHandler);
 				int uid = createOtherPlayer();
 				server.sendPlayerID(uid);
 				server.setUid(uid);
 				server.initNewPlayer();
+				servers.add(server);
 				server.start();
 
 			} catch (IOException e) {
@@ -58,18 +70,29 @@ public class ServerController extends Thread {
 		}
 	}
 
+	/*
+	 * Initializes the server socket
+	 */
 	private void initServerSocket() {
 		try {
-			this.serverSocket = new ServerSocket(32768);
+			this.serverSocket = new ServerSocket(port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
+	/*
+	 * Initializes the network handler
+	 */
 	private void initNetworkHandler() {
 		this.networkHandler = new NetworkHandler(gameController.getGameWorld());
 	}
 
+	/*
+	 * When the Server Controller or the Server have an error terminate is
+	 * called to handle the disconnections nicely. Closes the serverSocket and
+	 * tells all the Server threads to terminate.
+	 */
 	public void terminate() {
 
 		isRunning = false;
@@ -78,25 +101,41 @@ public class ServerController extends Thread {
 		} catch (IOException e) {
 			System.out.println("CLOSED SOCKET");
 		}
-		if (server != null) {
-			server.terminate();
+		if (servers != null) {
+			for (Server server : servers) {
+				server.terminate();
+			}
 		}
-
 	}
 
+	/*
+	 * Creates the Host Server player with the UID of 0
+	 */
 	private void createHostPlayer() {
 		gameController.createPlayer(0, true);
 	}
 
+	/*
+	 * Creates another Client player with a UID of the size of the game
+	 */
 	private int createOtherPlayer() {
 		int uid = gameController.gameSize();
 		gameController.createPlayer(uid);
 		return uid;
 	}
-
+	
+	/**
+	 * 
+	 * Sets the update in the ArrayList of Servers when a button has been pushed 
+	 * 
+	 * @param status which type of interaction has occurred 
+	 * @param entity a reference to the actual entity that has been interacted with
+	 */
 	public void setNetworkUpdate(int status, MovableEntity entity) {
 		if (gameController.getPlayers().size() != 1) {
-			server.setUpdate(status, entity);
+			for (Server server : servers) {
+				server.setUpdate(status, entity);
+			}
 		}
 	}
 

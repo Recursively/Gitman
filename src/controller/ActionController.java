@@ -1,10 +1,11 @@
 package controller;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 import model.GameWorld;
 import model.data.Save;
 import model.toolbox.Loader;
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 
 /**
  * Controller to handle mouse and key input by the player. The class identifies

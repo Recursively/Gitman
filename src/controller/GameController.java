@@ -86,7 +86,7 @@ public class GameController {
             serverController.start();
         } else {
             clientController = new ClientController(this, ipAddress);
-            clientController.run();
+            clientController.start();
         }
 
         this.networkRunning = true;
@@ -269,6 +269,8 @@ public class GameController {
 
     public void removePlayer(int uid) {
         gameWorld.getAllPlayers().remove(uid);
+		GameWorld.setGuiMessage("aPlayerHasLeftTheGame", 2000);
+        playerCount--;
     }
 
     public void setNetworkUpdate(int status, MovableEntity entity) {
