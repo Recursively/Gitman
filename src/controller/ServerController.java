@@ -38,6 +38,11 @@ public class ServerController extends Thread {
 
 	public boolean isRunning;
 
+	/**
+	 * Constructor for the ServerController
+	 * 
+	 * @param gameController gameController
+	 */
 	public ServerController(GameController gameController) {
 		this.gameController = gameController;
 		servers = new ArrayList<>();

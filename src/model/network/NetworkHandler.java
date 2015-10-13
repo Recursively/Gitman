@@ -6,23 +6,47 @@ import model.GameWorld;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 
+/**
+ * 
+ * Class that looks after what kind of Updates have occured in another Player's
+ * game world and delegates to each of the types of interactions then calls
+ * interact on them on this Client/Server
+ * 
+ * @author Reuben Puketapu
+ *
+ */
 public class NetworkHandler {
 
 	private GameWorld gameWorld;
-
 	private Update lastClientUpdate;
-
 	private ArrayList<Laptop> interactedLaptops;
 
+	/**
+	 * Constructor for NetworkHandler
+	 * 
+	 * @param gameWorld
+	 *            gameWorld
+	 */
 	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 		this.interactedLaptops = new ArrayList<>();
 	}
 
-	// when an update is sent to the server about an entity update process it
-	// here
+	/**
+	 * When there is an update sent, this deals with what type of update it was
+	 * then executes it correctly
+	 * 
+	 * @param type
+	 *            type of interaction
+	 * @param id
+	 *            the id of the entity
+	 * @param playerID
+	 *            the id of the player who sent the interaction
+	 */
 	public void dealWithUpdate(int type, int id, int playerID) {
 
+		// if this entity has already been interacted with, don't interact with
+		// it again
 		if (gameWorld.getMoveableEntities().get(id) == null && type != 8)
 			return;
 
@@ -51,6 +75,13 @@ public class NetworkHandler {
 
 	}
 
+	/**
+	 * Interacts with the laptop with the given ID and adds the laptop to the
+	 * interacted Laptops
+	 * 
+	 * @param id
+	 *            LaptopID
+	 */
 	private void interactLaptop(int id) {
 		Laptop laptop = (Laptop) gameWorld.getMoveableEntities().get(id);
 		laptop.interact(gameWorld);
@@ -58,19 +89,36 @@ public class NetworkHandler {
 
 	}
 
+	/**
+	 * Interacts with a Bug
+	 * 
+	 * @param id
+	 *            BugID
+	 */
 	public void interactBug(int id) {
 
-		// win games???
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 
 	}
 
+	/**
+	 * Interacts with a Commit
+	 * 
+	 * @param id
+	 *            CommitID
+	 */
 	public void interactCommit(int id) {
 
 		// interact with commit
 		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
 	}
 
+	/**
+	 * Interacts with a Laptop
+	 * 
+	 * @param id
+	 *            LaptopID
+	 */
 	public void interactLaptopItem(int id) {
 
 		LaptopItem entity = (LaptopItem) gameWorld.getMoveableEntities().get(id);
@@ -84,6 +132,12 @@ public class NetworkHandler {
 
 	}
 
+	/**
+	 * Interacts with a SwipeCard
+	 * 
+	 * @param id
+	 *            SwipeCardID
+	 */
 	public void interactSwipeCard(int id) {
 
 		// interact with swipe card
@@ -91,6 +145,14 @@ public class NetworkHandler {
 
 	}
 
+	/**
+	 * Drops a Laptop Item
+	 * 
+	 * @param id
+	 *            the ID of the Laptop item
+	 * @param playerID
+	 *            the ID of the player who dropped the item
+	 */
 	public void dropLaptopItem(int id, int playerID) {
 
 		LaptopItem entity = gameWorld.getInventory().getItem(id);
@@ -101,14 +163,24 @@ public class NetworkHandler {
 
 	}
 
+	/**
+	 * Gets the Client's update
+	 * 
+	 * @return the update
+	 */
 	public Update getClientUpdate() {
 		return lastClientUpdate;
 	}
 
+	/**
+	 * Sets the Client's update
+	 * 
+	 * @param update
+	 */
 	public void setClientUpdate(Update update) {
 		this.lastClientUpdate = update;
 	}
-	
+
 	/**
 	 * @return the interactedLaptops
 	 */

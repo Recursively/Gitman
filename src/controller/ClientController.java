@@ -7,6 +7,15 @@ import java.net.UnknownHostException;
 import model.entities.movableEntity.MovableEntity;
 import model.network.Client;
 
+/**
+ * 
+ * When the game is started as a Client a new Client Controller is made 
+ * and creates a new player with a requested UID. Client Controller creates
+ * a Client thread which communicates with a Server Thread.
+ * 
+ * @author Reuben Puketapu
+ *
+ */
 public class ClientController {
 
 	private GameController gameController;
@@ -16,8 +25,14 @@ public class ClientController {
 	
 	private static int port = 32768;
 	
-	public ClientController(GameController controller, String ipAddress) {
-		this.gameController = controller;
+	/**
+	 * Constructor for the ClientController
+	 * 
+	 * @param gameController
+	 * @param ipAddress
+	 */
+	public ClientController(GameController gameController, String ipAddress) {
+		this.gameController = gameController;
 		this.ipAddres = ipAddress;
 	}
 	
