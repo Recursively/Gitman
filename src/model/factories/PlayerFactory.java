@@ -1,12 +1,10 @@
 package model.factories;
 
 import model.GameWorld;
+import model.data.Data;
 import model.entities.Camera;
 import model.entities.movableEntity.Player;
 import model.models.TexturedModel;
-import model.textures.ModelTexture;
-import model.toolbox.Loader;
-import model.toolbox.OBJLoader;
 
 import org.lwjgl.util.vector.Vector3f;
 
@@ -16,22 +14,20 @@ import org.lwjgl.util.vector.Vector3f;
  * Handles both the main player and other multilayer players
  *
  * @author Marcel van Workum
+ * @author Reuben Puketapu
  */
 public class PlayerFactory {
 
 	// Reference to parent
 	private final GameWorld gameWorld;
-	private final Loader loader;
-
 	/**
 	 * Construct the factory and set the game world
 	 *
 	 * @param gameWorld
 	 *            Game world
 	 */
-	public PlayerFactory(GameWorld gameWorld, Loader loader) {
+	public PlayerFactory(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
-		this.loader = loader;
 
 	}
 
@@ -43,14 +39,18 @@ public class PlayerFactory {
 	 *
 	 * @return Player with Camera
 	 */
-	public Player makeNewPlayer(Vector3f position, TexturedModel playerModel, int uid) {
+	public Player makeNewPlayer(Vector3f position, TexturedModel playerModel, int uid, Data load) {
 		// where on the ground should the player be
 		float initialPlayerY = gameWorld.getTerrain().getTerrainHeight(position.getX(), position.getZ());
 		position.y = initialPlayerY;
 
-		System.out.println("CREATED PLAYER WITH ID: " + uid);
-
 		// New player and camera to follow the player
-		return new Player(playerModel, position, 0, 180f, 0, 2f, uid, new Camera(initialPlayerY, position));
+		Player player = new Player(playerModel, position, 0, 180f, 0, 2f, uid, new Camera(initialPlayerY, position));
+		
+		if(load != null){
+			player.getCamera().setPitch((int)load.getPitch());
+			player.getCamera().setYaw((int)load.getYaw());
+		}
+		return player;
 	}
 }

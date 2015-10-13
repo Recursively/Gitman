@@ -1,8 +1,10 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
 import model.GameWorld;
 import model.models.TexturedModel;
 
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -14,33 +16,59 @@ import org.lwjgl.util.vector.Vector3f;
  *
  */
 public class SwipeCard extends Item {
-	private static final int SWIPE_CARD_SCORE = 15;
+	// final positioning values for swipe card images drawn on info panel
+	public static final float START_X = -0.915f;
+	public static final Vector2f CARD_SCALE = new Vector2f(0.06f, 0.06f);
+	public static final float CARD_YPOS = 0.7f;
 	
-	private final int cardID;
+	private static final int SWIPE_CARD_SCORE = 5;	
+	private final int cardNum;
 
+	/**
+	 * Instantiates a new SwipeCard
+	 *
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param id unique id for networking
+	 * @param cardNum number of card that matches cardID of single laptop
+	 */
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX,
 			float rotY, float rotZ, float scale, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, id);
-		this.cardID = cardNum;
+		this.cardNum = cardNum;
 	}
 	
+	/**
+	 * Instantiates a new SwipeCard
+	 *
+	 * @param model the model
+	 * @param position of entity
+	 * @param rotX x rotation of entity
+	 * @param rotY y rotation of entity
+	 * @param rotZ z rotation of entity
+	 * @param scale size of entity
+	 * @param textureIndex index for atlassing
+	 * @param id unique id for networking 
+	 * @param cardNum number of card that matches cardID of single laptop
+	 */
 	public SwipeCard(TexturedModel model, Vector3f position, float rotX, float rotY,
 			float rotZ, float scale, int textureIndex, int id, int cardNum) {
 		super(model, position, rotX, rotY, rotZ, scale, textureIndex, id);
-		this.cardID = cardNum;
+		this.cardNum = cardNum;
 	}
 	
 	@Override
-	public void interact(GameWorld game) {
+	public int interact(GameWorld game) {
 		game.updateScore(SWIPE_CARD_SCORE);
 		// swipe cards are stored separately when picked up 
 		game.removeMovableEntity(this); 
 		game.addCard(this);
-	}
-
-	@Override
-	public int getScore() {
-		return SWIPE_CARD_SCORE;
+		AudioController.playPickupSound();
+		return 16;
 	}
 
 	@Override
@@ -48,14 +76,39 @@ public class SwipeCard extends Item {
 		return "Swipe Cards help you unlock doors";
 	}
 	
+	@Override
+	public String getType(){
+		return "SwipeCard";
+	}
+	
+	@Override
+	public int getCardNum(){
+		return cardNum;
+	}
+	
 	/**
-	 * Check if this swipe card can unlock the door the player
+	 * Check if this swipe card can unlock the laptop the player
 	 * wants to unlock
 	 * 
-	 * @param id number of door to match
+	 * @param id number of laptop to match
 	 * @return true if the given id number matches the card's id number
 	 */
 	public boolean matchID(int id){
-		return this.cardID == id;
+		return this.cardNum == id;
+	}
+	
+	/**
+	 * @return score of swipe cards
+	 */
+	public int getScore() {
+		return SWIPE_CARD_SCORE;
+	}
+	
+	/**
+	 * @return name of image of this swipe card
+	 * (each swipe card will have different colours)
+	 */
+	public String getImgName(){
+		return "swipeCard" + this.cardNum;
 	}
 }

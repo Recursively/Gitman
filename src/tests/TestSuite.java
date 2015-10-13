@@ -1,52 +1,44 @@
 package tests;
 
+import model.GameWorld;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	DataTests.class
+})
+
+/**
+ * Test suite manager that creates a mock game world and then calls all the respective test suites.
+ *
+ * @author Marcel
+ */
 public class TestSuite {
 
-    //TODO :<>
+	private static GameWorld gameWorld;
 
-    /*
+	/**
+	 * Creates a new test suite, makes the game world and then runs the tests
+	 */
+	public TestSuite() {
+		gameWorld = new GameWorld();
+	}
 
+	/**
+	 * Gets game world.
+	 *
+	 * @return the game world
+	 */
+	public static GameWorld getGameWorld() {
+		return gameWorld;
+	}
 
-    quu..__
- $$$b  `---.__
-  "$$b        `--.                          ___.---uuudP
-   `$$b           `.__.------.__     __.---'      $$$$"              .
-     "$b          -'            `-.-'            $$$"              .'|
-       ".                                       d$"             _.'  |
-         `.   /                              ..."             .'     |
-           `./                           ..::-'            _.'       |
-            /                         .:::-'            .-'         .'
-           :                          ::''\          _.'            |
-          .' .-.             .-.           `.      .'               |
-          : /'$$|           .@"$\           `.   .'              _.-'
-         .'|$u$$|          |$$,$$|           |  <            _.-'
-         | `:$$:'          :$$$$$:           `.  `.       .-'
-         :                  `"--'             |    `-.     \
-        :##.       ==             .###.       `.      `.    `\
-        |##:                      :###:        |        >     >
-        |#'     `..'`..'          `###'        x:      /     /
-         \                                   xXX|     /    ./
-          \                                xXXX'|    /   ./
-          /`-.                                  `.  /   /
-         :    `-  ...........,                   | /  .'
-         |         ``:::::::'       .            |<    `.
-         |             ```          |           x| \ `.:``.
-         |                         .'    /'   xXX|  `:`M`M':.
-         |    |                    ;    /:' xXXX'|  -'MMMMM:'
-         `.  .'                   :    /:'       |-'MMMM.-'
-          |  |                   .'   /'        .'MMM.-'
-          `'`'                   :  ,'          |MMM<
-            |                     `'            |tbap\
-             \                                  :MM.-'
-              \                 |              .''
-               \.               `.            /
-                /     .:::::::.. :           /
-               |     .:::::::::::`.         /
-               |   .:::------------\       /
-              /   .''               >::'  /
-              `',:                 :    .'
-
-
-     */
-
+	/**
+	 * Runs the test suite
+	 */
+	public static void main(String[] args) {
+		JUnitCore.runClasses(TestSuite.class);
+	}
 }

@@ -11,8 +11,8 @@ public class ModelTexture {
     private int textureID;
 
     // Default values which should be overridden
-    private float shineDamper = 1;
-    private float reflectivity = 0;
+    private float shineDamper = 10;
+    private float reflectivity = 1;
 
     // Number of rows in the texture.
     // Used for atlassing
