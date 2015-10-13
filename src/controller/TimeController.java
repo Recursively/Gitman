@@ -7,6 +7,8 @@ import view.renderEngine.MasterRenderer;
 /**
  * Class to handle the lighting and shading timing the game
  *
+ * Really thin controller
+ *
  * @author Marcel van Workum
  */
 public final class TimeController {

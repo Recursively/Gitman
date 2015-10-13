@@ -33,7 +33,6 @@ public class TitleScreen {
         this.isHost = isHost;
         DisplayManager.createDisplay(fullscreen);
         Keyboard.enableRepeatEvents(false);
-        
 
         // Creates the audio controller
         new AudioController();
@@ -48,7 +47,6 @@ public class TitleScreen {
     private void blinkTitle(boolean fullscreen) {
 
         GuiRenderer guiRenderer = new GuiRenderer();
-
         long timer = System.currentTimeMillis();
         int index = 0;
 

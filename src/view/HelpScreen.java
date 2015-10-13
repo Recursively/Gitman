@@ -9,22 +9,10 @@ import java.util.List;
 
 /**
  * A class for displaying the Help screen. Key press logic is included as the
-<<<<<<< HEAD
  * action controller is not made yet and it is simple.
-<<<<<<< HEAD
- * 
- * @author Ellie
- * @author Marcel
-=======
->>>>>>> 0857566e3a099b702f7cfb8d3a435442fa0bd714
  *
  * @author Ellie
-=======
- * action controller is not made yet and it is simple
- * 
- * @author Ellie
  * @author Marcel
->>>>>>> 56b0c6742cd49a61afa9d3fa1874474b674ea98a
  */
 public class HelpScreen {
 
@@ -41,19 +29,14 @@ public class HelpScreen {
 
     /**
      * Handles logic for either closing the window or moving back to the Play/Load/Help screen
-     *
      */
     private void showScreen() {
-
-
         GuiRenderer guiRenderer = new GuiRenderer();
         GuiFactory guiFactory = new GuiFactory();
         List<GuiTexture> helpScreen = guiFactory.getHelpScreen();
 
         closed = false;
-
         while (!closed) {
-
             guiRenderer.render(helpScreen);
             DisplayManager.updateDisplay();
 
