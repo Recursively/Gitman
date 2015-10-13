@@ -6,7 +6,6 @@
 
 There is an epic bug that is ruining everything! The goal of the game is to go through the office, find laptops and clone the code on them into into your own repository. Once you have collected all the bits of code, "compile" the code and then "run" it. Hopefully it helps you fix the problem! 
 
-(Explaination of basic controls & goal)
 
 ### How to run the game
 
@@ -55,6 +54,16 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
         where xxx.xxx.xxx.xxx is the ip address from the server 
 
 3. A player cannot connect to a host when commits have been collected.
+
+### Basic Controls
+   - Use ARROW KEYS and ENTER to select options
+   - W A S D for Movement
+   - H for the Help Screen during the game
+   - E to interact with Items
+   - I to open Inventory
+   - X to delete Items from the Inventory
+
+
   
 *Game created by:*
 - *Reuben Puketapu*
