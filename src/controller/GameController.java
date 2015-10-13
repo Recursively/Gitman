@@ -23,7 +23,7 @@ import java.util.Map;
  * Controller class to handle the delegations between the Model and View
  * package.
  * <p/>
- * Deals with Game logic
+ * Deals with Game Loop game logic
  *
  * @author Marcel van Workum
  * @author Reuben
@@ -31,13 +31,10 @@ import java.util.Map;
  * @author Ellie
  */
 public class GameController {
-
+	// network state 
     public static boolean RUNNING;
-    private boolean compiled = false;
-
     public static boolean READY;
-  //  public static boolean networkRunning;
-    public static boolean networkDisconnected;
+    public static boolean NETWORK_DISCONNECTED;
 
     // Model
     private final Loader loader;
@@ -52,9 +49,12 @@ public class GameController {
     private ServerController serverController;
     private ActionController actionController;
 
+    // networking fields
     private final boolean isHost;
     private final String ipAddress;
     private int playerCount;
+    
+    private boolean compiled = false;
 
     /**
      * Delegates the creation of the MVC and then starts the game
@@ -62,8 +62,8 @@ public class GameController {
      * @throws IOException
      */
     public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
-    	GameController.networkDisconnected = false;
-        RUNNING = true;
+    	GameController.NETWORK_DISCONNECTED = false;
+        GameController.RUNNING = true;
 
         // initialise model
         loader = new Loader();
@@ -90,8 +90,6 @@ public class GameController {
             clientController.start();
         }
 
-   //     this.networkRunning = true;
-
         // hook the mouse
         Mouse.setGrabbed(true);
 
@@ -109,12 +107,12 @@ public class GameController {
     }
 
     /**
-     * Main game loop where all the goodness will happen
+     * Main game loop where all the goodness happens. Handles 
+     * calling rendering methods and processing user actions
      */
     private void doGame() {
+    	// set up audio for game 
         AudioController.stopMenuLoop();
-
-        // set up audio
         if(GameWorld.isOutside()){
         	AudioController.playGameWorldLoop();
         }
@@ -122,9 +120,10 @@ public class GameController {
         	AudioController.playOfficeLoop();
         }
      		
+        // main game loop 
         while (!Display.isCloseRequested() && RUNNING) {
         	// handle disconnected connections
-        	if(networkDisconnected){
+        	if(NETWORK_DISCONNECTED){
         		handleDisconnection();
         		break;
         	}
@@ -132,7 +131,6 @@ public class GameController {
             renderer.processTerrain(gameWorld.getTerrain());
 
             // PROCESS PLAYER
-
             for (Player player : gameWorld.getAllPlayers().values()) {
                 if (player.getUID() != gameWorld.getPlayer().getUID()) {
                     renderer.processEntity(player);
@@ -164,11 +162,10 @@ public class GameController {
                 renderer.processEntity(e);
             }
 
-            // checks to see if inventory needs to be displayed
+            // handle user actions
             actionController.processActions();
 
             // update the players position in the world
-            // gameWorld.getPlayer().move(gameWorld.getTerrain());
             if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
                 gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
             }
@@ -192,12 +189,15 @@ public class GameController {
                 }
             }
 
+            // display any helper messages that have been triggered
             guiRenderer.render(gameWorld.displayMessages());
 
+            // render help menu, if it has been requested
             if (gameWorld.isHelpVisible()) {
                guiRenderer.render(gameWorld.helpMessage());
             }
 
+            // check if game has ended
             if (gameWorld.getGameState() > -1) {
                 guiRenderer.render(gameWorld.getEndStateScreen());
             }
@@ -211,16 +211,6 @@ public class GameController {
         // Finally clean up resources
         cleanUp();
     }
-
-    private void handleDisconnection() {
-    	while(true){
-    		guiRenderer.render(gameWorld.getDisconnectedScreen());
-    		DisplayManager.updateDisplay();
-    		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-    			break;
-    		}
-    	}
-	}
 
 	/**
      * Cleans up the game when it is closed
@@ -241,6 +231,9 @@ public class GameController {
         }
     }
 
+    /**
+     * @return if this controller is the host
+     */
     public boolean isHost() {
         return isHost;
     }
@@ -302,5 +295,22 @@ public class GameController {
     public void setCompiled(boolean compiled) {
         this.compiled = compiled;
     }
+    
+    /**
+     * Shows "You have Been Disconnected Screen". (Handles 
+     * disconnections in a graceful way by informing client 
+     * that serve has disconnected first)
+     */
+    private void handleDisconnection() {
+    	while(true){
+    		guiRenderer.render(gameWorld.getDisconnectedScreen());
+    		DisplayManager.updateDisplay();
+    		
+    		// wait for client to acknowledge failed connection
+    		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
+    			break;
+    		}
+    	}
+	}
 
 }

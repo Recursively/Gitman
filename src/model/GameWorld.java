@@ -30,8 +30,8 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
-	public static final int GAME_WIN = 1;
-	public static final int CODE_VALUE = 20;
+	public static final int GAME_WIN = 1;      // game state value for won game
+	public static final int CODE_VALUE = 20;    
 	public static final int MAX_PROGRESS = 100;
 
 	private static final int START_PATCH = 10; // starting patch progress value												
@@ -60,7 +60,7 @@ public class GameWorld {
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128016;
 
 
-	private static float WORLD_TIME = 0;
+	private static float worldTime = 0;
 	private static boolean isProgramCompiled = false;
 	private static boolean isOutside = false;
 
@@ -80,8 +80,7 @@ public class GameWorld {
 	private Map<Integer, MovableEntity> movableEntities;
 	private ArrayList<SwipeCard> cards;
 
-	// Terrain the world is on
-
+	// Terrain the world is on and other terrain
 	private static Terrain currentTerrain;
 	private static Terrain otherTerrain;
 
@@ -107,9 +106,8 @@ public class GameWorld {
 
 	// game state elements
 	private Inventory inventory;
-	private int progress; // progress
-
-	private int score; // overall score
+	private int progress; 
+	private int score; // overall score is different to progress 
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
@@ -121,7 +119,6 @@ public class GameWorld {
 	
 	// information from saved file, if game loaded in
 	private Data load; 
-	private boolean loaded;
 
 	private ArrayList<Entity> wallEntities;
 	
@@ -812,12 +809,12 @@ public class GameWorld {
 	}
 
 	public static float getWorldTime() {
-		return WORLD_TIME;
+		return worldTime;
 	}
 
 	public static void increaseTime(float worldTime) {
-		WORLD_TIME += worldTime;
-		WORLD_TIME %= 24000;
+		worldTime += worldTime;
+		worldTime %= 24000;
 	}
 
 	public static boolean isOutside() {

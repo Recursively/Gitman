@@ -50,24 +50,25 @@ public class ClientController {
 
 			// initialize the Player and gameController so they're ready for the
 			// Client Thread to start
-			
+
 			client.setUid(uid);
 			createPlayer(uid);
 			client.updateGameInformation();
 			GameController.READY = true;
-			
+
 			// start the Client Thread
 			client.start();
 
 		} catch (UnknownHostException e) {
 			// if there is no host end the connection
-			GameController.networkDisconnected = true;
+			GameController.NETWORK_DISCONNECTED = true;
 			GameController.READY = true;
 		} catch (IOException e) {
 			// if there is a problem with the connection, disconnect
-			GameController.networkDisconnected = true;
+			GameController.NETWORK_DISCONNECTED = true;
 			GameController.READY = true;
 		}
+
 	}
 
 	/**

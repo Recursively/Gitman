@@ -1,4 +1,3 @@
-
 package model.network;
 
 import controller.GameController;
@@ -212,7 +211,7 @@ public class Client extends Thread {
 	public void terminate() {
 		System.out.println("THE SERVER HAS BEEN DISCONNECTED");
 		running = false;
-		GameController.networkDisconnected = true;
+		GameController.NETWORK_DISCONNECTED = true;
 		try {
 			outputStream.close();
 			inputStream.close();
@@ -320,4 +319,5 @@ public class Client extends Thread {
 		gameController.getGameWorld().setProgress(patchProgress);
 
 	}
+
 }
