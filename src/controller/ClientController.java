@@ -37,12 +37,12 @@ public class ClientController {
 			client.start();
 
 		} catch (UnknownHostException e) {
-			System.out.println("INCORRECT IP ADDRESS");
 			GameController.networkDisconnected = true;
+			gameController.READY = true;
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+			GameController.networkDisconnected = true;
+			gameController.READY = true;
+		} 
 	}
 
 	private void createPlayer(int uid) {
@@ -50,7 +50,11 @@ public class ClientController {
 	}
 
 	public void terminate() {
-		client.terminate();
+		try {
+			client.terminate();
+		} catch (RuntimeException e){
+			// client was not made
+		}
 	}
 
 	public void setNetworkUpdate(int status, MovableEntity entity) {
