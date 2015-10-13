@@ -120,7 +120,8 @@ public class GameWorld {
 	private boolean helpVisible;
 	
 	// information from saved file, if game loaded in
-	private Data load;  
+	private Data load; 
+	private boolean loaded;
 
 	private ArrayList<Entity> wallEntities;
 	
@@ -164,6 +165,10 @@ public class GameWorld {
 		
 		if(load){
 			load = initLoadGame();
+			if(!load){
+				setGuiMessage("failedToLoad", 2000);  //TODO
+			}
+			
 		}
 		
 		// if not loading in, or load game failed, create normal game
