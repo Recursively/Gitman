@@ -10,10 +10,11 @@ out
 3D-game-engine.iml
 
 bin/
-redmf.iml
+#redmf.iml
 
 classes
 
 src/META-INF
 
 res/photoshopFiles
+.settings
