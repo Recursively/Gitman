@@ -30,8 +30,8 @@ import java.util.*;
  * @author Divya
  */
 public class GameWorld {
-	public static final int GAME_WIN = 1;
-	public static final int CODE_VALUE = 20;
+	public static final int GAME_WIN = 1;      // game state value for won game
+	public static final int CODE_VALUE = 20;    
 	public static final int MAX_PROGRESS = 100;
 
 	private static final int START_PATCH = 10; // starting patch progress value
@@ -62,7 +62,7 @@ public class GameWorld {
 	public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
 	public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128016;
 
-	private static float WORLD_TIME = 0;
+	private static float worldTime = 0;
 	private static boolean isProgramCompiled = false;
 	private static boolean isOutside = false;
 
@@ -82,8 +82,7 @@ public class GameWorld {
 	private Map<Integer, MovableEntity> movableEntities;
 	private ArrayList<SwipeCard> cards;
 
-	// Terrain the world is on
-
+	// Terrain the world is on and other terrain
 	private static Terrain currentTerrain;
 	private static Terrain otherTerrain;
 
@@ -101,17 +100,14 @@ public class GameWorld {
 	// Collection of attenuating light-sources
 	private ArrayList<Light> lights;
 
-	// object file loader
-	private Loader loader;
 
 	// reference to the gameController
 	private GameController gameController;
 
 	// game state elements
 	private Inventory inventory;
-	private int progress; // progress
-
-	private int score; // overall score
+	private int progress; 
+	private int score; // overall score is different to progress 
 	private boolean canApplyPatch;
 	private int commitIndex;
 	private long timer;
@@ -122,18 +118,16 @@ public class GameWorld {
 	private boolean helpVisible;
 
 	// information from saved file, if game loaded in
+
 	private Data load;
 
 	private ArrayList<Entity> wallEntities;
 
 	/**
-	 * Creates the game world and passes in the loader
-	 *
-	 * @param loader
-	 *            loader
+	 * Creates the game world
 	 */
-	public GameWorld(Loader loader, GameController gameController) {
-		this.loader = loader;
+	public GameWorld(GameController gameController) {
+
 		this.gameController = gameController;
 	}
 
@@ -154,7 +148,7 @@ public class GameWorld {
 		// initialises the currentTerrain
 		initTerrain();
 
-		entityFactory = new EntityFactory(loader, otherTerrain, currentTerrain);
+		entityFactory = new EntityFactory(otherTerrain, currentTerrain);
 
 		// Adds lighting to game world
 		setupLighting();
@@ -167,6 +161,10 @@ public class GameWorld {
 
 		if (load) {
 			load = initLoadGame();
+			if(!load){
+				setGuiMessage("failedToLoad", 2000);  
+			}
+			
 		}
 
 		// if not loading in, or load game failed, create normal game
@@ -293,8 +291,8 @@ public class GameWorld {
 	private void initFactories() {
 		playerFactory = new PlayerFactory(this);
 		lightFactory = new LightFactory();
-		terrainFactory = new TerrainFactory(loader);
-		guiFactory = new GuiFactory(loader);
+		terrainFactory = new TerrainFactory();
+		guiFactory = new GuiFactory();
 	}
 
 	/**
@@ -415,6 +413,7 @@ public class GameWorld {
 	}
 
 	private void sendInteraction(int type, MovableEntity entity) {
+		System.out.println("SENT UPDATE");
 		gameController.setNetworkUpdate(type, entity);
 	}
 
@@ -610,6 +609,7 @@ public class GameWorld {
 
 		this.progress += commitScore;
 		// 100% reached, game almost won...display message with last task
+
 		if (this.progress >= MAX_PROGRESS) {
 			this.canApplyPatch = true;
 			this.interactDistance = BUG_INTERACT;
@@ -673,7 +673,9 @@ public class GameWorld {
 	public List<GuiTexture> getEndStateScreen() {
 		if (this.gameState == GAME_WIN) {
 			return guiFactory.getWinScreen();
-		} else {
+
+		}
+		else {
 			return guiFactory.getLostScreen();
 		}
 	}
@@ -712,7 +714,7 @@ public class GameWorld {
 	}
 
 	private void initPlayerModel() {
-		EntityFactory.initPayerModel(loader);
+		EntityFactory.initPayerModel();
 	}
 
 	/**
@@ -813,12 +815,12 @@ public class GameWorld {
 	}
 
 	public static float getWorldTime() {
-		return WORLD_TIME;
+		return worldTime;
 	}
 
 	public static void increaseTime(float worldTime) {
-		WORLD_TIME += worldTime;
-		WORLD_TIME %= 24000;
+		worldTime += worldTime;
+		worldTime %= 24000;
 	}
 
 	public static boolean isOutside() {
@@ -846,5 +848,9 @@ public class GameWorld {
 				e.increaseRotation(0.5f, 0.5f, 0.5f);
 			}
 		}
+	}
+
+	public List<GuiTexture> getDisconnectedScreen() {
+		return guiFactory.getDisconnectedScreen();
 	}
 }

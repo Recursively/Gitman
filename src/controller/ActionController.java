@@ -1,10 +1,10 @@
 package controller;
 
-import model.GameWorld;
-import model.data.Save;
-import model.toolbox.Loader;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import model.GameWorld;
+import model.data.Save;
 
 /**
  * Controller to handle mouse and key input by the player. The class identifies
@@ -12,19 +12,25 @@ import org.lwjgl.input.Mouse;
  * updates to the game accordingly
  * 
  * @author Divya
+ * @author Marcel van Workum
+ * @author Ellie
  *
  */
 public class ActionController {
 	private GameWorld gameWorld;
-	private GameController gameController;
+	private GameController gameController;   // to check if game is still running
 
-	public ActionController(Loader loader, GameWorld gameWorld,
+	public ActionController(GameWorld gameWorld,
 			GameController gameController) {
 		this.gameWorld = gameWorld;
 		this.gameController = gameController;
 	}
 
 
+	/**
+	 * Calls the relevant methods in the game world when certain
+	 * key/mouse press actions are carried out.
+	 */
 	public void processActions(){		
 		// react to the mouse click if it is not grabbed
 		if(Mouse.isGrabbed()){
@@ -51,6 +57,7 @@ public class ActionController {
 					gameWorld.getInventory().displayLaptopItem();
 				}
         		
+        		// selection of items in the inventory
         		if(Keyboard.getEventKey() == Keyboard.KEY_UP ||
         			Keyboard.getEventKey() == Keyboard.KEY_DOWN ||
         			Keyboard.getEventKey() == Keyboard.KEY_RIGHT ||
@@ -59,13 +66,12 @@ public class ActionController {
 				}
         		        		
         		if (Keyboard.getEventKey() == Keyboard.KEY_X){
-        			
     				int entity = gameWorld.getInventory().deleteItem(gameWorld);
     				
-    				if(entity != 0){
+    				// if successful delete, send network update
+    				if(entity != -1){
     					gameController.setNetworkUpdate(8, gameWorld.getMoveableEntities().get(entity));
     				}
-    				
     			}
         		
         		if(Keyboard.getEventKey() == Keyboard.KEY_H){

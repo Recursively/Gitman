@@ -11,13 +11,26 @@ import view.renderEngine.GuiRenderer;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Displays the Play Load Help screen and deals with simple key press logic as the 
+ * action controller is currently not created
+ * 
+ * @author Ellie and Divya and Marcel
+ *
+ */
 public class PlayLoadHelpScreen {
+	//networking
     private String hostname;
     private boolean isHost;
+    //rendering
     private String PATH = "titleScreen";
 
-
+    /**
+     * 
+     * @param isHost whether this is the host
+     * @param hostname name of Host
+     * @param fullscreen whether game is full screen or not
+     */
     public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
         this.hostname = hostname;
         this.isHost = isHost;
@@ -26,18 +39,21 @@ public class PlayLoadHelpScreen {
         blinkTitle(fullscreen);
     }
 
-
+    /**
+     * Blinks the title and handles key press logic for selecting wither play load or help
+     * @param fullscreen whether the screen si full screen or not
+     */
     private void blinkTitle(boolean fullscreen) {
 
-        Loader loader = new Loader();
-        GuiRenderer guiRenderer = new GuiRenderer(loader);
+       
+        GuiRenderer guiRenderer = new GuiRenderer();
 
         long timer = System.currentTimeMillis();
         int index = 0;
 
         int selectionPointer = 0;
-        GuiTexture[] selections = initTitleScreens(loader);
-        GuiTexture blankTitleImage = initBlankTitleScreen(loader);
+        GuiTexture[] selections = initTitleScreens();
+        GuiTexture blankTitleImage = initBlankTitleScreen();
 
         boolean load = false;
         boolean closed = false;
@@ -103,7 +119,7 @@ public class PlayLoadHelpScreen {
                             load = true;
                             break;
                         } else if (selectionPointer == 2) {
-                            HelpScreen helpScreen = new HelpScreen(isHost, hostname, fullscreen);
+                            HelpScreen helpScreen = new HelpScreen(fullscreen);
                             closed = helpScreen.wasClosed();
                             pollOffReturn = true;
                         }
@@ -115,12 +131,16 @@ public class PlayLoadHelpScreen {
         if (!closed) {
             new GameController(isHost, hostname, load, fullscreen);
         } else {
+        	//kills music
             AL.destroy();
         }
     }
-
-    private GuiTexture initBlankTitleScreen(Loader loader) {
-        return new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
+/**
+ * Initalises a blank title screen
+ * @return the GuiTexture initalised
+ */
+    private GuiTexture initBlankTitleScreen() {
+        return new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelp"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
     }
 
@@ -128,20 +148,22 @@ public class PlayLoadHelpScreen {
     /**
      * @return an Array of title screen images to render
      */
-    private GuiTexture[] initTitleScreens(Loader loader) {
+    private GuiTexture[] initTitleScreens() {
         GuiTexture[] images = new GuiTexture[3];
-        images[0] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpPlayUnderscore"), new Vector2f(0, 0),
+        images[0] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpPlayUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
-        //TODO make load underscore
-        images[1] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpLoadUnderscore"), new Vector2f(0, 0),
+      
+        images[1] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpLoadUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
 
-        //TODO make help underscore
-        images[2] = new GuiTexture(loader.loadTexture(PATH + File.separator + "playLoadHelpHelpUnderscore"), new Vector2f(0, 0),
+       
+        images[2] = new GuiTexture(Loader.loadTexture(PATH + File.separator + "playLoadHelpHelpUnderscore"), new Vector2f(0, 0),
                 new Vector2f(1, 1));
         return images;
     }
+    
+    
 
 }
 

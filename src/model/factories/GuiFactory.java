@@ -10,8 +10,6 @@ import model.toolbox.Loader;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-import com.sun.tracing.dtrace.ProviderAttributes;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +21,8 @@ import java.util.List;
  * @author Divya
  */
 public class GuiFactory {
-
+	
+	//paths
 	private static final String GUI_PATH = "gui/";
 	private static final String ITEM_PATH = "itemImages/";
 	
@@ -42,13 +41,14 @@ public class GuiFactory {
 	private static final float SCORE_YPOS = 0.95f;
 	
 	// textures
-	private final Loader loader;
+
 	private GuiTexture inventoryScreen;
 	private GuiTexture interactMessage;
 	private GuiTexture infoPanel;
 	private GuiTexture lostScreen;
 	private GuiTexture winScreen;
 	private GuiTexture progressBlock;
+	private GuiTexture disconnectedServer;
 	
 	// gui panel
 	private int oldCardsSize;
@@ -60,18 +60,11 @@ public class GuiFactory {
 	private int oldScore;
 	private List<GuiTexture> scoreNum;
 	
-	//number
-	
-	
-
 	/**
 	 * Create the Gui factory passing in the object loader
-	 *
-	 * @param loader
-	 *            Object loader
 	 */
-	public GuiFactory(Loader loader) {
-		this.loader = loader;
+	public GuiFactory() {
+
 
 		loadImages();
 	}
@@ -83,6 +76,7 @@ public class GuiFactory {
 		lostScreen = makeGuiTexture("youLostScreen", CENTER_POS, FULL_SCALE);
 		winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE); 
 		progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE); 
+		disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, FULL_SCALE); 
 		
 		
 		
@@ -113,15 +107,27 @@ public class GuiFactory {
 	 */
 
 	public GuiTexture makeGuiTexture(String textureName, Vector2f position, Vector2f scale) {
-		return new GuiTexture(loader.loadTexture(GUI_PATH + textureName), position, scale);
+		return new GuiTexture(Loader.loadTexture(GUI_PATH + textureName), position, scale);
 	}
 	
+	/**
+	 * Constructs new gui textures for Items
+	 * @param textureName name of texture
+	 * @param position Vector2f of position
+	 * @param scale Vector2f of scale
+	 * @return the GuiTexture
+	 */
 	public GuiTexture makeItemTexture(String textureName, Vector2f position, Vector2f scale) {
-		return new GuiTexture(loader.loadTexture(ITEM_PATH + textureName), position, scale);
+		return new GuiTexture(Loader.loadTexture(ITEM_PATH + textureName), position, scale);
 	}
-
-	public ArrayList<GuiTexture> makeInventory(Inventory inventory) {
-		ArrayList<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
+	
+	/**
+	 * Creates list of GuiTextures to be displayed
+	 * @param inventory The shared inventory to be displayed
+	 * @return list of GuiTextures to be displayed
+	 */
+	public List<GuiTexture> makeInventory(Inventory inventory) {
+		List<GuiTexture> inventoryImages = new ArrayList<GuiTexture>();
 		inventoryImages.add(inventoryScreen);
 		if (inventory.getLaptopDisplay() != null) {
 			LaptopItem[][] items = inventory.getLaptopDisplay();
@@ -149,6 +155,10 @@ public class GuiFactory {
 
 	}
 	
+	/**
+	 * returns the list containing the lostscreen to be rendered
+	 * @return List of guitextures to be rendered
+	 */
 	public List<GuiTexture> getLostScreen(){
 		List<GuiTexture> lostScreens = new ArrayList<GuiTexture>();
 		lostScreens.add(lostScreen);
@@ -156,12 +166,30 @@ public class GuiFactory {
 		
 	}
 	
+	/**
+	 * returns the list containing the winscreen to be rendered
+	 * @return List of guitextures to be rendered
+	 */
+	
 	public List<GuiTexture> getWinScreen() {
 		List<GuiTexture> winScreens = new ArrayList<GuiTexture>();
 		winScreens.add(winScreen);
 		return winScreens;
 	}
-
+	/**
+	 * returns the list containing the disconnectscreen to be rendered
+	 * @return List of guitextures to be rendered
+	 */
+	public List<GuiTexture> getDisconnectedScreen() {
+		List<GuiTexture> disconnected = new ArrayList<GuiTexture>();
+		disconnected.add(disconnectedServer);
+		return disconnected;
+	}
+	/**
+	 * returns the list containing the number of progress bars to render
+	 * @param progress progress > 0 && <=100 amount of progress to be displayed
+	 * @return List of gui textures to be rendered
+	 */
 	public List<GuiTexture> getProgress(int progress) {  
 		if(oldProgress != progress){
 			// if progress has decreased, remove how many blocks it has decreased by
@@ -187,6 +215,11 @@ public class GuiFactory {
 		return progressBar;
 	}
 	
+	/**
+	 * Returns the list containing the score to be rendered
+	 * @param score Score to be displayed
+	 * @return List of gui textures to be rendered
+	 */
 	public List<GuiTexture> getScore(int score){  
 		if(this.oldScore != score){
 			this.oldScore = score;
@@ -203,6 +236,12 @@ public class GuiFactory {
 		return this.scoreNum;
 	}
 	
+	/**
+	 * makes a list of swipe card gui textures to be rendered
+	 * 
+	 * @param collected The swipe cards collected
+	 * @return List of gui textures to render
+	 */
 	public List<GuiTexture> getSwipeCards(ArrayList<SwipeCard> collected) {  
 		if(this.oldCardsSize != collected.size()){
 			for(int i = this.oldCardsSize; i < collected.size(); i++){
@@ -217,19 +256,30 @@ public class GuiFactory {
 		return this.cards;
 	}
 	
+	/**
+	 * makes a list of press E to interact messages
+	 * @param position of the popup
+	 * @return List of gui textures to render
+	 */
 	public List<GuiTexture> getPopUpInteract(Vector3f position) {
 		List<GuiTexture> message = new ArrayList<GuiTexture>();
 		message.add(interactMessage);
 		return message;
 
 	}
-
+	/**
+	 * returns the list containing the infoPanel to be rendered
+	 * @return List of gui textures to render
+	 */
 	public List<GuiTexture> getInfoPanel() {
 		List<GuiTexture> infoPanels = new ArrayList<GuiTexture>();
 		infoPanels.add(infoPanel);
 		return infoPanels;
 	}
-
+	/**
+	 * returns the list containing the helpscreen to be rendered
+	 * @return List of gui textures to render
+	 */
 	public List<GuiTexture> getHelpScreen() {
 		List<GuiTexture> help = new ArrayList<GuiTexture>();
 		help.add(makeGuiTexture("helpScreen", new Vector2f(0f,0f), new Vector2f(0.8f, 1f)));

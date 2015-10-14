@@ -5,9 +5,12 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
+
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
+
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -20,7 +23,7 @@ import java.util.Map;
  * Controller class to handle the delegations between the Model and View
  * package.
  * <p/>
- * Deals with Game logic
+ * Deals with Game Loop game logic
  *
  * @author Marcel van Workum
  * @author Reuben
@@ -28,15 +31,12 @@ import java.util.Map;
  * @author Ellie
  */
 public class GameController {
-
+	// network state 
     public static boolean RUNNING;
-    private boolean compiled = false;
-
     public static boolean READY;
-    public boolean networkRunning;
+    public static boolean NETWORK_DISCONNECTED;
 
     // Model
-    private final Loader loader;
     private final GameWorld gameWorld;
 
     // View
@@ -48,9 +48,12 @@ public class GameController {
     private ServerController serverController;
     private ActionController actionController;
 
+    // networking fields
     private final boolean isHost;
     private final String ipAddress;
     private int playerCount;
+    
+    private boolean compiled = false;
 
     /**
      * Delegates the creation of the MVC and then starts the game
@@ -58,22 +61,22 @@ public class GameController {
      * @throws IOException
      */
     public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
-
-        RUNNING = true;
+    	GameController.NETWORK_DISCONNECTED = false;
+        GameController.RUNNING = true;
 
         // initialise model
-        loader = new Loader();
+
 
         // initialise view
-        renderer = new MasterRenderer(loader);
-        guiRenderer = new GuiRenderer(loader);
+        renderer = new MasterRenderer();
+        guiRenderer = new GuiRenderer();
 
         // initialise the game world
-        gameWorld = new GameWorld(loader, this);
+        gameWorld = new GameWorld(this);
         gameWorld.initGame(isHost, load);
 
         // initialise controller for actions
-        actionController = new ActionController(loader, gameWorld, this);
+        actionController = new ActionController(gameWorld, this);
 
         // setup client
         this.isHost = isHost;
@@ -83,10 +86,8 @@ public class GameController {
             serverController.start();
         } else {
             clientController = new ClientController(this, ipAddress);
-            clientController.run();
+            clientController.start();
         }
-
-        this.networkRunning = true;
 
         // hook the mouse
         Mouse.setGrabbed(true);
@@ -105,12 +106,12 @@ public class GameController {
     }
 
     /**
-     * Main game loop where all the goodness will happen
+     * Main game loop where all the goodness happens. Handles 
+     * calling rendering methods and processing user actions
      */
     private void doGame() {
+    	// set up audio for game 
         AudioController.stopMenuLoop();
-
-        // set up audio
         if(GameWorld.isOutside()){
         	AudioController.playGameWorldLoop();
         }
@@ -118,20 +119,24 @@ public class GameController {
         	AudioController.playOfficeLoop();
         }
      		
-        while (!Display.isCloseRequested() && networkRunning && RUNNING) {
+        // main game loop 
+        while (!Display.isCloseRequested() && RUNNING) {
+        	// handle disconnected connections
+        	if(NETWORK_DISCONNECTED){
+        		handleDisconnection();
+        		break;
+        	}
             // process the terrains
-
             renderer.processTerrain(gameWorld.getTerrain());
 
             // PROCESS PLAYER
-
             for (Player player : gameWorld.getAllPlayers().values()) {
                 if (player.getUID() != gameWorld.getPlayer().getUID()) {
                     renderer.processEntity(player);
                 }
             }
 
-            // TODO Should only get static entities
+            
             ArrayList<Entity> statics = gameWorld.getStaticEntities();
             ArrayList<Entity> walls = gameWorld.getWallEntities();
             Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
@@ -156,11 +161,10 @@ public class GameController {
                 renderer.processEntity(e);
             }
 
-            // checks to see if inventory needs to be displayed
+            // handle user actions
             actionController.processActions();
 
             // update the players position in the world
-            // gameWorld.getPlayer().move(gameWorld.getTerrain());
             if (!gameWorld.getInventory().isVisible() && !gameWorld.isHelpVisible()) {
                 gameWorld.getPlayer().move(gameWorld.getTerrain(), statics);
             }
@@ -184,12 +188,15 @@ public class GameController {
                 }
             }
 
+            // display any helper messages that have been triggered
             guiRenderer.render(gameWorld.displayMessages());
 
+            // render help menu, if it has been requested
             if (gameWorld.isHelpVisible()) {
-                guiRenderer.render(gameWorld.helpMessage());
+               guiRenderer.render(gameWorld.helpMessage());
             }
 
+            // check if game has ended
             if (gameWorld.getGameState() > -1) {
                 guiRenderer.render(gameWorld.getEndStateScreen());
             }
@@ -200,19 +207,17 @@ public class GameController {
             DisplayManager.updateDisplay();
         }
 
-        AudioController.stopMenuLoop();
-
         // Finally clean up resources
         cleanUp();
     }
 
-    /**
+	/**
      * Cleans up the game when it is closed
      */
     public void cleanUp() {
         guiRenderer.cleanUp();
         renderer.cleanUp();
-        loader.cleanUp();
+        Loader.cleanUp();
         DisplayManager.closeDisplay();
 
         // Cleans Audio resources
@@ -225,6 +230,9 @@ public class GameController {
         }
     }
 
+    /**
+     * @return if this controller is the host
+     */
     public boolean isHost() {
         return isHost;
     }
@@ -257,6 +265,8 @@ public class GameController {
 
     public void removePlayer(int uid) {
         gameWorld.getAllPlayers().remove(uid);
+		GameWorld.setGuiMessage("aPlayerHasLeftTheGame", 2000);
+        playerCount--;
     }
 
     public void setNetworkUpdate(int status, MovableEntity entity) {
@@ -284,5 +294,22 @@ public class GameController {
     public void setCompiled(boolean compiled) {
         this.compiled = compiled;
     }
+    
+    /**
+     * Shows "You have Been Disconnected Screen". (Handles 
+     * disconnections in a graceful way by informing client 
+     * that serve has disconnected first)
+     */
+    private void handleDisconnection() {
+    	while(true){
+    		guiRenderer.render(gameWorld.getDisconnectedScreen());
+    		DisplayManager.updateDisplay();
+    		
+    		// wait for client to acknowledge failed connection
+    		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
+    			break;
+    		}
+    	}
+	}
 
 }

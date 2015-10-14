@@ -18,6 +18,8 @@ import model.textures.GuiTexture;
 public class GuiMessages {
 	public static final Vector2f MESSAGE_POS = new Vector2f(0f, 0.5f);
 	public static final Vector2f MESSAGE_SCALE = new Vector2f(1f,1f); 
+	public static final Vector2f MINOR_MESSAGE_POS = new Vector2f(0.6f, -0.8f);
+	public static final Vector2f MINOR_MESSAGE_SCALE = new Vector2f(0.4f,0.4f); 
 	
 	private GuiFactory guiFactory;
 	private List<GuiTexture> messages;
@@ -30,7 +32,6 @@ public class GuiMessages {
 		this.guiFactory = gui;
 		loadImages();
 		messages = new ArrayList<GuiTexture>();
-		
 	}
 
 	/**
@@ -47,7 +48,8 @@ public class GuiMessages {
 		 messageMap.put("pressEToInteract", guiFactory.makeGuiTexture("pressEToInteract", MESSAGE_POS, MESSAGE_SCALE));
 		 messageMap.put("unsuccessfulUnlock", guiFactory.makeGuiTexture("unsuccessfulUnlock", MESSAGE_POS, MESSAGE_SCALE));
 		 messageMap.put("gameSaved", guiFactory.makeGuiTexture("gameSaved", MESSAGE_POS, MESSAGE_SCALE));
-		 
+		 messageMap.put("failedToLoad", guiFactory.makeGuiTexture("failedToLoad", MESSAGE_POS, MESSAGE_SCALE)); 
+		 messageMap.put("aPlayerHasLeftTheGame", guiFactory.makeGuiTexture("aPlayerHasLeftTheGame", MINOR_MESSAGE_POS, MINOR_MESSAGE_SCALE));		 
 	}
 	
 	public void setMessage(String msg, long time){

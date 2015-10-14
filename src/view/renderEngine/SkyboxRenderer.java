@@ -41,15 +41,14 @@ public class SkyboxRenderer {
     /**
      * Constructor
      *
-     * @param loader Used for loading the skybox
      * @param projectionMatrix 4x4 transformation matrix
      */
-    public SkyboxRenderer(Loader loader, Matrix4f projectionMatrix) {
+    public SkyboxRenderer(Matrix4f projectionMatrix) {
 
         // Loads pngs into VAO
-        cubeModel = loader.loadToVAO(VERTICES, 3);
-        texture = loader.loadCubeMap(TEXTURE_FILES);
-        nightTexture = loader.loadCubeMap(NIGHT_TEXTURE_FILES);
+        cubeModel = Loader.loadToVAO(VERTICES, 3);
+        texture = Loader.loadCubeMap(TEXTURE_FILES);
+        nightTexture = Loader.loadCubeMap(NIGHT_TEXTURE_FILES);
 
         // Creates the shader, loads the 4x4 and stops
         shader = new SkyboxShader();

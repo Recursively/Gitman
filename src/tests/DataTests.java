@@ -16,9 +16,9 @@ import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
-import model.toolbox.Loader;
 
 public class DataTests {
+
 
 	private GameWorld gameWorld;
 
@@ -26,7 +26,7 @@ public class DataTests {
 		
 		this.gameWorld = TestSuite.gameWorld;
 	}
-
+	
 	@Test
 	public void testCompareGamestateFields() {
 		

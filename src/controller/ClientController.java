@@ -13,15 +13,18 @@ public class ClientController {
 	private Socket socket;
 	private Client client;
 	private String ipAddres;
-
+	
+	private static int port = 32768;
+	
 	public ClientController(GameController controller, String ipAddress) {
 		this.gameController = controller;
 		this.ipAddres = ipAddress;
 	}
-
-	public void run() {
-
-		int port = 32768; // default
+	
+	/**
+	 * Connects this client to the Server at the given port
+	 */
+	public void start() {
 
 		try {
 			socket = new Socket(ipAddres, port);
@@ -34,12 +37,12 @@ public class ClientController {
 			client.start();
 
 		} catch (UnknownHostException e) {
-			System.out.println("INCORRECT IP ADDRESS");
-			gameController.networkRunning = false;
+			GameController.NETWORK_DISCONNECTED = true;
+			gameController.READY = true;
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+			GameController.NETWORK_DISCONNECTED = true;
+			gameController.READY = true;
+		} 
 	}
 
 	private void createPlayer(int uid) {
@@ -47,7 +50,11 @@ public class ClientController {
 	}
 
 	public void terminate() {
-		client.terminate();
+		try {
+			client.terminate();
+		} catch (RuntimeException e){
+			// client was not made
+		}
 	}
 
 	public void setNetworkUpdate(int status, MovableEntity entity) {

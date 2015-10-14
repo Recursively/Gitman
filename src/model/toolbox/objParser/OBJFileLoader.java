@@ -3,6 +3,7 @@ package model.toolbox.objParser;
 import model.models.ModelData;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.util.ResourceLoader;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class OBJFileLoader {
     public static ModelData loadOBJ(String objFileName) {
 
         // first get the file reader
-        FileReader isr = getFileReader(objFileName);
+        Reader isr = getFileReader(objFileName);
 
         // inits the structures
         BufferedReader reader = new BufferedReader(isr);
@@ -147,15 +148,17 @@ public class OBJFileLoader {
      *
      * @return FileReader
      */
-    private static FileReader getFileReader(String objFileName) {
-        FileReader isr = null;
-        File objFile = new File(RES_LOC + objFileName + ".obj");
-        try {
-            isr = new FileReader(objFile);
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found in res; don't use any extension");
-        }
-        return isr;
+    private static InputStreamReader getFileReader(String objFileName) {
+//        FileReader isr = null;
+//        File objFile = new File(RES_LOC + objFileName + ".obj");
+//        try {
+//            isr = new FileReader(objFile);
+//        } catch (FileNotFoundException e) {
+//            System.err.println("File not found in res; don't use any extension");
+//        }
+//        return isr;
+
+        return new InputStreamReader(ResourceLoader.getResourceAsStream(RES_LOC + objFileName + ".obj"));
     }
 
     /**
