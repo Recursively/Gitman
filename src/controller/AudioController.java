@@ -11,7 +11,7 @@ import java.util.Random;
 /**
  * Static class to handle the audio controls in the game.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public final class AudioController {
 

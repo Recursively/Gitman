@@ -20,7 +20,7 @@ import java.util.Map;
  * <p/>
  * An {@link Entity} is any object within the game that is not part of the world (ie the terrain or skybox)
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class EntityRenderer {
 

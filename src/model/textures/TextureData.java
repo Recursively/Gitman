@@ -5,7 +5,7 @@ import java.nio.ByteBuffer;
 /**
  * Texture data containing a buffer of all the texture information.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class TextureData {
 

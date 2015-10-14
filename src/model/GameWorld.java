@@ -25,10 +25,10 @@ import java.util.*;
  * <p/>
  * Started out as a lightweight model but soon became a monolith...
  *
- * @author Marcel van Workum
- * @author Divya
- * @author Reuben
- * @author Ellie
+ * @author Marcel van Workum - 300313949
+ * @author Divya Patel - 300304450
+ * @author Reuben Puketapu - 300310939
+ * @author Ellie Coyle - 300307071
  */
 public class GameWorld {
 

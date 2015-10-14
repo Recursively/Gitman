@@ -1,5 +1,7 @@
 #version 330 core
 
+// Marcel van Workum - 300313949
+
 in vec3 position;
 in vec2 textureCoords;
 in vec3 normal;

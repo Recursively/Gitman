@@ -10,8 +10,8 @@ import view.renderEngine.MasterRenderer;
  * An entity is any object in the game world. They are represented as a RawModel and TexturedModel
  * which gives the model a shape and texture.
  *
- * @author Marcel van Workum
- * @author Divya
+ * @author Marcel van Workum - 300313949
+ * @author Divya Patel - 300304450
  */
 public class Entity {
 

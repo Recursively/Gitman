@@ -9,7 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
  * <p/>
  * Interestingly, this class is pointless and could just be a static entity.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class CollidableEntity extends StaticEntity {
 

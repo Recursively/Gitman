@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Represents the bug in the game. Bug can only be interacted with.
  * Otherwise, it does nothing else currently.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class Bug extends NonPlayerCharacters {
 

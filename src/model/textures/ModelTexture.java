@@ -3,7 +3,7 @@ package model.textures;
 /**
  * Represents a Texture to be used on a obj model
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class ModelTexture {
 

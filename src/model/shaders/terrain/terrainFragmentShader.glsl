@@ -1,5 +1,7 @@
 #version 330 core
 
+// Marcel van Workum - 300313949
+
 in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 // Maximum number of lights that can affect an entity

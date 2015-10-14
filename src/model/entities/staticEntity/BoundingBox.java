@@ -3,7 +3,7 @@ package model.entities.staticEntity;
 /**
  * Implementation of a bounding box used for checking the collision with {@link CollidableEntity}
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class BoundingBox {
 

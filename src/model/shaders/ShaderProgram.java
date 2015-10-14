@@ -18,7 +18,7 @@ import java.nio.FloatBuffer;
  * <p/>
  * A shader program is a delegate between java and the open gl glsl shader
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public abstract class ShaderProgram {
 

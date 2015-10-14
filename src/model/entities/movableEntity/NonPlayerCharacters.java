@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
  * are not controlled by players but can be interacted with by
  * the players in a set way).
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public abstract class NonPlayerCharacters extends MovableEntity {
 

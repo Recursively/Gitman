@@ -3,7 +3,7 @@ package model.textures;
 /**
  * Texture pack containing four textures.
  *
- * @author Marcel van workum
+ * @author Marcel van Workum - 300313949
  */
 public class TerrainTexturePack {
 

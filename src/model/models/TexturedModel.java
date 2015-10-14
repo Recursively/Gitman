@@ -5,7 +5,7 @@ import model.textures.ModelTexture;
 /**
  * A texture model is a raw model that has a model texture applied to it.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class TexturedModel {
 

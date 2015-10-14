@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Matrix4f;
 /**
  * Class to handle the open GL bindings for the GuiShader shader program
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class GuiShader extends ShaderProgram {
 

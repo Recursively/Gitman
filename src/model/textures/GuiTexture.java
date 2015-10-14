@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector2f;
 /**
  * A 2d image texture used to render the gui
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class GuiTexture {
 

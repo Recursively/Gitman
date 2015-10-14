@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * game world and delegates to each of the types of interactions then calls
  * interact on them on this Client/Server
  *
- * @author Reuben Puketapu
+ * @author Reuben Puketapu - 300310939
  */
 public class NetworkHandler {
 

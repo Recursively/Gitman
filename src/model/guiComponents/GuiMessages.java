@@ -13,8 +13,8 @@ import java.util.List;
  * the game and handles how long the messages are display for
  * (Class handles timed helper messages)
  *
- * @author Divya
- * @author Ellie
+ * @author Divya Patel - 300304450
+ * @author Ellie Coyle - 300307071
  */
 public class GuiMessages {
     /**
@@ -71,7 +71,7 @@ public class GuiMessages {
     }
 
     /**
-     * Load in common messages that will be displayed
+     * Load in common messages that will be displayed 
      * in the game
      */
     private void loadImages() {

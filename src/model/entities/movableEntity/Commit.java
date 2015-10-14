@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
  * up by players add to the patch progress, and aids in defeating
  * the 'bug' in the game.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class Commit extends Item {
     private static final int COMMIT_SCORE = 2;

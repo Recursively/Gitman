@@ -18,7 +18,7 @@ import java.util.List;
  * <p/>
  * It Renders these images directly onto the players screen.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class GuiRenderer {
 

@@ -1,5 +1,7 @@
 #version 330
 
+// Marcel van Workum - 300313949
+
 in vec3 textureCoords;
 out vec4 out_Color;
 

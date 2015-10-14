@@ -12,7 +12,7 @@ import java.util.Comparator;
  * But seriously, there is two types of light. A sun which is a constant source of light and an attenuated light
  * source, which fades over a distance.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class Light implements Comparator<Light>, Comparable<Light> {
 

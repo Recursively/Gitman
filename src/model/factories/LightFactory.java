@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * A Light source is either the sun, a constant source of light, regardless of distance,
  * or an attenuating light source, one which fades with distance.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class LightFactory {
 

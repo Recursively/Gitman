@@ -21,8 +21,8 @@ import java.util.ArrayList;
  * used to construct appropriate objects, which are then passed into a data
  * object.
  *
- * @author Finn Kinnear
- * @author Divya
+ * @author Finn Kinnear - 300310504
+ * @author Divya Patel - 300304450
  */
 public class Load {
 

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Class to handle the open GL bindings for the entity shader program
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class EntityShader extends ShaderProgram {
 

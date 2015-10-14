@@ -10,10 +10,10 @@ import org.lwjgl.input.Mouse;
  * what action has been carried out and calls the appropriate methods to make
  * updates to the game accordingly
  *
- * @author Divya
- * @author Marcel van Workum
- * @author Ellie
- * @author Reuben Puketapu
+ * @author Divya Patel - 300304450
+ * @author Marcel van Workum - 300313949
+ * @author Ellie Coyle - 300307071
+ * @author Reuben Puketapu - 300310939
  */
 public class ActionController {
     private GameWorld gameWorld;

@@ -13,6 +13,9 @@ import static org.junit.Assert.*;
 
 /**
  * The type Game world tests.
+ *
+ * @author Divya Patel - 300304450
+ * @author Ellie Coyle - 300307071
  */
 public class GameWorldTests {
 

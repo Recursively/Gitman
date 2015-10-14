@@ -5,7 +5,7 @@ import model.entities.staticEntity.BoundingBox;
 /**
  * Data class containing all the information about a wavefront obj model
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class ModelData {
 

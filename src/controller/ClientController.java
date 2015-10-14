@@ -11,7 +11,7 @@ import java.net.Socket;
  * creates a new player with a requested UID. Client Controller creates a Client
  * thread which communicates with a Server Thread.
  *
- * @author Reuben Puketapu
+ * @author Reuben Puketapu - 300310939
  */
 public class ClientController {
 

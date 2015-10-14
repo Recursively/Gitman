@@ -14,9 +14,9 @@ import java.util.List;
 /**
  * Factory for creating Gui Components
  *
- * @author Marcel van Workum
- * @author Ellie Coyle
- * @author Divya
+ * @author Marcel van Workum - 300313949
+ * @author Ellie Coyle - 300307071
+ * @author Divya Patel - 300304450
  */
 public class GuiFactory {
 

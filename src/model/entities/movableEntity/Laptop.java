@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Represent the laptops in the Game that the player can clone code off.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class Laptop extends Item {
 

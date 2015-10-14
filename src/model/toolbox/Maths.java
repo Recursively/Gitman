@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * A collection of useful mathematical functions that assist the RenderEngine
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class Maths {
 
@@ -94,5 +94,4 @@ public class Maths {
 
         return viewMatrix;
     }
-
 }

@@ -9,7 +9,7 @@ import view.renderEngine.MasterRenderer;
  * <p/>
  * Really thin controller
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public final class TimeController {
 

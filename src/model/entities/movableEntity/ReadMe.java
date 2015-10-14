@@ -9,7 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
  * attributes of the item that make the item different from other
  * laptop items.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class ReadMe extends LaptopItem {
     private static final int README_SIZE = 60;

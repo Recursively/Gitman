@@ -20,7 +20,7 @@ import java.util.Map;
 /**
  * Master renderer handles all delegations to the individual render class.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  * @see EntityRenderer
  * @see GuiRenderer
  * @see TerrainRenderer

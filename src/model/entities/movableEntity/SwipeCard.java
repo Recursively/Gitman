@@ -11,7 +11,7 @@ import org.lwjgl.util.vector.Vector3f;
  * related to the player interacting with the swipe card (to pick it up
  * or use it to unlock doors)
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class SwipeCard extends Item {
     /**

@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
  * (the player's inventory). This class stores all the logic that deals with
  * what happens when the players interact with laptop items.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public abstract class LaptopItem extends Item {
 

@@ -10,7 +10,7 @@ import view.DisplayManager;
 /**
  * Class to handle the open GL bindings for the skybox shader program
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class SkyboxShader extends ShaderProgram {
 
