@@ -4,9 +4,11 @@ import model.GameWorld;
 import model.data.Data;
 import model.data.Load;
 import model.data.Save;
+
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
 
+import tests.TestSuite;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -57,6 +59,13 @@ public class DataTests {
 
         assertTrue("progress comparison",
                 gameWorld.getProgress() == data.getProgress());
+    }
+    
+    @Test
+    public void testCommitCollected(){
+    	initTestGame();
+    	
+    	assertTrue("commitCollected comparison",  gameWorld.getCommitCollected() == data.getCommitCollected());
     }
 
     @Test
