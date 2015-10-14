@@ -23,8 +23,8 @@ import view.DisplayManager;
  * @author Marcel
  */
 public class TestSuite {
-	
- static GameWorld gameWorld = null;
+
+    static GameWorld gameWorld = null;
     AudioController audioController = new AudioController();
 
     /**
