@@ -6,7 +6,11 @@
 	<classpathentry kind="lib" path="lib/jars/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="lib/jars/lwjgl.jar">
 		<attributes>
+<<<<<<< HEAD
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="redmf/lib/native/macosx"/>
+=======
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="redmf/lib/native/windows"/>
+>>>>>>> b0300d29fb9ceaa2ef31d9085da9a4894de6ed94
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jars/PNGDecoder.jar"/>
