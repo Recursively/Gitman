@@ -3,6 +3,8 @@ package tests;
 import model.GameWorld;
 import model.entities.movableEntity.*;
 import model.guiComponents.Inventory;
+import model.terrains.Terrain;
+
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -112,11 +114,6 @@ public class GameWorldTests {
 		assertEquals(11, e.interact(gameWorld));
 	}
 	
-	@Test
-	public void testPlayerCanInteract(){
-		Player p = gameWorld.getPlayer();
-		assertFalse(p.canInteract());
-	}
 	
 	@Test
 	public void testSwipeCardCanInteract(){
@@ -383,7 +380,36 @@ public class GameWorldTests {
 		assertTrue(gameWorld.getSwipeCards().contains(e));
 	}
 	
+
+	
 	// TODO tests from decreasePatch method onwards in gameworld	
+	// ------------------------------------------------------
+	// PLAYER TESTS
+	// ------------------------------------------------------
+	
+	@Test
+	public void testPlayerCanInteract(){
+		Player p = gameWorld.getPlayer();
+		assertFalse(p.canInteract());
+	}
+	@Test
+	public void testPlayerInteract(){
+		Player p = gameWorld.getPlayer();
+		assertTrue(p.interact(gameWorld) == 15);
+	}
+	
+	@Test
+	public void testPlayerType(){
+		Player p = gameWorld.getPlayer();
+		assertTrue(p.getType().equals("Player"));
+	}
+	
+	@Test
+	public void testPlayerMove(){
+		Player p = gameWorld.getPlayer();
+		p.getCardID();
+		
+	}
 	
 	// ------------------------------------------------------
 	// HELPER METHODS
