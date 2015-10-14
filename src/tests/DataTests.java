@@ -20,6 +20,7 @@ public class DataTests {
 		
 		this.gameWorld = TestSuite.getGameWorld();
 		Save.saveGame(gameWorld);
+		
 	}
 	
 	@Test
