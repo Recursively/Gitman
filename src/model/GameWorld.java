@@ -621,8 +621,6 @@ public class GameWorld {
     public void addNewPlayer(Vector3f position, int uid) {
         Player player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);
         allPlayers.put(uid, player);
-
-        System.out.println("ADDED NEW PLAYER, ID: " + uid);
     }
 
     /**
@@ -644,7 +642,6 @@ public class GameWorld {
             player = playerFactory.makeNewPlayer(position, EntityFactory.getPlayerTexturedModel(), uid, null);
         }
         allPlayers.put(uid, player);
-        System.out.println("ADDED THIS PLAYER, ID: " + uid);
     }
 
     /**
