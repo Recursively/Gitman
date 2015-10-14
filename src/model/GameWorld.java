@@ -214,6 +214,14 @@ public class GameWorld {
 
         this.helpVisible = false;
         staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+        
+        // set location message
+        if(isOutside){
+        	setGuiLocationMessage("inGameOutsideDesc", 15000);
+        }
+        else {
+        	setGuiLocationMessage("officeDesc", 15000);
+        }
     }
 
     /**

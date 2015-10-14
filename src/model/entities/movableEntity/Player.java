@@ -178,7 +178,7 @@ public class Player extends MovableEntity {
                 && zPos >= GameWorld.PORTAL_UPPER_BOUND_OUTSIDE_Z) {
             // swap terrain
             GameWorld.teleportToOffice();
-            GameWorld.setGuiLocationMessage("officeDesc", 8000);
+            GameWorld.setGuiLocationMessage("officeDesc", 15000);
         }
 
         if (GameWorld.isProgramCompiled()) {
@@ -186,7 +186,7 @@ public class Player extends MovableEntity {
                     && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
                 // swap terrain
                 GameWorld.teleportToOutside();
-                GameWorld.setGuiLocationMessage("inGameOutsideDesc", 8000);
+                GameWorld.setGuiLocationMessage("inGameOutsideDesc", 15000);
                 
                 if (firstTimeOutside) {
                     firstTimeOutside = false;

@@ -38,11 +38,11 @@ public class GuiMessages {
     /**
      * The constant LOC_MESSAGE_POS.
      */
-    public static final Vector2f LOC_MESSAGE_POS = new Vector2f(0.6f, -0.8f);
+    public static final Vector2f LOC_MESSAGE_POS = new Vector2f(0.55f, 0.8f);
     /**
      * The constant LOC_MESSAGE_SCALE.
      */
-    public static final Vector2f LOC_MESSAGE_SCALE = new Vector2f(0.4f, 0.4f);
+    public static final Vector2f LOC_MESSAGE_SCALE = new Vector2f(0.7f, 0.7f);
 
     private GuiFactory guiFactory;   // needed to make gui textures
     
@@ -78,7 +78,7 @@ public class GuiMessages {
         messageMap = new HashMap<>();
         messageMap.put("codeCompiledMessage", guiFactory.makeGuiTexture("codeCompiledMessage", MESSAGE_POS, MESSAGE_SCALE));
         messageMap.put("codeCopied", guiFactory.makeGuiTexture("codeCopied", MESSAGE_POS, MESSAGE_SCALE));
-        messageMap.put("inGameMessage", guiFactory.makeGuiTexture("inGameMessage", MESSAGE_POS, MESSAGE_SCALE));
+        messageMap.put("inGameMessage", guiFactory.makeGuiTexture("inGameMessage", new Vector2f(0f, 0.35f), MESSAGE_SCALE));
         messageMap.put("laptopEmpty", guiFactory.makeGuiTexture("laptopEmpty", MESSAGE_POS, MESSAGE_SCALE));
         messageMap.put("laptopMemoryFull", guiFactory.makeGuiTexture("laptopMemoryFull", MESSAGE_POS, MESSAGE_SCALE));
         messageMap.put("patchComplete", guiFactory.makeGuiTexture("patchComplete", MESSAGE_POS, MESSAGE_SCALE));
