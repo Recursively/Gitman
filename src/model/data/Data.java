@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * @author Finn Kinnear
  * @author Divya
  */
-
 public class Data {
 
     // player element
@@ -61,6 +60,7 @@ public class Data {
      * @param timer             the timer
      * @param storageUsed       the storage used
      * @param gameState         the game state
+     * @param commitCollected   the commit collected
      */
     public Data(Vector3f playerPos, float pitch, float roll, float yaw, int uid, ArrayList<LaptopItem> inventory,
                 ArrayList<MovableEntity> movableEntities, ArrayList<SwipeCard> swipeCards, boolean isProgramCompiled,

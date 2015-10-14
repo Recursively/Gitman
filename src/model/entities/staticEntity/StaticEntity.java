@@ -13,11 +13,29 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class StaticEntity extends Entity {
 
+    /**
+     * The Origin.
+     */
     protected final Vector3f origin;
+    /**
+     * The Bounding box.
+     */
     protected BoundingBox boundingBox;
+    /**
+     * The Model data.
+     */
     protected final ModelData modelData;
+    /**
+     * The Radius x.
+     */
     protected final float radiusX;
+    /**
+     * The Radius y.
+     */
     protected final float radiusY;
+    /**
+     * The Radius z.
+     */
     protected final float radiusZ;
 
     /**

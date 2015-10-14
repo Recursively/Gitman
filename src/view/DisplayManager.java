@@ -33,6 +33,8 @@ public class DisplayManager {
      * Create a Display window with the specified resolution and fps cap
      * <p/>
      * And fullscreen
+     *
+     * @param fullscreen the fullscreen
      */
     public static void createDisplay(boolean fullscreen) {
         ContextAttribs attribs = new ContextAttribs(3, 2)

@@ -93,7 +93,7 @@ public class Light implements Comparator<Light>, Comparable<Light> {
      * Returns the squared hypotenuse side of the distance to the light from a given position
      *
      * @param position position
-     * @return hypotenuse
+     * @return hypotenuse distance to
      */
     public float getDistanceTo(Vector3f position) {
         float diffX = (float) Math.pow(Math.abs(position.getX() - this.position.getX()), 2);

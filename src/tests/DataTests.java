@@ -32,6 +32,9 @@ public class DataTests {
 
     }
 
+    /**
+     * Test compare is program compiled.
+     */
     @Test
     public void testCompareIsProgramCompiled() {
         initTestGame();
@@ -40,6 +43,9 @@ public class DataTests {
                 GameWorld.isProgramCompiled() == data.isIsProgramCompiled());
     }
 
+    /**
+     * Test is outside.
+     */
     @Test
     public void testIsOutside() {
         initTestGame();
@@ -48,6 +54,9 @@ public class DataTests {
                 GameWorld.isOutside() == data.isIsOutside());
     }
 
+    /**
+     * Test progress.
+     */
     @Test
     public void testProgress() {
         initTestGame();
@@ -56,6 +65,9 @@ public class DataTests {
                 gameWorld.getProgress() == data.getProgress());
     }
 
+    /**
+     * Test game state.
+     */
     @Test
     public void testGameState() {
         initTestGame();
@@ -64,6 +76,9 @@ public class DataTests {
                 gameWorld.getGameState() == data.getGameState());
     }
 
+    /**
+     * Test commit collected.
+     */
     @Test
     public void testCommitCollected() {
         initTestGame();
@@ -72,6 +87,9 @@ public class DataTests {
                 gameWorld.getCommitCollected() == data.getCommitCollected());
     }
 
+    /**
+     * Test score.
+     */
     @Test
     public void testScore() {
         initTestGame();
@@ -79,6 +97,9 @@ public class DataTests {
         assertTrue("Score comparison", gameWorld.getScore() == data.getScore());
     }
 
+    /**
+     * Test can apply patch.
+     */
     @Test
     public void testCanApplyPatch() {
         initTestGame();
@@ -87,6 +108,9 @@ public class DataTests {
                 gameWorld.isCanApplyPatch() == data.isCanApplyPatch());
     }
 
+    /**
+     * Test commit index.
+     */
     @Test
     public void testCommitIndex() {
         initTestGame();
@@ -95,6 +119,9 @@ public class DataTests {
                 gameWorld.getCommitIndex() == data.getCommitIndex());
     }
 
+    /**
+     * Test timer.
+     */
     @Test
     public void testTimer() {
         initTestGame();
@@ -103,6 +130,9 @@ public class DataTests {
                 .getTimer());
     }
 
+    /**
+     * Test player position.
+     */
     @Test
     public void testPlayerPosition() {
         initTestGame();
@@ -111,6 +141,9 @@ public class DataTests {
                 .getPosition().equals(data.getPlayerPos()));
     }
 
+    /**
+     * Test player camera pitch.
+     */
     @Test
     public void testPlayerCameraPitch() {
         initTestGame();
@@ -119,6 +152,9 @@ public class DataTests {
                 .getPitch() == data.getPitch());
     }
 
+    /**
+     * Test player camera roll.
+     */
     @Test
     public void testPlayerCameraRoll() {
         initTestGame();
@@ -127,6 +163,9 @@ public class DataTests {
                 .getRoll() == data.getRoll());
     }
 
+    /**
+     * Test player camera yaw.
+     */
     @Test
     public void testPlayerCameraYaw() {
         initTestGame();
@@ -135,6 +174,9 @@ public class DataTests {
                 .getYaw() == data.getYaw());
     }
 
+    /**
+     * Test player uid.
+     */
     @Test
     public void testPlayerUID() {
         initTestGame();
@@ -143,6 +185,9 @@ public class DataTests {
                 gameWorld.getPlayer().getUID() == data.getUid());
     }
 
+    /**
+     * Test inventory.
+     */
     @Test
     public void testInventory() {
         initTestGame();
@@ -151,6 +196,9 @@ public class DataTests {
                 .equals(data.getInventory()));
     }
 
+    /**
+     * Test storage used.
+     */
     @Test
     public void testStorageUsed() {
         initTestGame();
@@ -159,6 +207,9 @@ public class DataTests {
                 .getInventory().getStorageUsed() == data.getStorageUsed());
     }
 
+    /**
+     * Test movable entities.
+     */
     @Test
     public void testMovableEntities() {
         initTestGame();
@@ -176,6 +227,9 @@ public class DataTests {
         }
     }
 
+    /**
+     * Test swipe cards.
+     */
     @Test
     public void testSwipeCards() {
         initTestGame();

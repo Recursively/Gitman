@@ -11,6 +11,9 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
+/**
+ * The type Game world tests.
+ */
 public class GameWorldTests {
 
     private static TestSuite suite = new TestSuite();
@@ -27,6 +30,9 @@ public class GameWorldTests {
     // TEST INTERACTIONS WITH MOVABLE ENTITES
     // -------------------------------------------------
 
+    /**
+     * Test swipe card interact.
+     */
     @Test
     public void testSwipeCardInteract() {
         SwipeCard e = (SwipeCard) getEntity("SwipeCard");
@@ -37,6 +43,9 @@ public class GameWorldTests {
         assertEquals(16, e.interact(gameWorld));
     }
 
+    /**
+     * Test read me interact.
+     */
     @Test
     public void testReadMeInteract() {
         ReadMe e = (ReadMe) getEntity("ReadMe");
@@ -47,6 +56,9 @@ public class GameWorldTests {
         assertEquals(13, e.interact(gameWorld));
     }
 
+    /**
+     * Test flash drive interact.
+     */
     @Test
     public void testFlashDriveInteract() {
         FlashDrive e = (FlashDrive) getEntity("FlashDrive");
@@ -57,6 +69,9 @@ public class GameWorldTests {
         assertEquals(13, e.interact(gameWorld));
     }
 
+    /**
+     * Test bug interact.
+     */
     @Test
     public void testBugInteract() {
         Bug e = (Bug) getEntity("Bug");
@@ -70,6 +85,9 @@ public class GameWorldTests {
         }
     }
 
+    /**
+     * Test bug interact succcessful.
+     */
     @Test
     public void testBugInteractSucccessful() {
         while (!gameWorld.canApplyPatch()) {
@@ -87,6 +105,9 @@ public class GameWorldTests {
         assertEquals(10, e.interact(gameWorld));
     }
 
+    /**
+     * Test laptop interact.
+     */
     @Test
     public void testLaptopInteract() {
         Laptop e = (Laptop) getEntity("Laptop");
@@ -101,6 +122,9 @@ public class GameWorldTests {
         }
     }
 
+    /**
+     * Test commit interact.
+     */
     @Test
     public void testCommitInteract() {
         Commit e = (Commit) getEntity("Commit");
@@ -111,6 +135,9 @@ public class GameWorldTests {
     }
 
 
+    /**
+     * Test swipe card can interact.
+     */
     @Test
     public void testSwipeCardCanInteract() {
         SwipeCard e = (SwipeCard) getEntity("SwipeCard");
@@ -121,6 +148,9 @@ public class GameWorldTests {
         assertTrue(e.canInteract());
     }
 
+    /**
+     * Test read me can interact.
+     */
     @Test
     public void testReadMeCanInteract() {
         ReadMe e = (ReadMe) getEntity("ReadMe");
@@ -131,6 +161,9 @@ public class GameWorldTests {
         assertTrue(e.canInteract());
     }
 
+    /**
+     * Test flash drive can interact.
+     */
     @Test
     public void testFlashDriveCanInteract() {
         FlashDrive e = (FlashDrive) getEntity("FlashDrive");
@@ -141,6 +174,9 @@ public class GameWorldTests {
         assertTrue(e.canInteract());
     }
 
+    /**
+     * Test bug can interact.
+     */
     @Test
     public void testBugCanInteract() {
         Bug e = (Bug) getEntity("Bug");
@@ -150,6 +186,9 @@ public class GameWorldTests {
         assertTrue(e.canInteract());
     }
 
+    /**
+     * Test laptop can interact.
+     */
     @Test
     public void testLaptopCanInteract() {
         Laptop e = (Laptop) getEntity("Laptop");
@@ -159,6 +198,9 @@ public class GameWorldTests {
         assertTrue(e.canInteract());
     }
 
+    /**
+     * Test commit can interact.
+     */
     @Test
     public void testCommitCanInteract() {
         Commit e = (Commit) getEntity("Commit");
@@ -172,6 +214,9 @@ public class GameWorldTests {
     // TEST INVENTORY ADD AND DELETE
     // -----------------------------------------------------
 
+    /**
+     * Test add to inventory good 1.
+     */
     @Test
     public void testAddToInventoryGood_1() {
         Inventory i = gameWorld.getInventory();
@@ -187,6 +232,9 @@ public class GameWorldTests {
 
     }
 
+    /**
+     * Test add to inventory good 2.
+     */
     @Test
     public void testAddToInventoryGood_2() {
         Inventory i = gameWorld.getInventory();
@@ -201,6 +249,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Test add to inventory bad 1.
+     */
     @Test
     public void testAddToInventoryBad_1() {
         Inventory i = gameWorld.getInventory();
@@ -215,6 +266,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Test add to inventory bad 2.
+     */
     @Test
     public void testAddToInventoryBad_2() {
         Inventory i = gameWorld.getInventory();
@@ -229,6 +283,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Delete item from inventory 1.
+     */
     @Test
     public void deleteItemFromInventory_1() {
         Inventory i = gameWorld.getInventory();
@@ -243,6 +300,9 @@ public class GameWorldTests {
     // TEST GAME WORLD GAME STATE
     // ------------------------------------------------------
 
+    /**
+     * Test remove entity 1.
+     */
     @Test
     public void testRemoveEntity_1() {
         SwipeCard e = (SwipeCard) getEntity("SwipeCard");
@@ -255,6 +315,9 @@ public class GameWorldTests {
         assertFalse(gameWorld.getMoveableEntities().containsKey(uid));
     }
 
+    /**
+     * Test remove entity 2.
+     */
     @Test
     public void testRemoveEntity_2() {
         FlashDrive e = (FlashDrive) getEntity("FlashDrive");
@@ -267,6 +330,9 @@ public class GameWorldTests {
         assertFalse(gameWorld.getMoveableEntities().containsKey(uid));
     }
 
+    /**
+     * Test remove entity 3.
+     */
     @Test
     public void testRemoveEntity_3() {
         Commit e = (Commit) getEntity("Commit");
@@ -279,6 +345,9 @@ public class GameWorldTests {
         assertFalse(gameWorld.getMoveableEntities().containsKey(uid));
     }
 
+    /**
+     * Test remove entity 4.
+     */
     @Test
     public void testRemoveEntity_4() {
         ReadMe e = (ReadMe) getEntity("ReadMe");
@@ -291,6 +360,9 @@ public class GameWorldTests {
         assertFalse(gameWorld.getMoveableEntities().containsKey(uid));
     }
 
+    /**
+     * Test add commit.
+     */
     @Test
     public void testAddCommit() {
         int size = gameWorld.getMoveableEntities().size();
@@ -298,6 +370,9 @@ public class GameWorldTests {
         assertEquals(size + 1, gameWorld.getMoveableEntities().size());
     }
 
+    /**
+     * Test add to inventory from game world 1.
+     */
     @Test
     public void testAddToInventoryFromGameWorld_1() {
         Inventory i = gameWorld.getInventory();
@@ -312,6 +387,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Test add to inventory from game world 2.
+     */
     @Test
     public void testAddToInventoryFromGameWorld_2() {
         Inventory i = gameWorld.getInventory();
@@ -326,6 +404,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Test game world remove from inventory 1.
+     */
     @Test
     public void testGameWorldRemoveFromInventory_1() {
         // add item first
@@ -345,6 +426,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Test game world remove from inventory 2.
+     */
     @Test
     public void testGameWorldRemoveFromInventory_2() {
         // add item first
@@ -364,6 +448,9 @@ public class GameWorldTests {
         i.setStorageUsed(used);  //reset storage value
     }
 
+    /**
+     * Test add card.
+     */
     @Test
     public void testAddCard() {
         SwipeCard e = (SwipeCard) getEntity("SwipeCard");
@@ -381,24 +468,36 @@ public class GameWorldTests {
     // PLAYER TESTS
     // ------------------------------------------------------
 
+    /**
+     * Test player can interact.
+     */
     @Test
     public void testPlayerCanInteract() {
         Player p = gameWorld.getPlayer();
         assertFalse(p.canInteract());
     }
 
+    /**
+     * Test player interact.
+     */
     @Test
     public void testPlayerInteract() {
         Player p = gameWorld.getPlayer();
         assertTrue(p.interact(gameWorld) == 15);
     }
 
+    /**
+     * Test player type.
+     */
     @Test
     public void testPlayerType() {
         Player p = gameWorld.getPlayer();
         assertTrue(p.getType().equals("Player"));
     }
 
+    /**
+     * Test player move.
+     */
     @Test
     public void testPlayerMove() {
         Player p = gameWorld.getPlayer();

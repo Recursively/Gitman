@@ -19,7 +19,6 @@ import java.util.List;
  * @author Ellie
  * @author Marcel
  */
-
 public class TitleScreen {
 
     private String hostname;
@@ -27,6 +26,10 @@ public class TitleScreen {
 
     /**
      * Instantiates a new Title screen.
+     *
+     * @param isHost     the is host
+     * @param hostname   the hostname
+     * @param fullscreen the fullscreen
      */
     public TitleScreen(boolean isHost, String hostname, boolean fullscreen) {
         this.hostname = hostname;

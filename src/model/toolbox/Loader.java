@@ -82,7 +82,7 @@ public final class Loader {
      * Loads a texture using the slick util
      *
      * @param fileName filename of the texture
-     * @return textureID
+     * @return textureID int
      */
     public static int loadTexture(String fileName) {
         Texture texture = null;
@@ -123,7 +123,7 @@ public final class Loader {
      * Attempts to load a cube map using PNGDecoder
      *
      * @param textureFiles List of texture files
-     * @return textureID
+     * @return textureID int
      */
     public static int loadCubeMap(String[] textureFiles) {
 

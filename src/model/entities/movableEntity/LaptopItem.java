@@ -74,27 +74,32 @@ public abstract class LaptopItem extends Item {
     }
 
     /**
+     * Gets size.
+     *
      * @return size of the laptop item
      */
     public abstract int getSize();
 
     /**
+     * Gets score.
+     *
      * @return item score
      */
     public abstract int getScore();
 
     /**
-     * @return name of image file that has the image
-     * this item needs to display when opened in the
-     * inventory
+     * Gets img name.
+     *
+     * @return name of image file that has the image this item needs to display when opened in the inventory
      */
     public String getImgName() {
-        return this.name + "Info";
+        return this.name + "ItemDescription";
     }
 
     /**
-     * @return true if it the item has already been picked
-     * up before
+     * Gets picked up already.
+     *
+     * @return true if it the item has already been picked up before
      */
     public boolean getPickedUpAlready() {
         return this.pickedUpAlready;

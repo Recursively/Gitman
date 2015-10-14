@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * @author Finn Kinnear
  * @author Divya
  */
-
 public class Load {
 
     // player element
@@ -49,7 +48,6 @@ public class Load {
      *
      * @return data object storing all gamestate information
      */
-
     public static Data loadGame() {
 
         Document dom;

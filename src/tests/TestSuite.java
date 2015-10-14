@@ -10,6 +10,9 @@ import org.lwjgl.opengl.Display;
 import view.DisplayManager;
 
 
+/**
+ * The type Test suite.
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         DataTests.class,
@@ -24,7 +27,13 @@ import view.DisplayManager;
  */
 public class TestSuite {
 
+    /**
+     * The Game world.
+     */
     static GameWorld gameWorld = null;
+    /**
+     * The Audio controller.
+     */
     AudioController audioController = new AudioController();
 
     /**
@@ -51,6 +60,8 @@ public class TestSuite {
 
     /**
      * Runs the test suite
+     *
+     * @param args the input arguments
      */
     public static void main(String[] args) {
         JUnitCore.runClasses(TestSuite.class);

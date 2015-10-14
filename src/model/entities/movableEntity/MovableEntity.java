@@ -14,6 +14,9 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class MovableEntity extends Entity {
 
+    /**
+     * The constant GRAVITY.
+     */
     protected static final float GRAVITY = -50;
     private final int UID; // for networking
 
@@ -53,6 +56,8 @@ public abstract class MovableEntity extends Entity {
     }
 
     /**
+     * Gets uid.
+     *
      * @return ID number of the item
      */
     public int getUID() {
@@ -66,11 +71,13 @@ public abstract class MovableEntity extends Entity {
      * the game state (score and progress) accordingly.
      *
      * @param game game
-     * @return int
+     * @return int int
      */
     public abstract int interact(GameWorld game);
 
     /**
+     * Can interact boolean.
+     *
      * @return true if entity can be interacted with
      */
     public abstract boolean canInteract();
@@ -83,6 +90,8 @@ public abstract class MovableEntity extends Entity {
     // ---------------------------------------------------------
 
     /**
+     * Gets name.
+     *
      * @return name of image files
      */
     public String getName() {
@@ -90,11 +99,15 @@ public abstract class MovableEntity extends Entity {
     }
 
     /**
+     * Gets type.
+     *
      * @return name of the class
      */
     public abstract String getType();
 
     /**
+     * Gets card id.
+     *
      * @return id card for laptop items
      */
     public int getCardID() {
@@ -102,14 +115,17 @@ public abstract class MovableEntity extends Entity {
     }
 
     /**
-     * @return card number of swipe cards (the
-     * cards Id)
+     * Gets card num.
+     *
+     * @return card number of swipe cards (the cards Id)
      */
     public int getCardNum() {
         return -1;
     }
 
     /**
+     * Gets has code.
+     *
      * @return true if a laptop has code
      */
     public boolean getHasCode() {

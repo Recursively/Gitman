@@ -25,6 +25,9 @@ public class RendererTests {
     private GameWorld gameWorld = null;
     private MasterRenderer renderer = null;
 
+    /**
+     * Init renderer.
+     */
     @Before
     public void initRenderer() {
         if (gameWorld == null) {
@@ -35,6 +38,9 @@ public class RendererTests {
         }
     }
 
+    /**
+     * Test terrain grid.
+     */
     @Test
     public void testTerrainGrid() {
         Terrain t = gameWorld.getTerrain();
@@ -43,6 +49,9 @@ public class RendererTests {
         assertTrue("Grid Z equals -1000", -128000 == t.getGridZ());
     }
 
+    /**
+     * Test terrain processing.
+     */
     @Test
     public void testTerrainProcessing() {
 
@@ -54,6 +63,9 @@ public class RendererTests {
         assertTrue("Terrain Processing should be fast", endTime <= 216703000000l);
     }
 
+    /**
+     * Test master renderer.
+     */
     @Test
     public void testMasterRenderer() {
 
