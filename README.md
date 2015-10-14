@@ -81,3 +81,4 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 - *Finn Kinnear*
 
 Github Repo : https://github.com/Recursively/redmf
+Hosted Javadoc : http://www.marceldev.tk/redmf/doc
