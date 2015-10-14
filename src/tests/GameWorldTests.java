@@ -363,7 +363,7 @@ public class GameWorldTests {
         assertTrue(gameWorld.getMoveableEntities().containsKey(e.getUID()));
         i.setStorageUsed(used);  //reset storage value
     }
-
+   
     @Test
     public void testAddCard() {
         SwipeCard e = (SwipeCard) getEntity("SwipeCard");
@@ -374,9 +374,41 @@ public class GameWorldTests {
         gameWorld.addCard(e);
         assertTrue(gameWorld.getSwipeCards().contains(e));
     }
-
-
-    // TODO tests from decreasePatch method onwards in gameworld
+   
+    @Test
+    public void testIncrementPatch_1(){
+    	int prog = gameWorld.getProgress();
+    	gameWorld.incrementPatch();
+    	assertTrue(prog < gameWorld.getProgress());
+    }
+    
+    @Test
+    public void testIncrementPatch_2(){
+    	gameWorld.setProgress(GameWorld.MAX_PROGRESS);
+    	gameWorld.incrementPatch();
+    	assertTrue(gameWorld.canApplyPatch());
+    }
+    
+    @Test
+    public void testUpdateScore(){
+    	int oldScore = gameWorld.getScore();
+    	int addScore = 5;
+    	gameWorld.updateScore(addScore);
+    	assertEquals(oldScore+addScore, gameWorld.getScore());
+    }
+    
+    @Test
+    public void testTeleportToOffice(){
+    	gameWorld.teleportToOffice();
+    	assertFalse(gameWorld.isOutside());
+    }
+    
+    @Test
+    public void testTeleportToOutside(){
+    	gameWorld.teleportToOutside();
+    	assertTrue(gameWorld.isOutside());
+    } 
+    
     
     // ------------------------------------------------------
     // PLAYER TESTS
