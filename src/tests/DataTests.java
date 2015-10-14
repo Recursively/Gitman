@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.HashSet;
+import java.util.Map;
 
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
@@ -9,7 +10,11 @@ import model.GameWorld;
 import model.data.Data;
 import model.data.Load;
 import model.data.Save;
+import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.ReadMe;
+import model.entities.movableEntity.SwipeCard;
+import model.guiComponents.Inventory;
 import tests.TestSuite;
 import static org.junit.Assert.assertTrue;
 
@@ -26,8 +31,26 @@ public class DataTests {
 
 	private void initTestGame() {
 		gameWorld = TestSuite.getGameWorld();
+		
 		Vector3f position = new Vector3f(10, 10, 10);
 		gameWorld.addPlayer(position, 0);
+		
+		Inventory i = gameWorld.getInventory();
+		
+		ReadMe e = (ReadMe) getEntity("ReadMe");		
+		// if the item can't be found, create a copy
+		if(e == null){
+			e = new ReadMe(null, null, 0, 0, 0, 0, 0, 0, "readme10");
+		}
+		i.addItem(e);
+		
+		SwipeCard s = (SwipeCard) getEntity("SwipeCard");		
+		// if the item can't be found, create a copy
+		if(s == null){
+			s = new SwipeCard(null, null, 0, 0, 0, 0, 0, 0, 0);
+		}
+		gameWorld.addCard(s);
+		
 		Save.saveGame(gameWorld);
 		data = Load.loadGame();
 
@@ -148,8 +171,15 @@ public class DataTests {
 	public void testInventory() {
 		initTestGame();
 
-		assertTrue("Inventory comparison", gameWorld.getInventory().getItems()
-				.equals(data.getInventory()));
+		HashSet<Integer> uids = new HashSet<>();
+
+		for (MovableEntity e : gameWorld.getInventory().getItems()) {
+			uids.add(e.getUID());
+		}
+
+		for (MovableEntity m : data.getInventory()) {
+			assertTrue("Not contained" + m.getUID(), uids.contains(m.getUID()));
+		}
 	}
 
 	@Test
@@ -181,7 +211,24 @@ public class DataTests {
 	public void testSwipeCards() {
 		initTestGame();
 
-		assertTrue("SwipeCards comparison",
-				gameWorld.getSwipeCards().equals(data.getSwipeCards()));
+		HashSet<Integer> uids = new HashSet<>();
+
+		for (MovableEntity e : gameWorld.getSwipeCards()) {
+			uids.add(e.getUID());
+		}
+
+		for (MovableEntity m : data.getSwipeCards()) {
+			assertTrue("Not contained" + m.getUID(), uids.contains(m.getUID()));
+		}
+	}
+	
+	private MovableEntity getEntity(String type){
+		Map<Integer, MovableEntity> movableEntities = gameWorld.getMoveableEntities();
+		for(MovableEntity e : movableEntities.values()){
+			if(e.getType().equals(type)){
+				return e;
+			}
+		}
+		return null;
 	}
 }
