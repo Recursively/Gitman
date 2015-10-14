@@ -15,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Test suite for data tests
+ * 
+ * @author Finn Kinnear
  */
 public class DataTests {
 
@@ -32,10 +34,10 @@ public class DataTests {
 	}
 
 	@Test
-	public void testCompareisProgramCompiled() {
+	public void testCompareIsProgramCompiled() {
 		initTestGame();
 
-		assertTrue("isProgramCompiled comparison",
+		assertTrue("IsProgramCompiled comparison",
 				GameWorld.isProgramCompiled() == data.isIsProgramCompiled());
 	}
 
@@ -43,31 +45,31 @@ public class DataTests {
 	public void testIsOutside() {
 		initTestGame();
 
-		assertTrue("isOutside comparison",
+		assertTrue("IsOutside comparison",
 				GameWorld.isOutside() == data.isIsOutside());
-	}
-
-	@Test
-	public void testGameState() {
-		initTestGame();
-
-		assertTrue("gameState comparison",
-				gameWorld.getGameState() == data.getGameState());
 	}
 
 	@Test
 	public void testProgress() {
 		initTestGame();
 
-		assertTrue("progress comparison",
+		assertTrue("Progress comparison",
 				gameWorld.getProgress() == data.getProgress());
+	}
+
+	@Test
+	public void testGameState() {
+		initTestGame();
+
+		assertTrue("GameState comparison",
+				gameWorld.getGameState() == data.getGameState());
 	}
 
 	@Test
 	public void testCommitCollected() {
 		initTestGame();
 
-		assertTrue("commitCollected comparison",
+		assertTrue("CommitCollected comparison",
 				gameWorld.getCommitCollected() == data.getCommitCollected());
 	}
 
@@ -75,14 +77,14 @@ public class DataTests {
 	public void testScore() {
 		initTestGame();
 
-		assertTrue("score comparison", gameWorld.getScore() == data.getScore());
+		assertTrue("Score comparison", gameWorld.getScore() == data.getScore());
 	}
 
 	@Test
 	public void testCanApplyPatch() {
 		initTestGame();
 
-		assertTrue("canApplyPatch comparison",
+		assertTrue("CanApplyPatch comparison",
 				gameWorld.isCanApplyPatch() == data.isCanApplyPatch());
 	}
 
@@ -90,7 +92,7 @@ public class DataTests {
 	public void testCommitIndex() {
 		initTestGame();
 
-		assertTrue("commitIndex comparison",
+		assertTrue("CommitIndex comparison",
 				gameWorld.getCommitIndex() == data.getCommitIndex());
 	}
 
@@ -98,20 +100,63 @@ public class DataTests {
 	public void testTimer() {
 		initTestGame();
 
-		assertTrue("timer comparison", gameWorld.getTimer() == Load.loadGame()
+		assertTrue("Timer comparison", gameWorld.getTimer() == Load.loadGame()
 				.getTimer());
 	}
 
 	@Test
-	public void testCompareLaptopItems() {
+	public void testPlayerPosition() {
 		initTestGame();
 
-		assertTrue("LaptopItems comparison", gameWorld.getInventory()
-				.getItems().equals(data.getInventory()));
+		assertTrue("Player position comparison", gameWorld.getPlayer()
+				.getPosition().equals(data.getPlayerPos()));
+	}
+	
+	@Test
+	public void testPlayerCameraPitch(){
+		initTestGame();
+		
+		assertTrue("Camera pitch comparison", gameWorld.getPlayer().getCamera().getPitch() == data.getPitch());
+	}
+	
+	@Test
+	public void testPlayerCameraRoll(){
+		initTestGame();
+		
+		assertTrue("Camera roll comparison", gameWorld.getPlayer().getCamera().getRoll() == data.getRoll());
+	}
+	
+	@Test
+	public void testPlayerCameraYaw(){
+		initTestGame();
+		
+		assertTrue("Camera yaw comparison", gameWorld.getPlayer().getCamera().getYaw() == data.getYaw());
+	}
+	
+	@Test
+	public void testPlayerUID(){
+		initTestGame();
+		
+		assertTrue("Player uid comparison", gameWorld.getPlayer().getUID() == data.getUid());
 	}
 
 	@Test
-	public void testCompareMovableEntities() {
+	public void testInventory() {
+		initTestGame();
+
+		assertTrue("Inventory comparison", gameWorld.getInventory().getItems()
+				.equals(data.getInventory()));
+	}
+	
+	@Test
+	public void testStorageUsed(){
+		initTestGame();
+		
+		assertTrue("Inventory storage used comparison", gameWorld.getInventory().getStorageUsed() == data.getStorageUsed());
+	}
+
+	@Test
+	public void testMovableEntities() {
 		initTestGame();
 
 		initTestGame();
@@ -128,7 +173,7 @@ public class DataTests {
 	}
 
 	@Test
-	public void testCompareSwipeCards() {
+	public void testSwipeCards() {
 		initTestGame();
 
 		assertTrue("SwipeCards comparison",
