@@ -5,8 +5,10 @@ import model.GameWorld;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
 import view.DisplayManager;
+
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -21,8 +23,8 @@ import view.DisplayManager;
  * @author Marcel
  */
 public class TestSuite {
-
-    private static GameWorld gameWorld = null;
+	
+ static GameWorld gameWorld = null;
     AudioController audioController = new AudioController();
 
     /**
@@ -52,5 +54,9 @@ public class TestSuite {
      */
     public static void main(String[] args) {
         JUnitCore.runClasses(TestSuite.class);
+        //last line only works to get rid of audio warning when
+        //run as a java application, not as a jUnit test.
+        AL.destroy();
     }
+
 }
