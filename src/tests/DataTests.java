@@ -49,7 +49,7 @@ public class DataTests {
 	public void testGameState(){
 		initTestGame();
 		
-		assertTrue("gameState comparison", gameWorld.getGameState == data.getProgress()))
+		assertTrue("gameState comparison", gameWorld.getGameState == data.getGameState))
 	}
 	
 	@Test
