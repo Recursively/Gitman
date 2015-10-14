@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	DataTests.class
+	DataTests.class,
+	GameWorldTests.class
 })
 
 /**
