@@ -30,23 +30,65 @@ public class DataTests {
 	}
 
 	@Test
-	public void testCompareGamestateFields() {
+	public void testCompareisProgramCompiled() {
 		initTestGame();
 
 		assertTrue("isProgramCompiled comparison",
 				GameWorld.isProgramCompiled() == data.isIsProgramCompiled());
+	}
+		
+	@Test
+	public void testIsOutside(){
+		initTestGame();
+		
 		assertTrue("isOutside comparison",
 				GameWorld.isOutside() == data.isIsOutside());
+	}
+	
+	@Test
+	public void testGameState(){
+		initTestGame();
+		
+		assertTrue("gameState comparison", gameWorld.getGameState == data.getProgress()))
+	}
+	
+	@Test
+	public void testProgress(){
+		initTestGame();
+		
 		assertTrue("progress comparison",
 				gameWorld.getProgress() == data.getProgress());
+	}
+	
+	@Test
+	public void testScore(){
+		initTestGame();
+		
 		assertTrue("score comparison", gameWorld.getScore() == data.getScore());
+	}
+	
+	@Test
+	public void testCanApplyPatch(){
+		initTestGame();
+		
 		assertTrue("canApplyPatch comparison",
 				gameWorld.isCanApplyPatch() == data.isCanApplyPatch());
+	}
+	
+	@Test
+	public void testCommitIndex(){
+		initTestGame();
+		
 		assertTrue("commitIndex comparison",
 				gameWorld.getCommitIndex() == data.getCommitIndex());
+	}
+	
+	@Test
+	public void testTimer(){
+		initGame();
+		
 		assertTrue("timer comparison", gameWorld.getTimer() == Load.loadGame()
 				.getTimer());
-
 	}
 
 	@Test

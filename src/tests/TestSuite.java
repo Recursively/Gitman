@@ -1,9 +1,13 @@
 package tests;
 
 import model.GameWorld;
+
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import org.lwjgl.openal.AL;
+
+import controller.AudioController;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -25,6 +29,7 @@ public class TestSuite {
 	 */
 	public TestSuite() {
 		gameWorld = new GameWorld();
+		new AudioController();
 	}
 
 	/**
@@ -41,5 +46,6 @@ public class TestSuite {
 	 */
 	public static void main(String[] args) {
 		JUnitCore.runClasses(TestSuite.class);
+		//AL.destroy();
 	}
 }

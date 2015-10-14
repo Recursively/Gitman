@@ -287,7 +287,7 @@ public class Inventory {
 	 * @param max max value of that row/col
 	 * @return new x/y position
 	 */
-	public int selectDownOrRight(int num, int max) {
+	private int selectDownOrRight(int num, int max) {
 		if (num < max) {
 			return num + 1;
 		}
@@ -300,7 +300,7 @@ public class Inventory {
 	 * @param num current x/y point in array
 	 * @return new x/y position
 	 */
-	public int selectUpOrLeft(int num) {
+	private int selectUpOrLeft(int num) {
 		if (num > 0) {
 			return num - 1;
 		}

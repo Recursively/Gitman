@@ -31,7 +31,6 @@ import java.util.*;
  * @author Ellie
  */
 public class GameWorld {
-
 	public static final int GAME_WIN = 1; // game state value for won game
 	public static final int CODE_VALUE = 20;
 	public static final int MAX_PROGRESS = 100;
@@ -908,6 +907,9 @@ public class GameWorld {
 		// initialise factories and data structures
 		initFactories();
 		initDataStructures();
+
+		// creates the gui to be displayed on the display
+		initGui();
 
 		// initialises the currentTerrain
 		initTerrain();
