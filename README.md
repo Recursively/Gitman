@@ -17,11 +17,13 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 
       *OpenGL is operating system specifc, and so you need to change which natives it will try and use*
 
-      If you are using eclipse:
-         Right click project > Build Path > Configure Build Path
-         Under libraries make sure all the jars are added. Add jars > redmf > lib > jars > *
-         Once the lwjgl.jar is added > press drop down arrow to the left of its name
-         Selecte Native library location > Edit > Workspace > redmf > lib > native > **YOUR OS**
+      **If you are using eclipse:**
+      
+         Right click project > Build Path > Configure Build Path<br>
+         Under libraries make sure all the jars are added. Add jars > redmf > lib > jars > JAR <br>
+         Once the lwjgl.jar is added > press drop down arrow to the left of its name <br>
+         Selecte Native library location > Edit > Workspace > redmf > lib > native > **YOUR OS** <br>
+         
    
       **List of operating systems**
       
