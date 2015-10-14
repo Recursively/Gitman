@@ -86,7 +86,7 @@ public class RendererTests {
         for (Entity e : gameWorld.getWallEntities()) {
             renderer.processEntity(e);
         }
-        
+
         // test patch progress decreasing
         gameWorld.decreasePatch();
 

@@ -465,42 +465,42 @@ public class GameWorldTests {
         gameWorld.addCard(e);
         assertTrue(gameWorld.getSwipeCards().contains(e));
     }
-   
+
     @Test
-    public void testIncrementPatch_1(){
-    	int prog = gameWorld.getProgress();
-    	gameWorld.incrementPatch();
-    	assertTrue(prog < gameWorld.getProgress());
+    public void testIncrementPatch_1() {
+        int prog = gameWorld.getProgress();
+        gameWorld.incrementPatch();
+        assertTrue(prog < gameWorld.getProgress());
     }
-    
+
     @Test
-    public void testIncrementPatch_2(){
-    	gameWorld.setProgress(GameWorld.MAX_PROGRESS);
-    	gameWorld.incrementPatch();
-    	assertTrue(gameWorld.canApplyPatch());
+    public void testIncrementPatch_2() {
+        gameWorld.setProgress(GameWorld.MAX_PROGRESS);
+        gameWorld.incrementPatch();
+        assertTrue(gameWorld.canApplyPatch());
     }
-    
+
     @Test
-    public void testUpdateScore(){
-    	int oldScore = gameWorld.getScore();
-    	int addScore = 5;
-    	gameWorld.updateScore(addScore);
-    	assertEquals(oldScore+addScore, gameWorld.getScore());
+    public void testUpdateScore() {
+        int oldScore = gameWorld.getScore();
+        int addScore = 5;
+        gameWorld.updateScore(addScore);
+        assertEquals(oldScore + addScore, gameWorld.getScore());
     }
-    
+
     @Test
-    public void testTeleportToOffice(){
-    	gameWorld.teleportToOffice();
-    	assertFalse(gameWorld.isOutside());
+    public void testTeleportToOffice() {
+        gameWorld.teleportToOffice();
+        assertFalse(gameWorld.isOutside());
     }
-    
+
     @Test
-    public void testTeleportToOutside(){
-    	gameWorld.teleportToOutside();
-    	assertTrue(gameWorld.isOutside());
-    } 
-    
-    
+    public void testTeleportToOutside() {
+        gameWorld.teleportToOutside();
+        assertTrue(gameWorld.isOutside());
+    }
+
+
     // ------------------------------------------------------
     // PLAYER TESTS
     // ------------------------------------------------------
@@ -531,7 +531,7 @@ public class GameWorldTests {
         Player p = gameWorld.getPlayer();
         assertTrue(p.getType().equals("Player"));
     }
-    
+
     // ------------------------------------------------------
     // HELPER METHODS
     // ------------------------------------------------------

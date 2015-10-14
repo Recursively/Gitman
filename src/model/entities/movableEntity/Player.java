@@ -170,7 +170,7 @@ public class Player extends MovableEntity {
             position.z = terrainOriginZ + edgeBound;
         } else if (zPos > terrainBoundZ - edgeBound) {
             position.z = terrainBoundZ - edgeBound;
-        } 
+        }
 
         // Now check for portal collision
 
@@ -187,7 +187,7 @@ public class Player extends MovableEntity {
                 // swap terrain
                 GameWorld.teleportToOutside();
                 GameWorld.setGuiLocationMessage("inGameOutsideDesc", 15000);
-                
+
                 if (firstTimeOutside) {
                     firstTimeOutside = false;
                     GameWorld.setGuiMessage("inGameMessage", 5000);

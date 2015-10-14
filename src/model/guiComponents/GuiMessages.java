@@ -34,7 +34,7 @@ public class GuiMessages {
      * The constant MINOR_MESSAGE_SCALE.
      */
     public static final Vector2f MINOR_MESSAGE_SCALE = new Vector2f(0.4f, 0.4f);
-    
+
     /**
      * The constant LOC_MESSAGE_POS.
      */
@@ -45,17 +45,17 @@ public class GuiMessages {
     public static final Vector2f LOC_MESSAGE_SCALE = new Vector2f(0.7f, 0.7f);
 
     private GuiFactory guiFactory;   // needed to make gui textures
-    
+
     // helper messages
     private List<GuiTexture> messages;  // list of messages that should currently be displayed
     private long timer;
     private double messageTime;  //length of time messages in messages list need to be displayed
-    
+
     // location messages
-    private List<GuiTexture> locationMessages;  
+    private List<GuiTexture> locationMessages;
     private long locTimer;
-    private double locMessageTime;  
-    
+    private double locMessageTime;
+
     private HashMap<String, GuiTexture> messageMap;
 
     /**
@@ -71,7 +71,7 @@ public class GuiMessages {
     }
 
     /**
-     * Load in common messages that will be displayed 
+     * Load in common messages that will be displayed
      * in the game
      */
     private void loadImages() {
@@ -87,7 +87,7 @@ public class GuiMessages {
         messageMap.put("gameSaved", guiFactory.makeGuiTexture("gameSaved", MESSAGE_POS, MESSAGE_SCALE));
         messageMap.put("failedToLoad", guiFactory.makeGuiTexture("failedToLoad", MESSAGE_POS, MESSAGE_SCALE));
         messageMap.put("aPlayerHasLeftTheGame", guiFactory.makeGuiTexture("aPlayerHasLeftTheGame", MINOR_MESSAGE_POS, MINOR_MESSAGE_SCALE));
-        
+
         //location descriptions
         messageMap.put("officeDesc", guiFactory.makeGuiTexture("officeDesc", LOC_MESSAGE_POS, LOC_MESSAGE_SCALE));
         messageMap.put("inGameOutsideDesc", guiFactory.makeGuiTexture("inGameOutsideDesc", LOC_MESSAGE_POS, LOC_MESSAGE_SCALE));
@@ -106,7 +106,7 @@ public class GuiMessages {
         this.messages.add(messageMap.get(msg));
         this.messageTime = time;
     }
-    
+
     /**
      * Add the given message into the location messages list
      * so that it will be displayed as a location description
@@ -120,7 +120,7 @@ public class GuiMessages {
         this.locationMessages.add(messageMap.get(msg));
         this.locMessageTime = time;
     }
-     
+
     /**
      * Check if current messages that are displayed have
      * passed their time displayed limit
@@ -133,7 +133,7 @@ public class GuiMessages {
                 this.messages.clear();
             }
         }
-        
+
         // update location message
         if (!this.locationMessages.isEmpty()) {
             long currentTime = System.currentTimeMillis();

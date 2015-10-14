@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Factory class to handle the creation of Players in the game.
  * <p/>
- * Handles both the main player and other multilayer players
+ * Handles both the main player and other multi-player players
  *
  * @author Marcel van Workum - 300313949
  * @author Reuben Puketapu - 300310939
