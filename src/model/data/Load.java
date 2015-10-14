@@ -124,7 +124,6 @@ public class Load {
 		}
 		
 		// loading was unsuccessful
-		System.out.println("Loading failed");
 		return null;
 	}
 
