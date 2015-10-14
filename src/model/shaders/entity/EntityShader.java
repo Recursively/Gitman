@@ -154,7 +154,6 @@ public class EntityShader extends ShaderProgram {
                 super.loadVector(locationAttenuation[i], lights.get(i).getAttenuation());
             }
             // still renders empty lights
-            // TODO this slows performance
             else {
                 super.loadVector(locationLightPosition[i], new Vector3f(0, 0, 0));
                 super.loadVector(locationLightColour[i], new Vector3f(0, 0, 0));

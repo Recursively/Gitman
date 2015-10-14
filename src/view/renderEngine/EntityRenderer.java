@@ -107,7 +107,7 @@ public class EntityRenderer {
      * Cleans up the TexturedModel by re-enabling culling and unbinding the VAO
      */
     private void unbindTexturedModel() {
-        MasterRenderer.enableCulling(); //TODO is this slowing the render process down?
+        MasterRenderer.enableCulling();
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
