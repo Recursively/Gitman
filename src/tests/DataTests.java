@@ -4,8 +4,11 @@ import model.GameWorld;
 import model.data.Data;
 import model.data.Load;
 import model.data.Save;
+import model.entities.movableEntity.MovableEntity;
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
+
+import java.util.HashSet;
 
 import static org.junit.Assert.assertTrue;
 
@@ -102,7 +105,17 @@ public class DataTests {
     public void testCompareMovableEntities() {
         initTestGame();
 
-        // TODO Add here
+        initTestGame();
+
+        HashSet<Integer> uids = new HashSet<>();
+
+        for (MovableEntity e : gameWorld.getMoveableEntities().values()) {
+            uids.add(e.getUID());
+        }
+
+        for (MovableEntity m : data.getMovableEntities()) {
+            assertTrue("Not contained" + m.getUID(), uids.contains(m.getUID()));
+        }
     }
 
     @Test
