@@ -25,7 +25,6 @@ import java.io.File;
  * @author Finn Kinnear
  * @author Divya
  */
-
 public class Save {
 
     private final static String FILE_NAME = "save.xml";
@@ -140,8 +139,8 @@ public class Save {
      *
      * @param doc         the document in which the xml heirachy is stored
      * @param rootElement the element to which all others are appended
+     * @param gameWorld   the game world
      */
-
     public static void savePlayer(Document doc, Element rootElement,
                                   GameWorld gameWorld) {
         // player elements
@@ -201,8 +200,8 @@ public class Save {
      *
      * @param doc         the document in which the xml heirachy is stored
      * @param rootElement the element to which all others are appended
+     * @param gameWorld   the game world
      */
-
     public static void saveInventory(Document doc, Element rootElement,
                                      GameWorld gameWorld) {
 
@@ -273,8 +272,8 @@ public class Save {
      *
      * @param doc         the document in which the xml heirachy is stored
      * @param rootElement the element to which all others are appended
+     * @param gameWorld   the game world
      */
-
     public static void saveEntities(Document doc, Element rootElement,
                                     GameWorld gameWorld) {
 
@@ -359,8 +358,8 @@ public class Save {
      *
      * @param doc         the document in which the xml heirachy is stored
      * @param rootElement the element to which all others are appended
+     * @param gameWorld   the game world
      */
-
     public static void saveSwipeCards(Document doc, Element rootElement,
                                       GameWorld gameWorld) {
 

@@ -26,6 +26,9 @@ public class Terrain {
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
+    private final String NAME;
+    private final String DESCRIPTION;
+
     private float[][] heights;
     private float gridX;
     private float gridZ;
@@ -49,7 +52,9 @@ public class Terrain {
      * @param heightMap height map to style terrain y values
      */
     public Terrain(int gridX, int gridZ, TerrainTexturePack texture, TerrainTexture blendMap,
-                   String heightMap) {
+                   String heightMap, final String NAME, final String DESCRIPTION) {
+        this.NAME = NAME;
+        this.DESCRIPTION = DESCRIPTION;
         this.blendMap = blendMap;
         this.texturePack = texture;
         this.gridX = gridX * SIZE;
@@ -69,9 +74,12 @@ public class Terrain {
      * @param texture   texture pack to make up the terrain
      * @param blendMap  blend map for mixing textures
      * @param heightMap height map to style terrain y values
+     * @param size      the size
      */
     public Terrain(int gridX, int gridZ, TerrainTexturePack texture, TerrainTexture blendMap,
-                   String heightMap, int size) {
+                   String heightMap, int size, final String NAME, final String DESCRIPTION) {
+        this.NAME = NAME;
+        this.DESCRIPTION = DESCRIPTION;
         SIZE = size;
         this.blendMap = blendMap;
         this.texturePack = texture;

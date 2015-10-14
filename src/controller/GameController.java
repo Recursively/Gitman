@@ -29,9 +29,18 @@ import java.util.Map;
  * @author Ellie
  */
 public class GameController {
-    // network state
+    /**
+     * The constant RUNNING.
+     */
+// network state
     protected static boolean RUNNING;
+    /**
+     * The constant READY.
+     */
     protected static boolean READY;
+    /**
+     * The constant NETWORK_DISCONNECTED.
+     */
     public static boolean NETWORK_DISCONNECTED;
 
     // Model
@@ -53,6 +62,9 @@ public class GameController {
     /**
      * Delegates the creation of the MVC and then starts the game
      *
+     * @param isHost    the is host
+     * @param ipAddress the ip address
+     * @param load      the load
      * @throws IOException
      */
     public GameController(boolean isHost, String ipAddress, boolean load) {
@@ -227,6 +239,8 @@ public class GameController {
     }
 
     /**
+     * Is host boolean.
+     *
      * @return if this controller is the host
      */
     public boolean isHost() {

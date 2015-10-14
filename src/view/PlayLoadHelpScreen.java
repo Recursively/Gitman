@@ -20,7 +20,6 @@ import java.util.List;
  * @author Divya
  * @author Marcel
  */
-
 public class PlayLoadHelpScreen {
 
     //networking
@@ -31,6 +30,8 @@ public class PlayLoadHelpScreen {
     private String PATH = "titleScreen";
 
     /**
+     * Instantiates a new Play load help screen.
+     *
      * @param isHost   whether this is the host
      * @param hostname name of Host
      */

@@ -32,8 +32,17 @@ import java.util.*;
  */
 public class GameWorld {
 
+    /**
+     * The constant GAME_WIN.
+     */
     public static final int GAME_WIN = 1; // game state value for won game
+    /**
+     * The constant CODE_VALUE.
+     */
     public static final int CODE_VALUE = 20;
+    /**
+     * The constant MAX_PROGRESS.
+     */
     public static final int MAX_PROGRESS = 100;
 
     // Patch
@@ -48,18 +57,42 @@ public class GameWorld {
     private static final int BUG_INTERACT = 40;
 
     private static final float Y_OFFSET = 2; // y offset to place deleted items
+    /**
+     * The constant SPAWN_POSITION.
+     */
     public static final Vector3f SPAWN_POSITION = new Vector3f(30, 100, -20);
+    /**
+     * The constant OFFICE_SPAWN_POSITION.
+     */
     public static final Vector3f OFFICE_SPAWN_POSITION = new Vector3f(128060, 100, -127930);
 
     // PORTAL BOUNDS AND SPAWN
     private static final Vector3f OUTSIDE_PORTAL_POSITION = new Vector3f(6, 19, -35);
+    /**
+     * The constant PORTAL_LOWER_BOUND_OUTSIDE_Z.
+     */
     public static final int PORTAL_LOWER_BOUND_OUTSIDE_Z = -30;
+    /**
+     * The constant PORTAL_UPPER_BOUND_OUTSIDE_Z.
+     */
     public static final int PORTAL_UPPER_BOUND_OUTSIDE_Z = -40;
+    /**
+     * The constant PORTAL_EDGE_BOUND_OUTSIDE_X.
+     */
     public static final int PORTAL_EDGE_BOUND_OUTSIDE_X = 12;
 
     private static final Vector3f OFFICE_PORTAL_POSITION = new Vector3f(128011f, 0, -127930);
+    /**
+     * The constant PORTAL_LOWER_BOUND_OFFICE_Z.
+     */
     public static final int PORTAL_LOWER_BOUND_OFFICE_Z = -127920;
+    /**
+     * The constant PORTAL_UPPER_BOUND_OFFICE_Z.
+     */
     public static final int PORTAL_UPPER_BOUND_OFFICE_Z = -127940;
+    /**
+     * The constant PORTAL_EDGE_BOUND_OFFICE_X.
+     */
     public static final int PORTAL_EDGE_BOUND_OFFICE_X = 128016;
 
     private static float worldTime = 0;
@@ -123,6 +156,8 @@ public class GameWorld {
 
     /**
      * Creates the game world
+     *
+     * @param gameController the game controller
      */
     public GameWorld(GameController gameController) {
         this.gameController = gameController;
@@ -130,6 +165,8 @@ public class GameWorld {
 
     /**
      * Initialises the game by setting up the lighting, factories and terrains
+     *
+     * @param load the load
      */
     public void initGame(boolean load) {
         // initialise factories and data structures
@@ -600,8 +637,9 @@ public class GameWorld {
     }
 
     /**
-     * @return end state screen depending on current game state (i.e. if game
-     * has been won or lost)
+     * Gets end state screen.
+     *
+     * @return end state screen depending on current game state (i.e. if game has been won or lost)
      */
     public List<GuiTexture> getEndStateScreen() {
         if (this.gameState == GAME_WIN) {
@@ -880,6 +918,8 @@ public class GameWorld {
     }
 
     /**
+     * Is outside boolean.
+     *
      * @return true if player is on the outside terrain
      */
     public static boolean isOutside() {
@@ -933,6 +973,8 @@ public class GameWorld {
     }
 
     /**
+     * Gets inventory.
+     *
      * @return the inventory
      */
     public Inventory getInventory() {
@@ -958,6 +1000,8 @@ public class GameWorld {
     }
 
     /**
+     * Gets all players.
+     *
      * @return the otherPlayers
      */
     public Map<Integer, Player> getAllPlayers() {
@@ -1010,6 +1054,8 @@ public class GameWorld {
     }
 
     /**
+     * Gets disconnected screen.
+     *
      * @return disconnected screen gui texture
      */
     public List<GuiTexture> getDisconnectedScreen() {
@@ -1017,6 +1063,8 @@ public class GameWorld {
     }
 
     /**
+     * Gets commit collected.
+     *
      * @return 1 if commits have been collected
      */
     public int getCommitCollected() {
@@ -1024,6 +1072,8 @@ public class GameWorld {
     }
 
     /**
+     * Sets commit collected.
+     *
      * @param collected to set commitsCollected to
      */
     public void setCommitCollected(int collected) {

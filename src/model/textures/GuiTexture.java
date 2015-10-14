@@ -47,6 +47,8 @@ public class GuiTexture {
 
     /**
      * Sets position.
+     *
+     * @param position the position
      */
     public void setPosition(Vector2f position) {
         this.position = position;

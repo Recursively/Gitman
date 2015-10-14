@@ -33,7 +33,10 @@ public class PlayerFactory {
     /**
      * Creates a new Main player at a given position
      *
-     * @param position position to create the player at
+     * @param position    position to create the player at
+     * @param playerModel the player model
+     * @param uid         the uid
+     * @param load        the load
      * @return Player with Camera
      */
     public Player makeNewPlayer(Vector3f position, TexturedModel playerModel, int uid, Data load) {

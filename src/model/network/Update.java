@@ -8,8 +8,17 @@ package model.network;
  */
 public class Update {
 
+    /**
+     * The Update.
+     */
     public int update;
+    /**
+     * The Id.
+     */
     public int id;
+    /**
+     * The Uid.
+     */
     public int uid;
 
     /**

@@ -173,6 +173,8 @@ public class NetworkHandler {
     }
 
     /**
+     * Gets interacted laptops.
+     *
      * @return the interactedLaptops
      */
     public ArrayList<Laptop> getInteractedLaptops() {
@@ -180,6 +182,8 @@ public class NetworkHandler {
     }
 
     /**
+     * Gets interacted commits.
+     *
      * @return the interactedCommits
      */
     public ArrayList<Commit> getInteractedCommits() {
