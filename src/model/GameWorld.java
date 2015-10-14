@@ -329,6 +329,7 @@ public class GameWorld {
         this.guiImages.addAll(this.guiFactory.getProgress(this.progress));
         this.guiImages.addAll(this.guiFactory.getScore(this.score));
         this.guiImages.addAll(this.guiFactory.getSwipeCards(this.cards));
+        this.guiImages.add(this.guiFactory.getLocationDescription(GameWorld.isOutside));
     }
 
     /**

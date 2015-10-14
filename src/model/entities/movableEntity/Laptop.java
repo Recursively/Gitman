@@ -9,9 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
 import java.util.ArrayList;
 
 /**
- * Represent the characters in the game that will be found in
- * the office section, and will have laptops with them that
- * the player can clone code off.
+ * Represent the laptops in the Game that the player can clone code off.
  *
  * @author Divya
  */
