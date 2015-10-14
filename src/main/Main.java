@@ -17,8 +17,13 @@ public class Main {
      */
     public static void main(String[] args) {
 
+        // No args just defaults to non-fullscreen server
+        if (args.length == 0) {
+            new TitleScreen(true, "", false);
+        }
+
         // Checks that the args are valid
-        if (args.length < 1 || args.length > 2) {
+        if (args.length > 2) {
             System.out.println("Invalid number of arguments");
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             System.out.println("Arguments are: \n   fullscreen (Y/N)\n   ipAddress (xxx.xxx.xxx.x.x)");
