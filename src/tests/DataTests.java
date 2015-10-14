@@ -111,33 +111,37 @@ public class DataTests {
 		assertTrue("Player position comparison", gameWorld.getPlayer()
 				.getPosition().equals(data.getPlayerPos()));
 	}
-	
+
 	@Test
-	public void testPlayerCameraPitch(){
+	public void testPlayerCameraPitch() {
 		initTestGame();
-		
-		assertTrue("Camera pitch comparison", gameWorld.getPlayer().getCamera().getPitch() == data.getPitch());
+
+		assertTrue("Camera pitch comparison", gameWorld.getPlayer().getCamera()
+				.getPitch() == data.getPitch());
 	}
-	
+
 	@Test
-	public void testPlayerCameraRoll(){
+	public void testPlayerCameraRoll() {
 		initTestGame();
-		
-		assertTrue("Camera roll comparison", gameWorld.getPlayer().getCamera().getRoll() == data.getRoll());
+
+		assertTrue("Camera roll comparison", gameWorld.getPlayer().getCamera()
+				.getRoll() == data.getRoll());
 	}
-	
+
 	@Test
-	public void testPlayerCameraYaw(){
+	public void testPlayerCameraYaw() {
 		initTestGame();
-		
-		assertTrue("Camera yaw comparison", gameWorld.getPlayer().getCamera().getYaw() == data.getYaw());
+
+		assertTrue("Camera yaw comparison", gameWorld.getPlayer().getCamera()
+				.getYaw() == data.getYaw());
 	}
-	
+
 	@Test
-	public void testPlayerUID(){
+	public void testPlayerUID() {
 		initTestGame();
-		
-		assertTrue("Player uid comparison", gameWorld.getPlayer().getUID() == data.getUid());
+
+		assertTrue("Player uid comparison",
+				gameWorld.getPlayer().getUID() == data.getUid());
 	}
 
 	@Test
@@ -147,12 +151,13 @@ public class DataTests {
 		assertTrue("Inventory comparison", gameWorld.getInventory().getItems()
 				.equals(data.getInventory()));
 	}
-	
+
 	@Test
-	public void testStorageUsed(){
+	public void testStorageUsed() {
 		initTestGame();
-		
-		assertTrue("Inventory storage used comparison", gameWorld.getInventory().getStorageUsed() == data.getStorageUsed());
+
+		assertTrue("Inventory storage used comparison", gameWorld
+				.getInventory().getStorageUsed() == data.getStorageUsed());
 	}
 
 	@Test
