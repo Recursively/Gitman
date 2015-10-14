@@ -230,7 +230,7 @@ public class Inventory {
                 this.textureList.add(this.itemDisplayed);
 
                 // player easter egg tune for special image
-                if (this.selected.getImgName().equals("extImg1Info")) {
+                if (this.selected.getImgName().equals("extImg1ItemDescription")) {
                     AudioController.playEasterEggLoop();
                 } else {
                     AudioController.playRandomInventorySound();
