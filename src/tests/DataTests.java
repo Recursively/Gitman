@@ -6,46 +6,49 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import view.DisplayManager;
+import controller.AudioController;
 import controller.GameController;
 import model.GameWorld;
 import model.data.Load;
 import model.data.Save;
 import model.entities.movableEntity.LaptopItem;
 import model.entities.movableEntity.MovableEntity;
+import model.entities.movableEntity.Player;
 import model.entities.movableEntity.SwipeCard;
 import model.toolbox.Loader;
 
 public class DataTests {
 
-	private boolean isHost = true;
-	private String ipAddress = "0";
-	private boolean load = false;
-	private boolean fullscreen = true;
-	private GameWorld gameWorld = new GameWorld(new Loader(), new GameController(isHost, ipAddress, load, fullscreen));
-	private ArrayList<LaptopItem> laptopItems;
-	private ArrayList<MovableEntity> movableEntities;
-	private ArrayList<SwipeCard> swipeCards;
+	private GameWorld gameWorld;
 
-	private void initGameWorld() {
-		gameWorld.initGame(isHost, load);
-		laptopItems = gameWorld.getInventory().getItems();
-		movableEntities = (ArrayList<MovableEntity>) gameWorld.getMoveableEntities().values();
-		swipeCards = gameWorld.getSwipeCards();
-		Save.saveGame(gameWorld);
+	private void initTestGame() {
+		
+		this.gameWorld = TestSuite.gameWorld;
 	}
-	
+
 	@Test
-	public void testCompareLaptopItems(){
-		assertTrue("LaptopItems saved and loaded correctly", laptopItems.equals(Load.loadGame().getInventory()));
+	public void testCompareGamestateFields() {
+		
+		initTestGame();
+		assertTrue("Progress comparison", gameWorld.getProgress() == Load
+				.loadGame().getProgress());
 	}
-	
+
 	@Test
-	public void testCompareMovableEntities(){
-		assertTrue("MovableEntities saved and loaded correctly", laptopItems.equals(Load.loadGame().getInventory()));
+	public void testCompareCollections() {
+		
+		initTestGame();
+		
+		assertTrue(
+				"LaptopItems saved and loaded correctly",
+				gameWorld.getInventory().getItems()
+						.equals(Load.loadGame().getInventory()));
+		assertTrue("MovableEntities saved and loaded correctly",
+				new ArrayList<MovableEntity>(gameWorld.getMoveableEntities()
+						.values()).equals(Load.loadGame().getInventory()));
+		assertTrue("MovableEntities saved and loaded correctly", gameWorld
+				.getSwipeCards().equals(Load.loadGame().getInventory()));
 	}
-	
-	@Test
-	public void testCompareSwipeCards(){
-		assertTrue("MovableEntities saved and loaded correctly", laptopItems.equals(Load.loadGame().getInventory()));
-	}
+
 }

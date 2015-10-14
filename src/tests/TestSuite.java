@@ -1,9 +1,10 @@
 package tests;
 
 import model.GameWorld;
-import model.data.Save;
 
 public class TestSuite {
+	
+	public static GameWorld gameWorld;
 
     //TODO :<>
 
