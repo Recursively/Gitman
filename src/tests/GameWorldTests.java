@@ -377,6 +377,7 @@ public class GameWorldTests {
 
 
     // TODO tests from decreasePatch method onwards in gameworld
+    
     // ------------------------------------------------------
     // PLAYER TESTS
     // ------------------------------------------------------
@@ -398,14 +399,7 @@ public class GameWorldTests {
         Player p = gameWorld.getPlayer();
         assertTrue(p.getType().equals("Player"));
     }
-
-    @Test
-    public void testPlayerMove() {
-        Player p = gameWorld.getPlayer();
-        p.getCardID();
-
-    }
-
+    
     // ------------------------------------------------------
     // HELPER METHODS
     // ------------------------------------------------------
