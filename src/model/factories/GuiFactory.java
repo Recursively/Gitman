@@ -46,8 +46,6 @@ public class GuiFactory {
     private GuiTexture winScreen;
     private GuiTexture progressBlock;
     private GuiTexture disconnectedServer;
-    private GuiTexture officeDesc;
-    private GuiTexture inGameOutsideDesc;
 
     // gui panel
     private int oldCardsSize;
@@ -77,10 +75,6 @@ public class GuiFactory {
         winScreen = makeGuiTexture("youWonScreen", CENTER_POS, FULL_SCALE);
         progressBlock = makeGuiTexture("progressBlock", CENTER_POS, PROGRESS_SCALE);
         disconnectedServer = makeGuiTexture("youHaveBeenDisconnected", CENTER_POS, FULL_SCALE);
-        
-        // location information
-        officeDesc = makeGuiTexture("officeDesc", new Vector2f(0.8f, 0.9f), new Vector2f(0.8f, 0.8f));
-        inGameOutsideDesc = makeGuiTexture("inGameOUtsideDesc", new Vector2f(0.8f, 0.9f), new Vector2f(0.8f, 0.8f));
 
         // info panel
         this.cards = new ArrayList<>();
@@ -290,19 +284,4 @@ public class GuiFactory {
         help.add(makeGuiTexture("helpScreen", new Vector2f(0f, 0f), new Vector2f(0.8f, 1f)));
         return help;
     }
-
-    /**
-     * Returns the description of the location the player is 
-     * currently in
-     * 
-     * @param isOutside indicates where the player is. True
-     *        if outside, false if in the office
-     * @return 
-     */
-	public GuiTexture getLocationDescription(boolean isOutside) {
-		if(isOutside){
-			return inGameOutsideDesc;
-		}
-		return officeDesc;
-	}
 }
