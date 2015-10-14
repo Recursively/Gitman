@@ -22,16 +22,43 @@ import java.util.List;
  * @author Reuben
  */
 public class Inventory {
+    /**
+     * The constant MAX_STORAGE_SIZE.
+     */
     public static final int MAX_STORAGE_SIZE = 200;
 
-    // final fields for image display
+    /**
+     * The constant NUM_ACROSS.
+     */
+// final fields for image display
     public static final int NUM_ACROSS = 2;
+    /**
+     * The constant NUM_DOWN.
+     */
     public static final int NUM_DOWN = 7;
+    /**
+     * The constant START_X.
+     */
     public static final float START_X = -0.6f;
+    /**
+     * The constant START_Y.
+     */
     public static final float START_Y = 0.35f;
+    /**
+     * The constant ICON_SCALE.
+     */
     public static final Vector2f ICON_SCALE = new Vector2f(0.08f, 0.16f);
+    /**
+     * The constant SELECT_SCALE.
+     */
     public static final Vector2f SELECT_SCALE = new Vector2f(0.1f, 0.2f);
+    /**
+     * The constant CENTER_POS.
+     */
     public static final Vector2f CENTER_POS = new Vector2f(0f, 0f);
+    /**
+     * The constant IMAGE_SCALE.
+     */
     public static final Vector2f IMAGE_SCALE = new Vector2f(0.6f, 0.8f);
 
     private LaptopItem[][] laptopDisplay;   // for display of laptop images
@@ -59,6 +86,8 @@ public class Inventory {
     }
 
     /**
+     * Gets items.
+     *
      * @return list of items in inventory
      */
     public ArrayList<LaptopItem> getItems() {
@@ -66,6 +95,8 @@ public class Inventory {
     }
 
     /**
+     * Gets storage used.
+     *
      * @return storage used value
      */
     public int getStorageUsed() {
@@ -73,6 +104,8 @@ public class Inventory {
     }
 
     /**
+     * Gets texture list.
+     *
      * @return current list of images in inventory to be displayed
      */
     public List<GuiTexture> getTextureList() {
@@ -80,6 +113,8 @@ public class Inventory {
     }
 
     /**
+     * Is visible boolean.
+     *
      * @return true if inventory is visible
      */
     public boolean isVisible() {
@@ -105,6 +140,7 @@ public class Inventory {
     /**
      * Remove item from inventory. Update storage space used.
      *
+     * @param game the game
      * @return Item if successfully removed, null if not
      */
     public int deleteItem(GameWorld game) {
@@ -205,6 +241,8 @@ public class Inventory {
     }
 
     /**
+     * Get laptop display laptop item [ ] [ ].
+     *
      * @return 2D array of items currently in the laptop
      */
     public LaptopItem[][] getLaptopDisplay() {
@@ -212,6 +250,8 @@ public class Inventory {
     }
 
     /**
+     * Gets selected.
+     *
      * @return currently selected item
      */
     public LaptopItem getSelected() {
@@ -342,6 +382,8 @@ public class Inventory {
     }
 
     /**
+     * Sets in laptop.
+     *
      * @param inventory to set inLaptop array to
      */
     public void setInLaptop(ArrayList<LaptopItem> inventory) {

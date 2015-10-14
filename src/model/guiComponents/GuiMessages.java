@@ -17,10 +17,22 @@ import java.util.List;
  * @author Ellie
  */
 public class GuiMessages {
-    // fixed positionin of messages
+    /**
+     * The constant MESSAGE_POS.
+     */
+// fixed positionin of messages
     public static final Vector2f MESSAGE_POS = new Vector2f(0f, 0.5f);
+    /**
+     * The constant MESSAGE_SCALE.
+     */
     public static final Vector2f MESSAGE_SCALE = new Vector2f(1f, 1f);
+    /**
+     * The constant MINOR_MESSAGE_POS.
+     */
     public static final Vector2f MINOR_MESSAGE_POS = new Vector2f(0.6f, -0.8f);
+    /**
+     * The constant MINOR_MESSAGE_SCALE.
+     */
     public static final Vector2f MINOR_MESSAGE_SCALE = new Vector2f(0.4f, 0.4f);
 
     private GuiFactory guiFactory;   // needed to make gui textures
@@ -88,6 +100,8 @@ public class GuiMessages {
     }
 
     /**
+     * Gets messages.
+     *
      * @return current messages to be displayed
      */
     public List<GuiTexture> getMessages() {

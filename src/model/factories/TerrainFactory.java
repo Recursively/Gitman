@@ -70,8 +70,10 @@ public class TerrainFactory {
      * @return the terrain
      */
     public Terrain makeOutsideTerrain(int gridX, int gridZ) {
+        final String NAME = "Outside";
+        final String DESCRIPTION = "Outside area where the bug is and commits are collected";
         // Create the new terrain object, using pack blendMap and heightmap
-        return new Terrain(gridX, gridZ, outsideTexturePack, outsideBlendMap, "terrains/heightMap");
+        return new Terrain(gridX, gridZ, outsideTexturePack, outsideBlendMap, "terrains/heightMap", NAME, DESCRIPTION);
     }
 
     /**
@@ -82,7 +84,10 @@ public class TerrainFactory {
      * @return the terrain
      */
     public Terrain makeOfficeTerrain(int gridX, int gridZ) {
+        final String NAME = "Office";
+        final String DESCRIPTION = "Office area where office things happen";
         // Create the new terrain object, using pack blendMap and heightmap
-        return new Terrain(gridX, gridZ, officeTexturePack, officeBlendMap, "terrains/officeHeightMap", 128);
+        return new Terrain(gridX, gridZ, officeTexturePack, officeBlendMap, "terrains/officeHeightMap", 128, NAME,
+                DESCRIPTION);
     }
 }

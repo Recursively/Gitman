@@ -44,8 +44,7 @@ public class EntityRenderer {
      * <p/>
      * Saves time and space using a map, rather than each entity having a unique texture
      *
-     * @param entities Map of {@link TexturedModel} to a List of {@link Entity}, as each textured model may have many
-     *                 entities using that texture.
+     * @param entities Map of {@link TexturedModel} to a List of {@link Entity}, as each textured model may have many                 entities using that texture.
      */
     public void render(Map<TexturedModel, List<Entity>> entities) {
         for (TexturedModel model : entities.keySet()) {

@@ -62,6 +62,9 @@ public class SkyboxRenderer {
      * Renders the skybox around the camera
      *
      * @param camera Represents the center point of the skybox cube
+     * @param r      the r
+     * @param g      the g
+     * @param b      the b
      */
     public void render(Camera camera, float r, float g, float b) {
         shader.start();

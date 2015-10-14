@@ -51,7 +51,7 @@ public class SkyboxShader extends ShaderProgram {
      *
      * @param camera the camera
      */
-    /*
+/*
 
         [ 1, 0, 0, x ]
         [ 0, 1, 0, y ]

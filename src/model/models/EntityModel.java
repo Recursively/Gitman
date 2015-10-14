@@ -46,7 +46,7 @@ public class EntityModel {
      * Instantiates a new Entity model.
      *
      * @param name               the name
-     * @param textureCount
+     * @param textureCount       the texture count
      * @param reflectivityFactor the reflectivity factor
      */
     public EntityModel(String name, int textureCount, float reflectivityFactor) {

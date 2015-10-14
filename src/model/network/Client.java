@@ -17,7 +17,6 @@ import java.util.ArrayList;
  *
  * @author Reuben Puketapu
  */
-
 public class Client extends Thread {
 
     private NetworkHandler networkHandler;
@@ -29,6 +28,9 @@ public class Client extends Thread {
     private GameController gameController;
     private int uid;
 
+    /**
+     * The Running.
+     */
     public boolean running;
 
     /**
@@ -235,7 +237,7 @@ public class Client extends Thread {
      * 'floating' player
      *
      * @param player this player/Client
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public void sendPlayerLocation(Player player) throws IOException {
         outputStream.writeFloat(player.getPosition().getX());
@@ -248,7 +250,7 @@ public class Client extends Thread {
      * Reads the ID of the player
      *
      * @return the Player ID
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public int readPlayerID() throws IOException {
         return inputStream.readInt();
@@ -278,7 +280,7 @@ public class Client extends Thread {
      * When this Client connects receive all the information that has been
      * already interacted with
      *
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public void updateGameInformation() throws IOException {
 

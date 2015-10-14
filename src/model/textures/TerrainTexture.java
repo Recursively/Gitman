@@ -5,7 +5,6 @@ package model.textures;
  *
  * @author Marcel van Workum
  */
-
 public class TerrainTexture {
 
     // opengl binding of the texture

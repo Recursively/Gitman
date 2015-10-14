@@ -68,6 +68,9 @@ public class EntityFactory {
 
     /**
      * Construct a new Entity factor with no models preloaded
+     *
+     * @param terrain the terrain
+     * @param office  the office
      */
     public EntityFactory(Terrain terrain, Terrain office) {
         // Initialises the player model
@@ -281,7 +284,7 @@ public class EntityFactory {
      * Creates a commit at a given position
      *
      * @param position position
-     * @return commit
+     * @return commit commit
      */
     public static Commit createCommit(Vector3f position) {
         position.y += 10;

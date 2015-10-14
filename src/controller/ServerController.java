@@ -31,6 +31,9 @@ public class ServerController extends Thread {
     private GameController gameController;
     private NetworkHandler networkHandler;
 
+    /**
+     * The Is running.
+     */
     public boolean isRunning;
 
     /**

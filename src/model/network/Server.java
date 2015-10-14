@@ -212,7 +212,7 @@ public class Server extends Thread {
     /**
      * Sets the UID of this Server
      *
-     * @param uid
+     * @param uid the uid
      */
     public void setUid(int uid) {
         this.uid = uid;
@@ -221,8 +221,8 @@ public class Server extends Thread {
     /**
      * Sets the update of this
      *
-     * @param status
-     * @param entity
+     * @param status the status
+     * @param entity the entity
      */
     public void setUpdate(int status, MovableEntity entity) {
         serverUpdate = (new Update(status, entity.getUID(), 0));
@@ -300,7 +300,7 @@ public class Server extends Thread {
     /**
      * Sends if there has been a collected commit
      *
-     * @throws IOException
+     * @throws IOException the io exception
      */
     public void sendIsCommitCollected() throws IOException {
         outputStream.writeInt(gameController.getGameWorld().getCommitCollected());

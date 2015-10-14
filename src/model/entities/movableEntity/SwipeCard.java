@@ -14,9 +14,18 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Divya
  */
 public class SwipeCard extends Item {
-    // final positioning values for swipe card images drawn on info panel
+    /**
+     * The constant START_X.
+     */
+// final positioning values for swipe card images drawn on info panel
     public static final float START_X = -0.915f;
+    /**
+     * The constant CARD_SCALE.
+     */
     public static final Vector2f CARD_SCALE = new Vector2f(0.06f, 0.06f);
+    /**
+     * The constant CARD_YPOS.
+     */
     public static final float CARD_YPOS = 0.7f;
 
     private static final int SWIPE_CARD_SCORE = 5;
@@ -91,6 +100,8 @@ public class SwipeCard extends Item {
     }
 
     /**
+     * Gets score.
+     *
      * @return score of swipe cards
      */
     public int getScore() {
@@ -98,8 +109,9 @@ public class SwipeCard extends Item {
     }
 
     /**
-     * @return name of image of this swipe card
-     * (each swipe card will have different colours)
+     * Gets img name.
+     *
+     * @return name of image of this swipe card (each swipe card will have different colours)
      */
     public String getImgName() {
         return "swipeCard" + this.cardNum;

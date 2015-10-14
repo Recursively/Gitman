@@ -101,7 +101,6 @@ public class GuiFactory {
      * @param scale       scale of the texture on display x(0-1) y(0-1)
      * @return The GuiTexture created
      */
-
     public GuiTexture makeGuiTexture(String textureName, Vector2f position, Vector2f scale) {
         return new GuiTexture(Loader.loadTexture(GUI_PATH + textureName), position, scale);
     }
@@ -169,7 +168,6 @@ public class GuiFactory {
      *
      * @return List of guitextures to be rendered
      */
-
     public List<GuiTexture> getWinScreen() {
         List<GuiTexture> winScreens = new ArrayList<>();
         winScreens.add(winScreen);
