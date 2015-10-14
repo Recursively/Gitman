@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * appropriate objects and collections.
  *
  * @author Finn Kinnear
+ * @author Divya
  */
 
 public class Data {
@@ -38,32 +39,50 @@ public class Data {
 	private long timer;
 	private int storageUsed;
 	private int gameState;
+	private int commitCollected;
 
 	/**
 	 * Instantiates a new Data.
 	 *
-	 * @param playerPos       the player pos
-	 * @param pitch           the pitch
-	 * @param roll            the roll
-	 * @param yaw             the yaw
-	 * @param uid             the uid
-	 * @param inventory       the inventory
-	 * @param movableEntities the movable entities
-	 * @param swipeCards      the swipe cards
-	 * @param isProgramCompiled  the is code compiled
-	 * @param isOutside       the is outside
-	 * @param progress        the progress
-	 * @param score           the score
-	 * @param canApplyPatch   the can apply patch
-	 * @param commitIndex     the commit index
-	 * @param timer           the timer
-	 * @param storageUsed     the storage used
-	 * @param gameState       the game state
+	 * @param playerPos
+	 *            the player pos
+	 * @param pitch
+	 *            the pitch
+	 * @param roll
+	 *            the roll
+	 * @param yaw
+	 *            the yaw
+	 * @param uid
+	 *            the uid
+	 * @param inventory
+	 *            the inventory
+	 * @param movableEntities
+	 *            the movable entities
+	 * @param swipeCards
+	 *            the swipe cards
+	 * @param isProgramCompiled
+	 *            the is code compiled
+	 * @param isOutside
+	 *            the is outside
+	 * @param progress
+	 *            the progress
+	 * @param score
+	 *            the score
+	 * @param canApplyPatch
+	 *            the can apply patch
+	 * @param commitIndex
+	 *            the commit index
+	 * @param timer
+	 *            the timer
+	 * @param storageUsed
+	 *            the storage used
+	 * @param gameState
+	 *            the game state
 	 */
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw, int uid, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities, ArrayList<SwipeCard> swipeCards, boolean isProgramCompiled,
 			boolean isOutside, int progress, int score, boolean canApplyPatch, int commitIndex, long timer,
-				int storageUsed, int gameState) {
+			int storageUsed, int gameState, int commitCollected) {
 		this.playerPos = playerPos;
 		this.pitch = pitch;
 		this.roll = roll;
@@ -81,6 +100,7 @@ public class Data {
 		this.timer = timer;
 		this.storageUsed = storageUsed;
 		this.gameState = gameState;
+		this.commitCollected = commitCollected;
 	}
 
 	/**
@@ -234,5 +254,9 @@ public class Data {
 	 */
 	public int getGameState() {
 		return this.gameState;
+	}
+
+	public int getCommitCollected() {
+		return this.commitCollected;
 	}
 }

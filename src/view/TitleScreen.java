@@ -17,6 +17,7 @@ import java.util.List;
  * and handles logic for key presses as the action controller class is not made yet
  *
  * @author Ellie
+ * @author Marcel
  */
 
 public class TitleScreen {
@@ -46,7 +47,6 @@ public class TitleScreen {
     private void blinkTitle(boolean fullscreen) {
 
         GuiRenderer guiRenderer = new GuiRenderer();
-
         long timer = System.currentTimeMillis();
         int index = 0;
 

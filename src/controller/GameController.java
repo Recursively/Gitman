@@ -31,7 +31,7 @@ import java.util.Map;
  * @author Ellie
  */
 public class GameController {
-	// network state 
+    // network state
     public static boolean RUNNING;
     public static boolean READY;
     public static boolean NETWORK_DISCONNECTED;
@@ -50,22 +50,16 @@ public class GameController {
 
     // networking fields
     private final boolean isHost;
-    private final String ipAddress;
     private int playerCount;
-    
-    private boolean compiled = false;
 
     /**
      * Delegates the creation of the MVC and then starts the game
      *
      * @throws IOException
      */
-    public GameController(boolean isHost, String ipAddress, boolean load, boolean fullscreen) {
-    	GameController.NETWORK_DISCONNECTED = false;
+    public GameController(boolean isHost, String ipAddress, boolean load) {
+        GameController.NETWORK_DISCONNECTED = false;
         GameController.RUNNING = true;
-
-        // initialise model
-
 
         // initialise view
         renderer = new MasterRenderer();
@@ -80,7 +74,6 @@ public class GameController {
 
         // setup client
         this.isHost = isHost;
-        this.ipAddress = ipAddress;
         if (isHost) {
             serverController = new ServerController(this);
             serverController.start();
@@ -97,8 +90,7 @@ public class GameController {
                 Thread.sleep(50);
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
-
+            System.err.println("Failed to sleep Game thread");
         }
 
         // start the game
@@ -106,26 +98,28 @@ public class GameController {
     }
 
     /**
-     * Main game loop where all the goodness happens. Handles 
-     * calling rendering methods and processing user actions
+     * Main game loop where all the goodness happens. Handles calling rendering
+     * methods and processing user actions
      */
     private void doGame() {
-    	// set up audio for game 
+        // set up audio for game
         AudioController.stopMenuLoop();
-        if(GameWorld.isOutside()){
-        	AudioController.playGameWorldLoop();
+
+        // checks which audio should play
+        if (GameWorld.isOutside()) {
+            AudioController.playGameWorldLoop();
+        } else {
+            AudioController.playOfficeLoop();
         }
-        else {
-        	AudioController.playOfficeLoop();
-        }
-     		
-        // main game loop 
+
+        // main game loop
         while (!Display.isCloseRequested() && RUNNING) {
-        	// handle disconnected connections
-        	if(NETWORK_DISCONNECTED){
-        		handleDisconnection();
-        		break;
-        	}
+            // handle disconnected connections
+            if (NETWORK_DISCONNECTED) {
+                handleDisconnection();
+                break;
+            }
+
             // process the terrains
             renderer.processTerrain(gameWorld.getTerrain());
 
@@ -136,12 +130,11 @@ public class GameController {
                 }
             }
 
-            
+            // Stores the objects so that you don't call the getter twice
             ArrayList<Entity> statics = gameWorld.getStaticEntities();
-            ArrayList<Entity> walls = gameWorld.getWallEntities();
-            Map<Integer, MovableEntity> movables = gameWorld.getMoveableEntities();
             Player player = gameWorld.getPlayer();
 
+            // First rotate the commits
             gameWorld.rotateCommits();
 
             // PROCESS ENTITIES
@@ -151,13 +144,15 @@ public class GameController {
                 }
             }
 
-            for (MovableEntity e : movables.values()) {
+            // PROCESS Movable entities
+            for (MovableEntity e : gameWorld.getMoveableEntities().values()) {
                 if (e.isWithinRange(player)) {
                     renderer.processEntity(e);
                 }
             }
 
-            for (Entity e : walls) {
+            // Process the walls
+            for (Entity e : gameWorld.getWallEntities()) {
                 renderer.processEntity(e);
             }
 
@@ -178,9 +173,9 @@ public class GameController {
             // render the gui
             guiRenderer.render(gameWorld.getGuiImages());
 
+            // Render the inventory
             if (gameWorld.getInventory().isVisible()) {
                 guiRenderer.render(gameWorld.getInventory().getTextureList());
-
             } else {
                 // only show e to interact message if inventory is not open
                 for (MovableEntity e : gameWorld.withinDistance().values()) {
@@ -193,7 +188,7 @@ public class GameController {
 
             // render help menu, if it has been requested
             if (gameWorld.isHelpVisible()) {
-               guiRenderer.render(gameWorld.helpMessage());
+                guiRenderer.render(gameWorld.helpMessage());
             }
 
             // check if game has ended
@@ -201,6 +196,7 @@ public class GameController {
                 guiRenderer.render(gameWorld.getEndStateScreen());
             }
 
+            // Increment the time
             TimeController.tickTock();
 
             // update the Display window
@@ -211,13 +207,15 @@ public class GameController {
         cleanUp();
     }
 
-	/**
+    /**
      * Cleans up the game when it is closed
      */
     public void cleanUp() {
         guiRenderer.cleanUp();
         renderer.cleanUp();
         Loader.cleanUp();
+
+        // Destroys the display
         DisplayManager.closeDisplay();
 
         // Cleans Audio resources
@@ -237,40 +235,45 @@ public class GameController {
         return isHost;
     }
 
+    /**
+     * Create player.
+     *
+     * @param uid the uid
+     */
     public void createPlayer(int uid) {
         gameWorld.addNewPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
         playerCount++;
     }
 
+    /**
+     * Creates a ClientPlayer
+     *
+     * @param uid userID
+     * @param b   isHost
+     */
     public void createPlayer(int uid, boolean b) {
         gameWorld.addPlayer(GameWorld.OFFICE_SPAWN_POSITION, uid);
         playerCount++;
     }
 
-    public Map<Integer, Player> getPlayers() {
-        return gameWorld.getAllPlayers();
-    }
-
-    public Player getPlayerWithID(int uid) {
-        return gameWorld.getAllPlayers().get(uid);
-    }
-
-    public Player getPlayer() {
-        return gameWorld.getPlayer();
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
+    /**
+     * Remove player.
+     *
+     * @param uid the uid
+     */
     public void removePlayer(int uid) {
         gameWorld.getAllPlayers().remove(uid);
-		GameWorld.setGuiMessage("aPlayerHasLeftTheGame", 2000);
+        GameWorld.setGuiMessage("aPlayerHasLeftTheGame", 2000);
         playerCount--;
     }
 
+    /**
+     * Sends a network update to the corresponding controller
+     *
+     * @param status type of update
+     * @param entity entity that was updated
+     */
     public void setNetworkUpdate(int status, MovableEntity entity) {
-
         if (!isHost()) {
             clientController.setNetworkUpdate(status, entity);
         } else {
@@ -279,37 +282,66 @@ public class GameController {
 
     }
 
+    /**
+     * Shows "You have Been Disconnected Screen". (Handles disconnections in a
+     * graceful way by informing client that serve has disconnected first)
+     */
+    private void handleDisconnection() {
+        while (true) {
+            guiRenderer.render(gameWorld.getDisconnectedScreen());
+            DisplayManager.updateDisplay();
+
+            // wait for client to acknowledge failed connection
+            if (Keyboard.isKeyDown(Keyboard.KEY_RETURN)) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Game size int.
+     *
+     * @return the int
+     */
     public int gameSize() {
         return playerCount;
     }
 
+    /**
+     * Gets game world.
+     *
+     * @return the game world
+     */
     public GameWorld getGameWorld() {
         return gameWorld;
     }
 
-    public boolean isCompiled() {
-        return compiled;
+    /**
+     * Gets players.
+     *
+     * @return the players
+     */
+    public Map<Integer, Player> getPlayers() {
+        return gameWorld.getAllPlayers();
     }
 
-    public void setCompiled(boolean compiled) {
-        this.compiled = compiled;
-    }
-    
     /**
-     * Shows "You have Been Disconnected Screen". (Handles 
-     * disconnections in a graceful way by informing client 
-     * that serve has disconnected first)
+     * Gets player with id.
+     *
+     * @param uid the uid
+     * @return the player with id
      */
-    private void handleDisconnection() {
-    	while(true){
-    		guiRenderer.render(gameWorld.getDisconnectedScreen());
-    		DisplayManager.updateDisplay();
-    		
-    		// wait for client to acknowledge failed connection
-    		if(Keyboard.isKeyDown(Keyboard.KEY_RETURN)){
-    			break;
-    		}
-    	}
-	}
+    public Player getPlayerWithID(int uid) {
+        return gameWorld.getAllPlayers().get(uid);
+    }
+
+    /**
+     * Gets player.
+     *
+     * @return the player
+     */
+    public Player getPlayer() {
+        return gameWorld.getPlayer();
+    }
 
 }

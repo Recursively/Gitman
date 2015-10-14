@@ -13,7 +13,7 @@ import org.lwjgl.util.vector.Matrix4f;
 
 /**
  * Delegate renderer to handle the rendering of the world's skybox
- *
+ * <p/>
  * A skybox is a cube of png images wrapped around the players position in the game world
  * to simulate the feeling of a sky.
  *
@@ -24,7 +24,7 @@ public class SkyboxRenderer {
     /**
      * This has to be in a specific order to work as the {@link Loader#loadCubeMap(String[])}
      * method loads the textures very specifically
-     *
+     * <p/>
      * order is: right -> left -> top -> bottom -> back ->front
      */
     private static final String[] TEXTURE_FILES = {"right", "left", "top", "bottom", "back", "front"};
@@ -89,37 +89,37 @@ public class SkyboxRenderer {
     /**
      * Binds the skybox textures and slowly rotates them/blends them together based on the game world time
      */
-    private void bindTextures(){
+    private void bindTextures() {
         int texture1;
         int texture2;
         float blendFactor;
 
         // Night
-        if(GameWorld.getWorldTime() >= 0 && GameWorld.getWorldTime() < 5000){
+        if (GameWorld.getWorldTime() >= 0 && GameWorld.getWorldTime() < 5000) {
             texture1 = nightTexture;
             texture2 = nightTexture;
-            blendFactor = (GameWorld.getWorldTime())/(5000);
+            blendFactor = (GameWorld.getWorldTime()) / (5000);
         }
 
         // Early morning
-        else if(GameWorld.getWorldTime() >= 5000 && GameWorld.getWorldTime() < 8000){
+        else if (GameWorld.getWorldTime() >= 5000 && GameWorld.getWorldTime() < 8000) {
             texture1 = nightTexture;
             texture2 = texture;
-            blendFactor = (GameWorld.getWorldTime() - 5000)/(8000 - 5000);
+            blendFactor = (GameWorld.getWorldTime() - 5000) / (8000 - 5000);
         }
 
         // Daytime
-        else if(GameWorld.getWorldTime() >= 8000 && GameWorld.getWorldTime() < 21000){
+        else if (GameWorld.getWorldTime() >= 8000 && GameWorld.getWorldTime() < 21000) {
             texture1 = texture;
             texture2 = texture;
-            blendFactor = (GameWorld.getWorldTime() - 8000)/(21000 - 8000);
+            blendFactor = (GameWorld.getWorldTime() - 8000) / (21000 - 8000);
         }
 
         // Evening
-        else{
+        else {
             texture1 = texture;
             texture2 = nightTexture;
-            blendFactor = (GameWorld.getWorldTime() - 21000)/(24000 - 21000);
+            blendFactor = (GameWorld.getWorldTime() - 21000) / (24000 - 21000);
         }
 
         // finally bind the textures
@@ -134,46 +134,46 @@ public class SkyboxRenderer {
     // the corners of the cube, so the the direction vector
     // knows where to render each pixel of the skybox
     private static final float[] VERTICES = {
-            -SIZE,  SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
             -SIZE, -SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
-            SIZE,  SIZE, -SIZE,
-            -SIZE,  SIZE, -SIZE,
+            SIZE, SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
 
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, SIZE,
             -SIZE, -SIZE, -SIZE,
-            -SIZE,  SIZE, -SIZE,
-            -SIZE,  SIZE, -SIZE,
-            -SIZE,  SIZE,  SIZE,
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
+            -SIZE, SIZE, SIZE,
+            -SIZE, -SIZE, SIZE,
 
             SIZE, -SIZE, -SIZE,
-            SIZE, -SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE, -SIZE,
+            SIZE, -SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
 
-            -SIZE, -SIZE,  SIZE,
-            -SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE, -SIZE,  SIZE,
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, SIZE,
+            -SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, -SIZE, SIZE,
+            -SIZE, -SIZE, SIZE,
 
-            -SIZE,  SIZE, -SIZE,
-            SIZE,  SIZE, -SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            -SIZE,  SIZE,  SIZE,
-            -SIZE,  SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
+            SIZE, SIZE, -SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            -SIZE, SIZE, SIZE,
+            -SIZE, SIZE, -SIZE,
 
             -SIZE, -SIZE, -SIZE,
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, SIZE,
             SIZE, -SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
-            -SIZE, -SIZE,  SIZE,
-            SIZE, -SIZE,  SIZE
+            -SIZE, -SIZE, SIZE,
+            SIZE, -SIZE, SIZE
     };
 }

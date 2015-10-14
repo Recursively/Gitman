@@ -3,6 +3,7 @@ package model.network;
 import java.util.ArrayList;
 
 import model.GameWorld;
+import model.entities.movableEntity.Commit;
 import model.entities.movableEntity.Laptop;
 import model.entities.movableEntity.LaptopItem;
 
@@ -20,6 +21,7 @@ public class NetworkHandler {
 	private GameWorld gameWorld;
 	private Update lastClientUpdate;
 	private ArrayList<Laptop> interactedLaptops;
+	private ArrayList<Commit> interactedCommits;
 
 	/**
 	 * Constructor for NetworkHandler
@@ -30,6 +32,7 @@ public class NetworkHandler {
 	public NetworkHandler(GameWorld gameWorld) {
 		this.gameWorld = gameWorld;
 		this.interactedLaptops = new ArrayList<>();
+		this.interactedCommits = new ArrayList<>();
 	}
 
 	/**
@@ -109,8 +112,9 @@ public class NetworkHandler {
 	 */
 	public void interactCommit(int id) {
 
-		// interact with commit
-		gameWorld.getMoveableEntities().get(id).interact(gameWorld);
+		Commit commit = (Commit) gameWorld.getMoveableEntities().get(id);
+		commit.interact(gameWorld);
+		interactedCommits.add(commit);
 	}
 
 	/**
@@ -187,5 +191,13 @@ public class NetworkHandler {
 	public ArrayList<Laptop> getInteractedLaptops() {
 		return interactedLaptops;
 	}
+
+	/**
+	 * @return the interactedCommits
+	 */
+	public ArrayList<Commit> getInteractedCommits() {
+		return interactedCommits;
+	}
+
 
 }
