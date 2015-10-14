@@ -1,17 +1,26 @@
 package model.entities.movableEntity;
 
+import controller.AudioController;
+import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.staticEntity.StaticEntity;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+
 import view.DisplayManager;
 
 import java.util.ArrayList;
 
+/**
+ * @author Marcel van Workum
+ *
+ *
+ */
 public class Player extends MovableEntity {
 
     private static final float RUN_SPEED = 1f;
@@ -22,10 +31,14 @@ public class Player extends MovableEntity {
 
     private float verticalVelocity = 0;
 
+    private float edgeBound = 12;
+
     private Terrain currentTerrain;
 
     // bad?
     private Vector3f oldPosition;
+    
+    private boolean firstTimeOutside = true;
 
     public Player(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int uid, Camera camera) {
         super(model, position, rotX, rotY, rotZ, scale, uid);
@@ -99,7 +112,7 @@ public class Player extends MovableEntity {
 
     private void checkBounds(Terrain terrain) {
         Vector3f position = super.getPosition();
-        float terrainSize = Terrain.getSIZE();
+        float terrainSize = terrain.getSIZE();
 
         float terrainOriginX = terrain.getGridX();
         float terrainOriginZ = terrain.getGridZ();
@@ -110,16 +123,37 @@ public class Player extends MovableEntity {
         float xPos = position.getX();
         float zPos = position.getZ();
 
-        if (xPos < terrainOriginX) {
-            position.x = terrainOriginX;
-        } else if (xPos > terrainBoundX) {
-            position.x = terrainBoundX;
+        if (xPos < terrainOriginX + edgeBound) {
+            position.x = terrainOriginX + edgeBound;
+        } else if (xPos > terrainBoundX - edgeBound) {
+            position.x = terrainBoundX - edgeBound;
         }
 
-        if (zPos < terrainOriginZ) {
-            position.z = terrainOriginZ;
-        } else if (zPos > terrainBoundZ) {
-            position.z = terrainBoundZ;
+        if (zPos < terrainOriginZ + edgeBound) {
+            position.z = terrainOriginZ + edgeBound;
+        } else if (zPos > terrainBoundZ - edgeBound) {
+            position.z = terrainBoundZ - edgeBound;
+        }
+
+        // Now check for portal collision
+
+        if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OUTSIDE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OUTSIDE_Z
+                && zPos >= GameWorld.PORTAL_UPPER_BOUND_OUTSIDE_Z) {
+            // swap terrain
+            GameWorld.teleportToOffice();
+        }
+
+        if (GameWorld.isProgramCompiled()){
+            if (xPos <= GameWorld.PORTAL_EDGE_BOUND_OFFICE_X && zPos <= GameWorld.PORTAL_LOWER_BOUND_OFFICE_Z
+                    && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
+                GameWorld.teleportToOutside();
+                
+                if(firstTimeOutside){
+        			firstTimeOutside = false;
+        			GameWorld.setGuiMessage("inGameMessage", 5000);
+                    AudioController.playCoolStuffSound();
+        		}
+            }
         }
     }
 
@@ -169,6 +203,7 @@ public class Player extends MovableEntity {
 
     private void jump() {
         verticalVelocity += JUMP_POWER;
+        AudioController.playJumpSound();
     }
 
     // TODO does this still need to be here
@@ -218,12 +253,22 @@ public class Player extends MovableEntity {
         return camera;
     }
 
-    //TODO implement terrain specification
-    public Terrain getCurrentTerrain() {
-        return currentTerrain;
-    }
-
     public void setCurrentTerrain(Terrain currentTerrain) {
         this.currentTerrain = currentTerrain;
     }
+
+	@Override
+	public int interact(GameWorld game) {
+		return 15;
+	}
+
+	@Override
+	public boolean canInteract() {
+		return true;
+	}
+	
+	@Override
+	public String getType(){
+		return "Player";
+	}
 }

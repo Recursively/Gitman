@@ -3,11 +3,13 @@ package view.renderEngine;
 import model.models.RawModel;
 import model.shaders.gui.GuiShader;
 import model.textures.GuiTexture;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
+
 import model.toolbox.Loader;
 import model.toolbox.Maths;
 
@@ -29,13 +31,11 @@ public class GuiRenderer {
      * Constructor
      *
      * Loads screen to VAO and creates shader
-     *
-     * @param loader Loader to use :<>
      */
-    public GuiRenderer(Loader loader) {
+    public GuiRenderer() {
         // GL triangle stripping
         float[] positions = {-1, 1, -1, -1, 1, 1, 1, -1};
-        screen = loader.loadToVAO(positions, 2);
+        screen = Loader.loadToVAO(positions, 2);
         shader = new GuiShader();
     }
 
@@ -85,5 +85,4 @@ public class GuiRenderer {
     public void cleanUp() {
         shader.cleanUp();
     }
-
 }

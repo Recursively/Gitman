@@ -1,16 +1,16 @@
 package model.terrains;
 
 import model.models.RawModel;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import model.toolbox.Loader;
 import model.textures.TerrainTexture;
 import model.textures.TerrainTexturePack;
+import model.toolbox.Loader;
 import model.toolbox.Maths;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.util.ResourceLoader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -22,7 +22,7 @@ import java.io.IOException;
 public class Terrain {
 
     // Map parameters : change these to shape terrain
-    private static final float SIZE = 256;
+    private float SIZE = 512;
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
@@ -44,12 +44,11 @@ public class Terrain {
      *
      * @param gridX     gridX position
      * @param gridZ     gridZ position
-     * @param loader    loader
      * @param texture   texture pack to make up the terrain
      * @param blendMap  blend map for mixing textures
      * @param heightMap height map to style terrain y values
      */
-    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texture, TerrainTexture blendMap,
+    public Terrain(int gridX, int gridZ, TerrainTexturePack texture, TerrainTexture blendMap,
                    String heightMap) {
         this.blendMap = blendMap;
         this.texturePack = texture;
@@ -57,7 +56,30 @@ public class Terrain {
         this.gridZ = gridZ * SIZE;
 
         // finally generate the terrain from the height map
-        this.model = generateTerrain(loader, heightMap);
+        this.model = generateTerrain(heightMap);
+    }
+
+    /**
+     * Constructor
+     * <p/>
+     * Creates a new terrain at the given gridX/gridZ grid
+     *
+     * @param gridX     gridX position
+     * @param gridZ     gridZ position
+     * @param texture   texture pack to make up the terrain
+     * @param blendMap  blend map for mixing textures
+     * @param heightMap height map to style terrain y values
+     */
+    public Terrain(int gridX, int gridZ, TerrainTexturePack texture, TerrainTexture blendMap,
+                   String heightMap, int size) {
+        SIZE = size;
+        this.blendMap = blendMap;
+        this.texturePack = texture;
+        this.gridX = gridX * SIZE;
+        this.gridZ = gridZ * SIZE;
+
+        // finally generate the terrain from the height map
+        this.model = generateTerrain(heightMap);
     }
 
     /**
@@ -114,11 +136,10 @@ public class Terrain {
     /**
      * Generates the terrain
      *
-     * @param loader    Loader
      * @param heightMap Height map to use when generating the terrain
      * @return A raw model representing the terrain information
      */
-    private RawModel generateTerrain(Loader loader, String heightMap) {
+    private RawModel generateTerrain(String heightMap) {
 
         // Gets the buffered image for the height map
         BufferedImage image = getBufferedImage(heightMap);
@@ -131,7 +152,7 @@ public class Terrain {
         parseTerrainInformation(image, vertexCount);
         loadTerrainIndices(vertexCount);
 
-        return loader.loadToVAO(vertices, textureCoords, normals, indices);
+        return Loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
     /**
@@ -215,7 +236,7 @@ public class Terrain {
     private BufferedImage getBufferedImage(String heightMap) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("res/" + heightMap + ".png"));
+            image = ImageIO.read(ResourceLoader.getResourceAsStream("res/" + heightMap + ".png"));
         } catch (IOException e) {
             System.err.println("Failed to load height map");
             e.printStackTrace();
@@ -322,7 +343,7 @@ public class Terrain {
      *
      * @return the size
      */
-    public static float getSIZE() {
+    public float getSIZE() {
         return SIZE;
     }
 

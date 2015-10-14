@@ -1,16 +1,16 @@
 package view.renderEngine;
 
+import model.GameWorld;
 import model.entities.Camera;
 import model.entities.Entity;
 import model.entities.Light;
 import model.models.TexturedModel;
-import model.toolbox.Loader;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Matrix4f;
 import model.shaders.entity.EntityShader;
 import model.shaders.terrain.TerrainShader;
 import model.terrains.Terrain;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,24 +20,34 @@ import java.util.Map;
 /**
  * Master renderer handles all delegations to the individual render class.
  *
+ * @author Marcel van Workum
  * @see EntityRenderer
  * @see GuiRenderer
  * @see TerrainRenderer
  * @see SkyboxRenderer
- *
- * @author Marcel van Workum
  */
 public class MasterRenderer {
+
+    private static boolean RENDER_SKYBOX = false;
+
+    public static final int NUMBER_OF_LIGHTS = 5;
 
     // Display Parameters
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 2000;
 
+    /**
+     * Used in the calculate as to which entities need to be rendered to the screen
+     */
+    public static final int RENDER_DISTANCE = 200;
+
     // Fog colour values
-    private static final float RED = 0.5444f;
-    private static final float GREEN = 0.62f;
-    private static final float BLUE = 0.69f;
+
+
+    private static float RED = 0;
+    private static float GREEN = 0;
+    private static float BLUE = 0;
 
     private Matrix4f projectionMatrix;
 
@@ -56,18 +66,16 @@ public class MasterRenderer {
 
     /**
      * Constructor
-     *
+     * <p/>
      * Prepares the display for enabling culling, creating the transformationMatrix
      * and creating the separate Renderers
-     *
-     * @param loader Loader for the Skybox Renderer
      */
-    public MasterRenderer(Loader loader) {
+    public MasterRenderer() {
         enableCulling();
         createProjectionMatrix();
         entityRenderer = new EntityRenderer(entityShader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
-        skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
+        skyboxRenderer = new SkyboxRenderer(projectionMatrix);
     }
 
     /**
@@ -98,7 +106,11 @@ public class MasterRenderer {
 
         // Starts the entityShader
         entityShader.start();
-        entityShader.loadSkyColour(RED, GREEN, BLUE);
+        if (GameWorld.isOutside()) {
+            entityShader.loadSkyColour(RED, GREEN, BLUE);
+        } else {
+            entityShader.loadSkyColour(0, 0, 0);
+        }
         entityShader.loadLights(lights);
         entityShader.loadViewMatrix(camera);
 
@@ -110,7 +122,12 @@ public class MasterRenderer {
 
         // starts terrainShader and loads data
         terrainShader.start();
-        terrainShader.loadSkyColour(RED, GREEN, BLUE);
+        if (GameWorld.isOutside()) {
+            terrainShader.loadSkyColour(RED, GREEN, BLUE);
+        } else {
+            terrainShader.loadSkyColour(0, 0, 0);
+        }
+
         terrainShader.loadLights(lights);
         terrainShader.loadViewMatrix(camera);
 
@@ -121,7 +138,10 @@ public class MasterRenderer {
         terrainShader.stop();
 
         // Needs to render the skybox last otherwise you get some funky results
-        skyboxRenderer.render(camera, RED, GREEN, BLUE);
+        if (RENDER_SKYBOX) {
+            skyboxRenderer.render(camera, RED, GREEN, BLUE);
+        }
+
 
         // Flush the terrains and entities, ready for the next frame
         terrains.clear();
@@ -198,5 +218,29 @@ public class MasterRenderer {
         projectionMatrix.m23 = -1;
         projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
         projectionMatrix.m33 = 0;
+    }
+
+    public static float getFOV() {
+        return FOV;
+    }
+
+    public static void setRenderSkybox(boolean renderSkybox) {
+        RENDER_SKYBOX = renderSkybox;
+    }
+
+    public static void updateFog() {
+        if (GameWorld.getWorldTime() < 5000) {
+            RED = 0;
+            GREEN = 0;
+            BLUE = 0;
+        } else if (GameWorld.getWorldTime() < 8000) {
+            RED += 0.0002722;
+            GREEN += 0.00031;
+            BLUE += 0.000345;
+        } else if (GameWorld.getWorldTime() > 21000) {
+            RED -= 0.0002722;
+            GREEN -= 0.00031;
+            BLUE -= 0.000345;
+        }
     }
 }

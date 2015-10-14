@@ -8,24 +8,22 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 
 (Explaination of basic controls & goal)
 
-(Information on multiplayer)
-
 ### How to run the game
 
 1. Clone repository into your favourite Java IDE
-2. Make sure that the repository contains lib, lwjgl-2.9.3 and res
+2. Make sure that the repository contains lib and res
 3. Make sure that the res folder is a resource (**Should include link to how to do this here**)
-4. Make sure that lwjgl.jar, lwjgl_util.jar, slick-util.jar and PNGDecoder.jar are set as dependencies for the project in your IDE
-   - *These files are in the repo under lwjgl-2.9.3 > jar and lib > jars*
+4. Make sure that lwjgl.jar, lwjgl_util.jar, slick-util.jar, PNGDecoder.jar, jogg-0.0.7.jar and jorbis-0.0.15.jar are set as dependencies for the project in your IDE
+   - *These files are in the repo under lib > jars*
 5. This is the hard part:
   * OpenGL is operating system specifc, and so you need to change which natives it will try and use
   * To do this you need to edit your games run configuration
   * The configuration is as follows:
   
-  -Djava.library.path=lwjgl-2.9.3/native/OS_TYPE
+  -Djava.library.path=lib/native/OS_TYPE
   
   *So for example if you were on a mac you would put:*
-  -Djava.library.path=lwjgl-2.9.3/native/macosx
+  -Djava.library.path=lib/native/macosx
   
   **List of operating systems**
   - freebsd
@@ -37,11 +35,30 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
   
    **Alternately, if you are using eclipse**
    - You can simply add the corresponding native as a native for the lwjgl.jar in your libraries build path
+
+### How to run the game in multiplayer
+
+--ECLIPSE--
   
+1. Run Main on the server computer with the following arguments.
+
+        Y   - for a Server running fullscreen
+        N   - for a Server running small screen
+
+        Take note of the ipaddress output in the console.
+
+2. Run Main on a Client computer with the arguments:
+
+        Y xxx.xxx.xxx.xxx   - for a Client running fullscreen
+        N xxx.xxx.xxx.xxx   - for a Client running small screen
+
+        where xxx.xxx.xxx.xxx is the ip address from the server 
+
   
 *Game created by:*
+- *Reuben Puketapu*
 - *Ellie Coyle*
 - *Divya Patel*
-- *Finn Kinnear*
-- *Reuben Puketapu*
 - *Marcel van Workum*
+- *Finn Kinnear*
+

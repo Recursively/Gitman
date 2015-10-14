@@ -6,10 +6,11 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.util.ResourceLoader;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.FloatBuffer;
 
 /**
@@ -179,7 +180,7 @@ public abstract class ShaderProgram {
     private static int loadShader(String file, int type) {
         StringBuilder shaderSource = new StringBuilder();
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ResourceLoader.getResourceAsStream(file)));
             String line;
             while ((line = reader.readLine()) != null) {
                 shaderSource.append(line).append("\n");

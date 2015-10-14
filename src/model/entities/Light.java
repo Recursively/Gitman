@@ -1,6 +1,9 @@
 package model.entities;
 
+import model.GameWorld;
 import org.lwjgl.util.vector.Vector3f;
+
+import java.util.Comparator;
 
 /**
  * There are two different types of light sources in the world. Those that understand the pointlessness of
@@ -11,7 +14,7 @@ import org.lwjgl.util.vector.Vector3f;
  *
  * @author Marcel van Workum
  */
-public class Light {
+public class Light implements Comparator<Light>, Comparable<Light> {
 
     private Vector3f position;
     private Vector3f colour;
@@ -84,5 +87,50 @@ public class Light {
      */
     public void setColour(Vector3f colour) {
         this.colour = colour;
+    }
+
+    /**
+     * Returns the squared hypotenuse side of the distance to the light from a given position
+     *
+     * @param position position
+     * @return hypotenuse
+     */
+    public float getDistanceTo(Vector3f position) {
+        float diffX = (float) Math.pow(Math.abs(position.getX() - this.position.getX()), 2);
+        float diffZ = (float) Math.pow(Math.abs(position.getZ() - this.position.getZ()), 2);
+
+        return diffX + diffZ;
+    }
+
+    @Override
+    public int compareTo(Light l) {
+        Vector3f playerPos = GameWorld.getPlayerPosition();
+        float distance = this.getDistanceTo(playerPos);
+        float distance2 = l.getDistanceTo(playerPos);
+        if (distance < distance2) return -1;
+        else if (distance == distance2) return 0;
+        else return 1;
+    }
+
+    @Override
+    public int compare(Light light1, Light light2) {
+        Vector3f playerPos = GameWorld.getPlayerPosition();
+        float distance = light1.getDistanceTo(playerPos);
+        float distance2 = light2.getDistanceTo(playerPos);
+        if (distance < distance2) return -1;
+        else if (distance == distance2) return 0;
+        else return 1;
+    }
+
+    public void increaseColour(float r, float g, float b) {
+        colour.x += r;
+        colour.y += g;
+        colour.z += b;
+    }
+
+    public void decreaseColour(float r, float g, float b) {
+        colour.x -= r;
+        colour.y -= g;
+        colour.z -= b;
     }
 }

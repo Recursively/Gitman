@@ -1,5 +1,6 @@
 package view.renderEngine;
 
+import model.GameWorld;
 import model.entities.Camera;
 import model.models.RawModel;
 import model.shaders.skybox.SkyboxShader;
@@ -9,7 +10,6 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import view.DisplayManager;
 
 /**
  * Delegate renderer to handle the rendering of the world's skybox
@@ -38,20 +38,17 @@ public class SkyboxRenderer {
     private int nightTexture;
     private SkyboxShader shader;
 
-    private float time = 0;
-
     /**
      * Constructor
      *
-     * @param loader Used for loading the skybox
      * @param projectionMatrix 4x4 transformation matrix
      */
-    public SkyboxRenderer(Loader loader, Matrix4f projectionMatrix) {
+    public SkyboxRenderer(Matrix4f projectionMatrix) {
 
         // Loads pngs into VAO
-        cubeModel = loader.loadToVAO(VERTICES, 3);
-        texture = loader.loadCubeMap(TEXTURE_FILES);
-        nightTexture = loader.loadCubeMap(NIGHT_TEXTURE_FILES);
+        cubeModel = Loader.loadToVAO(VERTICES, 3);
+        texture = Loader.loadCubeMap(TEXTURE_FILES);
+        nightTexture = Loader.loadCubeMap(NIGHT_TEXTURE_FILES);
 
         // Creates the shader, loads the 4x4 and stops
         shader = new SkyboxShader();
@@ -90,27 +87,26 @@ public class SkyboxRenderer {
     }
 
     private void bindTextures(){
-        time += DisplayManager.getFrameTimeSeconds() * 1000;
-        time %= 24000;
         int texture1;
         int texture2;
         float blendFactor;
-        if(time >= 0 && time < 5000){
+
+        if(GameWorld.getWorldTime() >= 0 && GameWorld.getWorldTime() < 5000){
             texture1 = nightTexture;
             texture2 = nightTexture;
-            blendFactor = (time - 0)/(5000 - 0);
-        }else if(time >= 5000 && time < 8000){
+            blendFactor = (GameWorld.getWorldTime())/(5000);
+        }else if(GameWorld.getWorldTime() >= 5000 && GameWorld.getWorldTime() < 8000){
             texture1 = nightTexture;
             texture2 = texture;
-            blendFactor = (time - 5000)/(8000 - 5000);
-        }else if(time >= 8000 && time < 21000){
+            blendFactor = (GameWorld.getWorldTime() - 5000)/(8000 - 5000);
+        }else if(GameWorld.getWorldTime() >= 8000 && GameWorld.getWorldTime() < 21000){
             texture1 = texture;
             texture2 = texture;
-            blendFactor = (time - 8000)/(21000 - 8000);
+            blendFactor = (GameWorld.getWorldTime() - 8000)/(21000 - 8000);
         }else{
             texture1 = texture;
             texture2 = nightTexture;
-            blendFactor = (time - 21000)/(24000 - 21000);
+            blendFactor = (GameWorld.getWorldTime() - 21000)/(24000 - 21000);
         }
 
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -167,4 +163,3 @@ public class SkyboxRenderer {
             SIZE, -SIZE,  SIZE
     };
 }
-

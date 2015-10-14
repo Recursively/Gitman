@@ -6,6 +6,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Camera represents a players current view of the world
  *
  * @author Marcel van Workum
+ * @author Divya
  */
 public class Camera {
 
@@ -100,5 +101,30 @@ public class Camera {
      */
     public void setPitch(int pitch) {
         this.pitch = pitch;
+    }
+    
+    /**
+     * Sets yaw.
+     *
+     * @param yaw the yaw
+     */
+    public void setYaw(int yaw) {
+        this.yaw = yaw;
+    }
+    
+    /**
+     * Calculate the direction vector of the camera
+     * @return direction vector of the camera
+     */
+    public Vector3f getDirection(){
+    	double pitchRadians = Math.toRadians(pitch);
+    	double yawRadians = Math.toRadians(yaw);
+
+    	float sinPitch = (float) Math.sin(pitchRadians);
+    	float cosPitch = (float) Math.cos(pitchRadians);
+    	float sinYaw = (float) Math.sin(yawRadians);
+    	float cosYaw = (float) Math.cos(yawRadians);
+
+    	return new Vector3f(sinYaw, -(sinPitch*cosYaw), -(cosPitch*cosYaw));
     }
 }
