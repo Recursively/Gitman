@@ -13,12 +13,10 @@ import static org.junit.Assert.assertTrue;
 
 public class DataTests {
 
-
 	private static TestSuite suite = new TestSuite();
 	private GameWorld gameWorld;
 
 	private void initTestGame() {
-		
 		gameWorld = TestSuite.getGameWorld();
 		Vector3f position = new Vector3f(10, 10, 10);
 		gameWorld.addPlayer(position, 0);

@@ -1,6 +1,14 @@
 package tests;
 
 import model.GameWorld;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	DataTests.class
+})
 
 /**
  * Test suite manager that creates a mock game world and then calls all the respective test suites.
@@ -8,7 +16,7 @@ import model.GameWorld;
  * @author Marcel
  */
 public class TestSuite {
-	
+
 	private static GameWorld gameWorld;
 
 	/**
@@ -16,11 +24,21 @@ public class TestSuite {
 	 */
 	public TestSuite() {
 		gameWorld = new GameWorld();
-
-		//TODO runs tests
 	}
 
+	/**
+	 * Gets game world.
+	 *
+	 * @return the game world
+	 */
 	public static GameWorld getGameWorld() {
 		return gameWorld;
+	}
+
+	/**
+	 * Runs the test suite
+	 */
+	public static void main(String[] args) {
+		JUnitCore.runClasses(TestSuite.class);
 	}
 }
