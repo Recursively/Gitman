@@ -15,24 +15,22 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 4. Make sure that lwjgl.jar, lwjgl_util.jar, slick-util.jar, PNGDecoder.jar, jogg-0.0.7.jar and jorbis-0.0.15.jar are set as dependencies for the project in your IDE
    - *These files are in the repo under lib > jars*
 
-   * OpenGL is operating system specifc, and so you need to change which natives it will try and use
-   * To do this you need to edit your games run configuration
-   * The configuration is as follows:
+      *OpenGL is operating system specifc, and so you need to change which natives it will try and use*
 
-   If you are using eclipse:
-      Right click project > Build Path > Configure Build Path
-      Under libraries make sure all the jars are added. Add jars > redmf > lib > jars > *
-      Once the lwjgl.jar is added > press drop down arrow to the left of its name
-      Selecte Native library location > Edit > Workspace > redmf > lib > native > **YOUR OS**
+      If you are using eclipse:
+         Right click project > Build Path > Configure Build Path
+         Under libraries make sure all the jars are added. Add jars > redmf > lib > jars > *
+         Once the lwjgl.jar is added > press drop down arrow to the left of its name
+         Selecte Native library location > Edit > Workspace > redmf > lib > native > **YOUR OS**
    
-   **List of operating systems**
-   
-  - freebsd
-  - linux
-  - macosx
-  - openbsd
-  - solaris
-  - windows
+      **List of operating systems**
+      
+     - freebsd
+     - linux
+     - macosx
+     - openbsd
+     - solaris
+     - windows
    
    *Otherwise add the following as a VM argument to your run configuration*
 
