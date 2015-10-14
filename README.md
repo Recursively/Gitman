@@ -4,8 +4,7 @@
 
 ## Created by REDMF
 
-There is an epic bug that is ruining everything! The goal of the game is to go through the office, find laptops and clone the code on them into into your own repository. Once you have collected all the bits of code, "compile" the code and then "run" it. Hopefully it helps you fix the problem! 
-
+There is an epic bug that is ruining everything! The goal of the game is to go through the office, find laptops and clone the code on them into into your own repository. Once you have collected all the bits of code, the code will be "compiled". Hopefully this helps you fix the problem! 
 
 ### How to run the game
 
@@ -80,3 +79,5 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
 - *Marcel van Workum*
 - *Finn Kinnear*
 
+Github Repo : https://github.com/Recursively/redmf<br>
+Hosted Javadoc : http://www.marceldev.tk/redmf/doc
