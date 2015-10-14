@@ -52,6 +52,7 @@ public class GameWorldTests {
     @Test
     public void testReadMeInteract() {
         ReadMe e = (ReadMe) getEntity("ReadMe");
+        gameWorld.getInventory().setStorageUsed(0);
         // if can't find item in entities map, create dummy item
         if (e == null) {
             e = new ReadMe(null, null, 0, 0, 0, 0, 0, 0, "readme10");
@@ -65,6 +66,7 @@ public class GameWorldTests {
     @Test
     public void testFlashDriveInteract() {
         FlashDrive e = (FlashDrive) getEntity("FlashDrive");
+        gameWorld.getInventory().setStorageUsed(0);
         // if can't find item in entities map, create dummy item
         if (e == null) {
             e = new FlashDrive(null, null, 0, 0, 0, 0, 0, 0, "extImg0");
@@ -114,6 +116,7 @@ public class GameWorldTests {
     @Test
     public void testLaptopInteract() {
         Laptop e = (Laptop) getEntity("Laptop");
+        gameWorld.getInventory().setStorageUsed(0);
         if (e == null) {
             e = new Laptop(null, null, 0, 0, 0, 0, 0, 0, true);
         }
@@ -157,6 +160,7 @@ public class GameWorldTests {
     @Test
     public void testReadMeCanInteract() {
         ReadMe e = (ReadMe) getEntity("ReadMe");
+        gameWorld.getInventory().setStorageUsed(0);
         // if can't find item in entities map, create dummy item
         if (e == null) {
             e = new ReadMe(null, null, 0, 0, 0, 0, 0, 0, "readme10");
@@ -170,6 +174,7 @@ public class GameWorldTests {
     @Test
     public void testFlashDriveCanInteract() {
         FlashDrive e = (FlashDrive) getEntity("FlashDrive");
+        gameWorld.getInventory().setStorageUsed(0);
         // if can't find item in entities map, create dummy item
         if (e == null) {
             e = new FlashDrive(null, null, 0, 0, 0, 0, 0, 0, "extImg0");
@@ -195,6 +200,7 @@ public class GameWorldTests {
     @Test
     public void testLaptopCanInteract() {
         Laptop e = (Laptop) getEntity("Laptop");
+        gameWorld.getInventory().setStorageUsed(0);
         if (e == null) {
             e = new Laptop(null, null, 0, 0, 0, 0, 0, 0, true);
         }
