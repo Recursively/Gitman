@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Extends Thread which sits along side the gameController that deals with
  * Network logic
  *
- * @author Reuben Puketapu
+ * @author Reuben Puketapu - 300310939
  */
 public class ServerController extends Thread {
 
@@ -31,6 +31,9 @@ public class ServerController extends Thread {
     private GameController gameController;
     private NetworkHandler networkHandler;
 
+    /**
+     * The Is running.
+     */
     public boolean isRunning;
 
     /**

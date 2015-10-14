@@ -3,15 +3,13 @@ package view.renderEngine;
 import model.models.RawModel;
 import model.shaders.gui.GuiShader;
 import model.textures.GuiTexture;
-
+import model.toolbox.Loader;
+import model.toolbox.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-
-import model.toolbox.Loader;
-import model.toolbox.Maths;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ import java.util.List;
  * <p/>
  * It Renders these images directly onto the players screen.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class GuiRenderer {
 

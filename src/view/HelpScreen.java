@@ -11,8 +11,8 @@ import java.util.List;
  * A class for displaying the Help screen. Key press logic is included as the
  * action controller is not made yet and it is simple.
  *
- * @author Ellie
- * @author Marcel
+ * @author Ellie Coyle - 300307071
+ * @author Marcel van Workum - 300313949
  */
 public class HelpScreen {
 

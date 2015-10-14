@@ -1,5 +1,7 @@
 #version 330 core
 
+// Marcel van Workum - 300313949
+
 in vec3 position;
 in vec2 textureCoords;
 in vec3 normal;
@@ -27,11 +29,14 @@ const float density = 0.01;
 const float gradient = 2.5;
 
 void main(void){
+
+	// apply transform
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	pass_textureCoords = (textureCoords / numberOfRows) + offset;
 
+	// checks for fake lighting
 	vec3 actualNormal = normal;
 	if(useFakeLighting > 0.5) {
 		actualNormal = vec3(0.0, 1.0, 0.0);

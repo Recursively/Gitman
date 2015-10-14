@@ -10,14 +10,14 @@ import org.lwjgl.opengl.*;
  * Arguably this class could be in the model, however it fits nicely here and the resolution
  * and fps values are static for the time being
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class DisplayManager {
 
     /**
      * Whether the Display should use VSync to smooth out vertical tearing
      */
-    public static boolean VSYNC_ENABLED = true;
+    public static final boolean VSYNC_ENABLED = true;
 
     // Game window parameters
     private static int WIDTH = 1280;
@@ -33,6 +33,8 @@ public class DisplayManager {
      * Create a Display window with the specified resolution and fps cap
      * <p/>
      * And fullscreen
+     *
+     * @param fullscreen the fullscreen
      */
     public static void createDisplay(boolean fullscreen) {
         ContextAttribs attribs = new ContextAttribs(3, 2)

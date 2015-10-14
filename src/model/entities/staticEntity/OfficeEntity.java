@@ -5,10 +5,27 @@ import model.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- * Created by Marcel on 12/10/15.
+ * Implementation of a collidable entity which has a scaled collision hit box.
+ * <p/>
+ * Again, this is some what pointless. These classes would have been much more useful if more time had been put into
+ * collision detection.
+ *
+ * @author Marcel van Workum - 300313949
  */
 public class OfficeEntity extends CollidableEntity {
 
+    /**
+     * Instantiates a new Office entity.
+     *
+     * @param model        the model
+     * @param position     the position
+     * @param rotX         the rot x
+     * @param rotY         the rot y
+     * @param rotZ         the rot z
+     * @param scale        the scale
+     * @param textureIndex the texture index
+     * @param modelData    the model data
+     */
     public OfficeEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int textureIndex, ModelData modelData) {
         super(model, position, rotX, rotY, rotZ, scale, textureIndex, modelData);
         super.boundingBox = new BoundingBox(boundingBox.getMinX() * scale, boundingBox.getMinY() * scale, boundingBox.getMinZ() * scale,

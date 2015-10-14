@@ -5,12 +5,10 @@ import model.entities.Entity;
 import model.entities.movableEntity.MovableEntity;
 import model.entities.movableEntity.Player;
 import model.toolbox.Loader;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.openal.AL;
 import org.lwjgl.opengl.Display;
-
 import view.DisplayManager;
 import view.renderEngine.GuiRenderer;
 import view.renderEngine.MasterRenderer;
@@ -25,15 +23,24 @@ import java.util.Map;
  * <p/>
  * Deals with Game Loop game logic
  *
- * @author Marcel van Workum
- * @author Reuben
- * @author Divya
- * @author Ellie
+ * @author Marcel van Workum - 300313949
+ * @author Reuben Puketapu - 300310939
+ * @author Divya Patel - 300304450
+ * @author Ellie Coyle - 300307071
  */
 public class GameController {
-    // network state
-    public static boolean RUNNING;
-    public static boolean READY;
+    /**
+     * The constant RUNNING.
+     */
+// network state
+    protected static boolean RUNNING;
+    /**
+     * The constant READY.
+     */
+    protected static boolean READY;
+    /**
+     * The constant NETWORK_DISCONNECTED.
+     */
     public static boolean NETWORK_DISCONNECTED;
 
     // Model
@@ -55,6 +62,9 @@ public class GameController {
     /**
      * Delegates the creation of the MVC and then starts the game
      *
+     * @param isHost    the is host
+     * @param ipAddress the ip address
+     * @param load      the load
      * @throws IOException
      */
     public GameController(boolean isHost, String ipAddress, boolean load) {
@@ -67,7 +77,7 @@ public class GameController {
 
         // initialise the game world
         gameWorld = new GameWorld(this);
-        gameWorld.initGame(isHost, load);
+        gameWorld.initGame(load);
 
         // initialise controller for actions
         actionController = new ActionController(gameWorld, this);
@@ -179,7 +189,7 @@ public class GameController {
             } else {
                 // only show e to interact message if inventory is not open
                 for (MovableEntity e : gameWorld.withinDistance().values()) {
-                    guiRenderer.render(gameWorld.eInteractMessage(e));
+                    guiRenderer.render(gameWorld.eInteractMessage());
                 }
             }
 
@@ -229,6 +239,8 @@ public class GameController {
     }
 
     /**
+     * Is host boolean.
+     *
      * @return if this controller is the host
      */
     public boolean isHost() {

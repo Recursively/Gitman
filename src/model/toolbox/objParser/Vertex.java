@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Vertex class containing all the information about a given vertex
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class Vertex {
 
@@ -21,10 +21,10 @@ public class Vertex {
     /**
      * Instantiates a new Vertex.
      *
-     * @param index the index
+     * @param index    the index
      * @param position the position
      */
-    public Vertex(int index,Vector3f position){
+    public Vertex(int index, Vector3f position) {
         this.index = index;
         this.position = position;
         this.length = position.length();
@@ -35,7 +35,7 @@ public class Vertex {
      *
      * @return the int
      */
-    public int getIndex(){
+    public int getIndex() {
         return index;
     }
 
@@ -44,7 +44,7 @@ public class Vertex {
      *
      * @return the float
      */
-    public float getLength(){
+    public float getLength() {
         return length;
     }
 
@@ -53,19 +53,19 @@ public class Vertex {
      *
      * @return the boolean
      */
-    public boolean isSet(){
-        return textureIndex!=NO_INDEX && normalIndex!=NO_INDEX;
+    public boolean isSet() {
+        return textureIndex != NO_INDEX && normalIndex != NO_INDEX;
     }
 
     /**
      * Checks to see if the texture and normal are equal
      *
      * @param textureIndexOther the texture index other
-     * @param normalIndexOther the normal index other
+     * @param normalIndexOther  the normal index other
      * @return the boolean
      */
-    public boolean hasSameTextureAndNormal(int textureIndexOther,int normalIndexOther){
-        return textureIndexOther==textureIndex && normalIndexOther==normalIndex;
+    public boolean hasSameTextureAndNormal(int textureIndexOther, int normalIndexOther) {
+        return textureIndexOther == textureIndex && normalIndexOther == normalIndex;
     }
 
     /**
@@ -73,7 +73,7 @@ public class Vertex {
      *
      * @param textureIndex the texture index
      */
-    public void setTextureIndex(int textureIndex){
+    public void setTextureIndex(int textureIndex) {
         this.textureIndex = textureIndex;
     }
 
@@ -82,7 +82,7 @@ public class Vertex {
      *
      * @param normalIndex the normal index
      */
-    public void setNormalIndex(int normalIndex){
+    public void setNormalIndex(int normalIndex) {
         this.normalIndex = normalIndex;
     }
 

@@ -3,20 +3,19 @@ package model.shaders.terrain;
 import model.entities.Camera;
 import model.entities.Light;
 import model.shaders.ShaderProgram;
+import model.toolbox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import model.toolbox.Maths;
 
 import java.util.List;
 
 /**
  * Class to handle the open GL bindings for the terrain shader program
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class TerrainShader extends ShaderProgram {
 
-    //TODO this will need to change if more light sources are added
     private static final int MAX_LIGHT_SOURCES = 5;
 
     // actually shader files
@@ -111,7 +110,7 @@ public class TerrainShader extends ShaderProgram {
     /**
      * Load shine variables.
      *
-     * @param damper the damper
+     * @param damper       the damper
      * @param reflectivity the reflectivity
      */
     public void loadShineVariables(float damper, float reflectivity) {

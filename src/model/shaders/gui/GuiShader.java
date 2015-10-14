@@ -6,7 +6,7 @@ import org.lwjgl.util.vector.Matrix4f;
 /**
  * Class to handle the open GL bindings for the GuiShader shader program
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class GuiShader extends ShaderProgram {
 
@@ -29,7 +29,7 @@ public class GuiShader extends ShaderProgram {
      *
      * @param matrix the matrix
      */
-    public void loadTransformation(Matrix4f matrix){
+    public void loadTransformation(Matrix4f matrix) {
         super.loadMatrix(location_transformationMatrix, matrix);
     }
 

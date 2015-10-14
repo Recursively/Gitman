@@ -19,7 +19,7 @@ import java.util.List;
  * <p/>
  * An {@link Terrain} acts as the surface of the game world and has altered vertical y based on the a heightMap
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class TerrainRenderer {
 

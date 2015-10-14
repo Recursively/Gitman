@@ -1,5 +1,7 @@
 #version 330 core
 
+// Marcel van Workum - 300313949
+
 in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 // Maximum number of lights that can affect an entity
@@ -25,8 +27,10 @@ uniform vec3 skyColour;
 
 void main(void){
 
+	//Gets the blend map for the terrain
 	vec4 blendMapColour = texture(blendMap, pass_textureCoords);
 
+	// parse the four textures
 	float backgroundTextureAmount = 1 - (blendMapColour.r, blendMapColour.g, blendMapColour.b);
 	vec2 tileCoords = pass_textureCoords * 40.0;
 	vec4 backgroundTextureColour = texture(backgroundTexture, tileCoords) * backgroundTextureAmount;
@@ -34,8 +38,10 @@ void main(void){
 	vec4 gTextureColour = texture(gTexture, tileCoords) * blendMapColour.g;
 	vec4 bTextureColour = texture(bTexture, tileCoords) * blendMapColour.b;
 
+	// calculates the total blend
 	vec4 totalColour = backgroundTextureColour + rTextureColour + gTextureColour + bTextureColour;
 
+	// gets the normal
 	vec3 unitNormal = normalize(surfaceNormal);
 	vec3 unitVectorToCamera = normalize(toCameraVector);
 
@@ -45,15 +51,23 @@ void main(void){
 	for(int i = 0; i < 5; i++) {
 		// lighting calculation
 		float distance = length(toLightVector[i]);
+
+		// gets the attenuation factor
 		float attenuationFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
 		vec3 unitLightVector = normalize(toLightVector[i]);
 		float nDot1 = dot(unitNormal, unitLightVector);
 		float brightness = max(nDot1, 0.0);
+
+		// opposite to normal vector
 		vec3 lightDirection = -unitLightVector;
+
+		// gets reflectivity direction
 		vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
 		float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
 		specularFactor = max(specularFactor, 0.0);
 		float dampedFactor = pow(specularFactor, shineDamper);
+
+		// finally calculate diffuse and specular
 		totalDiffuse = totalDiffuse + (brightness * lightColour[i]) / attenuationFactor;
 		totalSpecular = totalSpecular + (dampedFactor *  reflectivity * lightColour[i]) / attenuationFactor;
 	}

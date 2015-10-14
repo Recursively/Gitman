@@ -17,7 +17,7 @@ import org.lwjgl.util.vector.Matrix4f;
  * A skybox is a cube of png images wrapped around the players position in the game world
  * to simulate the feeling of a sky.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class SkyboxRenderer {
 
@@ -62,6 +62,9 @@ public class SkyboxRenderer {
      * Renders the skybox around the camera
      *
      * @param camera Represents the center point of the skybox cube
+     * @param r      the r
+     * @param g      the g
+     * @param b      the b
      */
     public void render(Camera camera, float r, float g, float b) {
         shader.start();

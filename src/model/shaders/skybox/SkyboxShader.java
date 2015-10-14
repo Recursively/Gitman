@@ -2,15 +2,15 @@ package model.shaders.skybox;
 
 import model.entities.Camera;
 import model.shaders.ShaderProgram;
-import org.lwjgl.util.vector.Matrix4f;
 import model.toolbox.Maths;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import view.DisplayManager;
 
 /**
  * Class to handle the open GL bindings for the skybox shader program
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class SkyboxShader extends ShaderProgram {
 
@@ -42,7 +42,7 @@ public class SkyboxShader extends ShaderProgram {
      *
      * @param matrix the matrix
      */
-    public void loadProjectionMatrix(Matrix4f matrix){
+    public void loadProjectionMatrix(Matrix4f matrix) {
         super.loadMatrix(location_projectionMatrix, matrix);
     }
 
@@ -51,7 +51,7 @@ public class SkyboxShader extends ShaderProgram {
      *
      * @param camera the camera
      */
-    /*
+/*
 
         [ 1, 0, 0, x ]
         [ 0, 1, 0, y ]
@@ -62,7 +62,7 @@ public class SkyboxShader extends ShaderProgram {
 
         Last column of matrix determines the translation of skybox
     */
-    public void loadViewMatrix(Camera camera){
+    public void loadViewMatrix(Camera camera) {
         Matrix4f matrix = Maths.createViewMatrix(camera);
         matrix.m30 = 0;
         matrix.m31 = 0;

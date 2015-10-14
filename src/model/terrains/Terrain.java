@@ -17,7 +17,7 @@ import java.io.IOException;
  * A Terrain is an area of a location. A terrain depends on a blend map and height map to know how to style the
  * terrain. The terrain is made up of a texture pack
  *
- * @author Marcel van workum
+ * @author Marcel van Workum - 300313949
  */
 public class Terrain {
 
@@ -25,6 +25,9 @@ public class Terrain {
     private float SIZE = 512;
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
+
+    private final String NAME;
+    private final String DESCRIPTION;
 
     private float[][] heights;
     private float gridX;
@@ -49,7 +52,9 @@ public class Terrain {
      * @param heightMap height map to style terrain y values
      */
     public Terrain(int gridX, int gridZ, TerrainTexturePack texture, TerrainTexture blendMap,
-                   String heightMap) {
+                   String heightMap, final String NAME, final String DESCRIPTION) {
+        this.NAME = NAME;
+        this.DESCRIPTION = DESCRIPTION;
         this.blendMap = blendMap;
         this.texturePack = texture;
         this.gridX = gridX * SIZE;
@@ -69,9 +74,12 @@ public class Terrain {
      * @param texture   texture pack to make up the terrain
      * @param blendMap  blend map for mixing textures
      * @param heightMap height map to style terrain y values
+     * @param size      the size
      */
     public Terrain(int gridX, int gridZ, TerrainTexturePack texture, TerrainTexture blendMap,
-                   String heightMap, int size) {
+                   String heightMap, int size, final String NAME, final String DESCRIPTION) {
+        this.NAME = NAME;
+        this.DESCRIPTION = DESCRIPTION;
         SIZE = size;
         this.blendMap = blendMap;
         this.texturePack = texture;
@@ -158,7 +166,7 @@ public class Terrain {
     /**
      * Parses the information of the terrain into a data structures
      *
-     * @param image Height map
+     * @param image       Height map
      * @param vertexCount number of vertices in the terrain
      */
     private void parseTerrainInformation(BufferedImage image, int vertexCount) {
@@ -230,7 +238,6 @@ public class Terrain {
      * Attempts to parse the height map
      *
      * @param heightMap Height map
-     *
      * @return Buffered image
      */
     private BufferedImage getBufferedImage(String heightMap) {
@@ -247,8 +254,8 @@ public class Terrain {
     /**
      * Calculates the normal for the Point on the terrain
      *
-     * @param x gridX of terrain
-     * @param z gridZ of terrain
+     * @param x     gridX of terrain
+     * @param z     gridZ of terrain
      * @param image heightmap
      * @return Normal vector
      */
@@ -269,8 +276,8 @@ public class Terrain {
     /**
      * Parses the terrain y height for the given pixel of the height map
      *
-     * @param x gridX position
-     * @param z gridZ position
+     * @param x     gridX position
+     * @param z     gridZ position
      * @param image height map
      * @return y position
      */

@@ -5,12 +5,12 @@ import model.models.RawModel;
 import model.models.TexturedModel;
 import model.shaders.entity.EntityShader;
 import model.textures.ModelTexture;
+import model.toolbox.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import model.toolbox.Maths;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ import java.util.Map;
  * <p/>
  * An {@link Entity} is any object within the game that is not part of the world (ie the terrain or skybox)
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class EntityRenderer {
 
@@ -44,8 +44,7 @@ public class EntityRenderer {
      * <p/>
      * Saves time and space using a map, rather than each entity having a unique texture
      *
-     * @param entities Map of {@link TexturedModel} to a List of {@link Entity}, as each textured model may have many
-     *                 entities using that texture.
+     * @param entities Map of {@link TexturedModel} to a List of {@link Entity}, as each textured model may have many                 entities using that texture.
      */
     public void render(Map<TexturedModel, List<Entity>> entities) {
         for (TexturedModel model : entities.keySet()) {
@@ -112,7 +111,7 @@ public class EntityRenderer {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
-        GL30.glBindVertexArray(0); 
+        GL30.glBindVertexArray(0);
     }
 
     /**

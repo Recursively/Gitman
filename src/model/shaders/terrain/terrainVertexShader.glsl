@@ -1,5 +1,7 @@
 #version 330 core
 
+// Marcel van Workum - 300313949
+
 in vec3 position;
 in vec2 textureCoords;
 in vec3 normal;
@@ -25,18 +27,25 @@ const float gradient = 2.5;
 
 void main(void){
 
+	// applies transform
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
+
+	// gets relative position
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	pass_textureCoords = textureCoords;
 
+	// gets normal
 	surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
 	for(int i = 0; i < 5; i++) {
+		// gets terrain lighting from 5 sources
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
 	}
 
+	// apply transform
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 
+	// drop visibility
 	float distance = length(positionRelativeToCamera.xyz);
 	visibility = exp(-pow((distance * density), gradient));
 	visibility = clamp(visibility, 0.0, 1.0);

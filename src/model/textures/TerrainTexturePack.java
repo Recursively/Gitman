@@ -3,7 +3,7 @@ package model.textures;
 /**
  * Texture pack containing four textures.
  *
- * @author Marcel van workum
+ * @author Marcel van Workum - 300313949
  */
 public class TerrainTexturePack {
 
@@ -16,9 +16,9 @@ public class TerrainTexturePack {
      * Instantiates a new Terrain texture pack.
      *
      * @param backgroundTexture the background texture
-     * @param rTexture the r texture
-     * @param gTexture the g texture
-     * @param bTexture the b texture
+     * @param rTexture          the r texture
+     * @param gTexture          the g texture
+     * @param bTexture          the b texture
      */
     public TerrainTexturePack(TerrainTexture backgroundTexture, TerrainTexture rTexture, TerrainTexture gTexture,
                               TerrainTexture bTexture) {

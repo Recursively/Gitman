@@ -8,11 +8,11 @@ import java.util.Comparator;
 /**
  * There are two different types of light sources in the world. Those that understand the pointlessness of
  * these java doc comments, and those that don't.
- *
+ * <p/>
  * But seriously, there is two types of light. A sun which is a constant source of light and an attenuated light
  * source, which fades over a distance.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class Light implements Comparator<Light>, Comparable<Light> {
 
@@ -24,7 +24,7 @@ public class Light implements Comparator<Light>, Comparable<Light> {
      * Instantiates a new sun
      *
      * @param position position of the sun
-     * @param colour colour of the sun
+     * @param colour   colour of the sun
      */
     public Light(Vector3f position, Vector3f colour) {
         this.position = position;
@@ -34,8 +34,8 @@ public class Light implements Comparator<Light>, Comparable<Light> {
     /**
      * Instantiates a new attenuated light source
      *
-     * @param position position of light source
-     * @param colour colour of light source
+     * @param position    position of light source
+     * @param colour      colour of light source
      * @param attenuation attenuation factor
      */
     public Light(Vector3f position, Vector3f colour, Vector3f attenuation) {
@@ -93,13 +93,39 @@ public class Light implements Comparator<Light>, Comparable<Light> {
      * Returns the squared hypotenuse side of the distance to the light from a given position
      *
      * @param position position
-     * @return hypotenuse
+     * @return hypotenuse distance to
      */
     public float getDistanceTo(Vector3f position) {
         float diffX = (float) Math.pow(Math.abs(position.getX() - this.position.getX()), 2);
         float diffZ = (float) Math.pow(Math.abs(position.getZ() - this.position.getZ()), 2);
 
         return diffX + diffZ;
+    }
+
+    /**
+     * Increase colour.
+     *
+     * @param r the r
+     * @param g the g
+     * @param b the b
+     */
+    public void increaseColour(float r, float g, float b) {
+        colour.x += r;
+        colour.y += g;
+        colour.z += b;
+    }
+
+    /**
+     * Decrease colour.
+     *
+     * @param r the r
+     * @param g the g
+     * @param b the b
+     */
+    public void decreaseColour(float r, float g, float b) {
+        colour.x -= r;
+        colour.y -= g;
+        colour.z -= b;
     }
 
     @Override
@@ -120,17 +146,5 @@ public class Light implements Comparator<Light>, Comparable<Light> {
         if (distance < distance2) return -1;
         else if (distance == distance2) return 0;
         else return 1;
-    }
-
-    public void increaseColour(float r, float g, float b) {
-        colour.x += r;
-        colour.y += g;
-        colour.z += b;
-    }
-
-    public void decreaseColour(float r, float g, float b) {
-        colour.x -= r;
-        colour.y -= g;
-        colour.z -= b;
     }
 }
