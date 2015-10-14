@@ -214,6 +214,14 @@ public class GameWorld {
 
         this.helpVisible = false;
         staticEntities.add(entityFactory.makePortal(OUTSIDE_PORTAL_POSITION, currentTerrain));
+        
+        // set location message
+        if(isOutside){
+        	setGuiLocationMessage("inGameOutsideDesc", 15000);
+        }
+        else {
+        	setGuiLocationMessage("officeDesc", 15000);
+        }
     }
 
     /**
@@ -368,7 +376,7 @@ public class GameWorld {
         this.guiImages.addAll(this.guiFactory.getSwipeCards(this.cards));
     }
 
-    /**
+    /** 
      * Find item that player is trying to interact with and then carry out
      * interaction
      */
@@ -825,6 +833,16 @@ public class GameWorld {
      */
     public static void setGuiMessage(String msg, long time) {
         guiMessages.setMessage(msg, time);
+    }
+    
+    /**
+     * Sets the location description message.
+     *
+     * @param msg  the msg
+     * @param time the time
+     */
+    public static void setGuiLocationMessage(String msg, long time) {
+        guiMessages.setLocationMessage(msg, time);
     }
 
     /**

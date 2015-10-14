@@ -170,7 +170,7 @@ public class Player extends MovableEntity {
             position.z = terrainOriginZ + edgeBound;
         } else if (zPos > terrainBoundZ - edgeBound) {
             position.z = terrainBoundZ - edgeBound;
-        }
+        } 
 
         // Now check for portal collision
 
@@ -178,6 +178,7 @@ public class Player extends MovableEntity {
                 && zPos >= GameWorld.PORTAL_UPPER_BOUND_OUTSIDE_Z) {
             // swap terrain
             GameWorld.teleportToOffice();
+            GameWorld.setGuiLocationMessage("officeDesc", 15000);
         }
 
         if (GameWorld.isProgramCompiled()) {
@@ -185,7 +186,8 @@ public class Player extends MovableEntity {
                     && zPos >= GameWorld.PORTAL_UPPER_BOUND_OFFICE_Z) {
                 // swap terrain
                 GameWorld.teleportToOutside();
-
+                GameWorld.setGuiLocationMessage("inGameOutsideDesc", 15000);
+                
                 if (firstTimeOutside) {
                     firstTimeOutside = false;
                     GameWorld.setGuiMessage("inGameMessage", 5000);

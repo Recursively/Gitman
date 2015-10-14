@@ -11,5 +11,4 @@ uniform sampler2D guiTexture;
 void main(void){
 	// ezi e
 	out_Color = texture(guiTexture,textureCoords);
-
 }
