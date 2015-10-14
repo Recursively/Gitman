@@ -15,7 +15,7 @@ public class TexturedModel {
     /**
      * Instantiates a new Textured model.
      *
-     * @param model the model
+     * @param model   the model
      * @param texture the texture
      */
     public TexturedModel(RawModel model, ModelTexture texture) {

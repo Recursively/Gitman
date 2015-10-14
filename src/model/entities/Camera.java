@@ -24,7 +24,7 @@ public class Camera {
     /**
      * Instantiates a new Camera.
      *
-     * @param terrainHeight the terrain height
+     * @param terrainHeight  the terrain height
      * @param playerPosition the player position
      */
     public Camera(float terrainHeight, Vector3f playerPosition) {
@@ -102,7 +102,7 @@ public class Camera {
     public void setPitch(int pitch) {
         this.pitch = pitch;
     }
-    
+
     /**
      * Sets yaw.
      *
@@ -111,20 +111,21 @@ public class Camera {
     public void setYaw(int yaw) {
         this.yaw = yaw;
     }
-    
+
     /**
      * Calculate the direction vector of the camera
+     *
      * @return direction vector of the camera
      */
-    public Vector3f getDirection(){
-    	double pitchRadians = Math.toRadians(pitch);
-    	double yawRadians = Math.toRadians(yaw);
+    public Vector3f getDirection() {
+        double pitchRadians = Math.toRadians(pitch);
+        double yawRadians = Math.toRadians(yaw);
 
-    	float sinPitch = (float) Math.sin(pitchRadians);
-    	float cosPitch = (float) Math.cos(pitchRadians);
-    	float sinYaw = (float) Math.sin(yawRadians);
-    	float cosYaw = (float) Math.cos(yawRadians);
+        float sinPitch = (float) Math.sin(pitchRadians);
+        float cosPitch = (float) Math.cos(pitchRadians);
+        float sinYaw = (float) Math.sin(yawRadians);
+        float cosYaw = (float) Math.cos(yawRadians);
 
-    	return new Vector3f(sinYaw, -(sinPitch*cosYaw), -(cosPitch*cosYaw));
+        return new Vector3f(sinYaw, -(sinPitch * cosYaw), -(cosPitch * cosYaw));
     }
 }

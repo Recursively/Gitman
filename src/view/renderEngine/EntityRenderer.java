@@ -5,12 +5,12 @@ import model.models.RawModel;
 import model.models.TexturedModel;
 import model.shaders.entity.EntityShader;
 import model.textures.ModelTexture;
+import model.toolbox.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import model.toolbox.Maths;
 
 import java.util.List;
 import java.util.Map;

@@ -15,7 +15,7 @@ import java.nio.FloatBuffer;
 
 /**
  * Abstract class representing a shader program.
- *
+ * <p/>
  * A shader program is a delegate between java and the open gl glsl shader
  *
  * @author Marcel van Workum
@@ -32,11 +32,11 @@ public abstract class ShaderProgram {
     /**
      * Instantiates a new Shader program.
      *
-     * @param vertexFile the vertex file
+     * @param vertexFile   the vertex file
      * @param fragmentFile the fragment file
      */
     public ShaderProgram(String vertexFile, String fragmentFile) {
-        vertexShaderID = loadShader(vertexFile,GL20.GL_VERTEX_SHADER);
+        vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
         fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
         programID = GL20.glCreateProgram();
         GL20.glAttachShader(programID, vertexShaderID);
@@ -96,7 +96,7 @@ public abstract class ShaderProgram {
     /**
      * Bind attribute.
      *
-     * @param attribute the attribute
+     * @param attribute    the attribute
      * @param variableName the variable name
      */
     protected void bindAttribute(int attribute, String variableName) {
@@ -107,7 +107,7 @@ public abstract class ShaderProgram {
      * Load float.
      *
      * @param location the location
-     * @param value the value
+     * @param value    the value
      */
     protected void loadFloat(int location, float value) {
         GL20.glUniform1f(location, value);
@@ -117,7 +117,7 @@ public abstract class ShaderProgram {
      * Load int.
      *
      * @param location the location
-     * @param value the value
+     * @param value    the value
      */
     protected void loadInt(int location, int value) {
         GL20.glUniform1i(location, value);
@@ -127,7 +127,7 @@ public abstract class ShaderProgram {
      * Load vector.
      *
      * @param location the location
-     * @param vector the vector
+     * @param vector   the vector
      */
     protected void loadVector(int location, Vector3f vector) {
         GL20.glUniform3f(location, vector.x, vector.y, vector.z);
@@ -137,7 +137,7 @@ public abstract class ShaderProgram {
      * Load 2 d vector.
      *
      * @param location the location
-     * @param vector the vector
+     * @param vector   the vector
      */
     protected void load2DVector(int location, Vector2f vector) {
         GL20.glUniform2f(location, vector.x, vector.y);
@@ -147,7 +147,7 @@ public abstract class ShaderProgram {
      * Load boolean.
      *
      * @param location the location
-     * @param value the value
+     * @param value    the value
      */
     protected void loadBoolean(int location, boolean value) {
         float toLoad = 0;
@@ -161,7 +161,7 @@ public abstract class ShaderProgram {
      * Load matrix.
      *
      * @param location the location
-     * @param matrix the matrix
+     * @param matrix   the matrix
      */
     protected void loadMatrix(int location, Matrix4f matrix) {
         matrix.store(matrixBuffer);
@@ -174,7 +174,6 @@ public abstract class ShaderProgram {
      *
      * @param file File of shader
      * @param type type of shader
-     *
      * @return Location of the shader
      */
     private static int loadShader(String file, int type) {

@@ -5,13 +5,9 @@ import model.entities.movableEntity.*;
 import model.entities.staticEntity.CollidableEntity;
 import model.entities.staticEntity.OfficeEntity;
 import model.entities.staticEntity.StaticEntity;
-import model.models.ModelData;
-import model.models.RawModel;
+import model.models.EntityModel;
 import model.models.TexturedModel;
 import model.terrains.Terrain;
-import model.textures.ModelTexture;
-import model.toolbox.Loader;
-import model.toolbox.objParser.OBJFileLoader;
 import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -26,156 +22,289 @@ import java.util.Random;
 /**
  * Entity factory which abstracts the creation of an entity. It loads the entity
  * map for a given terrain or randomly generates entities for testing.
+ * <p/>
+ * This is probably the ugliest class I have ever written.
  *
  * @author Marcel van Workum
  * @author Reuben Puketapu
  */
 public class EntityFactory {
-	// commit position is 10 above the ground
-	private static final int COMMIT_OFFSET_Y = 0;
-	
+    // commit position is 10 above the ground
+    private static final int COMMIT_OFFSET_Y = 0;
+    private static final int DEFAULT_REFLECTIVITY = -1;
+
     // Paths to the object and textures files
-    private static final String MODEL_PATH = "models/";
-    private static final String TEXTURES_PATH = "textures/";
     private static final String ENTITY_MAP = "terrains/entityMap";
     private static final String OFFICE_ENTITY_MAP = "terrains/officeEntityMap";
+    private static final Random random = new Random();
 
-    private ArrayList<Vector3f> commitPositions = new ArrayList<>();
-
-    private Random random = new Random();
-
-    private ModelData pineData;
-    private TexturedModel pineTexturedModel;
-    private ModelData lampData;
-    private TexturedModel lampTexturedModel;
-    private ModelData wallData;
-    private TexturedModel wallTexturedModel;
-    private ModelData whiteboardData;
-    private TexturedModel whiteboardTexturedModel;
-    private ModelData tableData;
-    private TexturedModel tableTexturedModel;
-    private ModelData laptopData;
-    private static TexturedModel laptopTexturedModel;
-    private ModelData bugData;
-    private static TexturedModel bugTexturedModel;
-    private ModelData tabletData;
-    private static TexturedModel tabletTexturedModel;
-
-    private ModelData swipecardData;
-    private static TexturedModel[] swipecardTexturedModel = new TexturedModel[5];
-    private ModelData commitData;
-    private static TexturedModel commitTexturedModel;
-    private ModelData flashdriveData;
-    private static TexturedModel flashdriveTexturedModel;
-
-    private static TexturedModel playerTexturedModel;
-    private static ModelData playerData;
-
-    private ArrayList<Entity> entities = new ArrayList<>();
+    // Entity collections
     private Map<Integer, MovableEntity> movableEntities = new HashMap<>();
+    private ArrayList<Vector3f> commitPositions = new ArrayList<>();
+    private ArrayList<Entity> entities = new ArrayList<>();
+    private ArrayList<Entity> wallEntities = new ArrayList<>();
+
+    // Entity models
+    private static EntityModel pineEntity;
+    private static EntityModel lampEntity;
+    private static EntityModel wallEntity;
+    private static EntityModel whiteboardEntity;
+    private static EntityModel tableEntity;
+    private static EntityModel laptopEntity;
+    private static EntityModel bugEntity;
+    private static EntityModel tabletEntity;
+    private static EntityModel commitEntity;
+    private static EntityModel flashDriveEntity;
+    private static EntityModel portalEntity;
+    private static EntityModel[] swipeCardEntities;
+    private static EntityModel playerEntity;
+
+    // Entity stats
     private static int movableItemID = 0;
     private static int laptopItemID = 0;
-    private static int swipecardItemID = 0;
+    private static int swipeCardItemID = 0;
     private static int readmeItemID = 0;
-    private static int flashdriveItemID = 0;
-    private ModelData portalData;
-    private TexturedModel portalTexturedModel;
-    private ArrayList<Entity> wallEntities = new ArrayList<>();
+    private static int flashDriveItemID = 0;
 
     /**
      * Construct a new Entity factor with no models preloaded
      */
     public EntityFactory(Terrain terrain, Terrain office) {
-
+        // Initialises the player model
         initModels();
 
+        // parses the outside entity map
         BufferedImage image = getBufferedImage(ENTITY_MAP);
         parseEntityMap(terrain, image);
 
+        // parses the office entity map
         image = getBufferedImage(OFFICE_ENTITY_MAP);
         parseEntityMap(office, image);
     }
 
+    /**
+     * Parses the entity models
+     */
     private void initModels() {
-        pineData = OBJFileLoader.loadOBJ(MODEL_PATH + "pine");
-        RawModel pineRawModel = Loader.loadToVAO(pineData.getVertices(), pineData.getTextureCoords(),
-                pineData.getNormals(), pineData.getIndices());
-        pineTexturedModel = new TexturedModel(pineRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "pine")));
-        pineTexturedModel.getTexture().setReflectivity(0);
+        pineEntity = new EntityModel("pine", 0);
+        lampEntity = new EntityModel("lamp", DEFAULT_REFLECTIVITY);
+        wallEntity = new EntityModel("wall", 0.1f);
+        whiteboardEntity = new EntityModel("free_standing_whiteboard", 0);
+        tableEntity = new EntityModel("table_with_drawer", DEFAULT_REFLECTIVITY);
+        laptopEntity = new EntityModel("laptop", DEFAULT_REFLECTIVITY);
+        bugEntity = new EntityModel("bug", DEFAULT_REFLECTIVITY);
+        tabletEntity = new EntityModel("tablet", DEFAULT_REFLECTIVITY);
+        commitEntity = new EntityModel("commit_cube", DEFAULT_REFLECTIVITY);
+        flashDriveEntity = new EntityModel("flash_drive", DEFAULT_REFLECTIVITY);
+        portalEntity = new EntityModel("portal", 0);
+        swipeCardEntities = new EntityModel[5];
 
-
-        lampData = OBJFileLoader.loadOBJ(MODEL_PATH + "lamp");
-        RawModel lampRawModel = Loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(),
-                lampData.getNormals(), lampData.getIndices());
-        lampTexturedModel = new TexturedModel(lampRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "lamp")));
-
-        wallData = OBJFileLoader.loadOBJ(MODEL_PATH + "wall");
-        RawModel wallRawModel = Loader.loadToVAO(wallData.getVertices(), wallData.getTextureCoords(),
-                wallData.getNormals(), wallData.getIndices());
-        wallTexturedModel = new TexturedModel(wallRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "wall")));
-       wallTexturedModel.getTexture().setReflectivity(0.1f);
-
-        whiteboardData = OBJFileLoader.loadOBJ(MODEL_PATH + "free_standing_whiteboard");
-        RawModel whiteboardRawModel = Loader.loadToVAO(whiteboardData.getVertices(), whiteboardData.getTextureCoords(),
-                whiteboardData.getNormals(), whiteboardData.getIndices());
-        whiteboardTexturedModel = new TexturedModel(whiteboardRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "free_standing_whiteboard")));
-        whiteboardTexturedModel.getTexture().setReflectivity(0);
-
-        tableData = OBJFileLoader.loadOBJ(MODEL_PATH + "table_with_drawer");
-        RawModel tableRawModel = Loader.loadToVAO(tableData.getVertices(), tableData.getTextureCoords(),
-                tableData.getNormals(), tableData.getIndices());
-        tableTexturedModel = new TexturedModel(tableRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "table_with_drawer")));
-
-        laptopData = OBJFileLoader.loadOBJ(MODEL_PATH + "laptop");
-        RawModel laptopRawModel = Loader.loadToVAO(laptopData.getVertices(), laptopData.getTextureCoords(),
-                laptopData.getNormals(), laptopData.getIndices());
-        laptopTexturedModel = new TexturedModel(laptopRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "laptop")));
-
-        bugData = OBJFileLoader.loadOBJ(MODEL_PATH + "bug");
-        RawModel bugRawModel = Loader.loadToVAO(bugData.getVertices(), bugData.getTextureCoords(),
-                bugData.getNormals(), bugData.getIndices());
-        bugTexturedModel = new TexturedModel(bugRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "bug")));
-
-        tabletData = OBJFileLoader.loadOBJ(MODEL_PATH + "tablet");
-        RawModel tabletRawModel = Loader.loadToVAO(tabletData.getVertices(), tabletData.getTextureCoords(),
-                tabletData.getNormals(), tabletData.getIndices());
-        EntityFactory.tabletTexturedModel = new TexturedModel(tabletRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "tablet")));
-
-        commitData = OBJFileLoader.loadOBJ(MODEL_PATH + "commit_cube");
-        RawModel commitRawModel = Loader.loadToVAO(commitData.getVertices(), commitData.getTextureCoords(),
-                commitData.getNormals(), commitData.getIndices());
-        commitTexturedModel = new TexturedModel(commitRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "commit_cube")));
-
-        flashdriveData = OBJFileLoader.loadOBJ(MODEL_PATH + "flash_drive");
-        RawModel flashdriveRawModel = Loader.loadToVAO(flashdriveData.getVertices(), flashdriveData.getTextureCoords(),
-                flashdriveData.getNormals(), flashdriveData.getIndices());
-        flashdriveTexturedModel = new TexturedModel(flashdriveRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "flash_drive")));
-
-        swipecardData = OBJFileLoader.loadOBJ(MODEL_PATH + "swipe_card");
         for (int i = 0; i < 5; i++) {
-            RawModel swipecardRawModel = Loader.loadToVAO(swipecardData.getVertices(), swipecardData.getTextureCoords(),
-                    swipecardData.getNormals(), swipecardData.getIndices());
-            swipecardTexturedModel[i] = new TexturedModel(swipecardRawModel,
-                    new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "swipe_card" + i)));
+            swipeCardEntities[i] = new EntityModel("swipe_card", i, DEFAULT_REFLECTIVITY);
         }
+    }
 
+    /**
+     * Parses the entity map
+     *
+     * @param terrain Terrain the map is for
+     * @param image   Image of the entity map
+     */
+    private void parseEntityMap(Terrain terrain, BufferedImage image) {
+        for (int i = 0; i < image.getWidth(); i++) {
+            for (int j = 0; j < image.getHeight(); j++) {
 
-        portalData = OBJFileLoader.loadOBJ(MODEL_PATH + "portal");
-        RawModel portalRawModel = Loader.loadToVAO(portalData.getVertices(), portalData.getTextureCoords(),
-                portalData.getNormals(), portalData.getIndices());
-        portalTexturedModel = new TexturedModel(portalRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "portal")));
-        portalTexturedModel.getTexture().setReflectivity(0);
+                // Switching it up ^_^
+                switch (image.getRGB(i, j)) {
+                    case -65536:
+                        makeEntity(terrain, i, j, "pine", false);
+                        break;
+                    case -16776961:
+                        makeEntity(terrain, i, j, "commit", false);
+                        break;
+                    case -16711936:
+                        makeEntity(terrain, i, j, "lamp", false);
+                        break;
+                    case -16777216:
+                        makeEntity(terrain, i, j, "wall", false);
+                        break;
+                    case -6908266:
+                        makeEntity(terrain, i, j, "wall", true);
+                        break;
+                    case -196864:
+                        makeEntity(terrain, i, j, "free_standing_whiteboard", false);
+                        break;
+                    case -16713985:
+                        makeEntity(terrain, i, j, "table_with_drawer", false);
+                        break;
+                    case -261889:
+                        makeEntity(terrain, i, j, "laptop", false);
+                        break;
+                    case -28672:
+                        makeEntity(terrain, i, j, "bug", false);
+                        break;
+                    case -16747777:
+                        makeEntity(terrain, i, j, "swipe_card", false);
+                        break;
+                    case -16711810:
+                        makeEntity(terrain, i, j, "tablet", false);
+                        break;
+                    case -4980481:
+                        makeEntity(terrain, i, j, "flash_drive", false);
+                        break;
+                }
+            }
+        }
+    }
+
+    /**
+     * Makes a new entity and adds it to the respective collection
+     *
+     * @param terrain    Terrain the entity is one
+     * @param i          x position
+     * @param j          z position
+     * @param entityName Name of entity model
+     * @param rotate     rotate the entity
+     */
+    private void makeEntity(Terrain terrain, int i, int j, String entityName, boolean rotate) {
+
+        float x = i + terrain.getGridX();
+        float z = j + terrain.getGridZ();
+        float y = terrain.getTerrainHeight(x, z);
+
+        switch (entityName) {
+            case "commit":
+                //Create a new position where a commit can spawn
+                commitPositions.add(new Vector3f(x, y + COMMIT_OFFSET_Y, z));
+                break;
+
+            /////////////////////
+            // STATIC ENTITIES //
+            /////////////////////
+
+            case "lamp":
+                // Create and add the entity
+                entities.add(new CollidableEntity(lampEntity.getTexturedModel(), new Vector3f(x, y, z), 0,
+                        random.nextFloat() * 256f, 0, 1f, 0, lampEntity.getModelData()));
+
+                // Create the lamp's light source
+                LightFactory.createEntityLight(new Vector3f(x, y + 12, z + 2));
+                break;
+            case "pine":
+                // Ground offset
+                y -= 2;
+
+                // Create and add the entity
+                entities.add(new CollidableEntity(pineEntity.getTexturedModel(), new Vector3f(x, y, z), 0,
+                        random.nextFloat() * 256f, 0, random.nextFloat() + 1, 0, pineEntity.getModelData()));
+                break;
+            case "wall":
+                // Check to see if wall is rotated 90
+                if (rotate) {
+                    // Create and add the entity
+                    wallEntities.add(new Entity(wallEntity.getTexturedModel(), new Vector3f(x, y, z), 0,
+                            90f, 0, 10f, 0));
+                } else {
+                    // Create and add the entity
+                    entities.add(new CollidableEntity(wallEntity.getTexturedModel(), new Vector3f(x, y, z), 0,
+                            0, 0, 10f, 0, wallEntity.getModelData()));
+                }
+                break;
+            case "free_standing_whiteboard":
+                // Again ground offset
+                y += 8;
+
+                // Create and add the entity
+                entities.add(new OfficeEntity(whiteboardEntity.getTexturedModel(), new Vector3f(x, y, z), 0,
+                        270f, 0, 1.5f, 0, whiteboardEntity.getModelData()));
+                break;
+            case "table_with_drawer":
+                //Ground offset
+                y += 4;
+
+                // Create and add the entity
+                entities.add(new OfficeEntity(tableEntity.getTexturedModel(), new Vector3f(x, y, z), 0,
+                        270f, 0, 1.5f, 0, tableEntity.getModelData()));
+                break;
+
+            //////////////////////
+            // MOVABLE ENTITIES //
+            //////////////////////
+
+            case "laptop":
+                // ground offset
+                y += 6.5;
+
+                // Create and add the entity
+                movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopEntity.getTexturedModel(),
+                        new Vector3f(x, y, z), 0, 270f, 0, 1f, EntityFactory.movableItemID++,
+                        EntityFactory.laptopItemID++, true));
+                break;
+            case "bug":
+                // Create and add the entity
+                y += 15;
+                movableEntities.put(EntityFactory.movableItemID++, new Bug(bugEntity.getTexturedModel(),
+                        new Vector3f(x, y, z), 0, 0, 0, 10f, 0));
+                break;
+            case "swipe_card":
+                // Terrible way to position this, but had to be done
+                y += 3.5;
+                z += 4.5;
+                x -= 2.5;
+
+                // Create and add the entity
+                movableEntities.put(EntityFactory.movableItemID, new SwipeCard(
+                        swipeCardEntities[EntityFactory.swipeCardItemID].getTexturedModel(), new Vector3f(x, y, z), 0,
+                        180, 0, 0.4f, EntityFactory.movableItemID++, EntityFactory.swipeCardItemID++));
+                break;
+            case "tablet":
+                // Create and add the entity
+                y += 6.5;
+                movableEntities.put(EntityFactory.movableItemID, new ReadMe(tabletEntity.getTexturedModel(),
+                        new Vector3f(x, y, z), 0, 270f, 0, 1f, EntityFactory.movableItemID++,
+                        "readme1" + EntityFactory.readmeItemID++));
+                break;
+            case "flash_drive":
+                // Create and add the entity
+                // Again bad way to do this but had to be done
+                y += 3.3;
+                z += 2;
+                x -= 2;
+                movableEntities.put(EntityFactory.movableItemID, new FlashDrive(flashDriveEntity.getTexturedModel(),
+                        new Vector3f(x, y, z), 0, 180, 0, 0.5f, EntityFactory.movableItemID++,
+                        "extImg" + EntityFactory.flashDriveItemID++));
+                break;
+        }
+    }
+
+    /**
+     * Creates a commit at a given position
+     *
+     * @param position position
+     * @return commit
+     */
+    public static Commit createCommit(Vector3f position) {
+        position.y += 10;
+        return new Commit(EntityFactory.commitEntity.getTexturedModel(), position, 0, 0, 0, 1.5f, EntityFactory.movableItemID++);
+    }
+
+    /**
+     * Creates a new portal entity
+     *
+     * @param position position of the portal
+     * @param terrain  Terrain to get y height from
+     * @return Portal Entity
+     */
+    public StaticEntity makePortal(Vector3f position, Terrain terrain) {
+        position.y += terrain.getTerrainHeight(position.getX(), position.getZ()) + 10;
+        return new CollidableEntity(portalEntity.getTexturedModel(), position, 0, 0, 0, 10f, 0, portalEntity.getModelData());
+    }
+
+    /**
+     * Initialises the player model. Static method as it is called before the other initialisations happen
+     */
+    public static void initPayerModel() {
+        playerEntity = new EntityModel("orb", 0.4f);
     }
 
     // HELPER METHOD
@@ -197,176 +326,106 @@ public class EntityFactory {
         return image;
     }
 
-    private void parseEntityMap(Terrain terrain, BufferedImage image) {
-
-        for (int i = 0; i < image.getWidth(); i++) {
-            for (int j = 0; j < image.getHeight(); j++) {
-                int color = image.getRGB(i, j);
-                if (color == -65536) {
-                	makeEntity(terrain, i, j, "pine", false);
-                } else if (color == -16776961){
-                    makeEntity(terrain, i, j, "commit", false);
-                } else if (color == -16711936) {
-                    makeEntity(terrain, i, j, "lamp", false);
-                } else if (color == -16777216) {
-                    makeEntity(terrain, i, j, "wall", false);
-                } else if (color == -6908266) {
-                    makeEntity(terrain, i, j, "wall", true);
-                } else if (color == -196864) {
-                    makeEntity(terrain, i, j, "free_standing_whiteboard", false);
-                } else if (color == -16713985) {
-                    makeEntity(terrain, i, j, "table_with_drawer", false);
-                } else if (color == -261889) {
-                    makeEntity(terrain, i, j, "laptop", false);
-                } else if (color == -28672) {
-                    makeEntity(terrain, i, j, "bug", false);
-                } else if (color == -16747777) {
-                    makeEntity(terrain, i, j, "swipe_card", false);
-                } else if (color == -16711810) {
-                    makeEntity(terrain, i, j, "tablet", false);
-                } else if (color == -4980481) {
-                    makeEntity(terrain, i, j, "flash_drive", false);
-                }
-            }
-        }
+    /**
+     * Gets player textured model.
+     *
+     * @return the player textured model
+     */
+    public static TexturedModel getPlayerTexturedModel() {
+        return playerEntity.getTexturedModel();
     }
 
-    // TODO only load model data once?!?!
-
-    private void makeEntity(Terrain terrain, int i, int j, String entityName, boolean rotate) {
-
-        float x = i + terrain.getGridX();
-        float z = j + terrain.getGridZ();
-        float y = terrain.getTerrainHeight(x, z);
-        float scale = random.nextFloat() + 1;
-
-        if (entityName.equals("commit")) {
-            commitPositions.add(new Vector3f(x, y + COMMIT_OFFSET_Y, z));
-        } else if (entityName.equals("lamp")) {
-            entities.add(new CollidableEntity(lampTexturedModel, new Vector3f(x, y, z), 0,
-                    random.nextFloat() * 256f, 0, 1f, 0, lampData));
-            LightFactory.createEntityLight(new Vector3f(x, y + 12, z + 2));
-        } else if (entityName.equals("pine")) {
-            y -= 2;
-            entities.add(new CollidableEntity(pineTexturedModel, new Vector3f(x, y, z), 0,
-                    random.nextFloat() * 256f, 0, scale, 0, pineData));
-        } else if (entityName.equals("wall")) {
-            if (rotate) {
-                wallEntities.add(new Entity(wallTexturedModel, new Vector3f(x, y, z), 0,
-                        90f, 0, 10f, 0));
-            } else {
-                entities.add(new CollidableEntity(wallTexturedModel, new Vector3f(x, y, z), 0,
-                        0, 0, 10f, 0, wallData));
-            }
-        } else if (entityName.equals("free_standing_whiteboard")) {
-            y += 8;
-            entities.add(new OfficeEntity(whiteboardTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1.5f, 0, whiteboardData));
-        } else if (entityName.equals("table_with_drawer")) {
-            y += 4;
-            entities.add(new OfficeEntity(tableTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1.5f, 0, tableData));
-        }
-
-        // Movable entities
-
-        else if (entityName.equals("laptop")) {
-            y += 6.5;
-            movableEntities.put(EntityFactory.movableItemID, new Laptop(laptopTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f,  EntityFactory.movableItemID++, EntityFactory.laptopItemID++, true));
-        } else if (entityName.equals("bug")) {
-            y += 15;
-            movableEntities.put(EntityFactory.movableItemID++, new Bug(bugTexturedModel, new Vector3f(x, y, z), 0,
-                    0, 0, 10f, 0));
-        } else if (entityName.equals("swipe_card")) {
-            y += 3.5;
-            z += 4.5;
-            x -= 2.5;
-            movableEntities.put(EntityFactory.movableItemID, new SwipeCard(
-                    swipecardTexturedModel[EntityFactory.swipecardItemID], new Vector3f(x, y, z), 0, 180, 0, 0.4f,
-                    EntityFactory.movableItemID++, EntityFactory.swipecardItemID++));
-        } else if (entityName.equals("tablet")) {
-            y += 6.5;
-            movableEntities.put(EntityFactory.movableItemID, new ReadMe(tabletTexturedModel, new Vector3f(x, y, z), 0,
-                    270f, 0, 1f, EntityFactory.movableItemID++, "readme1" + EntityFactory.readmeItemID++));
-        } else if (entityName.equals("flash_drive")) {
-            y += 3.3;
-            z += 2;
-            x -= 2;
-            movableEntities.put(EntityFactory.movableItemID, new FlashDrive(flashdriveTexturedModel, new Vector3f(x, y, z),
-            0, 180, 0, 0.5f, EntityFactory.movableItemID++, "extImg" + EntityFactory.flashdriveItemID++));
-        }
-    }
-
-    public StaticEntity makePortal(Vector3f position, Terrain terrain) {
-        position.y += terrain.getTerrainHeight(position.getX(), position.getZ()) + 10;
-        return new CollidableEntity(portalTexturedModel, position, 0, 0, 0, 10f, 0, portalData);
-    }
-
-
-    public static Commit createCommit(Vector3f position) {
-        position.y += 10;
-        return new Commit(EntityFactory.commitTexturedModel, position, 0, 0, 0, 1.5f, EntityFactory.movableItemID++);
-    }
-
+    /**
+     * Gets entities.
+     *
+     * @return the entities
+     */
     public ArrayList<Entity> getEntities() {
         return entities;
     }
 
+    /**
+     * Gets commit positions.
+     *
+     * @return the commit positions
+     */
     public ArrayList<Vector3f> getCommitPositions() {
         return commitPositions;
     }
 
+    /**
+     * Gets movable entities.
+     *
+     * @return the movable entities
+     */
     public Map<Integer, MovableEntity> getMovableEntities() {
         return movableEntities;
     }
 
+    /**
+     * Gets wall entities.
+     *
+     * @return the wall entities
+     */
     public ArrayList<Entity> getWallEntities() {
         return wallEntities;
     }
 
+    /**
+     * Gets flashdrive textured model.
+     *
+     * @return the flashdrive textured model
+     */
     public static TexturedModel getFlashdriveTexturedModel() {
-        return flashdriveTexturedModel;
+        return flashDriveEntity.getTexturedModel();
     }
 
+    /**
+     * Gets commit textured model.
+     *
+     * @return the commit textured model
+     */
     public static TexturedModel getCommitTexturedModel() {
-        return commitTexturedModel;
+        return commitEntity.getTexturedModel();
     }
 
+    /**
+     * Get swipecard textured model textured model [ ].
+     *
+     * @return the textured model [ ]
+     */
     public static TexturedModel[] getSwipecardTexturedModel() {
-        return swipecardTexturedModel;
+        TexturedModel[] temp = new TexturedModel[5];
+        for (int i = 0; i < 5; i++) {
+            temp[i] = swipeCardEntities[i].getTexturedModel();
+        }
+        return temp;
     }
 
+    /**
+     * Gets tablet textured model.
+     *
+     * @return the tablet textured model
+     */
     public static TexturedModel getTabletTexturedModel() {
-        return tabletTexturedModel;
+        return tabletEntity.getTexturedModel();
     }
 
+    /**
+     * Gets bug textured model.
+     *
+     * @return the bug textured model
+     */
     public static TexturedModel getBugTexturedModel() {
-        return bugTexturedModel;
+        return bugEntity.getTexturedModel();
     }
 
+    /**
+     * Gets laptop textured model.
+     *
+     * @return the laptop textured model
+     */
     public static TexturedModel getLaptopTexturedModel() {
-        return laptopTexturedModel;
-    }
-
-    public int getMovableEntitiesID() {
-        return EntityFactory.movableItemID;
-    }
-
-    public void increaseMovableEntitiesID() {
-        EntityFactory.movableItemID++;
-    }
-
-    public static void initPayerModel() {
-        playerData = OBJFileLoader.loadOBJ(MODEL_PATH + "orb");
-        RawModel playerRawModel = Loader.loadToVAO(playerData.getVertices(), playerData.getTextureCoords(),
-                playerData.getNormals(), playerData.getIndices());
-        playerTexturedModel = new TexturedModel(playerRawModel,
-                new ModelTexture(Loader.loadTexture(TEXTURES_PATH + "orb")));
-        playerTexturedModel.getTexture().setReflectivity(0.4f);
-    }
-
-    public static TexturedModel getPlayerTexturedModel() {
-        return playerTexturedModel;
+        return laptopEntity.getTexturedModel();
     }
 }

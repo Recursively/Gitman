@@ -31,24 +31,21 @@ public class PlayLoadHelpScreen {
     private String PATH = "titleScreen";
 
     /**
-     * @param isHost     whether this is the host
-     * @param hostname   name of Host
-     * @param fullscreen whether game is full screen or not
+     * @param isHost   whether this is the host
+     * @param hostname name of Host
      */
-    public PlayLoadHelpScreen(boolean isHost, String hostname, boolean fullscreen) {
+    public PlayLoadHelpScreen(boolean isHost, String hostname) {
         this.hostname = hostname;
         this.isHost = isHost;
 
         Keyboard.enableRepeatEvents(false);
-        blinkTitle(fullscreen);
+        blinkTitle();
     }
 
     /**
      * Blinks the title and handles key press logic for selecting wither play load or help
-     *
-     * @param fullscreen whether the screen si full screen or not
      */
-    private void blinkTitle(boolean fullscreen) {
+    private void blinkTitle() {
         GuiRenderer guiRenderer = new GuiRenderer();
 
         long timer = System.currentTimeMillis();

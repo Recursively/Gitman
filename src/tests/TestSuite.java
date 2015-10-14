@@ -1,18 +1,19 @@
 package tests;
 
+import controller.AudioController;
 import model.GameWorld;
-
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.lwjgl.openal.AL;
+import org.lwjgl.opengl.Display;
+import view.DisplayManager;
 
-import controller.AudioController;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	DataTests.class,
-	GameWorldTests.class
+        DataTests.class,
+        GameWorldTests.class,
+        RendererTests.class
 })
 
 /**
@@ -21,31 +22,37 @@ import controller.AudioController;
  * @author Marcel
  */
 public class TestSuite {
+	
+ static GameWorld gameWorld = null;
+    AudioController audioController = new AudioController();
 
-	private static GameWorld gameWorld;
+    /**
+     * Creates a new test suite, makes the game world and then runs the tests
+     */
+    public TestSuite() {
+        if (Display.isCreated()) {
+            DisplayManager.closeDisplay();
+        }
+        DisplayManager.createTestDisplay();
+        if (gameWorld == null) {
+            gameWorld = new GameWorld();
+        }
+    }
 
-	/**
-	 * Creates a new test suite, makes the game world and then runs the tests
-	 */
-	public TestSuite() {
-		gameWorld = new GameWorld();
-		new AudioController();
-	}
+    /**
+     * Gets game world.
+     *
+     * @return the game world
+     */
+    public static GameWorld getGameWorld() {
+        return gameWorld;
+    }
 
-	/**
-	 * Gets game world.
-	 *
-	 * @return the game world
-	 */
-	public static GameWorld getGameWorld() {
-		return gameWorld;
-	}
+    /**
+     * Runs the test suite
+     */
+    public static void main(String[] args) {
+        JUnitCore.runClasses(TestSuite.class);
+    }
 
-	/**
-	 * Runs the test suite
-	 */
-	public static void main(String[] args) {
-		JUnitCore.runClasses(TestSuite.class);
-		//AL.destroy();
-	}
 }

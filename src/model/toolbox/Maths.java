@@ -15,11 +15,10 @@ public class Maths {
     /**
      * Calculates the y terrain height of a given point on a vertex triangles
      *
-     * @param p1 point 1 of triangle (corner)
-     * @param p2 point 2 of triangle (corner)
-     * @param p3 point 3 of triangle (corner)
+     * @param p1  point 1 of triangle (corner)
+     * @param p2  point 2 of triangle (corner)
+     * @param p3  point 3 of triangle (corner)
      * @param pos x/z position of the point on the triangle
-     *
      * @return y terrain height of pos
      */
     public static float barryCentric(Vector3f p1, Vector3f p2, Vector3f p3, Vector2f pos) {
@@ -34,8 +33,7 @@ public class Maths {
      * Creates a 2D transformation matrix, which translates and scales
      *
      * @param translation Translation vector
-     * @param scale Scale vector
-     *
+     * @param scale       Scale vector
      * @return 4x4 Transformation matrix
      */
     public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
@@ -53,11 +51,10 @@ public class Maths {
      * Creates a 4x4 transformation matrix from a 3d vector translation
      *
      * @param translation vector translation
-     * @param rx x rotation
-     * @param ry y rotation
-     * @param rz z rotation
-     * @param scale matrix scale
-     *
+     * @param rx          x rotation
+     * @param ry          y rotation
+     * @param rz          z rotation
+     * @param scale       matrix scale
      * @return 4x4 transformation matrix
      */
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale) {
@@ -78,7 +75,6 @@ public class Maths {
      * Creates a 4x4 view matrix for the Camera's view
      *
      * @param camera Camera to create matrix for
-     *
      * @return 4x4 View matrix
      */
     public static Matrix4f createViewMatrix(Camera camera) {
