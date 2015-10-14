@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Again, this is some what pointless. These classes would have been much more useful if more time had been put into
  * collision detection.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class OfficeEntity extends CollidableEntity {
 

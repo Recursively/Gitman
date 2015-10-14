@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector3f;
  * entity that's position can change throughout the course of the game,
  * and that can be interacted with by the player.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public abstract class MovableEntity extends Entity {
 

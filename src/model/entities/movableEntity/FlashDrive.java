@@ -7,7 +7,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Represents a flash drive item in the game. Stores the specific attributes of
  * the item that make the item different from other laptop items.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class FlashDrive extends LaptopItem {
 

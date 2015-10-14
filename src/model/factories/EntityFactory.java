@@ -25,8 +25,8 @@ import java.util.Random;
  * <p/>
  * This is probably the ugliest class I have ever written.
  *
- * @author Marcel van Workum
- * @author Reuben Puketapu
+ * @author Marcel van Workum - 300313949
+ * @author Reuben Puketapu - 300310939
  */
 public class EntityFactory {
     // commit position is 10 above the ground

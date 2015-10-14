@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Loader class to handle the loading of wavefront obj files into OPENGL VAO and VBO
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public final class Loader {
 

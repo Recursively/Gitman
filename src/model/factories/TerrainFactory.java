@@ -8,7 +8,7 @@ import model.toolbox.Loader;
 /**
  * Terrain factory to generate new terrains.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class TerrainFactory {
 

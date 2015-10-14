@@ -14,7 +14,7 @@ import java.net.Socket;
  * including Player positions and Entity updates, then delegates to the
  * GameController
  *
- * @author Reuben Puketapu
+ * @author Reuben Puketapu - 300310939
  */
 public class Server extends Thread {
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * the office section, and will have laptops with them that
  * the player can clone code off.
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public class Laptop extends Item {
 

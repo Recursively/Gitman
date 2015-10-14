@@ -5,8 +5,8 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Camera represents a players current view of the world
  *
- * @author Marcel van Workum
- * @author Divya
+ * @author Marcel van Workum - 300313949
+ * @author Divya Patel - 300304450
  */
 public class Camera {
 

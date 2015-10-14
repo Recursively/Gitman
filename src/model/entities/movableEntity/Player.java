@@ -17,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Represents a player in the game. The player has a camera associated with them.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class Player extends MovableEntity {
 

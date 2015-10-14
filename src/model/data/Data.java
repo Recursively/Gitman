@@ -11,8 +11,8 @@ import java.util.ArrayList;
  * Class used to store all data loaded from the xml save file. Data is stored in
  * appropriate objects and collections.
  *
- * @author Finn Kinnear
- * @author Divya
+ * @author Finn Kinnear - 300310504
+ * @author Divya Patel - 300304450
  */
 public class Data {
 

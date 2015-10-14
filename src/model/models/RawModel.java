@@ -3,7 +3,7 @@ package model.models;
 /**
  * A raw model is a link to the OPEN GL vaoID and a count of the vertices
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class RawModel {
 

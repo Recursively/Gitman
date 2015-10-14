@@ -23,10 +23,10 @@ import java.util.Map;
  * <p/>
  * Deals with Game Loop game logic
  *
- * @author Marcel van Workum
- * @author Reuben
- * @author Divya
- * @author Ellie
+ * @author Marcel van Workum - 300313949
+ * @author Reuben Puketapu - 300310939
+ * @author Divya Patel - 300304450
+ * @author Ellie Coyle - 300307071
  */
 public class GameController {
     /**

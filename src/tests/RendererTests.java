@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Collection of tests to check the performance of the render engine
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class RendererTests {
 

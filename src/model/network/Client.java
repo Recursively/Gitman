@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Client Thread that communicates with the Server Thread that delegates to the
  * GameController and the NetworkHandler
  *
- * @author Reuben Puketapu
+ * @author Reuben Puketapu - 300310939
  */
 public class Client extends Thread {
 

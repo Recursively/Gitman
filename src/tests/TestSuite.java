@@ -23,7 +23,7 @@ import view.DisplayManager;
 /**
  * Test suite manager that creates a mock game world and then calls all the respective test suites.
  *
- * @author Marcel
+ * @author Marcel van Workum - 300313949
  */
 public class TestSuite {
 

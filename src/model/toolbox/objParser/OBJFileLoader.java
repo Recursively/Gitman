@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Obj file loader that takes a .obj model and parses it into a vertex object
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class OBJFileLoader {
 

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Test suite for data tests
  *
- * @author Finn Kinnear
+ * @author Finn Kinnear - 300310504
  */
 public class DataTests {
 

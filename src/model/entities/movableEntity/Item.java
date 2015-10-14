@@ -8,7 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Represents the items and stores the logic of how the players
  * can pick up/interact with the items in the game
  *
- * @author Divya
+ * @author Divya Patel - 300304450
  */
 public abstract class Item extends MovableEntity {
 

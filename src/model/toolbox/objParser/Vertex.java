@@ -5,7 +5,7 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Vertex class containing all the information about a given vertex
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class Vertex {
 

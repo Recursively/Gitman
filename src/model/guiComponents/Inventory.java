@@ -16,10 +16,10 @@ import java.util.List;
  * Represents the player's laptop. It can hold 'LaptopItems' (e.g. files and
  * README txt documents).
  *
- * @author Divya
- * @author Ellie
- * @author Marcel
- * @author Reuben
+ * @author Divya Patel - 300304450
+ * @author Ellie Coyle - 300307071
+ * @author Marcel van Workum - 300313949
+ * @author Reuben Puketapu - 300310939
  */
 public class Inventory {
     /**

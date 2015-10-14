@@ -10,7 +10,7 @@ import org.lwjgl.opengl.*;
  * Arguably this class could be in the model, however it fits nicely here and the resolution
  * and fps values are static for the time being
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class DisplayManager {
 

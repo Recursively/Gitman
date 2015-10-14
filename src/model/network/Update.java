@@ -4,7 +4,7 @@ package model.network;
  * Simple wrapper class to hold the components of an update that is sent across
  * the network
  *
- * @author Reuben Puketapu
+ * @author Reuben Puketapu - 300310939
  */
 public class Update {
 

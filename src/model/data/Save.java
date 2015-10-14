@@ -22,8 +22,8 @@ import java.io.File;
  * Class for the saving of important gamestate variables. Data is stored in an
  * xml format.
  *
- * @author Finn Kinnear
- * @author Divya
+ * @author Finn Kinnear - 300310504
+ * @author Divya Patel - 300304450
  */
 public class Save {
 

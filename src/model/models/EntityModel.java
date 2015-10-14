@@ -7,7 +7,7 @@ import model.toolbox.objParser.OBJFileLoader;
 /**
  * Represents a complete entity model to be used by the renderer.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public class EntityModel {
 

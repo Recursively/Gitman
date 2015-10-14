@@ -9,7 +9,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Represents a static entity which is an entity in the game world that cannot be moved and may need to
  * be checked for collision.
  *
- * @author Marcel van Workum
+ * @author Marcel van Workum - 300313949
  */
 public abstract class StaticEntity extends Entity {
 

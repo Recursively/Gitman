@@ -1,5 +1,7 @@
 #version 330
 
+// Marcel van Workum - 300313949
+
 in vec3 position;
 out vec3 textureCoords;
 
