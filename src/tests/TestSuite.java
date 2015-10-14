@@ -4,9 +4,12 @@ import model.GameWorld;
 
 public class TestSuite {
 	
-	public static GameWorld gameWorld;
+	private static GameWorld gameWorld;
 	
-
+	public static GameWorld getGameWorld(){
+		return gameWorld;
+	}
+	
     //TODO 
 
     

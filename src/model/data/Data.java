@@ -30,7 +30,7 @@ public class Data {
 	private ArrayList<SwipeCard> swipeCards;
 
 	// gamestate elements
-	private boolean isCodeCompiled;
+	private boolean isProgramCompiled;
 	private boolean isOutside;
 	private int progress;
 	private int score;
@@ -43,7 +43,7 @@ public class Data {
 	public Data(Vector3f playerPos, float pitch, float roll, float yaw,
 			int uid, ArrayList<LaptopItem> inventory,
 			ArrayList<MovableEntity> movableEntities,
-			ArrayList<SwipeCard> swipeCards, boolean isCodeCompiled,
+			ArrayList<SwipeCard> swipeCards, boolean isProgramCompiled,
 			boolean isOutside, int progress, int score,
 			boolean canApplyPatch, int commitIndex,
 			long timer, int storageUsed, int gameState) {
@@ -56,7 +56,7 @@ public class Data {
 		this.inventory = inventory;
 		this.movableEntities = movableEntities;
 		this.swipeCards = swipeCards;
-		this.isCodeCompiled = isCodeCompiled;
+		this.isProgramCompiled = isProgramCompiled;
 		this.isOutside = isOutside;
 		this.progress = progress;
 		this.score = score;
@@ -88,8 +88,8 @@ public class Data {
 		return uid;
 	}
 	
-	public boolean isIsCodeCompiled() {
-		return isCodeCompiled;
+	public boolean isIsProgramCompiled() {
+		return isProgramCompiled;
 	}
 
 	public boolean isIsOutside() {

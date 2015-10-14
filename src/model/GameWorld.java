@@ -213,7 +213,7 @@ public class GameWorld {
 		this.score = load.getScore();
 		this.gameState = load.getGameState();
 		GameWorld.isOutside = load.isIsOutside();
-		GameWorld.isProgramCompiled = load.isIsCodeCompiled();
+		GameWorld.isProgramCompiled = load.isIsProgramCompiled();
 
 		if (this.canApplyPatch) {
 			this.interactDistance = BUG_INTERACT;
