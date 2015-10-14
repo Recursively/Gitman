@@ -14,7 +14,6 @@ import static org.junit.Assert.*;
 public class GameWorldTests {
 	
 	private static TestSuite suite = new TestSuite();
-	
 	private static GameWorld gameWorld = TestSuite.getGameWorld();
 
 	/**
@@ -113,11 +112,6 @@ public class GameWorldTests {
 		assertEquals(11, e.interact(gameWorld));
 	}
 	
-	@Test
-	public void testPlayerCanInteract(){
-		Player p = gameWorld.getPlayer();
-		assertFalse(p.canInteract());
-	}
 	
 	@Test
 	public void testSwipeCardCanInteract(){
@@ -384,7 +378,36 @@ public class GameWorldTests {
 		assertTrue(gameWorld.getSwipeCards().contains(e));
 	}
 	
+
+	
 	// TODO tests from decreasePatch method onwards in gameworld	
+	// ------------------------------------------------------
+	// PLAYER TESTS
+	// ------------------------------------------------------
+	
+	@Test
+	public void testPlayerCanInteract(){
+		Player p = gameWorld.getPlayer();
+		assertFalse(p.canInteract());
+	}
+	@Test
+	public void testPlayerInteract(){
+		Player p = gameWorld.getPlayer();
+		assertTrue(p.interact(gameWorld) == 15);
+	}
+	
+	@Test
+	public void testPlayerType(){
+		Player p = gameWorld.getPlayer();
+		assertTrue(p.getType().equals("Player"));
+	}
+	
+	@Test
+	public void testPlayerMove(){
+		Player p = gameWorld.getPlayer();
+		p.getCardID();
+		
+	}
 	
 	// ------------------------------------------------------
 	// HELPER METHODS

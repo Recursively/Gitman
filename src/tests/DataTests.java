@@ -4,11 +4,8 @@ import model.GameWorld;
 import model.data.Data;
 import model.data.Load;
 import model.data.Save;
-import model.entities.movableEntity.MovableEntity;
 import org.junit.Test;
 import org.lwjgl.util.vector.Vector3f;
-
-import java.util.HashSet;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,13 +14,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class DataTests {
 
+
     private static TestSuite suite = new TestSuite();
     private GameWorld gameWorld;
     private Data data;
 
-    /**
-     * Initialises the game world
-     */
     private void initTestGame() {
         gameWorld = TestSuite.getGameWorld();
         Vector3f position = new Vector3f(10, 10, 10);
@@ -34,7 +29,7 @@ public class DataTests {
     }
 
     @Test
-    public void testProgramCompilation() throws Exception {
+    public void testCompareisProgramCompiled() {
         initTestGame();
 
         assertTrue("isProgramCompiled comparison",
@@ -42,7 +37,7 @@ public class DataTests {
     }
 
     @Test
-    public void testIsOutside() throws Exception {
+    public void testIsOutside() {
         initTestGame();
 
         assertTrue("isOutside comparison",
@@ -50,7 +45,14 @@ public class DataTests {
     }
 
     @Test
-    public void testProgressComparison() throws Exception {
+    public void testGameState() {
+        initTestGame();
+
+        assertTrue("gameState comparison", gameWorld.getGameState() == data.getGameState());
+    }
+
+    @Test
+    public void testProgress() {
         initTestGame();
 
         assertTrue("progress comparison",
@@ -58,7 +60,14 @@ public class DataTests {
     }
 
     @Test
-    public void testCanApplyPatch() throws Exception {
+    public void testScore() {
+        initTestGame();
+
+        assertTrue("score comparison", gameWorld.getScore() == data.getScore());
+    }
+
+    @Test
+    public void testCanApplyPatch() {
         initTestGame();
 
         assertTrue("canApplyPatch comparison",
@@ -66,7 +75,7 @@ public class DataTests {
     }
 
     @Test
-    public void testCommitIndex() throws Exception {
+    public void testCommitIndex() {
         initTestGame();
 
         assertTrue("commitIndex comparison",
@@ -74,16 +83,11 @@ public class DataTests {
     }
 
     @Test
-    public void testTimerComparison() {
+    public void testTimer() {
         initTestGame();
 
-        assertTrue("timer comparison", gameWorld.getTimer() == Load.loadGame().getTimer());
-    }
-
-    @Test
-    public void testScoreComparison() {
-        initTestGame();
-        assertTrue("score comparison", gameWorld.getScore() == data.getScore());
+        assertTrue("timer comparison", gameWorld.getTimer() == Load.loadGame()
+                .getTimer());
     }
 
     @Test
@@ -95,26 +99,10 @@ public class DataTests {
     }
 
     @Test
-    public void testMovableEntitiesCollectionSize() {
-        initTestGame();
-
-        assertTrue("Collection the same size", data.getMovableEntities().size() ==
-                gameWorld.getMoveableEntities().size());
-    }
-
-    @Test
     public void testCompareMovableEntities() {
         initTestGame();
 
-        HashSet<Integer> uids = new HashSet<>();
-
-        for (MovableEntity e : gameWorld.getMoveableEntities().values()) {
-            uids.add(e.getUID());
-        }
-
-        for (MovableEntity m : data.getMovableEntities()) {
-            assertTrue("Not contained" + m.getUID(), uids.contains(m.getUID()));
-        }
+        // TODO Add here
     }
 
     @Test
