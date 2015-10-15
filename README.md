@@ -69,6 +69,7 @@ There is an epic bug that is ruining everything! The goal of the game is to go t
    - E to interact with Items
    - I to open Inventory
    - X to delete Items from the Inventory
+   - F Save the game at any point
 
 
   
